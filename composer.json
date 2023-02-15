@@ -1,0 +1,23 @@
+{
+    "name": "vendor/arkania",
+    "autoload": {
+        "psr-4": {
+            "Vendor\\Arkania\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Dumont-Julien",
+            "email": "dumontj357@gmail.com"
+        }
+    ],
+    "require": {
+      "ext-mysqli": "*"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "1.9.13",
+        "phpstan/phpstan-phpunit": "^1.1.0",
+        "phpstan/phpstan-strict-rules": "^1.2.0",
+        "phpunit/phpunit": "^9.2"
+    }
+}
