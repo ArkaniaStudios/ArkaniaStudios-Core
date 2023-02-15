@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace arkania;
 
+use arkania\manager\EconomyManager;
 use arkania\manager\RanksManager;
 use arkania\manager\StatsManager;
 use arkania\manager\UiManager;
@@ -32,23 +33,26 @@ class Core extends PluginBase {
 
     use SingletonTrait;
 
-    /** @var Config  */
+    /** @var Config */
     public Config $config;
 
     /** @var Config */
     public Config $playertime;
 
-    /** @var array  */
+    /** @var array */
     public array $staff_logs = [];
 
-    /** @var RanksManager  */
+    /** @var RanksManager */
     public RanksManager $ranksManager;
 
-    /** @var UiManager  */
+    /** @var UiManager */
     public UiManager $ui;
 
     /** @var StatsManager */
     public StatsManager $stats;
+
+    /** @var EconomyManager */
+    public EconomyManager $economyManager;
 
     protected function onLoad(): void {
         self::setInstance($this);
@@ -76,6 +80,7 @@ class Core extends PluginBase {
         $this->ranksManager = new RanksManager();
         $this->ui = new UiManager();
         $this->stats = new StatsManager($this);
+        $this->economyManager = new EconomyManager();
 
         /* Permission */
         foreach (Permissions::$permissions as $permission)
