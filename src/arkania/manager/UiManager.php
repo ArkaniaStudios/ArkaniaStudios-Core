@@ -23,6 +23,7 @@ use arkania\data\SettingsNameIds;
 use arkania\entity\base\BaseEntity;
 use arkania\libs\form\CustomForm;
 use arkania\libs\form\SimpleForm;
+use arkania\libs\muqsit\invmenu\InvMenu;
 use arkania\utils\Utils;
 use pocketmine\player\Player;
 use pocketmine\Server;
@@ -148,26 +149,7 @@ final class UiManager {
     }
 
     public function sendSettingsForm(Player $player): void {
-        $form = new CustomForm(function (Player $player, $data){
-
-            if (is_null($data))
-                return;
-
-            $settings = new SettingsManager(Core::getInstance(), $player);
-
-            $settings->setSettings(SettingsNameIds::TELEPORT, $data[1]);
-            $settings->setSettings(SettingsNameIds::MESSAGE, $data[2]);
-            $settings->setSettings(SettingsNameIds::CLEARLAG, $data[3]);
-
-            $player->sendMessage(Utils::getPrefix() . "§aVous avez bien mis à jour vos paramètre.");
-        });
-        $settings = new SettingsManager(Core::getInstance(), $player);
-        $form->setTitle('§c- §fSettings §c-');
-        $form->setContent("§7» §rBienvenue dans l'interface des paramètres. Cette interface vous permet de 'personnaliser' votre expérience de jeu.\n\n§aActivé §f/ §cDésactivé \n");
-        $form->addToggle('§7» §rDemandes de téléportation', (bool)$settings->getSettings(SettingsNameIds::TELEPORT));
-        $form->addToggle('§7» §rMessages privés', (bool)$settings->getSettings(SettingsNameIds::MESSAGE));
-        $form->addToggle('§7» §rClearLag', (bool)$settings->getSettings(SettingsNameIds::CLEARLAG));
-        $player->sendForm($form);
+        $menu = InvMenu::create();
     }
 
     public function sendCreateFactionForm(Player $player): void {
