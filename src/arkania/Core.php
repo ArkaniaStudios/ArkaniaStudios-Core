@@ -17,43 +17,60 @@ declare(strict_types=1);
 
 namespace arkania;
 
+use arkania\libs\customies\block\CustomiesBlockFactory;
+use arkania\manager\EconomyManager;
 use arkania\manager\RanksManager;
 use arkania\manager\StatsManager;
 use arkania\manager\UiManager;
 use arkania\utils\Loader;
 use arkania\utils\Permissions;
+use Closure;
 use pocketmine\permission\Permission;
 use pocketmine\permission\PermissionManager;
 use pocketmine\plugin\PluginBase;
+use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\Config;
 use pocketmine\utils\SingletonTrait;
+use pocketmine\world\format\io\leveldb\LevelDB;
+use pocketmine\world\format\io\WritableWorldProviderManagerEntry;
+use ReflectionException;
 
 class Core extends PluginBase {
 
     use SingletonTrait;
 
-    /** @var Config  */
+    /** @var Config */
     public Config $config;
 
     /** @var Config */
     public Config $playertime;
 
-    /** @var array  */
+    /** @var array */
     public array $staff_logs = [];
 
-    /** @var RanksManager  */
+    /** @var RanksManager */
     public RanksManager $ranksManager;
 
-    /** @var UiManager  */
+    /** @var UiManager */
     public UiManager $ui;
 
     /** @var StatsManager */
     public StatsManager $stats;
 
+    /** @var EconomyManager */
+    public EconomyManager $economyManager;
+
     protected function onLoad(): void {
         self::setInstance($this);
+
+        $provider = new WritableWorldProviderManagerEntry(\Closure::fromCallable([LevelDB::class, 'isValid']), fn(string $path) => new LevelDB($path), Closure::fromCallable([LevelDB::class, 'generate']));
+        $this->getServer()->getWorldManager()->getProviderManager()->addProvider($provider, 'leveldb', true);
+        $this->getServer()->getWorldManager()->getProviderManager()->setDefault($provider);
     }
 
+    /**
+     * @throws ReflectionException
+     */
     protected function onEnable(): void {
         /* Config */
         if (!file_exists($this->getDataFolder() . 'config.yml'))
@@ -73,9 +90,15 @@ class Core extends PluginBase {
         $loader = new Loader($this);
         $loader->init();
 
+        $this->getScheduler()->scheduleDelayedTask(new ClosureTask(static function (): void {
+            CustomiesBlockFactory::getInstance()->registerCustomRuntimeMappings();
+            CustomiesBlockFactory::getInstance()->addWorkerInitHook();
+        }), 0);
+
         $this->ranksManager = new RanksManager();
         $this->ui = new UiManager();
         $this->stats = new StatsManager($this);
+        $this->economyManager = new EconomyManager();
 
         /* Permission */
         foreach (Permissions::$permissions as $permission)

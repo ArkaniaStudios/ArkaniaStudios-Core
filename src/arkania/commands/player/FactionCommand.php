@@ -72,6 +72,11 @@ class FactionCommand extends BaseCommand {
 
             self::sendToastPacket($player, '§7-> §fFACTION', "§cVOUS VENEZ DE SUPPRIMER LA FACTION " . $factionManager->getFaction($player->getName()) . " !");
             $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->disbandFaction();
+        }elseif($args[0] === 'info'){
+
+            if (!isset($args[1])){
+
+            }
         }
         return true;
     }

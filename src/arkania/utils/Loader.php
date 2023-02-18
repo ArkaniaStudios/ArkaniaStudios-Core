@@ -29,6 +29,7 @@ use arkania\commands\admin\ranks\SetNametagCommand;
 use arkania\commands\admin\ranks\SetRankCommand;
 use arkania\commands\player\DiscordCommand;
 use arkania\commands\player\FactionCommand;
+use arkania\commands\player\MoneyCommand;
 use arkania\commands\player\MsgCommand;
 use arkania\commands\player\ReplyCommand;
 use arkania\commands\player\SettingsCommand;
@@ -42,19 +43,24 @@ use arkania\events\players\PlayerChatEvent;
 use arkania\events\players\PlayerJoinEvent;
 use arkania\events\players\PlayerQuitEvent;
 use arkania\factions\FactionClass;
-use arkania\items\NpcManagerItem;
+use arkania\items\ItemIds;
+use arkania\items\NoneEnchant;
+use arkania\libs\customies\CustomiesListener;
+use arkania\libs\customies\item\CustomiesItemFactory;
 use arkania\listener\SynchronisationListener;
 use arkania\manager\RanksManager;
 use arkania\manager\SettingsManager;
 use arkania\manager\StatsManager;
+use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\data\bedrock\EntityLegacyIds;
 use pocketmine\entity\Entity;
 use pocketmine\entity\EntityDataHelper;
 use pocketmine\entity\EntityFactory;
 use pocketmine\entity\Location;
-use pocketmine\item\ItemFactory;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\world\World;
+use ReflectionException;
+use arkania\items\npc\NpcManagerItem;
 
 final class Loader {
 
@@ -65,6 +71,9 @@ final class Loader {
         $this->core = $core;
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public function init(): void {
         $this->initEvents();
         $this->initUnLoadCommand();
@@ -115,7 +124,7 @@ final class Loader {
             new MsgCommand($this->core),
             new ReplyCommand($this->core),
             new FactionCommand($this->core),
-
+            new MoneyCommand($this->core),
         ];
 
         $this->core->getServer()->getCommandMap()->registerAll('Arkania-Commands', $commands);
@@ -129,6 +138,7 @@ final class Loader {
             new PlayerChatEvent($this->core),
 
             new SynchronisationListener($this->core),
+            new CustomiesListener(),
         ];
 
         $eventManager = $this->core->getServer()->getPluginManager();
@@ -148,9 +158,17 @@ final class Loader {
 
     }
 
+    /**
+     * @throws ReflectionException
+     */
     private function initItem(): void {
-        $items = ItemFactory::getInstance();
-        $items->register(new NpcManagerItem(), true);
+        $items = CustomiesItemFactory::getInstance();
+
+        EnchantmentIdMap::getInstance()->register(-10, new NoneEnchant());
+
+        /* Admin */
+        $items->registerItem(NpcManagerItem::class, ItemIds::NPC, 'Npc Manager');
+
     }
         private function initEntity(): void {
         $this->register(VillagerEntity::class, ['arkania:npc.villager'], EntityLegacyIds::VILLAGER);
