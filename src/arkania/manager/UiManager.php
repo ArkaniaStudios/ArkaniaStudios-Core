@@ -26,6 +26,7 @@ use arkania\libs\form\SimpleForm;
 use arkania\utils\Utils;
 use pocketmine\player\Player;
 use pocketmine\Server;
+use function PHPUnit\TestFixture\func;
 
 final class UiManager {
 
@@ -218,5 +219,13 @@ final class UiManager {
         $form->addInput('§7» §rNom');
         $form->addInput('§7» §rDescription');
         $player->sendForm($form);
+    }
+
+    public function sendFactionInfoForm(Player $player, string $faction): void {
+        $form = new SimpleForm(function(Player $player, $data) use ($faction){
+
+        });
+        $form->setTitle('§c- §fFaction §c-');
+        $form->setContent("§7» §rVoici les informations de la faction : §c" . $faction . "§f.");
     }
 }

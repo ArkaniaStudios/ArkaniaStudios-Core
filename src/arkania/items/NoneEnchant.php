@@ -17,13 +17,14 @@ declare(strict_types=1);
 
 namespace arkania\items;
 
-use pocketmine\item\Item;
-use pocketmine\item\ItemIdentifier;
-use pocketmine\item\ItemIds;
+use pocketmine\item\enchantment\Enchantment;
+use pocketmine\item\enchantment\ItemFlags;
+use pocketmine\item\enchantment\Rarity;
 
-class NpcManagerItem extends Item {
+class NoneEnchant extends Enchantment {
 
     public function __construct() {
-        parent::__construct(new ItemIdentifier(ItemIds::RECORD_STRAD, 0), 'NpcManager');
+        parent::__construct('none', Rarity::UNCOMMON, ItemFlags::ALL, ItemFlags::ALL, 2);
     }
+
 }

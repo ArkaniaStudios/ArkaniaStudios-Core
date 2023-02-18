@@ -20,13 +20,13 @@ namespace arkania\entity\base;
 use arkania\Core;
 use arkania\entity\EntityIds;
 use arkania\entity\EntityTrait;
-use arkania\items\NpcManagerItem;
 use pocketmine\entity\Living;
 use pocketmine\entity\Location;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\player\Player;
+use src\arkania\items\npc\NpcManagerItem;
 
 abstract class BaseEntity extends Living {
 
