@@ -117,6 +117,7 @@ class Core extends PluginBase {
         foreach (Permissions::$permissions as $permission)
             PermissionManager::getInstance()->addPermission(new Permission($permission));
 
+        /* Ranks */
         if (!$this->ranksManager->existRank('Joueur'))
             $this->ranksManager->addRank('Joueur');
 
