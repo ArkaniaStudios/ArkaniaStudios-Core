@@ -254,7 +254,12 @@ final class UiManager {
                 return;
             }
 
-            if (!$factionManager->getFactionClass($data[1], $player->getName())->existFaction()) {
+            if (str_contains($data[1], '§')){
+                $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez pas mettre des caractères qui à pour but de colorer le nom de votre faction.");
+                return;
+            }
+
+            if ($factionManager->getFactionClass($data[1], $player->getName())->existFaction()) {
                 $player->sendMessage(Utils::getPrefix() . "§cCette faction existe déjà.");
                 return;
             }
@@ -272,8 +277,9 @@ final class UiManager {
             $description = $data[2] ?? '';
 
             $factionManager->getFactionClass($data[1], $player->getName(), $inscription, $description)->createFaction();
-            BaseCommand::sendToastPacket($player, '§7-> §fFACTION', '§aVOUS VENEZ DE CREER LA FACTION §2' . $data[1] . "§a.");
-            Server::getInstance()->broadcastMessage(Utils::getPrefix() . "§c" . $player->getName() . "§f vient de créer la faction §c" . $data[1] . "§f.");
+            BaseCommand::sendToastPacket($player, '§7-> §fFACTION', '§aVOUS VENEZ DE CREER LA FACTION §e' . $data[1] . "§a.");
+            Server::getInstance()->broadcastMessage(Utils::getPrefix() . "§e" . $player->getName() . "§f vient de créer la faction §e" . $data[1] . "§f.");
+            Core::getInstance()->ranksManager->updateNameTag($player);
         });
         $form->setTitle('§c- §fFaction §c-');
         $form->setContent("§7» §rBienvenue dans l'interface de création de votre faction. Précisez le nom de votre faction afin de la créer. Vous pouvez aussi préciser une description mais celle-ci est facultative.");
@@ -288,10 +294,14 @@ final class UiManager {
      * @return void
      */
     public function sendFactionInfoForm(Player $player, string $faction): void {
-        $form = new SimpleForm(function(Player $player, $data) use ($faction){
+        $form = new SimpleForm(function(Player $player, $data) {
 
         });
+        $factionManager = new FactionManager();
+        $factionInfo = $factionManager->getFactionClass($faction, $player->getName());
+        $description = !$factionInfo->getDescription() ? 'Aucune' : $factionInfo->getDescription();
         $form->setTitle('§c- §fFaction §c-');
-        $form->setContent("§7» §rVoici les informations de la faction : §c" . $faction . "§f.");
+        $form->setContent("§7» §rVoici les informations de la faction : §e" . $faction . "§f.\n\nChef de faction: §e" . $factionInfo->getOwner() . "\n§fDate de création: §e" . $factionInfo->getCreationDate() . "\n§fDescription: §e" . $description . "\n§fPower: §e" . $factionInfo->getPower() . "\n\n");
+        $player->sendForm($form);
     }
 }

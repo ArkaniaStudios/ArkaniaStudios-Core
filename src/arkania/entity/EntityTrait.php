@@ -124,9 +124,9 @@ trait EntityTrait {
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getTaille(): int{
+    public function getTaille(): float{
         return $this->taille;
     }
 
@@ -139,7 +139,7 @@ trait EntityTrait {
         $compoundTag->setInt(EntityIds::NPC, (int)$this->isNpc());
         $compoundTag->setString(EntityIds::NAME, $this->getCustomName());
         $compoundTag->setString(EntityIds::COMMAND, serialize($this->getCommand()));
-        $compoundTag->setInt(EntityIds::SIZE, $this->getTaille());
+        $compoundTag->setFloat(EntityIds::SIZE, $this->getTaille());
 
         return $compoundTag;
     }

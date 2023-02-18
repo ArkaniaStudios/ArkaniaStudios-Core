@@ -159,7 +159,7 @@ final class SynchronisationManager {
         $dataArmor = base64_encode(serialize($dataArmor));
         $experience = $player->getXpManager()->getXpLevel();
 
-        Query::query("UPDATE inventory SET inventaire='$dataInventory', armure='$dataArmor', experience='$experience'");
+        Query::query("UPDATE inventory SET inventaire='$dataInventory', armure='$dataArmor', experience='$experience' WHERE name='" . self::getDataBase()->real_escape_string($player->getName()) . "'");
         $db->close();
     }
 
