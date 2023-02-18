@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace arkania;
 
 use arkania\libs\customies\block\CustomiesBlockFactory;
+use arkania\libs\muqsit\invmenu\InvMenuHandler;
 use arkania\manager\EconomyManager;
 use arkania\manager\RanksManager;
 use arkania\manager\StatsManager;
@@ -93,6 +94,10 @@ class Core extends PluginBase {
             @mkdir($this->getDataFolder() . 'stats/');
 
         /* Loader */
+
+        if (!InvMenuHandler::isRegistered())
+            InvMenuHandler::register($this);
+
         $this->loadAllConfig();
         $loader = new Loader($this);
         $loader->init();
@@ -130,16 +135,12 @@ class Core extends PluginBase {
     protected function onDisable(): void {
         foreach ($this->getServer()->getOnlinePlayers() as $player){
 
-            $player->sendMessage(Utils::getPrefix() . "§aSauvegarde de vos données.");
-
             $this->ranksManager->synchroQuitRank($player);
             $this->stats->synchroQuitStats($player);
 
             if ($this->synchronisation->isRegistered($player))
                 $this->synchronisation->saveInventory($player);
-
-            $player->sendMessage(Utils::getPrefix() . "§cLe serveur " . Utils::getServerName() . " §cvient de crash !");
-            $player->transfer('lobby1');
+            $player->removeCurrentWindow();
         }
     }
 
