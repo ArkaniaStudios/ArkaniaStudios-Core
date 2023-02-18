@@ -24,7 +24,15 @@ use arkania\entity\base\BaseEntity;
 use arkania\libs\form\CustomForm;
 use arkania\libs\form\SimpleForm;
 use arkania\libs\muqsit\invmenu\InvMenu;
+use arkania\libs\muqsit\invmenu\transaction\DeterministicInvMenuTransaction;
+use arkania\libs\muqsit\invmenu\transaction\InvMenuTransaction;
+use arkania\libs\muqsit\invmenu\transaction\InvMenuTransactionResult;
+use arkania\libs\muqsit\invmenu\type\InvMenuTypeIds;
 use arkania\utils\Utils;
+use pocketmine\block\VanillaBlocks;
+use pocketmine\inventory\Inventory;
+use pocketmine\inventory\transaction\InventoryTransaction;
+use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;
 use pocketmine\Server;
 use function PHPUnit\TestFixture\func;
@@ -148,10 +156,81 @@ final class UiManager {
         $player->sendForm($form);
     }
 
+    /**
+     * @param Player $player
+     * @return void
+     */
     public function sendSettingsForm(Player $player): void {
-        $menu = InvMenu::create();
+
+        $settings = new SettingsManager(Core::getInstance(), $player);
+        if ($settings->getSettings(SettingsNameIds::CLEARLAG) === false)
+            $statusC = '§aActivé';
+        else
+            $statusC = '§cDésactivé';
+
+        if ($settings->getSettings(SettingsNameIds::MESSAGE) === false)
+            $statusM = '§aActivé';
+        else
+            $statusM = '§cDésactivé';
+
+        if ($settings->getSettings(SettingsNameIds::TELEPORT) === false)
+            $statusT = '§aActivé';
+        else
+            $statusT = '§cDésactivé';
+
+        $menu = InvMenu::create(InvMenuTypeIds::TYPE_DOUBLE_CHEST);
+        $menu->setName('             §c- §fSettings §c-');
+        $glass = VanillaBlocks::STAINED_GLASS_PANE()->asItem()->setCustomName(' ');
+        $menu->getInventory()->setItem(0, $glass);
+        $menu->getInventory()->setItem(1, $glass);
+        $menu->getInventory()->setItem(7, $glass);
+        $menu->getInventory()->setItem(8, $glass);
+        $menu->getInventory()->setItem(9, $glass);
+        $menu->getInventory()->setItem(17, $glass);
+        $menu->getInventory()->setItem(20, VanillaItems::CLOCK()->setCustomName('§7-> §fClearLag Message')->setLore(["\n", '§7-> §f' . $statusC]));
+        $menu->getInventory()->setItem(24, VanillaItems::PAPER()->setCustomName('§7-> §fMessage')->setLore(["\n", '§7-> §f' . $statusM]));
+        $menu->getInventory()->setItem(31, VanillaItems::SNOWBALL()->setCustomName('§7-> §fTeleport')->setLore(["\n", '§7-> §f' . $statusT]));
+        $menu->getInventory()->setItem(36, $glass);
+        $menu->getInventory()->setItem(44, $glass);
+        $menu->getInventory()->setItem(45, $glass);
+        $menu->getInventory()->setItem(46, $glass);
+        $menu->getInventory()->setItem(52, $glass);
+        $menu->getInventory()->setItem(53, $glass);
+        $menu->setListener(function (InvMenuTransaction $transaction): InvMenuTransactionResult{
+            $player = $transaction->getPlayer();
+            $settings = new SettingsManager(Core::getInstance(), $player);
+
+            if ($transaction->getItemClicked()->getId() === VanillaItems::CLOCK()->getId()){
+                if ($settings->getSettings(SettingsNameIds::CLEARLAG) === false)
+                    $settings->setSettings(SettingsNameIds::CLEARLAG, true);
+                else
+                    $settings->setSettings(SettingsNameIds::CLEARLAG, false);
+                $player->removeCurrentWindow();
+                $this->sendSettingsForm($player);
+            }elseif ($transaction->getItemClicked()->getId() === VanillaItems::PAPER()->getId()){
+                if ($settings->getSettings(SettingsNameIds::MESSAGE) === false)
+                    $settings->setSettings(SettingsNameIds::MESSAGE, true);
+                else
+                    $settings->setSettings(SettingsNameIds::MESSAGE, false);
+                $player->removeCurrentWindow();
+                $this->sendSettingsForm($player);
+            }elseif ($transaction->getItemClicked()->getId() === VanillaItems::SNOWBALL()->getId()){
+                if ($settings->getSettings(SettingsNameIds::TELEPORT) === false)
+                    $settings->setSettings(SettingsNameIds::TELEPORT, true);
+                else
+                    $settings->setSettings(SettingsNameIds::TELEPORT, false);
+                $player->removeCurrentWindow();
+                $this->sendSettingsForm($player);
+            }
+            return $transaction->discard();
+        });
+        $menu->send($player);
     }
 
+    /**
+     * @param Player $player
+     * @return void
+     */
     public function sendCreateFactionForm(Player $player): void {
         $form = new CustomForm(function (Player $player, $data){
 
@@ -203,6 +282,11 @@ final class UiManager {
         $player->sendForm($form);
     }
 
+    /**
+     * @param Player $player
+     * @param string $faction
+     * @return void
+     */
     public function sendFactionInfoForm(Player $player, string $faction): void {
         $form = new SimpleForm(function(Player $player, $data) use ($faction){
 

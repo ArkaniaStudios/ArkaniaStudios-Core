@@ -63,13 +63,13 @@ final class SettingsManager {
 
     /**
      * @param $key
-     * @return false|mixed
+     * @return false|bool
      */
-    public function getSettings($key): mixed {
+    public function getSettings($key): bool {
         $db = self::getDataBase()->query("SELECT $key FROM settings WHERE name='" . self::getDataBase()->real_escape_string($this->player->getName()) ."'");
         $settings = $db->fetch_array()[0] ?? false;
         $db->close();
-        return $settings;
+        return (bool)$settings;
     }
 
     /**
