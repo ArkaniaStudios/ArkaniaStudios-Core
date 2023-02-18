@@ -19,6 +19,7 @@ namespace arkania\manager;
 
 use arkania\Core;
 use arkania\data\DataBaseConnector;
+use arkania\data\SettingsNameIds;
 use arkania\utils\Query;
 use mysqli;
 use pocketmine\player\Player;
