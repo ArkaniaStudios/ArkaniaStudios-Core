@@ -51,6 +51,7 @@ use arkania\listener\SynchronisationListener;
 use arkania\manager\RanksManager;
 use arkania\manager\SettingsManager;
 use arkania\manager\StatsManager;
+use arkania\manager\SynchronisationManager;
 use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\data\bedrock\EntityLegacyIds;
 use pocketmine\entity\Entity;
@@ -152,6 +153,7 @@ final class Loader {
         SettingsManager::init();
         StatsManager::init();
         FactionClass::init();
+        SynchronisationManager::init();
     }
 
     private function initTask(): void {

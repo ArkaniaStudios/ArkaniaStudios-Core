@@ -21,9 +21,11 @@ use arkania\libs\customies\block\CustomiesBlockFactory;
 use arkania\manager\EconomyManager;
 use arkania\manager\RanksManager;
 use arkania\manager\StatsManager;
+use arkania\manager\SynchronisationManager;
 use arkania\manager\UiManager;
 use arkania\utils\Loader;
 use arkania\utils\Permissions;
+use arkania\utils\Utils;
 use Closure;
 use pocketmine\permission\Permission;
 use pocketmine\permission\PermissionManager;
@@ -59,6 +61,11 @@ class Core extends PluginBase {
 
     /** @var EconomyManager */
     public EconomyManager $economyManager;
+
+    /**
+     * @var SynchronisationManager
+     */
+    public SynchronisationManager $synchronisation;
 
     protected function onLoad(): void {
         self::setInstance($this);
@@ -99,6 +106,7 @@ class Core extends PluginBase {
         $this->ui = new UiManager();
         $this->stats = new StatsManager($this);
         $this->economyManager = new EconomyManager();
+        $this->synchronisation = new SynchronisationManager($this);
 
         /* Permission */
         foreach (Permissions::$permissions as $permission)
@@ -117,6 +125,22 @@ class Core extends PluginBase {
             "\n ".
             "\n* All data charged."
         );
+    }
+
+    protected function onDisable(): void {
+        foreach ($this->getServer()->getOnlinePlayers() as $player){
+
+            $player->sendMessage(Utils::getPrefix() . "§aSauvegarde de vos données.");
+
+            $this->ranksManager->synchroQuitRank($player);
+            $this->stats->synchroQuitStats($player);
+
+            if ($this->synchronisation->isRegistered($player))
+                $this->synchronisation->saveInventory($player);
+
+            $player->sendMessage(Utils::getPrefix() . "§cLe serveur " . Utils::getServerName() . " §cvient de crash !");
+            $player->transfer('lobby1');
+        }
     }
 
     protected function loadAllConfig(): void {
