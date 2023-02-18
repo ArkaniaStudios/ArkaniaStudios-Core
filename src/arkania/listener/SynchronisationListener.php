@@ -21,6 +21,7 @@ use arkania\Core;
 use arkania\manager\SettingsManager;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\event\player\PlayerKickEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 
 class SynchronisationListener implements Listener {
@@ -41,6 +42,12 @@ class SynchronisationListener implements Listener {
         $this->core->ranksManager->synchroJoinRank($player);
         $this->core->stats->createPlayerStats($player->getName());
         $this->core->stats->synchroJoinStats($player);
+
+        if (!$this->core->synchronisation->isRegistered($player))
+            $this->core->synchronisation->register($player);
+        else
+            $this->core->synchronisation->restorInventory($player);
+
     }
 
     public function onPlayerQuit(PlayerQuitEvent $event) {
@@ -48,5 +55,20 @@ class SynchronisationListener implements Listener {
 
         $this->core->ranksManager->synchroQuitRank($player);
         $this->core->stats->synchroQuitStats($player);
+
+        if ($this->core->synchronisation->isRegistered($player))
+            $this->core->synchronisation->saveInventory($player);
+
+    }
+
+    public function onPlayerKick(PlayerKickEvent $event) {
+        $player = $event->getPlayer();
+
+        if ($this->core->synchronisation->isRegistered($player))
+            $this->core->synchronisation->saveInventory($player);
+
+        $this->core->ranksManager->synchroQuitRank($player);
+        $this->core->stats->synchroQuitStats($player);
+
     }
 }
