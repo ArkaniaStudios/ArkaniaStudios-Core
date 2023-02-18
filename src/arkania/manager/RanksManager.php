@@ -187,7 +187,7 @@ final class RanksManager {
 
         $target = Server::getInstance()->getPlayerExact($playerName);
 
-        if ($target->isOnline()){
+        if ($target instanceof Player){
             $this->updatePermission($target);
             $this->updateNameTag($target);
         }
@@ -269,6 +269,12 @@ final class RanksManager {
         $db = self::getDataBase();
         $db->query("UPDATE ranks SET nametag='$format' WHERE name='" . self::getDataBase()->real_escape_string($rankName) . "'");
         $db->close();
+
+        foreach (Server::getInstance()->getOnlinePlayers() as $player){
+            if ($this->getPlayerRank($player->getName()) === $rankName)
+                $this->updateNameTag($player);
+        }
+
     }
 
     /**

@@ -19,10 +19,10 @@ namespace arkania\factions;
 
 interface FactionIds {
 
-    const OWNER = 'arkania:faction.owner';
+    const OWNER = 'owner';
 
-    const OFFICER = 'arkania:faction.officer';
+    const OFFICER = 'officer';
 
-    const MEMBER = 'arkania:faction.member';
+    const MEMBER = 'member';
 
 }

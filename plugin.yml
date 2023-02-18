@@ -9,7 +9,7 @@
 name: ArkaniaStudios-Core
 version: 2.0.0
 main: arkania\Core
-api: 4.0.0
+api: 4.14.1
 authors:
   - Julien
 description: Tous ce qui est développé par nos équipes, ou qui concerne le serveur, restent confidentiels et est interdit à l’utilisation tiers.

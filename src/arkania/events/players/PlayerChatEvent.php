@@ -17,7 +17,9 @@ declare(strict_types=1);
 
 namespace arkania\events\players;
 
+use arkania\commands\player\FactionCommand;
 use arkania\Core;
+use arkania\manager\FactionManager;
 use pocketmine\event\Listener;
 
 class PlayerChatEvent implements Listener {
@@ -36,5 +38,23 @@ class PlayerChatEvent implements Listener {
         /* Ranks */
         $event->setFormat($this->core->ranksManager->getChatFormat($player, $message));
 
+        /* Faction */
+        if (isset(FactionCommand::$faction_chat[$player->getName()]) || mb_substr($message, 0, 1) === '!'){
+
+            $factionManager = new FactionManager();
+
+            if ($factionManager->getFaction($player->getName()) === '...')
+                return;
+
+
+            $event->cancel();
+
+            if (mb_substr($message, 0, 1) === '!')
+                $factionMessage = mb_substr($message, 1);
+            else
+                $factionMessage = $message;
+
+            $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->sendFactionMessage($factionMessage, $player->getName());
+        }
     }
 }
