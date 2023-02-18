@@ -2,7 +2,7 @@
 
 # ArkaniaStudios - Faction
 
-Core faction pour ArkaniaStudios.
+Ceci est un core utilisé pour les serveurs factions de ArkaniaStudios
 
 - play.arkaniastudios.org
 
@@ -17,7 +17,7 @@ Liens Utils :
 - ``PhpDocumentation`` : https://www.php.net/manual/fr/index.php
 
 
-- ``Boutique`` : https://arkaniastudios.com/boutique
+- ``Boutique`` : https://arkaniastudios.com/shop
 - ``Discord`` : https://arkaniastudios.com/discord
 - ``Wiki`` : https://arkaniastudios.com/wiki
 - ``Site`` : https://arkaniastudios.com/
