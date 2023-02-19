@@ -20,6 +20,7 @@ namespace arkania;
 use arkania\libs\customies\block\CustomiesBlockFactory;
 use arkania\libs\muqsit\invmenu\InvMenuHandler;
 use arkania\manager\EconomyManager;
+use arkania\manager\MaintenanceManager;
 use arkania\manager\RanksManager;
 use arkania\manager\StatsManager;
 use arkania\manager\SynchronisationManager;
@@ -62,10 +63,11 @@ class Core extends PluginBase {
     /** @var EconomyManager */
     public EconomyManager $economyManager;
 
-    /**
-     * @var SynchronisationManager
-     */
+    /** @var SynchronisationManager */
     public SynchronisationManager $synchronisation;
+
+    /** @var MaintenanceManager */
+    public MaintenanceManager $maintenance;
 
     protected function onLoad(): void {
         self::setInstance($this);
@@ -111,6 +113,7 @@ class Core extends PluginBase {
         $this->stats = new StatsManager($this);
         $this->economyManager = new EconomyManager();
         $this->synchronisation = new SynchronisationManager($this);
+        $this->maintenance = new MaintenanceManager($this);
 
         /* Permission */
         foreach (Permissions::$permissions as $permission)
@@ -121,6 +124,7 @@ class Core extends PluginBase {
             $this->ranksManager->addRank('Joueur');
 
         /* Logger */
+        $this->maintenance->setServerStatus('ouvert');
         $this->getLogger()->info(
             "\n     _      ____    _  __     _      _   _   ___      _".
             "\n    / \    |  _ \  | |/ /    / \    | \ | | |_ _|    / \ ".
@@ -133,6 +137,9 @@ class Core extends PluginBase {
     }
 
     protected function onDisable(): void {
+
+        $this->maintenance->setServerStatus('ferme');
+
         foreach ($this->getServer()->getOnlinePlayers() as $player){
 
             $this->ranksManager->synchroQuitRank($player);
