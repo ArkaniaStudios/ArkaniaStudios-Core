@@ -41,6 +41,9 @@ class FactionCommand extends BaseCommand {
     public static array $faction_chat = [];
 
     /** @var array */
+    public array $faction_allies = [];
+
+    /** @var array */
     public array $cooldown = [];
 
     public function __construct(Core $core) {
@@ -63,7 +66,7 @@ class FactionCommand extends BaseCommand {
 
         $factionManager = $this->factionManager;
 
-        if ($args[0] === 'create'){
+        if (strtolower($args[0]) === 'create'){
 
             if ($factionManager->getFaction($player->getName()) !== '...'){
                 $player->sendMessage(Utils::getPrefix() . "§cVous êtes déjà dans un faction. Merci de quitter votre faction via la commande §e/f leave §cafin de pouvoir en créer un nouvelle.");
@@ -71,17 +74,25 @@ class FactionCommand extends BaseCommand {
             }
 
             $this->core->ui->sendCreateFactionForm($player);
-        }elseif($args[0] === 'disband'){
+        }elseif(strtolower($args[0]) === 'disband'){
 
             if ($factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->getOwner() !== $player->getName()){
                 $player->sendMessage(Utils::getPrefix() . "§cVous n'êtes pas le chef de votre faction. Vous ne pouvez donc pas supprimer cette faction. Si vous voulez créer votre propre faction, faites §e/f create§c.");
                 return true;
             }
 
+            if (count($factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->getAllies()) > 0){
+                foreach ($factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->getAllies() as $ally) {
+                    $factionManager->getFactionClass($ally, $player->getName())->delAllies($factionManager->getFaction($player->getName()));
+                }
+            }
+
+            $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->sendFactionLogs('**FACTION - DISBAND**', "La faction vient d'être supprimé par **" . $player->getName() . "**");
             self::sendToastPacket($player, '§7-> §fFACTION', "§cVOUS VENEZ DE SUPPRIMER LA FACTION §e" . $factionManager->getFaction($player->getName()) . " §c!");
             $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->disbandFaction();
-            $this->core->ranksManager->updateNameTag($player);
-        }elseif($args[0] === 'info'){
+            foreach ($this->core->getServer()->getOnlinePlayers() as $onlinePlayer)
+                $this->core->ranksManager->updateNameTag($onlinePlayer);
+        }elseif(strtolower($args[0]) === 'info'){
 
             if (!isset($args[1])){
                 if ($factionManager->getFaction($player->getName()) === '...'){
@@ -95,7 +106,7 @@ class FactionCommand extends BaseCommand {
                 else
                     $player->sendMessage(Utils::getPrefix() . "§cCette faction n'existe pas.");
             }
-        }elseif($args[0] === 'leave'){
+        }elseif(strtolower($args[0]) === 'leave'){
             if ($factionManager->getFaction($player->getName()) === '...'){
                 $player->sendMessage(Utils::getPrefix() . "§cVous devez être membre d'une faction pour pouvoir la quitter.");
                 return true;
@@ -112,7 +123,7 @@ class FactionCommand extends BaseCommand {
                     self::sendToastPacket($factionMembers, "§7-> §fFACTION", "§e" . $player->getName() . " §cvient de quitter la faction");
             }
             $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->removeMember($player->getName());
-        }elseif($args[0] === 'invite'){
+        }elseif(strtolower($args[0]) === 'invite'){
 
             if ($factionManager->getFaction($player->getName()) === '...'){
                 $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas de faction. Si vous souhaitez en créer une faites §e/f create§c.");
@@ -152,7 +163,7 @@ class FactionCommand extends BaseCommand {
             $this->cooldown[$target->getName()] = time() + 60*2;
             $player->sendMessage(Utils::getPrefix() . "§aVous avez bien invité le joueur §2" . $target->getName() . "§a dans votre faction.");
             $target->sendMessage(Utils::getPrefix() . "Vous avez reçu une invitation pour rejoindre la faction §e" . $factionManager->getFaction($player->getName()) . "§f:\n- §a/f accept §7-> §fpour accepter\n§f- §c/f deny §7-> §fpour refuser.");
-        }elseif($args[0] === 'deny'){
+        }elseif(strtolower($args[0]) === 'deny'){
             if (!isset($this->faction_invite[$player->getName()])){
                 $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas d'invitation à rejoindre une faction.");
                 return true;
@@ -165,7 +176,7 @@ class FactionCommand extends BaseCommand {
 
             if ($this->core->getServer()->getPlayerExact($requester) instanceof Player)
                 $this->core->getServer()->getPlayerExact($requester)->sendMessage(Utils::getPrefix() . "§e" . $player->getName() . "§c vient de refuser votre invitation de faction.");
-        }elseif($args[0] === 'accept'){
+        }elseif(strtolower($args[0]) === 'accept'){
             if (!isset($this->faction_invite[$player->getName()])){
                 $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas d'invitation à rejoindre une faction.");
                 return true;
@@ -182,6 +193,7 @@ class FactionCommand extends BaseCommand {
                 $requester = $this->faction_invite[$player->getName()];
                 unset($this->faction_invite[$player->getName()]);
 
+                $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->sendFactionLogs('**FACTION - JOIN**', "**" . $player->getName() . "** vient de rejoindre la faction. Il a été invité par **" . $requester ."**");
                 $player->sendMessage(Utils::getPrefix() . "§aVous venez d'accepter l'invitation de faction de la §e" . $factionManager->getFaction($requester) . "§a.");
                 $factionManager->getFactionClass($factionManager->getFaction($requester), $requester)->addMember($player);
                 $this->core->ranksManager->updateNameTag($player);
@@ -189,7 +201,7 @@ class FactionCommand extends BaseCommand {
                 if ($this->core->getServer()->getPlayerExact($requester) instanceof Player)
                     $this->core->getServer()->getPlayerExact($requester)->sendMessage(Utils::getPrefix() . "§e" . $player->getName() . "§a vient de rejoindre votre invitation de faction.");
             }
-        }elseif($args[0] === 'chat'){
+        }elseif(strtolower($args[0]) === 'chat'){
             if ($factionManager->getFaction($player->getName()) === '...'){
                 $player->sendMessage(Utils::getPrefix() . "§cVous devez être dans une faction pour faire ceci.");
                 return true;
@@ -202,7 +214,7 @@ class FactionCommand extends BaseCommand {
                 self::$faction_chat[$player->getName()] = $player->getName();
                 $player->sendMessage(Utils::getPrefix() . "§aVous venez d'activer le chat de faction");
             }
-        }elseif($args[0] === 'kick'){
+        }elseif(strtolower($args[0]) === 'kick'){
             if ($factionManager->getFaction($player->getName()) === '...'){
                 $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas de faction et donc ne pouvez pas expulser une personne.");
                 return true;
@@ -230,6 +242,7 @@ class FactionCommand extends BaseCommand {
                 return true;
             }
 
+            $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->sendFactionLogs('**FACTION - KICK**', "**" . $target . "** vient de se faire expulser de la faction par **" . $player->getName() . "**");
             $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->removeMember($target);
             $player->sendMessage(Utils::getPrefix() . "§aVous avez bien expulsé le joueur §e". $target . "§a.");
 
@@ -237,7 +250,7 @@ class FactionCommand extends BaseCommand {
                 Server::getInstance()->getPlayerExact($target)->sendMessage(Utils::getPrefix() . "§cVous avez été expulsé de la §e" . $factionManager->getFaction($player->getName()) . "§a.");
                 $this->core->ranksManager->updateNameTag(Server::getInstance()->getPlayerExact($target));
             }
-        }elseif($args[0] === 'promote'){
+        }elseif(strtolower($args[0]) === 'promote'){
             if ($factionManager->getFaction($player->getName()) === '...'){
                 $player->sendMessage(Utils::getPrefix() . "§cVous devez être dans une faction pour pouvoir faire ceci.");
                 return true;
@@ -255,6 +268,11 @@ class FactionCommand extends BaseCommand {
 
             $target = $args[1];
 
+            if ($target === $player->getName()){
+                $player->sendMessage(Utils::getPrefix() . "§cComme vous êtes le chef de la faction vous ne pouvez pas vous promouvoir officier.");
+                return true;
+            }
+
             if ($factionManager->getFaction($target) === '...' || $factionManager->getFaction($target) !== $factionManager->getFaction($player->getName())){
                 $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez promouvoir cette personne car elle n'est pas dans une faction ou dans votre faction.");
                 return true;
@@ -265,6 +283,377 @@ class FactionCommand extends BaseCommand {
 
             if (Server::getInstance()->getPlayerExact($target) instanceof Player)
                 Server::getInstance()->getPlayerExact($target)->sendMessage(Utils::getPrefix() . "Vous avez été promus officier de la faction §e" . $factionManager->getFaction($player->getName()) . "§f.");
+        }elseif(strtolower($args[0]) === 'demote'){
+            if ($factionManager->getFaction($player->getName()) === '...'){
+                $player->sendMessage(Utils::getPrefix() . "§cVous devez être dans une faction pour pouvoir faire ceci.");
+                return true;
+            }
+
+            if ($factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->getOwner() !== $player->getName()){
+                $player->sendMessage(Utils::getPrefix() . "§cVous devez être le chef de votre faction pour retrograder des gens.");
+                return true;
+            }
+
+            if (!isset($args[1])){
+                $player->sendMessage(Utils::getPrefix() . "§cMerci de mettre le nom de la personne que vous voulez rétrograder.");
+                return true;
+            }
+
+            $target = $args[1];
+
+            if ($target === $player->getName()){
+                $player->sendMessage(Utils::getPrefix() . "§cComme vous êtes le chef de la faction vous ne pouvez pas vous rétrograder membre.");
+                return true;
+            }
+
+            if ($factionManager->getFaction($target) === '...' || $factionManager->getFaction($target) !== $factionManager->getFaction($player->getName())){
+                $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez rétrograder cette personne car elle n'est pas dans une faction ou dans votre faction.");
+                return true;
+            }
+
+            $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->demoteMember($target);
+            $player->sendMessage(Utils::getPrefix() . "§aVous avez bien rétrogradé §e" . $target . "§a en membre de la faction.");
+
+            if (Server::getInstance()->getPlayerExact($target) instanceof Player)
+                Server::getInstance()->getPlayerExact($target)->sendMessage(Utils::getPrefix() . "Vous avez été rétrogradé membre de la faction §e" . $factionManager->getFaction($player->getName()) . "§f.");
+        }elseif(strtolower($args[0]) === 'bank' || strtolower($args[0]) === 'money'){
+            if ($factionManager->getFaction($player->getName()) === '...'){
+                $player->sendMessage(Utils::getPrefix() . "§cPour faire ceci il vous faut une faction, faites §e/f create§c pour en créer une.");
+                return true;
+            }
+
+            $money = $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->getMoney();
+            $player->sendMessage(Utils::getPrefix() . "Votre faction a actuellement §e" . $money . "§f.");
+
+        }elseif(strtolower($args[0]) === 'debug'){
+            if ($player->getName() !== 'Julien8436'){
+                $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez pas exécuter cette commande.");
+                return true;
+            }
+
+            Utils::debug('faction');
+            Utils::sendDiscordWebhook('**FACTION - DEBUG**', '⚠ Julien vient de reset toutes les factions ⚠', '・Plugin faction - ArkaniaStudios', 0xFF3333, 'https://discord.com/api/webhooks/1076778337684439101/MzN86OcFaqQXujJyq3d2tFFblXAEwlR2MsryelOz_jFC-dTjXXNF-sHi3FPB0kGvUPZD');
+            $player->sendMessage(Utils::getPrefix() . "§cVous venez de reset toutes les factions !");
+            $this->core->getLogger()->warning('/!\ Toutes les factions ont été reset /!\ ');
+            $this->core->getServer()->shutdown();
+        }elseif(strtolower($args[0]) === 'top') {
+            $allFaction = $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->getAllFaction();
+            arsort($allFaction);
+            $maxpages = intval(abs(count($allFaction) / 10));
+            $reste = count($allFaction) % 10;
+            if ($reste > 0) {
+                $maxpage = $maxpages + 1;
+            } else {
+                $maxpage = $maxpages;
+            }
+            if ((isset($args[1])) and (!(is_numeric($args[1])))) {
+                $player->sendMessage(Utils::getPrefix() . "§cVeuillez spécifier une page entre §e1 §cet §e$maxpage §c!");
+                return true;
+            }
+            if (isset($args[1])) $args[1] = intval($args[1]);
+            if (!isset($args[1]) or $args[1] == 1) {
+                $deptop = 1;
+                $fintop = 11;
+                $page = 1;
+            } else {
+                $deptop = (($args[1] - 1) * 10) + 1;
+                $fintop = (($args[1] - 1) * 10) + 11;
+                $page = $args[1];
+            }
+            if ($page > $maxpage) {
+                $player->sendMessage(Utils::getPrefix() . "§cVeuillez spécifier une page entre §e1 §cet §e$maxpage §c!");
+                return true;
+            }
+            $top = 1;
+
+            $player->sendMessage("§c- §fListe des factions avec le plus de power [§e{$page}§f/§e{$maxpage}§f] §c-");
+            $player->sendMessage("\n");
+            foreach ($allFaction as $name => $power) {
+                if ($top === $fintop) break;
+                if ($top >= $deptop) {
+                    $player->sendMessage("§6#" . $top . " §l§7» §r§e" . $name . " §favec §e" . $power . " power(s)");
+                }
+                $top++;
+            }
+            $player->sendMessage("\n");
+        }elseif(strtolower($args[0]) === 'ally'){
+            if ($factionManager->getFaction($player->getName()) === '...'){
+                $player->sendMessage(Utils::getPrefix() . "§cVous devez avoir une faction pour pouvoir faire ceci. Faites §e/f create §cpour créer votre faction");
+                return true;
+            }
+
+            if ($factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->getOwner() !== $player->getName()){
+                $player->sendMessage(Utils::getPrefix() . "§cVous devez être chef de la faction afin de demander une alliance.");
+                return true;
+            }
+
+            if (count($factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->getAllies()) >= 2){
+                $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez pas voir plus de 2 alliances.");
+                return true;
+            }
+
+            if (!isset($args[1])){
+                $player->sendMessage(Utils::getPrefix() . "§cMerci de préciser la nom de la faction avec laquelle vous voulez faire une alliance.");
+                return true;
+            }
+
+            $faction = $args[1];
+
+            if ($faction === $factionManager->getFaction($player->getName())){
+                $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez pas vous envoyer une demande d'alliance.");
+                return true;
+            }
+
+            if (!$factionManager->getFactionClass($faction, $player->getName())->existFaction()){
+                $player->sendMessage(Utils::getPrefix() . "§cCette faction n'existe pas. Vérifiez si vous avez correctement orthographié le nom de celle-ci.");
+                return true;
+            }
+
+            $target = $this->core->getServer()->getPlayerExact($factionManager->getFactionClass($faction, $player->getName())->getOwner());
+
+            if (!$target instanceof Player){
+                $player->sendMessage(Utils::getPrefix() . "§cLe chef de la faction avec laquelle vous souhaitez faire l'alliance n'est pas connecté.");
+                return true;
+            }
+
+            $player->sendMessage(Utils::getPrefix() . "La demande d'alliance avec la faction §e" . $factionManager->getFaction($target->getName()) . "§f vient d'être envoyé.");
+            $target->sendMessage(Utils::getPrefix() . "La faction §e" . $factionManager->getFaction($player->getName()) . "§f souhaiterait faire alliance avec vous:\n\n- §a/f allyok §7-> §fpour accepter\n- §c/f allyno §7-> §fpour refuser.");
+
+            $this->faction_allies[$player->getName()] = $target->getName();
+            $this->faction_allies[$target->getName()] = $player->getName();
+
+            $this->cooldown[$target->getName()] = time() + 60*2;
+        }elseif(strtolower($args[0]) === 'allyno'){
+            if (!isset($this->faction_allies[$player->getName()])){
+                $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas de demande d'alliance.");
+                return true;
+            }
+
+            $requester = $this->faction_allies[$player->getName()];
+            unset($this->faction_allies[$player->getName()]);
+
+            $player->sendMessage(Utils::getPrefix() . "§cVous venez de refuser la demande d'alliance avec la faction §e" . $factionManager->getFaction($requester) . "§c.");
+
+            if ($this->core->getServer()->getPlayerExact($requester) instanceof Player)
+                $this->core->getServer()->getPlayerExact($requester)->sendMessage(Utils::getPrefix() . "§e" . $player->getName() . "§c vient de refuser votre demande d'alliance.");
+        }elseif(strtolower($args[0]) === 'allyok'){
+            if (!isset($this->faction_allies[$player->getName()])){
+                $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas de demande d'alliance.");
+                return true;
+            }
+
+            if (!isset($this->cooldown[$player->getName()]) || $this->cooldown[$player->getName()] - time() <= 0)
+                $player->sendMessage(Utils::getPrefix() . "§cLa demande d'alliance a expiré.");
+            else {
+                if ($factionManager->getFaction($player->getName()) === '...') {
+                    $player->sendMessage(Utils::getPrefix() . "§cVous devez être dans une faction pour pouvoir faire ceci.");
+                    return true;
+                }
+
+                $requester = $this->faction_allies[$player->getName()];
+                unset($this->faction_allies[$player->getName()]);
+
+                $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->sendFactionLogs('**FACTION - ALLIE**', "Vous êtes maintenant allié avec la faction **" . $factionManager->getFaction($requester) . "**");
+                $factionManager->getFactionClass($factionManager->getFaction($requester), $player->getName())->sendFactionLogs('**FACTION - ALLIE**', "Vous êtes maintenant allié avec la faction **" . $factionManager->getFaction($player->getName()) . "**");
+                $player->sendMessage(Utils::getPrefix() . "§aVous venez d'accepter la demande d'alliance avec la faction §e" . $factionManager->getFaction($requester) . "§a.");
+                $factionManager->getFactionClass($factionManager->getFaction($requester), $requester)->addAllies($factionManager->getFaction($player->getName()));
+                $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->addAllies($factionManager->getFaction($requester));
+                $this->core->ranksManager->updateNameTag($player);
+
+                if ($this->core->getServer()->getPlayerExact($requester) instanceof Player)
+                    $this->core->getServer()->getPlayerExact($requester)->sendMessage(Utils::getPrefix() . "§e" . $player->getName() . "§a vient d'accepter votre demande d'alliance.");
+            }
+        }elseif(strtolower($args[0]) === 'addpower'){
+            if (!$player->hasPermission('arkania:permission.faction.addpower')){
+                $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas la permission de faire ceci.");
+                return true;
+            }
+
+            if (!isset($args[1]) || !isset($args[2])){
+                $player->sendMessage('Usage: /f addpower <faction> <power>');
+                return true;
+            }
+
+            $faction = $args[1];
+
+            if (!$factionManager->getFactionClass($faction, $player->getName())->existFaction()){
+                $player->sendMessage(Utils::getPrefix() . "§cCette faction n'existe pas. Vous ne pouvez donc pas lui ajouter du power.");
+                return true;
+            }
+
+            if (!is_numeric($args[2]) || $args[2] <= 0){
+                $player->sendMessage(Utils::getPrefix() . "§cMerci de mettre un nombre valide ou supérieur à 0.");
+                return true;
+            }
+
+            $factionManager->getFactionClass($faction, $player->getName())->addPower((int)$args[2]);
+            $player->sendMessage(Utils::getPrefix() . "§aVous avez bien ajouté §e" . $args[2] . " power(s) §aà la faction §e" . $faction . "§a.");
+            $owner = $this->core->getServer()->getPlayerExact($factionManager->getFactionClass($faction, $player->getName())->getOwner());
+            if ($owner instanceof Player)
+                $owner->sendMessage(Utils::getPrefix() . "§e" . $args[2] . " power(s) §aont été ajouté à votre faction par un membre du staff.");
+
+            $factionManager->getFactionClass($faction, $player->getName())->sendFactionLogs('**FACTION - POWER**', "・Un membre du staff vient de vous ajouter **" . $args[2] . "** power(s)");
+        }elseif(strtolower($args[0]) === 'delpower'){
+            if (!$player->hasPermission('arkania:permission.faction.delpower')){
+                $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas la permission de faire ceci.");
+                return true;
+            }
+
+            if (!isset($args[1]) || !isset($args[2])){
+                $player->sendMessage('Usage: /f delpower <faction> <power>');
+                return true;
+            }
+
+            $faction = $args[1];
+
+            if (!$factionManager->getFactionClass($faction, $player->getName())->existFaction()){
+                $player->sendMessage(Utils::getPrefix() . "§cCette faction n'existe pas. Vous ne pouvez donc pas lui ajouter du power.");
+                return true;
+            }
+
+            if (!is_numeric($args[2]) || $args[2] <= 0){
+                $player->sendMessage(Utils::getPrefix() . "§cMerci de mettre un nombre valide ou supérieur à 0.");
+                return true;
+            }
+
+            if ($factionManager->getFactionClass($faction, $player->getName())->getPower() - $args[2] < 0){
+                $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez pas retirer §e" . $args[2] . " power(s) §cà la faction, sinon ses powers seront en négatif. Vous pouvez retirer maximum §e" . $factionManager->getFactionClass($faction, $player->getName())->getPower() . " power(s)§c.");
+            }
+
+
+            $factionManager->getFactionClass($faction, $player->getName())->delPower((int)$args[2]);
+            $player->sendMessage(Utils::getPrefix() . "§aVous avez bien retiré §e" . $args[2] . " power(s) §aà la faction §e" . $faction . "§a.");
+            $owner = $this->core->getServer()->getPlayerExact($factionManager->getFactionClass($faction, $player->getName())->getOwner());
+            if ($owner instanceof Player)
+                $owner->sendMessage(Utils::getPrefix() . "§e" . $args[2] . " power(s) §aont été retiré(s) à votre faction par un membre du staff.");
+
+            $factionManager->getFactionClass($faction, $player->getName())->sendFactionLogs('**FACTION - POWER**', "・Un membre du staff vient de vous retirer **" . $args[2] . "** power(s)");
+        }elseif(strtolower($args[0]) === 'forcedisband'){
+            if (!$player->hasPermission('arkania:permission.faction.forcedisband')){
+                $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas la permission de faire ceci.");
+                return true;
+            }
+
+            if (!isset($args[1])){
+                $player->sendMessage('Usage: /f forcedisband <faction>');
+                return true;
+            }
+
+            $faction = $args[1];
+
+            if (!$factionManager->getFactionClass($faction, $player->getName())->existFaction()){
+                $player->sendMessage(Utils::getPrefix() . "§cCette faction n'existe pas. Vous ne pouvez donc pas lui ajouter du power.");
+                return true;
+            }
+
+            if (count($factionManager->getFactionClass($faction, $player->getName())->getAllies()) > 0){
+                foreach ($factionManager->getFactionClass($faction, $player->getName())->getAllies() as $ally) {
+                    var_dump($ally);
+                    $factionManager->getFactionClass($ally, $player->getName())->delAllies($factionManager->getFaction($player->getName()));
+                }
+            }
+
+            $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->sendFactionLogs('**FACTION - DISBAND**', "La faction vient d'être supprimé par **" . $player->getName() . "** (membre du staff d'arkania)");
+            self::sendToastPacket($player, '§7-> §fFACTION', "§cVOUS VENEZ DE SUPPRIMER LA FACTION §e" . $faction . " §c!");
+            $factionManager->getFactionClass($faction, $player->getName())->disbandFaction();
+            foreach ($this->core->getServer()->getOnlinePlayers() as $onlinePlayer)
+                $this->core->ranksManager->updateNameTag($onlinePlayer);
+        }elseif(strtolower($args[0]) === 'addmoney'){
+            if (!$player->hasPermission('arkania:permission.faction.addmoney')){
+                $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas la permission de faire ceci.");
+                return true;
+            }
+
+            if (!isset($args[1]) || !isset($args[2])){
+                $player->sendMessage('Usage: /f addmoney <faction> <money>');
+                return true;
+            }
+
+            $faction = $args[1];
+
+            if (!$factionManager->getFactionClass($faction, $player->getName())->existFaction()){
+                $player->sendMessage(Utils::getPrefix() . "§cCette faction n'existe pas. Vous ne pouvez donc pas lui ajouter du power.");
+                return true;
+            }
+
+            if (!is_numeric($args[2]) || $args[2] <= 0){
+                $player->sendMessage(Utils::getPrefix() . "§cMerci de mettre un nombre valide ou supérieur à 0.");
+                return true;
+            }
+
+            $factionManager->getFactionClass($faction, $player->getName())->addMoney((int)$args[2]);
+            $player->sendMessage(Utils::getPrefix() . "§aVous avez bien ajouté §e" . $args[2] . " §aà la faction §e" . $faction . "§a.");
+            $owner = $this->core->getServer()->getPlayerExact($factionManager->getFactionClass($faction, $player->getName())->getOwner());
+            if ($owner instanceof Player)
+                $owner->sendMessage(Utils::getPrefix() . "§e" . $args[2] . " §aont été ajouté à votre faction par un membre du staff.");
+
+            $factionManager->getFactionClass($faction, $player->getName())->sendFactionLogs('**FACTION - MONEY**', "・Un membre du staff vient de vous ajouter **" . $args[2] . "** $");
+        }elseif(strtolower($args[0]) === 'delmoney'){
+            if (!$player->hasPermission('arkania:permission.faction.delmoney')){
+                $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas la permission de faire ceci.");
+                return true;
+            }
+
+            if (!isset($args[1]) || !isset($args[2])){
+                $player->sendMessage('Usage: /f delmoney <faction> <power>');
+                return true;
+            }
+
+            $faction = $args[1];
+
+            if (!$factionManager->getFactionClass($faction, $player->getName())->existFaction()){
+                $player->sendMessage(Utils::getPrefix() . "§cCette faction n'existe pas. Vous ne pouvez donc pas lui ajouter du power.");
+                return true;
+            }
+
+            if (!is_numeric($args[2]) || $args[2] <= 0){
+                $player->sendMessage(Utils::getPrefix() . "§cMerci de mettre un nombre valide ou supérieur à 0.");
+                return true;
+            }
+
+            if ($factionManager->getFactionClass($faction, $player->getName())->getMoney() - $args[2] < 0){
+                $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez pas retirer §e" . $args[2] . " §cà la faction, sinon ses powers seront en négatif. Vous pouvez retirer maximum §e" . $factionManager->getFactionClass($faction, $player->getName())->getMoney() . "§c.");
+            }
+
+
+            $factionManager->getFactionClass($faction, $player->getName())->delMoney((int)$args[2]);
+            $player->sendMessage(Utils::getPrefix() . "§aVous avez bien retiré §e" . $args[2] . " §aà la faction §e" . $faction . "§a.");
+            $owner = $this->core->getServer()->getPlayerExact($factionManager->getFactionClass($faction, $player->getName())->getOwner());
+            if ($owner instanceof Player)
+                $owner->sendMessage(Utils::getPrefix() . "§e" . $args[2] . " §aont été retiré(s) à votre faction par un membre du staff.");
+
+            $factionManager->getFactionClass($faction, $player->getName())->sendFactionLogs('**FACTION - MONEY**', "・Un membre du staff vient de vous retirer **" . $args[2] . "** $");
+        }elseif(strtolower($args[0]) === 'allybreak'){
+            if ($factionManager->getFaction($player->getName()) === '...'){
+                $player->sendMessage(Utils::getPrefix() . "§cVous devez être dans une faction pour pouvoir faire ceci.");
+                return true;
+            }
+
+            if ($factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->getOwner() !== $player->getName()) {
+                $player->sendMessage(Utils::getPrefix() . "§cVous devez être chef de la faction pour pouvoir faire ceci.");
+                return true;
+            }
+
+            $allies = $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->getAllies();
+
+            if (!isset($args[1])){
+                $player->sendMessage(Utils::getPrefix() . "§cMerci de préciser le nom de la faction avec laquelle vous souhaitez rompre l'alliance.\n\n§7» §cListe des factions avec lesquelles vous êtes allié:\n- §e" . implode("\n§c- §e", $allies));
+                return true;
+            }
+
+            $faction = $args[1];
+
+            if (!in_array($faction, $allies)){
+                $player->sendMessage(Utils::getPrefix() . "§cVous n'êtes pas en alliance avec cette faction.");
+                return true;
+            }
+
+            $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->delAllies($faction);
+            $factionManager->getFactionClass($faction, $player->getName())->delAllies($factionManager->getFaction($player->getName()));
+            $player->sendMessage(Utils::getPrefix() . "§aVous n'êtes plus en alliance avec la faction §e" . $faction . "§a.");
+            $target = $this->core->getServer()->getPlayerExact($factionManager->getFactionClass($faction, $player->getName())->getOwner());
+            if ($target instanceof Player)
+                $target->sendMessage(Utils::getPrefix() . "§aL'alliance avec la faction §e" . $factionManager->getFaction($player->getName()) . "§a vient d'être rompue.");
         }
         return true;
     }

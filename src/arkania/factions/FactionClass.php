@@ -27,7 +27,10 @@ use pocketmine\Server;
 
 class FactionClass {
 
-    public function __construct(private string $factionName, private string $ownerName, private string $creationTime, private ?string $description = '') {
+    /** @var Claim[][] */
+    public static array $claim = [];
+
+    public function __construct(private string $factionName, private string $ownerName, private bool $logs , private string $creationTime, private ?string $description = '', private string $url = '') {
     }
 
     /**
@@ -42,8 +45,9 @@ class FactionClass {
      */
     public static function init(): void {
         $db = self::getDataBase();
-        $db->query("CREATE TABLE IF NOT EXISTS factions(name VARCHAR(10), description TEXT, creation_date TEXT, ownerName VARCHAR(20), allies TEXT, members TEXT, claims TEXT, power INT, money INT)");
+        $db->query("CREATE TABLE IF NOT EXISTS factions(name VARCHAR(10), description TEXT, creation_date TEXT, ownerName VARCHAR(20), allies TEXT, members TEXT, power INT, money INT, logs BOOL, url TEXT)");
         $db->query("CREATE TABLE IF NOT EXISTS players_faction(name VARCHAR(20), faction VARCHAR(10), faction_rank VARCHAR(10))");
+        $db->query("CREATE TABLE IF NOT EXISTS claim(name VARCHAR(10), x1 FLOAR, z1 FLOAR, x2 FLOAR, z2 FLOAR, world TEXT)");
         $db->close();
     }
 
@@ -72,7 +76,9 @@ class FactionClass {
                      members,
                      claims,
                      power,
-                     money
+                     money,
+                     logs,
+                     url
                      ) VALUES (
                                '" . self::getDataBase()->real_escape_string($this->factionName) . "',
                                 '" . self::getDataBase()->real_escape_string($this->description) ."',
@@ -82,7 +88,9 @@ class FactionClass {
                                   '" . serialize([]) . "',
                                   '" . serialize([]) . "',
                                   0,
-                                  0)");
+                                  0,
+                                  '" . $this->logs . "',
+                                  '" . self::getDataBase()->real_escape_string($this->url) . "')");
         Query::query("INSERT INTO players_faction(name,
                             faction,
                             faction_rank
@@ -141,6 +149,34 @@ class FactionClass {
         $allies = $db->fetch_array()[0] ?? false;
         $db->close();
         return unserialize($allies);
+    }
+
+    /**
+     * @param string $factions
+     * @return void
+     */
+    public function addAllies(string $factions): void {
+        $db = self::getDataBase()->query("SELECT allies FROM factions WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        $result = $db->fetch_array()[0];
+        $result = unserialize($result);
+        $result[] = $factions;
+        $allies = serialize($result);
+        Query::query("UPDATE factions SET allies='$allies' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        $db->close();
+    }
+
+    /**
+     * @param string $faction
+     * @return void
+     */
+    public function delAllies(string $faction): void {
+        $db = self::getDataBase()->query("SELECT allies FROM factions WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        $result = $db->fetch_array()[0];
+        $result = unserialize($result);
+        unset($result[array_search($faction, $result)]);
+        $allies = serialize($result);
+        Query::query("UPDATE factions SET allies='$allies' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        $db->close();
     }
 
     /**
@@ -214,6 +250,36 @@ class FactionClass {
     }
 
     /**
+     * @return float|int|string
+     */
+    public function getMoney(): float|int|string {
+        $db = self::getDataBase()->query("SELECT money FROM factions WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        $money = $db->fetch_array()[0] ?? 'Error';
+        $db->close();
+        return $money;
+    }
+
+    /**
+     * @param int $money
+     * @return void
+     */
+    public function addMoney(int $money): void {
+        $db = self::getDataBase();
+        $db->query("UPDATE factions SET money=money + '$money' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        $db->close();
+    }
+
+    /**
+     * @param int $money
+     * @return void
+     */
+    public function delMoney(int $money): void {
+        $db = self::getDataBase();
+        $db->query("UPDATE factions SET money=money - '$money' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        $db->close();
+    }
+
+    /**
      * @return int
      */
     public function getPower(): int {
@@ -283,5 +349,72 @@ class FactionClass {
                 $player->sendMessage("[§eFaction§f-§eChat§f] $ranks" . $playerName . " §f» §e" . $message);
             }
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public function getLogsStatus(): bool {
+        $db = self::getDataBase()->query("SELECT logs FROM factions WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        $logs = $db->fetch_array()[0] ?? false;
+        $db->close();
+
+        if ($logs === 1)
+            return false;
+        else
+            return true;
+    }
+
+    /**
+     * @param bool $value
+     * @return void
+     */
+    public function setLogsStatus(bool $value): void {
+        $db = self::getDataBase();
+        $db->query("UPDATE factions SET logs=$value WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        $db->close();
+    }
+
+    /**
+     * @param string $url
+     * @return void
+     */
+    public function setUrl(string $url): void {
+        $db = self::getDataBase();
+        $db->query("UPDATE factions SET url='$url' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl(): string {
+        $db = self::getDataBase()->query("SELECT url FROM factions WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        $url = $db->fetch_array()[0] ?? false;
+        $db->close();
+        return (string)$url;
+    }
+
+    /**
+     * @param string $title
+     * @param string $message
+     * @param string $footer
+     * @return void
+     */
+    public function sendFactionLogs(string $title, string $message, string $footer = '・Plugin faction - ArkaniaStudios'): void {
+        if ($this->getLogsStatus() === true)
+            Utils::sendDiscordWebhook($title, $message, $footer, 0x3374FF, $this->getUrl());
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllFaction(): array {
+        $res = self::getDatabase()->query("SELECT * FROM factions");
+        $ret = [];
+        foreach($res->fetch_all() as $val){
+            $ret[$val[0]] = $val[7];
+        }
+        $res->close();
+        return $ret;
     }
 }

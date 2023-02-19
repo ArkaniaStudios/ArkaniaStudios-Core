@@ -12,7 +12,8 @@
         }
     ],
     "require": {
-      "ext-mysqli": "*"
+      "ext-mysqli": "*",
+      "ext-curl": "*"
     },
     "require-dev": {
         "phpstan/phpstan": "1.9.13",

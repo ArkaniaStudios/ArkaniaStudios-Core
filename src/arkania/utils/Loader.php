@@ -39,12 +39,14 @@ use arkania\commands\staff\RedemCommand;
 use arkania\Core;
 use arkania\entity\base\BaseEntity;
 use arkania\entity\entities\VillagerEntity;
+use arkania\events\entity\EntityDamageEntityEvent;
 use arkania\events\players\PlayerChatEvent;
 use arkania\events\players\PlayerJoinEvent;
 use arkania\events\players\PlayerQuitEvent;
 use arkania\factions\FactionClass;
 use arkania\items\ItemIds;
 use arkania\items\NoneEnchant;
+use arkania\items\npc\NpcManagerItem;
 use arkania\libs\customies\CustomiesListener;
 use arkania\libs\customies\item\CustomiesItemFactory;
 use arkania\listener\SynchronisationListener;
@@ -61,7 +63,6 @@ use pocketmine\entity\Location;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\world\World;
 use ReflectionException;
-use arkania\items\npc\NpcManagerItem;
 
 final class Loader {
 
@@ -137,6 +138,8 @@ final class Loader {
             new PlayerJoinEvent($this->core),
             new PlayerQuitEvent($this->core),
             new PlayerChatEvent($this->core),
+
+            new EntityDamageEntityEvent(),
 
             new SynchronisationListener($this->core),
             new CustomiesListener(),

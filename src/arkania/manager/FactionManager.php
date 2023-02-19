@@ -37,8 +37,8 @@ final class FactionManager {
      * @param string $description
      * @return FactionClass
      */
-    public function getFactionClass(string $factionName, string $playerName, string $creationDate = '', string $description = ''): FactionClass {
-        return new FactionClass($factionName, $playerName, $creationDate, $description);
+    public function getFactionClass(string $factionName, string $playerName,bool $logs = true, string $creationDate = '', string $description = '', string $url = ''): FactionClass {
+        return new FactionClass($factionName, $playerName, $logs , $creationDate, $description, $url);
     }
 
 

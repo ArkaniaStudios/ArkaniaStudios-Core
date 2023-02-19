@@ -42,6 +42,9 @@ final class UiManager {
     /** @var FactionManager */
     private FactionManager $factionManager;
 
+    /** @var array */
+    public static array $faction_webhook = [];
+
     public function __construct() {
         $this->factionManager = new FactionManager();
     }
@@ -276,7 +279,14 @@ final class UiManager {
 
             $description = $data[2] ?? '';
 
-            $factionManager->getFactionClass($data[1], $player->getName(), $inscription, $description)->createFaction();
+            $url = '';
+
+            if ((bool)$data[3] === false){
+                self::$faction_webhook[$player->getName()] = $player->getName();
+                $player->sendMessage(Utils::getPrefix() . "§6Merci de mettre l'url du webhook dans le chat afin d'activer les logs pour votre faction.");
+            }
+
+            $factionManager->getFactionClass($data[1], $player->getName(), (bool)$data[3], $inscription, $description, $url)->createFaction();
             BaseCommand::sendToastPacket($player, '§7-> §fFACTION', '§aVOUS VENEZ DE CREER LA FACTION §e' . $data[1] . "§a.");
             Server::getInstance()->broadcastMessage(Utils::getPrefix() . "§e" . $player->getName() . "§f vient de créer la faction §e" . $data[1] . "§f.");
             Core::getInstance()->ranksManager->updateNameTag($player);
@@ -285,6 +295,7 @@ final class UiManager {
         $form->setContent("§7» §rBienvenue dans l'interface de création de votre faction. Précisez le nom de votre faction afin de la créer. Vous pouvez aussi préciser une description mais celle-ci est facultative.");
         $form->addInput('§7» §rNom');
         $form->addInput('§7» §rDescription');
+        $form->addDropdown("§7» §rLogs discord :", ['§aActivé', '§cDésactivé']);
         $player->sendForm($form);
     }
 
@@ -301,7 +312,7 @@ final class UiManager {
         $factionInfo = $factionManager->getFactionClass($faction, $player->getName());
         $description = !$factionInfo->getDescription() ? 'Aucune' : $factionInfo->getDescription();
         $form->setTitle('§c- §fFaction §c-');
-        $form->setContent("§7» §rVoici les informations de la faction : §e" . $faction . "§f.\n\nChef de faction: §e" . $factionInfo->getOwner() . "\n§fDate de création: §e" . $factionInfo->getCreationDate() . "\n§fDescription: §e" . $description . "\n§fPower: §e" . $factionInfo->getPower() . "\n\n");
+        $form->setContent("§7» §rVoici les informations de la faction : §e" . $faction . "§f.\n\nChef de faction: §e" . $factionInfo->getOwner() . "\n§fDate de création: §e" . $factionInfo->getCreationDate() . "\n§fDescription: §e" . $description . "\n§fPower: §e" . $factionInfo->getPower() . "\n§fMoney: §e" . $factionInfo->getMoney() . "\n\n");
         $player->sendForm($form);
     }
 }

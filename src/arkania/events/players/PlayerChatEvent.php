@@ -20,6 +20,8 @@ namespace arkania\events\players;
 use arkania\commands\player\FactionCommand;
 use arkania\Core;
 use arkania\manager\FactionManager;
+use arkania\manager\UiManager;
+use arkania\utils\Utils;
 use pocketmine\event\Listener;
 
 class PlayerChatEvent implements Listener {
@@ -34,14 +36,28 @@ class PlayerChatEvent implements Listener {
     public function onPlayerChat(\pocketmine\event\player\PlayerChatEvent $event) {
         $player = $event->getPlayer();
         $message = $event->getMessage();
+        $factionManager = new FactionManager();
 
         /* Ranks */
         $event->setFormat($this->core->ranksManager->getChatFormat($player, $message));
 
+        if (isset(UiManager::$faction_webhook[$player->getName()])){
+            $event->cancel();
+            if (!str_contains($message, 'https://discord.com/api/webhooks/') && mb_substr($message, 0, 1) !== 'h'){
+                $player->sendMessage(Utils::getPrefix() . "§cLe liens du webhook n'est pas valide. Les logs de faction ont été automatiquement désactivé.");
+                unset(UiManager::$faction_webhook[$player->getName()]);
+                $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->setLogsStatus(false);
+            }else{
+                $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->setLogsStatus(true);
+                $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->setUrl($message);
+                $player->sendMessage(Utils::getPrefix() . "§aLe webhook a bien été mis en place, les logs de votre faction ont été activés.");
+                $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->sendFactionLogs('**FACTION - LOGS**', "Les logs de faction ont été activés !");
+                unset(UiManager::$faction_webhook[$player->getName()]);
+            }
+        }
+
         /* Faction */
         if (isset(FactionCommand::$faction_chat[$player->getName()]) || mb_substr($message, 0, 1) === '!'){
-
-            $factionManager = new FactionManager();
 
             if ($factionManager->getFaction($player->getName()) === '...')
                 return;
@@ -55,6 +71,7 @@ class PlayerChatEvent implements Listener {
                 $factionMessage = $message;
 
             $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->sendFactionMessage($factionMessage, $player->getName());
+            $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->sendFactionLogs('**FACTION - CHAT**', $player->getName() . ' » ' . $factionMessage);
         }
     }
 }
