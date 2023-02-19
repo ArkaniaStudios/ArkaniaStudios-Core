@@ -50,7 +50,7 @@ return (new PhpCsFixer\Config)
  @author: Julien
  @link: https://github.com/ArkaniaStudios
 
- Tous ce qui est développé par nos équipes, ou qui concerne le serveur, restent confidentiels et est interdit à l’utilisation tiers.
+ Tous ce qui est développé par nos équipes, ou qui concerne le serveur, restent confidentiels et est interdit à l’utilisation tiers.ph
 BODY,
             'location' => 'after_open'
         ],
