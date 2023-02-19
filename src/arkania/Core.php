@@ -26,7 +26,6 @@ use arkania\manager\SynchronisationManager;
 use arkania\manager\UiManager;
 use arkania\utils\Loader;
 use arkania\utils\Permissions;
-use arkania\utils\Utils;
 use Closure;
 use pocketmine\permission\Permission;
 use pocketmine\permission\PermissionManager;
