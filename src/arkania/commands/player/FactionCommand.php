@@ -548,12 +548,11 @@ class FactionCommand extends BaseCommand {
 
             if (count($factionManager->getFactionClass($faction, $player->getName())->getAllies()) > 0){
                 foreach ($factionManager->getFactionClass($faction, $player->getName())->getAllies() as $ally) {
-                    var_dump($ally);
                     $factionManager->getFactionClass($ally, $player->getName())->delAllies($factionManager->getFaction($player->getName()));
                 }
             }
 
-            $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->sendFactionLogs('**FACTION - DISBAND**', "La faction vient d'être supprimé par **" . $player->getName() . "** (membre du staff d'arkania)");
+            $factionManager->getFactionClass($faction, $player->getName())->sendFactionLogs('**FACTION - DISBAND**', "La faction vient d'être supprimé par **" . $this->core->ranksManager->getPlayerRank($player->getName()) . "-" . $player->getName() . "** (membre du staff d'arkania)");
             self::sendToastPacket($player, '§7-> §fFACTION', "§cVOUS VENEZ DE SUPPRIMER LA FACTION §e" . $faction . " §c!");
             $factionManager->getFactionClass($faction, $player->getName())->disbandFaction();
             foreach ($this->core->getServer()->getOnlinePlayers() as $onlinePlayer)
