@@ -20,16 +20,14 @@ namespace arkania;
 use arkania\libs\customies\block\CustomiesBlockFactory;
 use arkania\libs\muqsit\invmenu\InvMenuHandler;
 use arkania\manager\EconomyManager;
-use arkania\manager\MaintenanceManager;
+use arkania\manager\ServerStatusManager;
 use arkania\manager\RanksManager;
 use arkania\manager\StatsManager;
 use arkania\manager\SynchronisationManager;
 use arkania\manager\UiManager;
 use arkania\utils\Loader;
-use arkania\utils\Permissions;
+use arkania\utils\Utils;
 use Closure;
-use pocketmine\permission\Permission;
-use pocketmine\permission\PermissionManager;
 use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\Config;
@@ -66,8 +64,8 @@ class Core extends PluginBase {
     /** @var SynchronisationManager */
     public SynchronisationManager $synchronisation;
 
-    /** @var MaintenanceManager */
-    public MaintenanceManager $maintenance;
+    /** @var ServerStatusManager */
+    public ServerStatusManager $serverStatus;
 
     protected function onLoad(): void {
         self::setInstance($this);
@@ -113,18 +111,14 @@ class Core extends PluginBase {
         $this->stats = new StatsManager($this);
         $this->economyManager = new EconomyManager();
         $this->synchronisation = new SynchronisationManager($this);
-        $this->maintenance = new MaintenanceManager($this);
-
-        /* Permission */
-        foreach (Permissions::$permissions as $permission)
-            PermissionManager::getInstance()->addPermission(new Permission($permission));
+        $this->serverStatus = new ServerStatusManager();
 
         /* Ranks */
         if (!$this->ranksManager->existRank('Joueur'))
             $this->ranksManager->addRank('Joueur');
 
         /* Logger */
-        $this->maintenance->setServerStatus('ouvert');
+        $this->serverStatus->setServerStatus('ouvert');
         $this->getLogger()->info(
             "\n     _      ____    _  __     _      _   _   ___      _".
             "\n    / \    |  _ \  | |/ /    / \    | \ | | |_ _|    / \ ".
@@ -138,16 +132,18 @@ class Core extends PluginBase {
 
     protected function onDisable(): void {
 
-        $this->maintenance->setServerStatus('ferme');
+        if (Utils::isDebug() === false){
+            $this->serverStatus->setServerStatus('ferme');
 
-        foreach ($this->getServer()->getOnlinePlayers() as $player){
+            foreach ($this->getServer()->getOnlinePlayers() as $player){
 
-            $this->ranksManager->synchroQuitRank($player);
-            $this->stats->synchroQuitStats($player);
+                $this->ranksManager->synchroQuitRank($player);
+                $this->stats->synchroQuitStats($player);
 
-            if ($this->synchronisation->isRegistered($player))
-                $this->synchronisation->saveInventory($player);
-            $player->removeCurrentWindow();
+                if ($this->synchronisation->isRegistered($player))
+                    $this->synchronisation->saveInventory($player);
+                $player->removeCurrentWindow();
+            }
         }
     }
 
