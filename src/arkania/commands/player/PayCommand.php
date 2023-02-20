@@ -19,6 +19,8 @@ namespace arkania\commands\player;
 
 use arkania\commands\BaseCommand;
 use arkania\Core;
+use arkania\manager\RanksManager;
+use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
@@ -42,8 +44,28 @@ class PayCommand extends BaseCommand {
         if (count($args) !== 2)
             return throw new InvalidCommandSyntaxException();
 
+        $target = $this->core->getServer()->getPlayerByPrefix($args[0]);
 
+        if (!is_numeric($args[1]) || $args[1] <= 0){
+            $player->sendMessage(Utils::getPrefix() . "§cMerci de mettre un nombre valide ou supérieur à 0.");
+            return true;
+        }
 
+        if (!$target instanceof Player){
+            $player->sendMessage(Utils::getPrefix() . "§cCe joueur n'est pas connecté.");
+            return true;
+        }
+
+        if (!$this->core->economyManager->getMoney($player->getName()) - $args[1] >= 0){
+            $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas les fonds requis pour effectuer cette transaction.");
+            return true;
+        }
+
+        $this->core->economyManager->addMoney($target->getName(), $args[1]);
+        $this->core->economyManager->delMoney($player->getName(), $args[1]);
+        $player->sendMessage(Utils::getPrefix() . "Vous avez envoyé §e" . $args[1] . " §rà " . RanksManager::getRanksFormatPlayer($target));
+        $target->sendMessage(Utils::getPrefix() . "Vous avez reçu §e" . $args[1] . " §r");
+        return true;
     }
 
 }

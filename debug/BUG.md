@@ -6,4 +6,4 @@
 
 | File Name    | Description                                    | Status | Merge ID |
 |--------------|------------------------------------------------|--------|----------|
-| RanksSystème | Finir le système de grade car il ne marche pas | ❌      | X        |
+| RanksSystème | Finir le système de grade car il ne marche pas | ✅      | X        |

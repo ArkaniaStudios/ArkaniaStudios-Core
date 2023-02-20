@@ -17,7 +17,6 @@ declare(strict_types=1);
 
 namespace arkania\utils;
 
-use arkania\commands\admin\DebugCommand;
 use arkania\commands\admin\NpcCommand;
 use arkania\commands\admin\ranks\AddPermissionCommand;
 use arkania\commands\admin\ranks\AddRankCommand;
@@ -32,6 +31,7 @@ use arkania\commands\player\DiscordCommand;
 use arkania\commands\player\FactionCommand;
 use arkania\commands\player\MoneyCommand;
 use arkania\commands\player\MsgCommand;
+use arkania\commands\player\PayCommand;
 use arkania\commands\player\ReplyCommand;
 use arkania\commands\player\ServerSelectorCommand;
 use arkania\commands\player\SettingsCommand;
@@ -52,8 +52,9 @@ use arkania\items\npc\NpcManagerItem;
 use arkania\libs\customies\CustomiesListener;
 use arkania\libs\customies\item\CustomiesItemFactory;
 use arkania\listener\SynchronisationListener;
-use arkania\manager\ServerStatusManager;
+use arkania\manager\EconomyManager;
 use arkania\manager\RanksManager;
+use arkania\manager\ServerStatusManager;
 use arkania\manager\SettingsManager;
 use arkania\manager\StatsManager;
 use arkania\manager\SynchronisationManager;
@@ -117,7 +118,7 @@ final class Loader {
             new DelPermissionCommand($this->core),
             new AddUPermissionCommand($this->core),
             new DelUPermissionCommand($this->core),
-            new DebugCommand(),
+            //new DebugCommand(),
 
             /* Moderation */
             new KickCommand($this->core),
@@ -132,6 +133,7 @@ final class Loader {
             new FactionCommand($this->core),
             new MoneyCommand($this->core),
             new ServerSelectorCommand($this->core),
+            new PayCommand($this->core),
         ];
 
         $this->core->getServer()->getCommandMap()->registerAll('Arkania-Commands', $commands);
@@ -163,6 +165,7 @@ final class Loader {
         FactionClass::init();
         SynchronisationManager::init();
         ServerStatusManager::init();
+        EconomyManager::init();
     }
 
     private function initTask(): void {

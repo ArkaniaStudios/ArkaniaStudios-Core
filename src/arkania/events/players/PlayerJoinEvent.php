@@ -19,6 +19,8 @@ namespace arkania\events\players;
 
 use arkania\Core;
 use arkania\manager\FactionManager;
+use arkania\manager\RanksManager;
+use arkania\utils\Utils;
 use pocketmine\event\Listener;
 
 class PlayerJoinEvent implements Listener {
@@ -32,6 +34,16 @@ class PlayerJoinEvent implements Listener {
 
     public function onPlayerJoin(\pocketmine\event\player\PlayerJoinEvent $event){
         $player = $event->getPlayer();
+
+        /* PlayerTime */
+        $this->core->stats->createTime($player);
+
+        /* Ranks */
+        $this->core->ranksManager->register($player);
+
+        if (!$this->core->ranksManager->existPlayer($player->getName()))
+            $this->core->ranksManager->setRank($player->getName(), 'Joueur');
+
 
         /* PlayerBefore */
         if (!$player->hasPlayedBefore()){
@@ -47,15 +59,11 @@ class PlayerJoinEvent implements Listener {
 
             $this->core->stats->setInscription($player, $inscription);
             $this->core->stats->addPlayerCount();
+
+            $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§e" . $player->getName() . "§f vient de rejoindre §cArkania §fpour la première fois ! (§7§o#" . $this->core->stats->getPlayerRegister() . "§f)");
+            $event->setJoinMessage('');
+        }else{
+            $event->setJoinMessage('[§a+§f] ' . RanksManager::getRanksFormatPlayer($player));
         }
-
-        /* PlayerTime */
-        $this->core->stats->createTime($player);
-
-        /* Ranks */
-        $this->core->ranksManager->register($player);
-
-        if (!$this->core->ranksManager->existPlayer($player->getName()))
-            $this->core->ranksManager->setRank($player->getName(), 'Joueur');
     }
 }

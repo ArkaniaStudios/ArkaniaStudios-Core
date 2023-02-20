@@ -20,6 +20,7 @@ namespace arkania\commands\player;
 use arkania\commands\BaseCommand;
 use arkania\Core;
 use arkania\data\SettingsNameIds;
+use arkania\manager\RanksManager;
 use arkania\manager\SettingsManager;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
@@ -46,6 +47,12 @@ class MsgCommand extends BaseCommand {
 
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
 
+        if ($player instanceof Player)
+            $rank = RanksManager::getRanksFormatPlayer($player);
+        else
+            $rank = '§cAdministrateur §f- §cConsole';
+
+
         if (count($args) < 2)
             return throw new InvalidCommandSyntaxException();
 
@@ -63,25 +70,25 @@ class MsgCommand extends BaseCommand {
 
         $settings = new SettingsManager($this->core, $target);
 
-        if ((bool)$settings->getSettings(SettingsNameIds::MESSAGE) === true){
+        if ($settings->getSettings(SettingsNameIds::MESSAGE) === true){
             if (!$player->hasPermission('arkania:permission.settings.bypass'))
                 $player->sendMessage(Utils::getPrefix() . "§cCe joueur a désactivé les messages privés.");
             else{
-                $target->sendMessage("[§eMessage§f] §6" . $player->getName() . " §7-> §6Vous §7§l» §r" . $message);
-                $player->sendMessage("[§eMessage§f] §6Vous §7-> " . $target->getName() . " §7§l» §r" . $message);
+                $target->sendMessage("[§eMessage§f] §6" . $rank . " §7-> §6Vous §7§l» §r" . $message);
+                $player->sendMessage("[§eMessage§f] §6Vous §7-> " . RanksManager::getRanksFormatPlayer($target) . " §7§l» §r" . $message);
                 self::$lastMessager[$player->getName()] = $target->getName();
                 self::$lastMessager[$target->getName()] = $player->getName();
             }
             return true;
         }
 
-        $target->sendMessage("[§eMessage§f] §6" . $player->getName() . " §7-> §6Vous §7§l» §r" . $message);
-        $player->sendMessage("[§eMessage§f] §6Vous §7-> " . $target->getName() . " §7§l» §r" . $message);
+        $target->sendMessage("[§eMessage§f] §6" . $rank . " §7-> §6Vous §7§l» §r" . $message);
+        $player->sendMessage("[§eMessage§f] §6Vous §7-> " . RanksManager::getRanksFormatPlayer($target) . " §7§l» §r" . $message);
 
         self::$lastMessager[$player->getName()] = $target->getName();
         self::$lastMessager[$target->getName()] = $player->getName();
 
-        $this->sendStaffLogs($target->getName() . ' -> ' . $player->getName() . ": " . $message);
+        $this->sendStaffLogs(RanksManager::getRanksFormatPlayer($target) . ' -> ' . $rank . ": " . $message);
 
         return true;
     }

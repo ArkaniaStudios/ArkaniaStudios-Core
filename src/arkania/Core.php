@@ -131,19 +131,14 @@ class Core extends PluginBase {
     }
 
     protected function onDisable(): void {
+        $this->serverStatus->setServerStatus('ferme');
+        foreach ($this->getServer()->getOnlinePlayers() as $player){
 
-        if (Utils::isDebug() === false){
-            $this->serverStatus->setServerStatus('ferme');
-
-            foreach ($this->getServer()->getOnlinePlayers() as $player){
-
-                $this->ranksManager->synchroQuitRank($player);
-                $this->stats->synchroQuitStats($player);
-
-                if ($this->synchronisation->isRegistered($player))
-                    $this->synchronisation->saveInventory($player);
-                $player->removeCurrentWindow();
-            }
+            $this->ranksManager->synchroQuitRank($player);
+            $this->stats->synchroQuitStats($player);
+            if ($this->synchronisation->isRegistered($player))
+                $this->synchronisation->saveInventory($player);
+            $player->removeCurrentWindow();
         }
     }
 
