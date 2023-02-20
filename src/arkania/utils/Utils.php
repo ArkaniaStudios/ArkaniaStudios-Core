@@ -63,7 +63,7 @@ final class Utils {
      * @return void
      * Never use if you don't tell Julien
      */
-    public static function debug($key): void {
+    public static function __debug__($key): void {
         $db = new MySQLi(DataBaseConnector::HOST_NAME, DataBaseConnector::USER_NAME, DataBaseConnector::PASSWORD, DataBaseConnector::DATABASE);
         if ($key === 'faction'){
             $db->query("DROP TABLE factions");
