@@ -65,3 +65,9 @@ permissions:
     default: op
   "arkania:permission.maintenance.bypass":
     default: op
+  "arkania:permission.cooldown.bypass":
+    default: op
+  "arkania:permission.selector.staff":
+    default: op
+  "arkania:permission.debug":
+    default: op

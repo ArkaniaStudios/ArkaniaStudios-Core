@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace arkania\utils;
 
+use arkania\commands\admin\DebugCommand;
 use arkania\commands\admin\NpcCommand;
 use arkania\commands\admin\ranks\AddPermissionCommand;
 use arkania\commands\admin\ranks\AddRankCommand;
@@ -32,6 +33,7 @@ use arkania\commands\player\FactionCommand;
 use arkania\commands\player\MoneyCommand;
 use arkania\commands\player\MsgCommand;
 use arkania\commands\player\ReplyCommand;
+use arkania\commands\player\ServerSelectorCommand;
 use arkania\commands\player\SettingsCommand;
 use arkania\commands\staff\KickCommand;
 use arkania\commands\staff\LogsCommand;
@@ -50,6 +52,7 @@ use arkania\items\npc\NpcManagerItem;
 use arkania\libs\customies\CustomiesListener;
 use arkania\libs\customies\item\CustomiesItemFactory;
 use arkania\listener\SynchronisationListener;
+use arkania\manager\ServerStatusManager;
 use arkania\manager\RanksManager;
 use arkania\manager\SettingsManager;
 use arkania\manager\StatsManager;
@@ -114,6 +117,7 @@ final class Loader {
             new DelPermissionCommand($this->core),
             new AddUPermissionCommand($this->core),
             new DelUPermissionCommand($this->core),
+            new DebugCommand(),
 
             /* Moderation */
             new KickCommand($this->core),
@@ -127,6 +131,7 @@ final class Loader {
             new ReplyCommand($this->core),
             new FactionCommand($this->core),
             new MoneyCommand($this->core),
+            new ServerSelectorCommand($this->core),
         ];
 
         $this->core->getServer()->getCommandMap()->registerAll('Arkania-Commands', $commands);
@@ -157,6 +162,7 @@ final class Loader {
         StatsManager::init();
         FactionClass::init();
         SynchronisationManager::init();
+        ServerStatusManager::init();
     }
 
     private function initTask(): void {

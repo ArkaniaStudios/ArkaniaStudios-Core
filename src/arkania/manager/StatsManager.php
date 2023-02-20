@@ -48,6 +48,7 @@ final class StatsManager {
         $db->query("CREATE TABLE IF NOT EXISTS kills(name VARCHAR(20), killCount INT)");
         $db->query("CREATE TABLE IF NOT EXISTS deaths(name VARCHAR(20), DeathCount INT)");
         $db->query("CREATE TABLE IF NOT EXISTS player_time(name VARCHAR(20), time FLOAT)");
+        $db->query("CREATE TABLE IF NOT EXISTS player_number(number INT)");
         $db->close();
     }
 
@@ -254,4 +255,28 @@ final class StatsManager {
         }
         $db->close();
     }
+
+    /**
+     * @return void
+     */
+    public function addPlayerCount(): void {
+        $db = self::getDatabase()->query("SELECT * FROM player_number");
+        $number = $db->num_rows > 0;
+        if (!$number)
+            Query::query("INSERT INTO player_number(number) VALUES ('1')");
+        else
+            Query::query("UPDATE player_number SET number=number + '1'");
+        $db->close();
+    }
+
+    /**
+     * @return int
+     */
+    public function getPlayerRegister(): int {
+        $db = self::getDatabase()->query("SELECT * FROM player_number");
+        $number = $db->fetch_array()[0] ?? 0;
+        $db->close();
+        return (int)$number;
+    }
+
 }

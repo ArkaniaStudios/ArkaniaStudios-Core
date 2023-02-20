@@ -17,20 +17,12 @@ declare(strict_types=1);
 
 namespace arkania\manager;
 
-use arkania\Core;
 use arkania\data\DataBaseConnector;
 use arkania\utils\Query;
 use arkania\utils\Utils;
 use mysqli;
 
-final class MaintenanceManager {
-
-    /** @var Core */
-    private Core $core;
-
-    public function __construct(Core $core) {
-        $this->core = $core;
-    }
+final class ServerStatusManager {
 
     /**
      * @return mysqli
@@ -45,14 +37,15 @@ final class MaintenanceManager {
     public static function init(): void {
         $db = self::getDataBase();
         $db->query("CREATE TABLE IF NOT EXISTS server_status(serverName VARCHAR(20), status TEXT)");
+        $db->query("CREATE TABLE IF NOT EXISTS debug(isDebug BOOL)");
         $db->close();
     }
 
     /**
-     * @return string
+     * @param string $serverName
+     * @return string|bool
      */
-    public function getServerStatus(): string {
-        $serverName = Utils::getServerName();
+    public function getServerStatus(string $serverName): string|bool {
         $db = self::getDataBase()->query("SELECT status FROM server_status WHERE serverName='" . $serverName . "'");
         $status = $db->fetch_array()[0] ?? false;
         if ($status === 'ouvert')
@@ -70,7 +63,7 @@ final class MaintenanceManager {
      */
     public function setServerStatus(string $key): void {
         $serverName = Utils::getServerName();
-        $db = self::getDataBase()->query("SELECT * FROM server_status WHERE name='$serverName'");
+        $db = self::getDataBase()->query("SELECT * FROM server_status WHERE serverName='$serverName'");
         $line = $db->num_rows > 0;
         if (!$line)
             Query::query("INSERT INTO server_status(serverName, status) VALUES ('$serverName', '$key')");

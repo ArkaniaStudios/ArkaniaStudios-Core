@@ -350,4 +350,27 @@ final class RanksManager {
         foreach (Server::getInstance()->getOnlinePlayers() as $onlinePlayer)
             $this->updatePermission($onlinePlayer);
     }
+
+    /**
+     * @param string $playerName
+     * @return string
+     */
+    public function getRankColor(string $playerName): string {
+        $ranks = $this->getPlayerRank($playerName);
+        if ($ranks === 'Joueur') return '§7Joueur';
+        if ($ranks === 'Développeur') return '§2Développeur';
+        if ($ranks === 'Administrateur') return '§6Administrateur';
+        if ($ranks === 'Co-Fondateur') return '§cCo§f-§cFondateur';
+        if ($ranks === 'Fondateur') return '§4Fondateur';
+        return '§7Joueur';
+    }
+
+    /**
+     * @param Player $player
+     * @return string
+     */
+    public static function getRanksFormatPlayer(Player $player): string{
+        return '';
+    }
+
 }

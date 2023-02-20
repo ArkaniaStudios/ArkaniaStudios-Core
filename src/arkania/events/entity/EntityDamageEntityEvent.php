@@ -29,18 +29,19 @@ class EntityDamageEntityEvent implements Listener{
         $target = $event->getEntity();
         $factionManager = new FactionManager();
 
-        var_dump('test');
         if ($player instanceof Player && $target instanceof Player) {
-            var_dump('test2');
-            var_dump($factionManager->getFaction($target->getName()));
-            var_dump($factionManager->getFaction($player->getName()));
             if ($factionManager->getFaction($player->getName()) === $factionManager->getFaction($target->getName()))
-                $event->cancel();
+                if ($factionManager->getFaction($player->getName()) !== '...')
+                    $event->cancel();
 
-            $allie = $factionManager->getFactionClass($factionManager->getFaction($target->getName()), $target->getName())->getAllies();
+            if ($factionManager->getFaction($player->getName()) !== '...'){
+                if ($factionManager->getFaction($target->getName()) !== '...'){
+                    $allie = $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->getAllies();
 
-            if (in_array($factionManager->getFaction($player->getName()), $allie))
-                $event->cancel();
+                    if (in_array($factionManager->getFaction($target->getName()), $allie))
+                        $event->cancel();
+                }
+            }
         }
     }
 }

@@ -18,24 +18,25 @@ declare(strict_types=1);
 namespace arkania\manager;
 
 use arkania\commands\BaseCommand;
+use arkania\commands\player\ServerSelectorCommand;
 use arkania\Core;
 use arkania\data\SettingsNameIds;
 use arkania\entity\base\BaseEntity;
 use arkania\libs\form\CustomForm;
 use arkania\libs\form\SimpleForm;
 use arkania\libs\muqsit\invmenu\InvMenu;
-use arkania\libs\muqsit\invmenu\transaction\DeterministicInvMenuTransaction;
 use arkania\libs\muqsit\invmenu\transaction\InvMenuTransaction;
 use arkania\libs\muqsit\invmenu\transaction\InvMenuTransactionResult;
 use arkania\libs\muqsit\invmenu\type\InvMenuTypeIds;
+use arkania\tasks\TransfertTask;
 use arkania\utils\Utils;
 use pocketmine\block\VanillaBlocks;
-use pocketmine\inventory\Inventory;
-use pocketmine\inventory\transaction\InventoryTransaction;
+use pocketmine\item\enchantment\EnchantmentInstance;
+use pocketmine\item\enchantment\VanillaEnchantments;
+use pocketmine\item\Item;
 use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;
 use pocketmine\Server;
-use function PHPUnit\TestFixture\func;
 
 final class UiManager {
 
@@ -183,13 +184,7 @@ final class UiManager {
 
         $menu = InvMenu::create(InvMenuTypeIds::TYPE_DOUBLE_CHEST);
         $menu->setName('             §c- §fSettings §c-');
-        $glass = VanillaBlocks::STAINED_GLASS_PANE()->asItem()->setCustomName(' ');
-        $menu->getInventory()->setItem(0, $glass);
-        $menu->getInventory()->setItem(1, $glass);
-        $menu->getInventory()->setItem(7, $glass);
-        $menu->getInventory()->setItem(8, $glass);
-        $menu->getInventory()->setItem(9, $glass);
-        $menu->getInventory()->setItem(17, $glass);
+        $glass = $this->setBaseInventoryConfig($menu);
         $menu->getInventory()->setItem(20, VanillaItems::CLOCK()->setCustomName('§7-> §fClearLag Message')->setLore(["\n", '§7-> §f' . $statusC]));
         $menu->getInventory()->setItem(24, VanillaItems::PAPER()->setCustomName('§7-> §fMessage')->setLore(["\n", '§7-> §f' . $statusM]));
         $menu->getInventory()->setItem(31, VanillaItems::SNOWBALL()->setCustomName('§7-> §fTeleport')->setLore(["\n", '§7-> §f' . $statusT]));
@@ -315,4 +310,209 @@ final class UiManager {
         $form->setContent("§7» §rVoici les informations de la faction : §e" . $faction . "§f.\n\nChef de faction: §e" . $factionInfo->getOwner() . "\n§fDate de création: §e" . $factionInfo->getCreationDate() . "\n§fDescription: §e" . $description . "\n§fPower: §e" . $factionInfo->getPower() . "\n§fMoney: §e" . $factionInfo->getMoney() . "\n\n");
         $player->sendForm($form);
     }
+
+    /**
+     * @param Player $player
+     * @return void
+     */
+    public function sendServerSelectorForm(Player $player): void {
+        $menu = InvMenu::create(InvMenuTypeIds::TYPE_DOUBLE_CHEST);
+        $menu->setName('             §c- §fServers §c-');
+        if ($player->hasPermission('arkania:permission.selector.staff'))
+            $menu->getInventory()->setItem(8, VanillaItems::STICK()->setCustomName('§9Server Développement')->addEnchantment(new EnchantmentInstance(VanillaEnchantments::INFINITY(), 10)));
+        $menu->getInventory()->setItem(20, VanillaItems::DIAMOND_SWORD()->setCustomName('§6Thêta')->setLore(['Faction #1'])->addEnchantment(new EnchantmentInstance(VanillaEnchantments::INFINITY(), 10)));
+        $menu->getInventory()->setItem(22, VanillaItems::DIAMOND_SWORD()->setCustomName('§aZeta')->setLore(['Faction #2'])->addEnchantment(new EnchantmentInstance(VanillaEnchantments::INFINITY(), 10)));
+        $menu->getInventory()->setItem(24, VanillaItems::DIAMOND_SWORD()->setCustomName('§7Epsilon')->setLore(['Faction #3'])->addEnchantment(new EnchantmentInstance(VanillaEnchantments::INFINITY(), 10)));
+        $menu->getInventory()->setItem(28, VanillaItems::IRON_PICKAXE()->setCustomName('§8Minage #1')->addEnchantment(new EnchantmentInstance(VanillaEnchantments::INFINITY(), 10)));
+        $menu->getInventory()->setItem(30, VanillaItems::IRON_PICKAXE()->setCustomName('§8Minage #2')->addEnchantment(new EnchantmentInstance(VanillaEnchantments::INFINITY(), 10)));
+        $menu->getInventory()->setItem(32, VanillaItems::IRON_PICKAXE()->setCustomName('§8Minage #3')->addEnchantment(new EnchantmentInstance(VanillaEnchantments::INFINITY(), 10)));
+        $menu->getInventory()->setItem(34, VanillaItems::GOLDEN_PICKAXE()->setCustomName('§8Minage #4')->addEnchantment(new EnchantmentInstance(VanillaEnchantments::INFINITY(), 10)));
+        $menu->getInventory()->setItem(40, VanillaItems::COMPASS()->setCustomName('§eLobby')->addEnchantment(new EnchantmentInstance(VanillaEnchantments::INFINITY(), 10)));
+        $menu->setListener(function(InvMenuTransaction $transaction): InvMenuTransactionResult{
+            $player = $transaction->getPlayer();
+            $scheduler = Core::getInstance()->getScheduler();
+            $serverStatus = Core::getInstance()->serverStatus;
+
+            if ($transaction->getItemClicked()->getCustomName() === '§6Thêta'){
+                if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
+                    $player->removeCurrentWindow();
+                    $player->sendMessage(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
+                }else{
+                    if ($serverStatus->getServerStatus('Theta') === '§cFermé' || $serverStatus->getServerStatus('Theta') === false){
+                        $player->removeCurrentWindow();
+                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement fermé. Merci de contacter un membre de l'administration ou d'aller voir dans les annonces du discord.");
+                    }elseif($serverStatus->getServerStatus('Theta') === '§6Maintenance'){
+                        $player->removeCurrentWindow();
+                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement en maintenance. Rendez-vous sur le discord pour de plus amples explications.");
+                    }else{
+                        ServerSelectorCommand::$teleport[$player->getName()] = $player->getName();
+                        $player->removeCurrentWindow();
+                        $scheduler->scheduleRepeatingTask(new TransfertTask('faction', 1, $player), 20);
+                        $player->sendMessage(Utils::getPrefix() . "§aSauvegarde de vos données...");
+                    }
+                }
+            }elseif($transaction->getItemClicked()->getCustomName() === '§aZeta'){
+                if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
+                    $player->removeCurrentWindow();
+                    $player->sendMessage(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
+                }else{
+                    if ($serverStatus->getServerStatus('Zeta') === '§cFermé' || $serverStatus->getServerStatus('Zeta') === false){
+                        $player->removeCurrentWindow();
+                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement fermé. Merci de contacter un membre de l'administration ou d'aller voir dans les annonces du discord.");
+                    }elseif($serverStatus->getServerStatus('Zeta') === '§6Maintenance'){
+                        $player->removeCurrentWindow();
+                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement en maintenance. Rendez-vous sur le discord pour de plus amples explications.");
+                    }else {
+                        ServerSelectorCommand::$teleport[$player->getName()] = $player->getName();
+                        $player->removeCurrentWindow();
+                        $scheduler->scheduleRepeatingTask(new TransfertTask('faction', 2, $player), 20);
+                        $player->sendMessage(Utils::getPrefix() . "§aSauvegarde de vos données...");
+                    }
+
+                }
+            }elseif($transaction->getItemClicked()->getCustomName() === '§7Epsilon'){
+                if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
+                    $player->removeCurrentWindow();
+                    $player->sendMessage(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
+                }else{
+                    if ($serverStatus->getServerStatus('Epsilon') === '§cFermé' || $serverStatus->getServerStatus('Epsilon') === false){
+                        $player->removeCurrentWindow();
+                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement fermé. Merci de contacter un membre de l'administration ou d'aller voir dans les annonces du discord.");
+                    }elseif($serverStatus->getServerStatus('Epsilon') === '§6Maintenance'){
+                        $player->removeCurrentWindow();
+                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement en maintenance. Rendez-vous sur le discord pour de plus amples explications.");
+                    }else{
+                        ServerSelectorCommand::$teleport[$player->getName()] = $player->getName();
+                        $player->removeCurrentWindow();
+                        $scheduler->scheduleRepeatingTask(new TransfertTask('faction', 3, $player), 20);
+                        $player->sendMessage(Utils::getPrefix() . "§aSauvegarde de vos données...");
+                    }
+                }
+            }elseif($transaction->getItemClicked()->getCustomName() === '§8Minage #1'){
+                if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
+                    $player->removeCurrentWindow();
+                    $player->sendMessage(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
+                }else{
+                    if ($serverStatus->getServerStatus('Minage1') === '§cFermé' || $serverStatus->getServerStatus('Minage1') === false){
+                        $player->removeCurrentWindow();
+                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement fermé. Merci de contacter un membre de l'administration ou d'aller voir dans les annonces du discord.");
+                    }elseif($serverStatus->getServerStatus('Minage1') === '§6Maintenance'){
+                        $player->removeCurrentWindow();
+                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement en maintenance. Rendez-vous sur le discord pour de plus amples explications.");
+                    }else{
+                        ServerSelectorCommand::$teleport[$player->getName()] = $player->getName();
+                        $player->removeCurrentWindow();
+                        $scheduler->scheduleRepeatingTask(new TransfertTask('minage', 1, $player), 20);
+                        $player->sendMessage(Utils::getPrefix() . "§aSauvegarde de vos données...");
+                    }
+                }
+            }elseif($transaction->getItemClicked()->getCustomName() === '§8Minage #2'){
+                if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
+                    $player->removeCurrentWindow();
+                    $player->sendMessage(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
+                }else{
+                    if ($serverStatus->getServerStatus('Minage2') === '§cFermé' || $serverStatus->getServerStatus('Minage2') === false){
+                        $player->removeCurrentWindow();
+                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement fermé. Merci de contacter un membre de l'administration ou d'aller voir dans les annonces du discord.");
+                    }elseif($serverStatus->getServerStatus('Minage2') === '§6Maintenance'){
+                        $player->removeCurrentWindow();
+                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement en maintenance. Rendez-vous sur le discord pour de plus amples explications.");
+                    }else{
+                        ServerSelectorCommand::$teleport[$player->getName()] = $player->getName();
+                        $player->removeCurrentWindow();
+                        $scheduler->scheduleRepeatingTask(new TransfertTask('minage', 2, $player), 20);
+                        $player->sendMessage(Utils::getPrefix() . "§aSauvegarde de vos données...");
+                    }
+                }
+            }elseif($transaction->getItemClicked()->getCustomName() === '§8Minage #3'){
+                if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
+                    $player->removeCurrentWindow();
+                    $player->sendMessage(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
+                }else{
+                    if ($serverStatus->getServerStatus('Minage3') === '§cFermé' || $serverStatus->getServerStatus('Minage3') === false){
+                        $player->removeCurrentWindow();
+                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement fermé. Merci de contacter un membre de l'administration ou d'aller voir dans les annonces du discord.");
+                    }elseif($serverStatus->getServerStatus('Minage3') === '§6Maintenance'){
+                        $player->removeCurrentWindow();
+                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement en maintenance. Rendez-vous sur le discord pour de plus amples explications.");
+                    }else{
+                        ServerSelectorCommand::$teleport[$player->getName()] = $player->getName();
+                        $player->removeCurrentWindow();
+                        $scheduler->scheduleRepeatingTask(new TransfertTask('minage', 3, $player), 20);
+                        $player->sendMessage(Utils::getPrefix() . "§aSauvegarde de vos données...");
+                    }
+                }
+            }elseif($transaction->getItemClicked()->getCustomName() === '§8Minage #4'){
+                if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
+                    $player->removeCurrentWindow();
+                    $player->sendMessage(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
+                }else{
+                    if ($serverStatus->getServerStatus('Minage4') === '§cFermé' || $serverStatus->getServerStatus('Minage4') === false){
+                        $player->removeCurrentWindow();
+                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement fermé. Merci de contacter un membre de l'administration ou d'aller voir dans les annonces du discord.");
+                    }elseif($serverStatus->getServerStatus('Theta') === '§6Maintenance'){
+                        $player->removeCurrentWindow();
+                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement en maintenance. Rendez-vous sur le discord pour de plus amples explications.");
+                    }else{
+                         ServerSelectorCommand::$teleport[$player->getName()] = $player->getName();
+                         $player->removeCurrentWindow();
+                         $scheduler->scheduleRepeatingTask(new TransfertTask('minage', 4, $player), 20);
+                         $player->sendMessage(Utils::getPrefix() . "§aSauvegarde de vos données...");
+                    }
+                }
+            }elseif($transaction->getItemClicked()->getCustomName() === '§eLobby'){
+                if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
+                    $player->removeCurrentWindow();
+                    $player->sendMessage(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
+                }else{
+                    $player->removeCurrentWindow();
+                    if ($serverStatus->getServerStatus('Lobby1') === '§cFermé' || $serverStatus->getServerStatus('Lobby1') === false){
+                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement fermé. Merci de contacter un membre de l'administration ou d'aller voir dans les annonces du discord.");
+                    }elseif($serverStatus->getServerStatus('Lobby1') === '§6Maintenance'){
+                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement en maintenance. Rendez-vous sur le discord pour de plus amples explications.");
+                    }else{
+                        ServerSelectorCommand::$teleport[$player->getName()] = $player->getName();
+                        $scheduler->scheduleRepeatingTask(new TransfertTask('lobby', 1, $player), 20);
+                        $player->sendMessage(Utils::getPrefix() . "§aSauvegarde de vos données...");
+                    }
+                }
+            }elseif($transaction->getItemClicked()->getCustomName() === '9Server Développement'){
+                if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
+                    $player->removeCurrentWindow();
+                    $player->sendMessage(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
+                }else{
+                    $player->removeCurrentWindow();
+                    if ($serverStatus->getServerStatus('ServerTest') === '§cFermé' || $serverStatus->getServerStatus('ServerTest') === false){
+                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement fermé. Merci de contacter un membre de l'administration ou d'aller voir dans les annonces du discord.");
+                    }elseif($serverStatus->getServerStatus('ServerTest') === '§6Maintenance'){
+                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement en maintenance. Rendez-vous sur le discord pour de plus amples explications.");
+                    }else{
+                        ServerSelectorCommand::$teleport[$player->getName()] = $player->getName();
+                        $scheduler->scheduleRepeatingTask(new TransfertTask('dev', 1, $player), 20);
+                        $player->sendMessage(Utils::getPrefix() . "§aSauvegarde de vos données...");
+                    }
+                }
+            }
+
+            return $transaction->discard();
+        });
+        $menu->send($player);
+    }
+
+    /**
+     * @param InvMenu $menu
+     * @return Item
+     */
+    private function setBaseInventoryConfig(InvMenu $menu): Item
+    {
+        $glass = VanillaBlocks::STAINED_GLASS_PANE()->asItem()->setCustomName(' ');
+        $menu->getInventory()->setItem(0, $glass);
+        $menu->getInventory()->setItem(1, $glass);
+        $menu->getInventory()->setItem(7, $glass);
+        $menu->getInventory()->setItem(8, $glass);
+        $menu->getInventory()->setItem(9, $glass);
+        $menu->getInventory()->setItem(17, $glass);
+        return $glass;
+    }
+
 }

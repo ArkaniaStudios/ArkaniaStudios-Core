@@ -46,6 +46,7 @@ class PlayerJoinEvent implements Listener {
             $inscription = $jour . ' ' . date('d') . ' ' . $mois . ' ' . $annee;
 
             $this->core->stats->setInscription($player, $inscription);
+            $this->core->stats->addPlayerCount();
         }
 
         /* PlayerTime */

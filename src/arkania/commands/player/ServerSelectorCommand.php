@@ -19,6 +19,8 @@ namespace arkania\commands\player;
 
 use arkania\commands\BaseCommand;
 use arkania\Core;
+use arkania\libs\muqsit\invmenu\InvMenu;
+use arkania\libs\muqsit\invmenu\type\InvMenuTypeIds;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
@@ -28,6 +30,9 @@ class ServerSelectorCommand extends BaseCommand {
 
     /** @var Core */
     private Core $core;
+
+    /** @var array */
+    public static array $teleport = [];
 
     public function __construct(Core $core) {
         parent::__construct('selector',
@@ -40,20 +45,10 @@ class ServerSelectorCommand extends BaseCommand {
         if (!$player instanceof Player)
             return true;
 
-        if (count($args) !== 2)
+        if (count($args) !== 0)
             return throw new InvalidCommandSyntaxException();
 
-        if (strtolower($args[0]) === 'faction'){
-            if (!is_numeric($args[1]) || $args[1] > 3){
-                $player->sendMessage(Utils::getPrefix() . "§cMerci de mettre le numéro du faction sur lequel vous souhaitez vous téléporter.");
-                return true;
-            }
-
-            if ($args[1] === '1'){
-
-            }
-
-        }
+        $this->core->ui->sendServerSelectorForm($player);
         return true;
     }
 
