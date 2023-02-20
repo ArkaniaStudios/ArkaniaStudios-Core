@@ -366,11 +366,25 @@ final class RanksManager {
     }
 
     /**
+     * @param string $playerName
+     * @return string
+     */
+    private function getRankColorBis(string $playerName): string {
+        $ranks = $this->getPlayerRank($playerName);
+        if ($ranks === 'Joueur') return '§7';
+        if ($ranks === 'Développeur') return '§2';
+        if ($ranks === 'Administrateur') return '§6';
+        if ($ranks === 'Co-Fondateur') return '§c';
+        if ($ranks === 'Fondateur') return '§4';
+        return '§7Joueur';
+    }
+
+    /**
      * @param Player $player
      * @return string
      */
     public static function getRanksFormatPlayer(Player $player): string{
-        return '';
+        return (new RanksManager)->getRankColor($player->getName()) . ' §f- ' . (new RanksManager)->getRankColorBis($player->getName()) . $player->getName() . ' §r';
     }
 
 }

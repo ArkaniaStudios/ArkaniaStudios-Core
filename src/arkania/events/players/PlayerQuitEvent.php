@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace arkania\events\players;
 
 use arkania\Core;
+use arkania\manager\RanksManager;
 use pocketmine\event\Listener;
 
 class PlayerQuitEvent implements Listener {
@@ -34,6 +35,9 @@ class PlayerQuitEvent implements Listener {
 
         /* Ranks */
         $this->core->ranksManager->unRegister($player);
+
+        /* QuitMessage */
+        $event->setQuitMessage('[§c-§f] ' . RanksManager::getRanksFormatPlayer($player));
 
     }
 }

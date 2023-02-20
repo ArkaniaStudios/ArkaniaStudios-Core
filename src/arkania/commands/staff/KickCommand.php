@@ -19,6 +19,7 @@ namespace arkania\commands\staff;
 
 use arkania\commands\BaseCommand;
 use arkania\Core;
+use arkania\manager\RanksManager;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
@@ -39,6 +40,13 @@ class KickCommand extends BaseCommand {
     }
 
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
+
+        if ($player instanceof Player)
+            $rank = RanksManager::getRanksFormatPlayer($player);
+        else
+            $rank = '§cAdministrateur §f- §cConsole';
+
+
         if (!$this->testPermission($player))
             return true;
 
@@ -53,17 +61,17 @@ class KickCommand extends BaseCommand {
         }
 
         if (!isset($args[1])) {
-            $target->disconnect("§7» §cVous avez été expulsé d'Arkania: \n§7» §cStaff: " . $player->getName() . "\n§7» §cRaison: Aucune");
+            $target->disconnect("§7» §cVous avez été expulsé d'Arkania: \n§7» §cStaff: " . $rank . "\n§7» §cRaison: Aucune");
             $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§c" . $target->getName() . "§c vient de se faire expulsé d'Arkania pour le motif Aucun !");
-            $this->sendStaffLogs($target->getName() . " vient de se faire kick par " . $player->getName());
+            $this->sendStaffLogs($target->getName() . " vient de se faire kick par " . $rank);
         } else {
             $raison = [];
             for ($i = 1; $i < count($args); $i++)
                 $raison[] = $args[$i];
             $raison = implode(' ', $raison);
-            $target->disconnect("§7» §cVous avez été expulsé d'Arkania: \n§7» §cStaff: " . $player->getName() . "\n§7» §cRaison: $raison");
+            $target->disconnect("§7» §cVous avez été expulsé d'Arkania: \n§7» §cStaff: " . $rank . "\n§7» §cRaison: $raison");
             $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§c" . $target->getName() . "§c vient de se faire expulsé d'Arkania pour le motif $raison !");
-            $this->sendStaffLogs($target->getName() . " vient de se faire kick par " . $player->getName() . " pour le motif $raison");
+            $this->sendStaffLogs($target->getName() . " vient de se faire kick par " . $rank . " pour le motif $raison");
         }
         return true;
     }

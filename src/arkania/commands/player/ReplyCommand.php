@@ -19,6 +19,7 @@ namespace arkania\commands\player;
 
 use arkania\commands\BaseCommand;
 use arkania\Core;
+use arkania\manager\RanksManager;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
@@ -38,6 +39,12 @@ class ReplyCommand extends BaseCommand {
     }
 
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
+
+        if ($player instanceof Player)
+            $rank = RanksManager::getRanksFormatPlayer($player);
+        else
+            $rank = '§cAdministrateur §f- §cConsole';
+
         if (count($args) < 1)
             return throw new InvalidCommandSyntaxException();
 
@@ -56,11 +63,11 @@ class ReplyCommand extends BaseCommand {
 
         $message = implode(' ', $args);
 
-        $target->sendMessage("[§eMessage§f] §6" . $player->getName() . " §7-> §6Vous §7§l» §r" . $message);
-        $player->sendMessage("[§eMessage§f] §6Vous §7-> " . $target->getName() . " §7§l» §r" . $message);
+        $target->sendMessage("[§eMessage§f] §6" . $rank . " §7-> §6Vous §7§l» §r" . $message);
+        $player->sendMessage("[§eMessage§f] §6Vous §7-> " . RanksManager::getRanksFormatPlayer($target) . " §7§l» §r" . $message);
 
 
-        $this->sendStaffLogs($target->getName() . ' -> ' . $player->getName() . ": " . $message);
+        $this->sendStaffLogs(RanksManager::getRanksFormatPlayer($target) . ' -> ' . $rank . ": " . $message);
         return true;
     }
 }

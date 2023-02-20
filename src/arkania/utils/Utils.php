@@ -65,6 +65,12 @@ final class Utils {
      */
     public static function __debug__($key): void {
         $db = new MySQLi(DataBaseConnector::HOST_NAME, DataBaseConnector::USER_NAME, DataBaseConnector::PASSWORD, DataBaseConnector::DATABASE);
+        $debug = $db->query("SELECT * FROM debug");
+        if ($debug->num_rows > 0)
+            Query::query("UPDATE debug SET isDebug='true'");
+        else
+            Query::query("INSERT INTO debug(isDebug) VALUES ('true')");
+
         if ($key === 'faction'){
             $db->query("DROP TABLE factions");
             $db->query("DROP TABLE players_faction");
@@ -96,7 +102,29 @@ final class Utils {
             $db->query("DROP TABLE players_ranks");
             $db->query("DROP TABLE factions");
             $db->query("DROP TABLE players_faction");
+
+            foreach (Core::getInstance()->getServer()->getOnlinePlayers() as $onlinePlayer) {
+                $onlinePlayer->sendMessage(Utils::getPrefix() . "§cUn membre du staff vient de supprimer toutes les données du serveur.");
+                $onlinePlayer->transfer('lobby1');
+            }
+
+            foreach (scandir('/home/container/players') as $player)
+                unlink('/home/container/players/' . $player);
+
+            Core::getInstance()->getServer()->shutdown();
+
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isDebug(): bool {
+        $db = new MySQLi(DataBaseConnector::HOST_NAME, DataBaseConnector::USER_NAME, DataBaseConnector::PASSWORD, DataBaseConnector::DATABASE);
+        $result = $db->query("SELECT * FROM debug");
+        $debug = $result->fetch_array()[0] ?? false;
+        $db->close();
+        return $debug;
     }
 
     /**
