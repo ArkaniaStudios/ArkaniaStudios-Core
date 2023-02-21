@@ -18,7 +18,6 @@ declare(strict_types=1);
 namespace arkania\events\players;
 
 use arkania\Core;
-use arkania\manager\FactionManager;
 use arkania\manager\RanksManager;
 use arkania\utils\Utils;
 use pocketmine\event\Listener;
@@ -43,6 +42,10 @@ class PlayerJoinEvent implements Listener {
 
         if (!$this->core->ranksManager->existPlayer($player->getName()))
             $this->core->ranksManager->setRank($player->getName(), 'Joueur');
+
+        /* Economy */
+        if (!$this->core->economyManager->hasAccount($player->getName()))
+            $this->core->economyManager->resetMoney($player->getName());
 
 
         /* PlayerBefore */

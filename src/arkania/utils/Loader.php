@@ -17,6 +17,10 @@ declare(strict_types=1);
 
 namespace arkania\utils;
 
+use arkania\commands\admin\money\AddMoneyCommand;
+use arkania\commands\admin\money\DelMoneyCommand;
+use arkania\commands\admin\money\ResetMoneyCommand;
+use arkania\commands\admin\money\SetMoneyCommand;
 use arkania\commands\admin\NpcCommand;
 use arkania\commands\admin\ranks\AddPermissionCommand;
 use arkania\commands\admin\ranks\AddRankCommand;
@@ -90,6 +94,9 @@ final class Loader {
         $this->initItem();
     }
 
+    /**
+     * @return void
+     */
     private function initUnLoadCommand(): void {
         $unLoadCommand = [
             'kick',
@@ -105,6 +112,9 @@ final class Loader {
             $commandMap->unregister($commandMap->getCommand($unCommand));
     }
 
+    /**
+     * @return void
+     */
     private function initCommands(): void {
         $commands = [
             /* Administration */
@@ -118,7 +128,10 @@ final class Loader {
             new DelPermissionCommand($this->core),
             new AddUPermissionCommand($this->core),
             new DelUPermissionCommand($this->core),
-            //new DebugCommand(),
+            new AddMoneyCommand($this->core),
+            new DelMoneyCommand($this->core),
+            new SetMoneyCommand($this->core),
+            new ResetMoneyCommand($this->core),
 
             /* Moderation */
             new KickCommand($this->core),
@@ -139,6 +152,9 @@ final class Loader {
         $this->core->getServer()->getCommandMap()->registerAll('Arkania-Commands', $commands);
     }
 
+    /**
+     * @return void
+     */
     private function initEvents(): void {
         $events = [
 
@@ -158,6 +174,9 @@ final class Loader {
             $eventManager->registerEvents($event, $this->core);
     }
 
+    /**
+     * @return void
+     */
     private function initData(): void {
         RanksManager::init();
         SettingsManager::init();
@@ -168,6 +187,9 @@ final class Loader {
         EconomyManager::init();
     }
 
+    /**
+     * @return void
+     */
     private function initTask(): void {
 
     }
@@ -184,7 +206,11 @@ final class Loader {
         $items->registerItem(NpcManagerItem::class, ItemIds::NPC, 'Npc Manager');
 
     }
-        private function initEntity(): void {
+
+    /**
+     * @return void
+     */
+    private function initEntity(): void {
         $this->register(VillagerEntity::class, ['arkania:npc.villager'], EntityLegacyIds::VILLAGER);
     }
 
