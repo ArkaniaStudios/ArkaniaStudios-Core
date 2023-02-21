@@ -62,7 +62,7 @@ class AddMoneyCommand extends BaseCommand {
         $this->core->economyManager->addMoney($target, (int)$args[1]);
         $player->sendMessage(Utils::getPrefix() . "Vous avez ajouté §e" . $args[1] . " §fà §e" . $target . "§f.");
 
-        Utils::sendDiscordWebhook('**ADDMONEY**',"**" . $rank . "** vient d'ajouter **" . $args[1] . "**$  à **" . $target . "**", 'ArkaniaStudios - Money', 0x05E82E, WebhookData::MONEY);
+        Utils::sendDiscordWebhook('**ADDMONEY**',"**" . $this->core->ranksManager->getRankColor($player->getName()) . " - " . $player->getName() . "** vient d'ajouter **" . $args[1] . "**$  à **" . $target . "**", 'ArkaniaStudios - Money', 0x05E82E, WebhookData::MONEY);
         $this->sendStaffLogs($rank . ' vient d\'\ajouter ' . $args[1] . ' à ' . $target);
 
         if ($this->core->getServer()->getPlayerExact($target) instanceof Player)

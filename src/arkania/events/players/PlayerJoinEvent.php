@@ -34,6 +34,14 @@ class PlayerJoinEvent implements Listener {
     public function onPlayerJoin(\pocketmine\event\player\PlayerJoinEvent $event){
         $player = $event->getPlayer();
 
+        /* Maintenance */
+        if ($this->core->serverStatus->getServerStatus(Utils::getServerName()) === '§6Maintenance'){
+            if (!$player->hasPermission('arkania:permission.maintenance.bypass')){
+                $player->sendMessage(Utils::getPrefix() . "§cLe serveur est actuellement en maintenance. Merci de rester patient.");
+                $player->transfer('lobby1');
+            }
+        }
+
         /* PlayerTime */
         $this->core->stats->createTime($player);
 

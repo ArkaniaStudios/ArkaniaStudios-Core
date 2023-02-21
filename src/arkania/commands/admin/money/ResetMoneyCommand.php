@@ -54,7 +54,7 @@ class ResetMoneyCommand extends BaseCommand {
         $this->core->economyManager->resetMoney($target);
         $player->sendMessage(Utils::getPrefix() . "Vous avez reset l'argent de §e" . $target . "§f.");
 
-        Utils::sendDiscordWebhook('**RESETMONEY**',"**" . $rank . "** vient de reset l'argent de  **" . $target . "**", 'ArkaniaStudios - Money', 0x05E82E, WebhookData::MONEY);
+        Utils::sendDiscordWebhook('**RESETMONEY**',"**" . $this->core->ranksManager->getRankColor($player->getName()) . " - " . $player->getName() . "** vient de reset l'argent de  **" . $target . "**", 'ArkaniaStudios - Money', 0x05E82E, WebhookData::MONEY);
         $this->sendStaffLogs($rank . ' vient de reset l\'\argent de ' . $target);
 
         if ($this->core->getServer()->getPlayerExact($target) instanceof Player)

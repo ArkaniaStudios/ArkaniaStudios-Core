@@ -43,7 +43,7 @@ final class Utils {
     }
 
     public static function isValidNumber(string $value): bool {
-        return is_numeric($value) || $value > 0;
+        return is_numeric($value) && $value > 0;
     }
 
     /**

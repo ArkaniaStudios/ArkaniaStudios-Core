@@ -59,7 +59,7 @@ class SetMoneyCommand extends BaseCommand {
         $this->core->economyManager->setMoney($target, (int)$args[1]);
         $player->sendMessage(Utils::getPrefix() . "Vous avez définit l'argent de §e" . $target . "§f à §e" . $args[1] . "§f.");
 
-        Utils::sendDiscordWebhook('**SETMONEY**',"**" . $rank . "** vient de définir l'argent de **" . $target . "** à  **" . $args[1] . "**$", 'ArkaniaStudios - Money', 0x05E82E, WebhookData::MONEY);
+        Utils::sendDiscordWebhook('**SETMONEY**',"**" . $this->core->ranksManager->getRankColor($player->getName()) . " - " . $player->getName() . "** vient de définir l'argent de **" . $target . "** à  **" . $args[1] . "**$", 'ArkaniaStudios - Money', 0x05E82E, WebhookData::MONEY);
         $this->sendStaffLogs($rank . ' vient de définir l\'\argent de ' . $target . ' à ' . $args[1] . '');
 
         if ($this->core->getServer()->getPlayerExact($target) instanceof Player)

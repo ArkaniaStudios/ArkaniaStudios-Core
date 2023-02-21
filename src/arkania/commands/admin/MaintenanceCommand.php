@@ -19,6 +19,8 @@ namespace arkania\commands\admin;
 
 use arkania\commands\BaseCommand;
 use arkania\Core;
+use arkania\tasks\MaintenanceTask;
+use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 
@@ -28,9 +30,9 @@ class MaintenanceCommand extends BaseCommand {
     private Core $core;
 
     public function __construct(Core $core) {
-        parent::__construct('maintenant',
+        parent::__construct('maintenance',
             'Maintenance - ArkaniaStudios',
-        '/maintenance <on/off> <raison:optional>');
+        '/maintenance <on/off>');
         $this->setPermission('arkania:permission.maintenance');
         $this->core = $core;
     }
@@ -39,17 +41,28 @@ class MaintenanceCommand extends BaseCommand {
         if (!$this->testPermission($player))
             return true;
 
-        if (count($args) < 1)
+        if (count($args) !== 1)
             return throw new InvalidCommandSyntaxException();
 
         if (strtolower($args[0]) === 'on'){
+            if ($this->core->serverStatus->getServerStatus(Utils::getServerName()) === '§6Maintenance'){
+                $player->sendMessage(Utils::getServerName() . "§cLe serveur est déjà en maintenance.");
+                return true;
+            }
+
+            $this->core->getScheduler()->scheduleRepeatingTask(new MaintenanceTask($this->core), 20);
 
         }elseif(strtolower($args[0]) === 'off'){
+            if ($this->core->serverStatus->getServerStatus(Utils::getServerName()) !== '§6Maintenance'){
+                $player->sendMessage(Utils::getPrefix() . "§cLe serveur n'est pas en maintenance.");
+                return true;
+            }
+
+            $this->core->maintenance->setMaintenance(false);
 
         }else{
             return throw new InvalidCommandSyntaxException();
         }
-
         return true;
     }
 

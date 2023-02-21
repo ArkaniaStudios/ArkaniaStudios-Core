@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace arkania\utils;
 
+use arkania\commands\admin\MaintenanceCommand;
 use arkania\commands\admin\money\AddMoneyCommand;
 use arkania\commands\admin\money\DelMoneyCommand;
 use arkania\commands\admin\money\ResetMoneyCommand;
@@ -103,7 +104,8 @@ final class Loader {
             'about',
             'me',
             'plugins',
-            'tell'
+            'tell',
+            'whitelist'
         ];
 
         $commandMap = $this->core->getServer()->getCommandMap();
@@ -132,6 +134,7 @@ final class Loader {
             new DelMoneyCommand($this->core),
             new SetMoneyCommand($this->core),
             new ResetMoneyCommand($this->core),
+            new MaintenanceCommand($this->core),
 
             /* Moderation */
             new KickCommand($this->core),

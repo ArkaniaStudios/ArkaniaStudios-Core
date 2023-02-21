@@ -61,12 +61,13 @@ class DelMoneyCommand extends BaseCommand {
 
         if ($this->core->economyManager->getMoney($target) - $args[1] < 0){
             $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez pas supprimer §e" . $args[1] . "§c à §e" . $target . "§c.Vous ne pouvez lui supprimer seulement §e" . $this->core->economyManager->getMoney($target) . "§c.");
+            return true;
         }
 
         $this->core->economyManager->delMoney($target, (int)$args[1]);
         $player->sendMessage(Utils::getPrefix() . "Vous avez supprimé §e" . $args[1] . " §fà §e" . $target . "§f.");
 
-        Utils::sendDiscordWebhook('**DELMONEY**',"**" . $rank . "** vient de supprimer **" . $args[1] . "**$  à **" . $target . "**", 'ArkaniaStudios - Money', 0x05E82E, WebhookData::MONEY);
+        Utils::sendDiscordWebhook('**DELMONEY**',"**" . $this->core->ranksManager->getRankColor($player->getName()) . " - " . $player->getName() . "** vient de supprimer **" . $args[1] . "**$  à **" . $target . "**", 'ArkaniaStudios - Money', 0x05E82E, WebhookData::MONEY);
         $this->sendStaffLogs($rank . ' vient de supprimer ' . $args[1] . ' à ' . $target);
 
         if ($this->core->getServer()->getPlayerExact($target) instanceof Player)
