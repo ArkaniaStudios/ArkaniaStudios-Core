@@ -71,3 +71,11 @@ permissions:
     default: op
   "arkania:permission.debug":
     default: op
+  "arkania:permission.addmoney":
+    default: op
+  "arkania:permission.delmoney":
+    default: op
+  "arkania:permission.setmoney":
+    default: op
+  "arkania:permission.resetmoney":
+    default: op

@@ -101,4 +101,12 @@ final class EconomyManager {
             Query::query("INSERT INTO money(name, money_count) VALUES ('" . self::getDataBase()->real_escape_string($playerName) . "', '1000')");
     }
 
+    /**
+     * @param $playerName
+     * @return bool
+     */
+    public function hasAccount($playerName): bool {
+        $db = self::getDataBase()->query("SELECT * FROM money WHERE name='" . self::getDataBase()->real_escape_string($playerName) . "'");
+        return $db->num_rows > 0;
+    }
 }

@@ -50,7 +50,7 @@ final class ServerStatusManager {
         $status = $db->fetch_array()[0] ?? false;
         if ($status === 'ouvert')
             return '§aOuvert';
-        elseif($status === 'maintenant')
+        elseif($status === 'maintenance')
             return '§6Maintenance';
         elseif($status === 'ferme')
             return '§cFermé';

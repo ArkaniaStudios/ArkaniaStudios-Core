@@ -46,7 +46,7 @@ class PayCommand extends BaseCommand {
 
         $target = $this->core->getServer()->getPlayerByPrefix($args[0]);
 
-        if (!is_numeric($args[1]) || $args[1] <= 0){
+        if (!Utils::isValidNumber($args[1])){
             $player->sendMessage(Utils::getPrefix() . "§cMerci de mettre un nombre valide ou supérieur à 0.");
             return true;
         }

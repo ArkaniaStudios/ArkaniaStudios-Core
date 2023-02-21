@@ -20,8 +20,9 @@ namespace arkania;
 use arkania\libs\customies\block\CustomiesBlockFactory;
 use arkania\libs\muqsit\invmenu\InvMenuHandler;
 use arkania\manager\EconomyManager;
-use arkania\manager\ServerStatusManager;
+use arkania\manager\MaintenanceManager;
 use arkania\manager\RanksManager;
+use arkania\manager\ServerStatusManager;
 use arkania\manager\StatsManager;
 use arkania\manager\SynchronisationManager;
 use arkania\manager\UiManager;
@@ -66,6 +67,9 @@ class Core extends PluginBase {
 
     /** @var ServerStatusManager */
     public ServerStatusManager $serverStatus;
+
+    /** @var MaintenanceManager */
+    public MaintenanceManager $maintenance;
 
     protected function onLoad(): void {
         self::setInstance($this);
@@ -112,13 +116,16 @@ class Core extends PluginBase {
         $this->economyManager = new EconomyManager();
         $this->synchronisation = new SynchronisationManager($this);
         $this->serverStatus = new ServerStatusManager();
+        $this->maintenance = new MaintenanceManager($this);
 
         /* Ranks */
         if (!$this->ranksManager->existRank('Joueur'))
             $this->ranksManager->addRank('Joueur');
 
         /* Logger */
-        $this->serverStatus->setServerStatus('ouvert');
+        $serverName = Utils::getServerName();
+        if ($this->serverStatus->getServerStatus($serverName) !== '§6Maintenance')
+            $this->serverStatus->setServerStatus('ouvert');
         $this->getLogger()->info(
             "\n     _      ____    _  __     _      _   _   ___      _".
             "\n    / \    |  _ \  | |/ /    / \    | \ | | |_ _|    / \ ".
@@ -131,7 +138,10 @@ class Core extends PluginBase {
     }
 
     protected function onDisable(): void {
-        $this->serverStatus->setServerStatus('ferme');
+        $serverName = Utils::getServerName();
+        if ($this->serverStatus->getServerStatus($serverName) !== '§6Maintenance')
+            $this->serverStatus->setServerStatus('ferme');
+
         foreach ($this->getServer()->getOnlinePlayers() as $player){
 
             $this->ranksManager->synchroQuitRank($player);

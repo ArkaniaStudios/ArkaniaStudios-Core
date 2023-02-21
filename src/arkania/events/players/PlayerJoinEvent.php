@@ -18,7 +18,6 @@ declare(strict_types=1);
 namespace arkania\events\players;
 
 use arkania\Core;
-use arkania\manager\FactionManager;
 use arkania\manager\RanksManager;
 use arkania\utils\Utils;
 use pocketmine\event\Listener;
@@ -35,6 +34,14 @@ class PlayerJoinEvent implements Listener {
     public function onPlayerJoin(\pocketmine\event\player\PlayerJoinEvent $event){
         $player = $event->getPlayer();
 
+        /* Maintenance */
+        if ($this->core->serverStatus->getServerStatus(Utils::getServerName()) === '§6Maintenance'){
+            if (!$player->hasPermission('arkania:permission.maintenance.bypass')){
+                $player->sendMessage(Utils::getPrefix() . "§cLe serveur est actuellement en maintenance. Merci de rester patient.");
+                $player->transfer('lobby1');
+            }
+        }
+
         /* PlayerTime */
         $this->core->stats->createTime($player);
 
@@ -43,6 +50,10 @@ class PlayerJoinEvent implements Listener {
 
         if (!$this->core->ranksManager->existPlayer($player->getName()))
             $this->core->ranksManager->setRank($player->getName(), 'Joueur');
+
+        /* Economy */
+        if (!$this->core->economyManager->hasAccount($player->getName()))
+            $this->core->economyManager->resetMoney($player->getName());
 
 
         /* PlayerBefore */
