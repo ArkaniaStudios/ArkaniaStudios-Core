@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace arkania\utils;
 
+use arkania\commands\admin\AdminKitCommand;
 use arkania\commands\admin\MaintenanceCommand;
 use arkania\commands\admin\money\AddMoneyCommand;
 use arkania\commands\admin\money\DelMoneyCommand;
@@ -34,6 +35,7 @@ use arkania\commands\admin\ranks\SetNametagCommand;
 use arkania\commands\admin\ranks\SetRankCommand;
 use arkania\commands\player\DiscordCommand;
 use arkania\commands\player\FactionCommand;
+use arkania\commands\player\KitsCommand;
 use arkania\commands\player\MoneyCommand;
 use arkania\commands\player\MsgCommand;
 use arkania\commands\player\PayCommand;
@@ -58,6 +60,7 @@ use arkania\libs\customies\CustomiesListener;
 use arkania\libs\customies\item\CustomiesItemFactory;
 use arkania\listener\SynchronisationListener;
 use arkania\manager\EconomyManager;
+use arkania\manager\KitsManager;
 use arkania\manager\RanksManager;
 use arkania\manager\ServerStatusManager;
 use arkania\manager\SettingsManager;
@@ -135,6 +138,7 @@ final class Loader {
             new SetMoneyCommand($this->core),
             new ResetMoneyCommand($this->core),
             new MaintenanceCommand($this->core),
+            new AdminKitCommand($this->core),
 
             /* Moderation */
             new KickCommand($this->core),
@@ -150,6 +154,7 @@ final class Loader {
             new MoneyCommand($this->core),
             new ServerSelectorCommand($this->core),
             new PayCommand($this->core),
+            new KitsCommand($this->core),
         ];
 
         $this->core->getServer()->getCommandMap()->registerAll('Arkania-Commands', $commands);
@@ -188,6 +193,7 @@ final class Loader {
         SynchronisationManager::init();
         ServerStatusManager::init();
         EconomyManager::init();
+        KitsManager::init();
     }
 
     /**

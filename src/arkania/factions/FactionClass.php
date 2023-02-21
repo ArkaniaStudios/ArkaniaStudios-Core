@@ -47,7 +47,6 @@ class FactionClass {
         $db = self::getDataBase();
         $db->query("CREATE TABLE IF NOT EXISTS factions(name VARCHAR(10), description TEXT, creation_date TEXT, ownerName VARCHAR(20), allies TEXT, members TEXT, power INT, money INT, logs BOOL, url TEXT)");
         $db->query("CREATE TABLE IF NOT EXISTS players_faction(name VARCHAR(20), faction VARCHAR(10), faction_rank VARCHAR(10))");
-        $db->query("CREATE TABLE IF NOT EXISTS claim(name VARCHAR(10), x1 FLOAR, z1 FLOAR, x2 FLOAR, z2 FLOAR, world TEXT)");
         $db->close();
     }
 
@@ -68,13 +67,12 @@ class FactionClass {
      */
     public function createFaction(): void {
         $db = self::getDataBase();
-        Query::query("INSERT INTO factions(name,
+        $db->query("INSERT INTO factions(name,
                      description,
                      creation_date,
                      ownerName,
                      allies,
                      members,
-                     claims,
                      power,
                      money,
                      logs,
@@ -84,7 +82,6 @@ class FactionClass {
                                 '" . self::getDataBase()->real_escape_string($this->description) ."',
                                  '" . self::getDataBase()->real_escape_string($this->creationTime) . "',
                                   '" . self::getDataBase()->real_escape_string($this->ownerName) . "',
-                                  '" . serialize([]) . "',
                                   '" . serialize([]) . "',
                                   '" . serialize([]) . "',
                                   0,
@@ -119,6 +116,16 @@ class FactionClass {
         $description = $db->fetch_array()[0] ?? false;
         $db->close();
         return (string)$description;
+    }
+
+    /**
+     * @param string $value
+     * @return void
+     */
+    public function setDescription(string $value): void {
+        $db = self::getDataBase();
+        $db->query("UPDATE factions SET description='$value' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        $db->close();
     }
 
     /**

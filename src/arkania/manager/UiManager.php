@@ -272,7 +272,12 @@ final class UiManager {
 
             $inscription = $jour . ' ' . date('d') . ' ' . $mois . ' ' . $annee;
 
-            $description = $data[2] ?? '';
+            $description = $data[2] ?? ' ';
+
+            if (strlen($description) > 50){
+                $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez pas mettre plus de §e50 caractères §cdans la description de votre faction.");
+                return;
+            }
 
             $url = '';
 
@@ -305,7 +310,7 @@ final class UiManager {
         });
         $factionManager = new FactionManager();
         $factionInfo = $factionManager->getFactionClass($faction, $player->getName());
-        $description = !$factionInfo->getDescription() ? 'Aucune' : $factionInfo->getDescription();
+        $description = $factionInfo->getDescription() === ' ' ? 'Aucune' : $factionInfo->getDescription();
         $form->setTitle('§c- §fFaction §c-');
         $form->setContent("§7» §rVoici les informations de la faction : §e" . $faction . "§f.\n\nChef de faction: §e" . $factionInfo->getOwner() . "\n§fDate de création: §e" . $factionInfo->getCreationDate() . "\n§fDescription: §e" . $description . "\n§fPower: §e" . $factionInfo->getPower() . "\n§fMoney: §e" . $factionInfo->getMoney() . "\n\n");
         $player->sendForm($form);
@@ -513,6 +518,125 @@ final class UiManager {
         $menu->getInventory()->setItem(9, $glass);
         $menu->getInventory()->setItem(17, $glass);
         return $glass;
+    }
+
+    /**
+     * @param Player $player
+     * @param bool $isAdmin
+     * @return void
+     */
+    public function sendKitForm(Player $player, bool $isAdmin = false): void {
+        $menu = InvMenu::create(InvMenuTypeIds::TYPE_CHEST);
+        $menu->setName('      §cKits');
+        $menu->getInventory()->setItem(10, VanillaItems::RECORD_WAIT()->setCustomName('Kit §7Joueur'));
+        $menu->getInventory()->setItem(11, VanillaItems::RECORD_13()->setCustomName('Kit §dBooster'));
+        $menu->getInventory()->setItem(13, VanillaItems::RECORD_STAL()->setCustomName('Kit §eNoble'));
+        $menu->getInventory()->setItem(14, VanillaItems::RECORD_WARD()->setCustomName('Kit §6Héro'));
+        $menu->getInventory()->setItem(15, VanillaItems::RECORD_MELLOHI()->setCustomName('Kit §4Seigneur'));
+        $menu->getInventory()->setItem(16, VanillaItems::RECORD_CAT()->setCustomName('Kit §cVidéaste'));
+        $menu->setListener(function (InvMenuTransaction $transaction) use ($isAdmin): InvMenuTransactionResult {
+
+            $player = $transaction->getPlayer();
+            $kits = Core::getInstance()->kits;
+
+            if ($transaction->getItemClicked()->getCustomName() === 'Kit §7Joueur') {
+                $player->removeCurrentWindow();
+                var_dump($isAdmin);
+                $kits->sendKitPlayer($player, $isAdmin);
+            }elseif($transaction->getItemClicked()->getCustomName() === 'Kit §dBooster') {
+                if ($player->hasPermission('arkania:permission.kit.booster')) {
+                    $player->removeCurrentWindow();
+                    $kits->sendKitBooster($player, $isAdmin);
+                }else{
+                    $player->removeCurrentWindow();
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas la permission de prendre ce kit;");
+                }
+            }elseif($transaction->getItemClicked()->getCustomName() === 'Kit §eNoble') {
+                if ($player->hasPermission('arkania:permission.kit.noble')){
+                    $player->removeCurrentWindow();
+                    $kits->sendKitNoble($player, $isAdmin);
+                }else{
+                    $player->removeCurrentWindow();
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas la permission de prendre ce kit;");
+                }
+            }elseif($transaction->getItemClicked()->getCustomName() === 'Kit §6Héro') {
+                if ($player->hasPermission('arkania:permission.kit.hero')){
+                    $player->removeCurrentWindow();
+                    $kits->sendKitHero($player, $isAdmin);
+                }else{
+                    $player->removeCurrentWindow();
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas la permission de prendre ce kit;");
+                }
+            }elseif($transaction->getItemClicked()->getCustomName() === 'Kit §4Seigneur') {
+                if ($player->hasPermission('arkania:permission.kit.seigneur')){
+                    $player->removeCurrentWindow();
+                    $kits->sendKitSeigneur($player, $isAdmin);
+                }else{
+                    $player->removeCurrentWindow();
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas la permission de prendre ce kit;");
+                }
+            }
+            return $transaction->discard();
+        });
+        $menu->send($player);
+    }
+
+    public function sendSettingsFactionForm(Player $player, bool|string $faction): void {
+        $form = new SimpleForm(function (Player $player, $data) use ($faction){
+
+            if (is_null($data))
+                return;
+
+            if ($data === 0)
+                $this->sendDescriptionFactionForm($player, $faction);
+            elseif($data === 1)
+                $this->sendLogsDiscordForm($player, $faction);
+        });
+        $form->setTitle('§c- §fSettings §c-');
+        $form->setContent("§7» §rVoici les paramètres de faction. Choisissez ce que vous voulez modifer puis cliquez.");
+        $form->addButton('§7» §rDescription');
+        $form->addButton('§7» §rLogs');
+        $player->sendForm($form);
+    }
+
+    public function sendDescriptionFactionForm(Player $player, $faction): void {
+        $form = new CustomForm(function (Player $player, $data) use ($faction){
+
+            if (is_null($data))
+                return;
+
+            if (strlen($data[1]) > 50){
+                $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez mettre plus de §e50 caractères§c dans la description de votre faction.");
+                return;
+            }
+
+            $factionManager = new FactionManager();
+            $factionManager->getFactionClass($faction, $player->getName())->setDescription($data[1]);
+            $player->sendMessage(Utils::getPrefix() . "§aVous avez bien mis à jour la description de votre faction.");
+        });
+        $form->setTitle('§c- §fDescription §c-');
+        $form->setContent("§7» §rMettez la description que vous souhaitez ajouter à votre faction.");
+        $form->addInput('§7» §rDescription');
+        $player->sendForm($form);
+    }
+
+    public function sendLogsDiscordForm(Player $player, $faction): void {
+        $form = new CustomForm(function (Player $player, $data) use ($faction){
+            if (is_null($data))
+                return;
+
+            if ((bool)$data[0] === false){
+                self::$faction_webhook[$player->getName()] = $player->getName();
+                $player->sendMessage(Utils::getPrefix() . "§6Merci de mettre l'url du webhook dans le chat afin d'activer les logs pour votre faction.");
+            }else{
+                $factionManager = new FactionManager();
+                $factionManager->getFactionClass($faction, $player->getName())->setUrl('');
+                $player->sendMessage(Utils::getPrefix() . "§cVous venez de désactiver les logs de faction.");
+            }
+        });
+        $form->setTitle('§c- §fLogs §c-');
+        $form->addDropdown('§7» §rLogs', ['§aActivé', '§cDésactivé']);
+        $player->sendForm($form);
     }
 
 }

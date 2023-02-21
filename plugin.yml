@@ -79,3 +79,5 @@ permissions:
     default: op
   "arkania:permission.resetmoney":
     default: op
+  "arkania:permission.adminkit":
+      default: op

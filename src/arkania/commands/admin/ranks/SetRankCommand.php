@@ -58,8 +58,9 @@ class SetRankCommand extends BaseCommand {
 
         $this->core->ranksManager->setRank($target, $args[1]);
         $vip_rank = [
-            'VIP',
-            'MVP'
+            'Noble',
+            'Hero',
+            'Seigneur'
         ];
 
         if (!in_array($args[1], $vip_rank))

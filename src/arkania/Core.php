@@ -20,6 +20,7 @@ namespace arkania;
 use arkania\libs\customies\block\CustomiesBlockFactory;
 use arkania\libs\muqsit\invmenu\InvMenuHandler;
 use arkania\manager\EconomyManager;
+use arkania\manager\KitsManager;
 use arkania\manager\MaintenanceManager;
 use arkania\manager\RanksManager;
 use arkania\manager\ServerStatusManager;
@@ -71,6 +72,10 @@ class Core extends PluginBase {
     /** @var MaintenanceManager */
     public MaintenanceManager $maintenance;
 
+    /** @var KitsManager */
+    public KitsManager $kits;
+
+
     protected function onLoad(): void {
         self::setInstance($this);
 
@@ -117,6 +122,7 @@ class Core extends PluginBase {
         $this->synchronisation = new SynchronisationManager($this);
         $this->serverStatus = new ServerStatusManager();
         $this->maintenance = new MaintenanceManager($this);
+        $this->kits = new KitsManager($this);
 
         /* Ranks */
         if (!$this->ranksManager->existRank('Joueur'))

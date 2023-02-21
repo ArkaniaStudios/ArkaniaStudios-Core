@@ -52,7 +52,7 @@ class RedemTask extends Task {
         }elseif($time == 30)
             $server->broadcastMessage(Utils::getPrefix() . "§cLe serveur redémarrage dans 30 secondes !");
         elseif($time == 16)
-            $server->broadcastMessage(Utils::getPrefix() . "§aSauvegarde des données du serveur en cour...");
+            $server->broadcastMessage(Utils::getPrefix() . "§aSauvegarde des données du serveur en cours...");
         elseif($time == 10)
             $server->broadcastMessage(Utils::getPrefix() . "§aSauvegarde de vos données...");
         elseif($time == 6)
