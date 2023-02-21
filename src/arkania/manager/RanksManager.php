@@ -23,6 +23,7 @@ use arkania\exception\PermissionMissingException;
 use arkania\utils\Query;
 use mysqli;
 use pocketmine\permission\PermissionAttachment;
+use pocketmine\player\IPlayer;
 use pocketmine\player\Player;
 use pocketmine\Server;
 
@@ -119,10 +120,10 @@ final class RanksManager {
      * @param Player $player
      * @return array
      */
-    public function getPermission(Player $player): array {
-        $rank = $this->getPlayerRank($player->getName());
+    public function getPermission(string $playerName): array {
+        $rank = $this->getPlayerRank($playerName);
         $db = self::getDataBase()->query("SELECT permissions FROM ranks WHERE name='" . $rank . "'");
-        $db2 = self::getDataBase()->query("SELECT permissions FROM players_ranks WHERE name='" . self::getDataBase()->real_escape_string($player->getName()) . "'");
+        $db2 = self::getDataBase()->query("SELECT permissions FROM players_ranks WHERE name='" . self::getDataBase()->real_escape_string($playerName) . "'");
         $permission1 = unserialize($db->fetch_array()[0]);
         $permission2 = unserialize($db2->fetch_array()[0]);
         $db->close();
@@ -138,16 +139,17 @@ final class RanksManager {
     }
 
     /**
-     * @param Player $player
+     * @param IPlayer $player
      * @return void
      */
-    public function updatePermission(Player $player): void{
-        $permissions = $this->getPermission($player);
+    public function updatePermission(IPlayer $player): void{
 
-        foreach ($permissions as $permission){
-            $attachment = $this->getAttachment($player);
-            $attachment->clearPermissions();
-            $attachment->setPermissions($permission);
+        if ($player instanceof Player) {
+            foreach ($this->getPermission($player->getName()) as $permission) {
+                $attachment = $this->getAttachment($player);
+                $attachment->clearPermissions();
+                $attachment->setPermission($permission, true);
+            }
         }
     }
 
@@ -160,6 +162,7 @@ final class RanksManager {
         if (!isset($this->attachment[$UUID])){
             $attachment = $player->addAttachment(Core::getInstance());
             $this->attachment[$UUID] = $attachment;
+            $this->updatePermission($player);
         }
     }
 
@@ -232,7 +235,7 @@ final class RanksManager {
         $format = $db->fetch_array()[0] ?? false;
         $db->close();
         $faction = new FactionManager();
-        return str_replace(['{FACTION}', '{PLAYER}', '{MESSAGE}'], [$faction->getFaction($player->getName()), $player->getName(), $message], $format);
+        return str_replace(['{FACTION_RANK}','{FACTION}', '{PLAYER}', '{MESSAGE}'], [$this->getFactionRankFormat($player), $faction->getFaction($player->getName()), $player->getName(), $message], $format);
     }
 
     /**
@@ -245,7 +248,7 @@ final class RanksManager {
         $format = $db->fetch_array()[0] ?? false;
         $db->close();
         $faction = new FactionManager();
-        $nametag = str_replace(['{FACTION}', '{LINE}', '{PLAYER}'], [$faction->getFaction($player->getName()), "\n", $player->getName()], $format);
+        $nametag = str_replace(['{FACTION_RANK}, {FACTION}', '{LINE}', '{PLAYER}'], [$this->getFactionRankFormat($player), $faction->getFaction($player->getName()), "\n", $player->getName()], $format);
         $player->setNameTag($nametag);
     }
 
@@ -358,6 +361,14 @@ final class RanksManager {
     public function getRankColor(string $playerName): string {
         $ranks = $this->getPlayerRank($playerName);
         if ($ranks === 'Joueur') return '§7Joueur';
+        if ($ranks === 'Booster') return '§dBooster';
+        if ($ranks === 'Noble') return '§eNoble';
+        if ($ranks === 'Héro') return '§6Héro';
+        if ($ranks === 'Seigneur') return '§4Seigneur';
+        if ($ranks === 'Vidéaste') return '§cVidéaste';
+        if ($ranks === 'Helper') return '§aHelper';
+        if ($ranks === 'Modérateur') return '§3Modérateur';
+        if ($ranks === 'Opérateur') return '§1Opérateur';
         if ($ranks === 'Développeur') return '§2Développeur';
         if ($ranks === 'Administrateur') return '§6Administrateur';
         if ($ranks === 'Co-Fondateur') return '§cCo§f-§cFondateur';
@@ -372,11 +383,33 @@ final class RanksManager {
     private function getRankColorBis(string $playerName): string {
         $ranks = $this->getPlayerRank($playerName);
         if ($ranks === 'Joueur') return '§7';
+        if ($ranks === 'Booster') return '§d';
+        if ($ranks === 'Noble') return '§e';
+        if ($ranks === 'Héro') return '§6';
+        if ($ranks === 'Seigneur') return '§4';
+        if ($ranks === 'Vidéaste') return '§c';
+        if ($ranks === 'Helper') return '§a';
+        if ($ranks === 'Modérateur') return '§3';
+        if ($ranks === 'Opérateur') return '§1';
         if ($ranks === 'Développeur') return '§2';
         if ($ranks === 'Administrateur') return '§6';
         if ($ranks === 'Co-Fondateur') return '§c';
         if ($ranks === 'Fondateur') return '§4';
-        return '§7Joueur';
+        return '§7';
+    }
+
+    /**
+     * @param Player $player
+     * @return string
+     */
+    public function getFactionRankFormat(Player $player) : string {
+        $factionManager = new FactionManager();
+        $fac_rank = $factionManager->getFactionRank($player->getName());
+        if ($fac_rank === 'owner')
+            return '**';
+        elseif($fac_rank === 'officer')
+            return '*';
+        return '';
     }
 
     /**

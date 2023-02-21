@@ -653,6 +653,19 @@ class FactionCommand extends BaseCommand {
             $target = $this->core->getServer()->getPlayerExact($factionManager->getFactionClass($faction, $player->getName())->getOwner());
             if ($target instanceof Player)
                 $target->sendMessage(Utils::getPrefix() . "§aL'alliance avec la faction §e" . $factionManager->getFaction($player->getName()) . "§a vient d'être rompue.");
+        }elseif(strtolower($args[0]) === 'settings'){
+            if ($factionManager->getFaction($player->getName()) === '...'){
+                $player->sendMessage(Utils::getPrefix() . "§cPour faire ceci vous devez avoir une faction. Faites §e/f create §cpour en créer une.");
+                return true;
+            }
+
+            if ($factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->getOwner() !== $player->getName()) {
+                $player->sendMessage(Utils::getPrefix() . "§cVous devez être le chef de la faction pour pouvoir faire ceci.");
+                return true;
+            }
+
+            $this->core->ui->sendSettingsFactionForm($player, $factionManager->getFaction($player->getName()));
+
         }
         return true;
     }

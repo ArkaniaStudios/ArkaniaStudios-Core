@@ -33,8 +33,10 @@ final class FactionManager {
     /**
      * @param string $factionName
      * @param string $playerName
+     * @param bool $logs
      * @param string $creationDate
      * @param string $description
+     * @param string $url
      * @return FactionClass
      */
     public function getFactionClass(string $factionName, string $playerName,bool $logs = true, string $creationDate = '', string $description = '', string $url = ''): FactionClass {
