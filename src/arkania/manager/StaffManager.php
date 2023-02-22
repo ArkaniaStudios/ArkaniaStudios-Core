@@ -88,7 +88,7 @@ final class StaffManager {
      * @return bool
      */
     public function isFreeze(Player $player): bool {
-        return $player->isImmobile();
+        return isset($this->freeze[$player->getName()]);
     }
 
     public function isInVanish(Player $player): bool {
@@ -124,7 +124,7 @@ final class StaffManager {
      */
     public function removeVanish(Player $player): void {
 
-        foreach (Server::getInstance()->getOnlinePlayers() as $onlinePlayer){
+        foreach ($this->core->getServer()->getOnlinePlayers() as $onlinePlayer){
             if (!$onlinePlayer->hasPermission('arkania:permission.vanish')) {
                 $onlinePlayer->showPlayer($player);
                 $onlinePlayer->sendMessage("[§a+§f] ". $player->getName());
@@ -183,7 +183,7 @@ final class StaffManager {
         $player->setFlying(false);
         $player->setAllowFlight(false);
 
-        $this->setVanish($player);
+        $this->removeVanish($player);
 
         unset($this->staffmode[$player->getName()]);
         $player->sendMessage(Utils::getPrefix() . "Vous êtes maintenant en staffmode.");

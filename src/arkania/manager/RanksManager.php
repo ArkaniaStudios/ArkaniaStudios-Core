@@ -117,7 +117,7 @@ final class RanksManager {
     /* Permission */
 
     /**
-     * @param Player $player
+     * @param string $playerName
      * @return array
      */
     public function getPermission(string $playerName): array {
@@ -248,7 +248,7 @@ final class RanksManager {
         $format = $db->fetch_array()[0] ?? false;
         $db->close();
         $faction = new FactionManager();
-        $nametag = str_replace(['{FACTION_RANK}, {FACTION}', '{LINE}', '{PLAYER}'], [$this->getFactionRankFormat($player), $faction->getFaction($player->getName()), "\n", $player->getName()], $format);
+        $nametag = str_replace(['{FACTION_RANK}', '{FACTION}', '{LINE}', '{PLAYER}'], [$this->getFactionRankFormat($player), $faction->getFaction($player->getName()), "\n", $player->getName()], $format);
         $player->setNameTag($nametag);
     }
 

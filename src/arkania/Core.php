@@ -23,10 +23,13 @@ use arkania\manager\EconomyManager;
 use arkania\manager\KitsManager;
 use arkania\manager\MaintenanceManager;
 use arkania\manager\RanksManager;
+use arkania\manager\SanctionManager;
 use arkania\manager\ServerStatusManager;
+use arkania\manager\StaffManager;
 use arkania\manager\StatsManager;
 use arkania\manager\SynchronisationManager;
 use arkania\manager\UiManager;
+use arkania\manager\VoteManager;
 use arkania\utils\Loader;
 use arkania\utils\Utils;
 use Closure;
@@ -75,6 +78,15 @@ class Core extends PluginBase {
     /** @var KitsManager */
     public KitsManager $kits;
 
+    /** @var StaffManager */
+    public StaffManager $staff;
+
+    /** @var VoteManager */
+    public VoteManager $vote;
+
+    /** @var SanctionManager */
+    public SanctionManager $sanction;
+
 
     protected function onLoad(): void {
         self::setInstance($this);
@@ -96,8 +108,6 @@ class Core extends PluginBase {
 
         if (!file_exists($this->getDataFolder() . 'Kits/'))
             @mkdir($this->getDataFolder() . 'Kits/');
-        if (!file_exists($this->getDataFolder() . 'npc/'))
-            @mkdir($this->getDataFolder() . 'npc/');
         if (!file_exists($this->getDataFolder() . 'stats/'))
             @mkdir($this->getDataFolder() . 'stats/');
 
@@ -122,7 +132,10 @@ class Core extends PluginBase {
         $this->synchronisation = new SynchronisationManager($this);
         $this->serverStatus = new ServerStatusManager();
         $this->maintenance = new MaintenanceManager($this);
-        $this->kits = new KitsManager($this);
+        $this->kits = new KitsManager();
+        $this->staff = new StaffManager($this);
+        $this->vote = new VoteManager($this);
+        $this->sanction = new SanctionManager($this);
 
         /* Ranks */
         if (!$this->ranksManager->existRank('Joueur'))

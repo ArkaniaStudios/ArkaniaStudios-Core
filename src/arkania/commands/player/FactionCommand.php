@@ -665,7 +665,24 @@ class FactionCommand extends BaseCommand {
             }
 
             $this->core->ui->sendSettingsFactionForm($player, $factionManager->getFaction($player->getName()));
+        }elseif(strtolower($args[0]) === 'home') {
+            if ($factionManager->getFaction($player->getName()) === '...') {
+                $player->sendMessage(Utils::getPrefix() . "§cVous devez être dans une faction pour pouvoir faire ceci. Faites §e/f create §cpour en créer une.");
+                return true;
+            }
+            $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->teleportHome($player);
+        }elseif(strtolower($args[0]) === 'sethome'){
+            if ($factionManager->getFaction($player->getName()) === '...') {
+                $player->sendMessage(Utils::getPrefix() . "§cVous devez être dans une faction pour pouvoir faire ceci. Faites §e/f create §cpour en créer une.");
+                return true;
+            }
 
+            if ($factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->getOwner() !== $player->getName()){
+                $player->sendMessage(Utils::getPrefix() . "§cVous devez être le chef de votre faction pour pouvoir faire ceci.");
+                return true;
+            }
+            $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->setHome($player);
+            $player->sendMessage(Utils::getPrefix() . "§aHome de faction bien définit sur le serveur §e" . Utils::getServerName() . "§a !");
         }
         return true;
     }

@@ -17,23 +17,17 @@ declare(strict_types=1);
 
 namespace arkania\manager;
 
-use arkania\Core;
 use arkania\data\DataBaseConnector;
-use arkania\data\SettingsNameIds;
 use arkania\utils\Query;
 use mysqli;
 use pocketmine\player\Player;
 
 final class SettingsManager {
 
-    /** @var Core */
-    private Core $core;
-
     /** @var Player */
     private Player $player;
 
-    public function __construct(Core $core, Player $player) {
-        $this->core = $core;
+    public function __construct(Player $player) {
         $this->player = $player;
     }
 
@@ -57,7 +51,7 @@ final class SettingsManager {
         $db = self::getDataBase()->query("SELECT * FROM settings WHERE name='" . self::getDataBase()->real_escape_string($this->player->getName()) ."'");
         $settings = $db->num_rows > 0;
         if (!$settings)
-            self::getDataBase()->query("INSERT INTO settings(name, allowTp, allowMsg, clearLagMessage) VALUES ('" . self::getDataBase()->real_escape_string($this->player->getName()) . "', 'true', 'true', 'true')");
+            Query::query("INSERT INTO settings(name, allowTp, allowMsg, clearLagMessage) VALUES ('" . self::getDataBase()->real_escape_string($this->player->getName()) . "', 'true', 'true', 'true')");
         $db->close();
     }
 
@@ -66,7 +60,7 @@ final class SettingsManager {
      * @return false|bool
      */
     public function getSettings($key): bool {
-        $db = self::getDataBase()->query("SELECT $key FROM settings WHERE name='" . self::getDataBase()->real_escape_string($this->player->getName()) ."'");
+        $db = self::getDataBase()->query("SELECT `$key` FROM settings WHERE name='" . self::getDataBase()->real_escape_string($this->player->getName()) ."'");
         $settings = $db->fetch_array()[0] ?? false;
         $db->close();
         return (bool)$settings;
@@ -79,7 +73,7 @@ final class SettingsManager {
      */
     public function setSettings($key, bool $value): void {
         $db = self::getDataBase();
-        Query::query("UPDATE settings SET $key='" . $value ."' WHERE name='" . self::getDataBase()->real_escape_string($this->player->getName()) . "'");
+        Query::query("UPDATE settings SET `$key`='" . $value ."' WHERE name='" . self::getDataBase()->real_escape_string($this->player->getName()) . "'");
         $db->close();
     }
 

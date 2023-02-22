@@ -81,3 +81,19 @@ permissions:
     default: op
   "arkania:permission.adminkit":
       default: op
+  "arkania:permission.kit.booster":
+      default: op
+  "arkania:permission.kit.noble":
+      default: op
+  "arkania:permission.kit.hero":
+      default: op
+  "arkania:permission.kit.seigneur":
+      default: op
+  "arkania:permission.kit.videaste":
+      default: op
+  "arkania:permission.staffmode":
+      default: op
+  "arkania:permission.tempsban":
+      default: op
+ "arkania:permission.tempsban.bypass":
+     default: op
