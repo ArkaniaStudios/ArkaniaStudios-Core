@@ -95,5 +95,7 @@ permissions:
       default: op
   "arkania:permission.tempsban":
       default: op
- "arkania:permission.tempsban.bypass":
+  "arkania:permission.tempsban.bypass":
      default: op
+  "arkania:permission.unban":
+      default: op

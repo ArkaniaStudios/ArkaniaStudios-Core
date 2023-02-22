@@ -61,6 +61,11 @@ class KickCommand extends BaseCommand {
             return true;
         }
 
+        if (RanksManager::compareRank($player->getName(), $target->getName())){
+            $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez pas expulser cette personne car elle a un grade plus haut que vous.");
+            return true;
+        }
+
         if (!isset($args[1])) {
             $target->disconnect("§7» §cVous avez été expulsé d'Arkania: \n§7» §cStaff: " . $rank . "\n§7» §cRaison: Aucune");
             $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§c" . $target->getName() . "§c vient de se faire expulsé d'Arkania pour le motif Aucun !");

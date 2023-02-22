@@ -29,6 +29,7 @@ use arkania\libs\muqsit\invmenu\transaction\InvMenuTransaction;
 use arkania\libs\muqsit\invmenu\transaction\InvMenuTransactionResult;
 use arkania\libs\muqsit\invmenu\type\InvMenuTypeIds;
 use arkania\tasks\TransfertTask;
+use arkania\utils\Date;
 use arkania\utils\Utils;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\item\enchantment\EnchantmentInstance;
@@ -39,6 +40,8 @@ use pocketmine\player\Player;
 use pocketmine\Server;
 
 final class UiManager {
+
+    use Date;
 
     /** @var FactionManager */
     private FactionManager $factionManager;
@@ -262,15 +265,7 @@ final class UiManager {
                 return;
             }
 
-            $jours = array('Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi');
-            $mois = array('Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre');
-            $num_jour = date('w');
-            $jour = $jours[$num_jour];
-            $num_mois = date('n') - 1;
-            $mois = $mois[$num_mois];
-            $annee = date('Y');
-
-            $inscription = $jour . ' ' . date('d') . ' ' . $mois . ' ' . $annee;
+            $inscription = $this->dateFormat();
 
             $description = $data[2] ?? 'Aucune';
 

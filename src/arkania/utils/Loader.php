@@ -40,6 +40,7 @@ use arkania\commands\player\MoneyCommand;
 use arkania\commands\player\MsgCommand;
 use arkania\commands\player\PayCommand;
 use arkania\commands\player\ReplyCommand;
+use arkania\commands\player\ServerInfoCommand;
 use arkania\commands\player\ServerSelectorCommand;
 use arkania\commands\player\SettingsCommand;
 use arkania\commands\player\VoteCommand;
@@ -47,6 +48,7 @@ use arkania\commands\staff\KickCommand;
 use arkania\commands\staff\LogsCommand;
 use arkania\commands\staff\RedemCommand;
 use arkania\commands\staff\StaffModeCommand;
+use arkania\commands\staff\TempsBanCommand;
 use arkania\Core;
 use arkania\entity\base\BaseEntity;
 use arkania\entity\entities\VillagerEntity;
@@ -63,6 +65,7 @@ use arkania\libs\customies\item\CustomiesItemFactory;
 use arkania\listener\SynchronisationListener;
 use arkania\manager\EconomyManager;
 use arkania\manager\RanksManager;
+use arkania\manager\SanctionManager;
 use arkania\manager\ServerStatusManager;
 use arkania\manager\SettingsManager;
 use arkania\manager\StatsManager;
@@ -109,7 +112,9 @@ final class Loader {
             'me',
             'plugins',
             'tell',
-            'whitelist'
+            'whitelist',
+            'pardon',
+            'pardon-ip'
         ];
 
         $commandMap = $this->core->getServer()->getCommandMap();
@@ -146,6 +151,7 @@ final class Loader {
             new LogsCommand($this->core),
             new RedemCommand($this->core),
             new StaffModeCommand($this->core),
+            new TempsBanCommand($this->core),
 
             /* Player */
             new DiscordCommand(),
@@ -158,6 +164,7 @@ final class Loader {
             new PayCommand($this->core),
             new KitsCommand($this->core),
             new VoteCommand($this->core),
+            new ServerInfoCommand($this->core),
         ];
 
         $this->core->getServer()->getCommandMap()->registerAll('Arkania-Commands', $commands);
@@ -196,6 +203,7 @@ final class Loader {
         SynchronisationManager::init();
         ServerStatusManager::init();
         EconomyManager::init();
+        SanctionManager::init();
     }
 
     /**

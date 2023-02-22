@@ -64,9 +64,9 @@ class SetRankCommand extends BaseCommand {
         ];
 
         if (!in_array($args[1], $vip_rank))
-            Server::getInstance()->broadcastMessage(Utils::getPrefix() . "§c" . $target . "§f vient de recevoir le grade §c" . $this->core->ranksManager->getRankColor($target) . " §f!");
+            Server::getInstance()->broadcastMessage(Utils::getPrefix() . "§c" . $target . "§f vient de recevoir le grade §c" . $this->core->ranksManager->getRankColorToString($args[1]) . " §f!");
         else
-            Server::getInstance()->broadcastMessage(Utils::getPrefix() . "§c" . $target . "§f vient d'acheter le grade §c" . $this->core->ranksManager->getRankColor($target) . "§f !");
+            Server::getInstance()->broadcastMessage(Utils::getPrefix() . "§c" . $target . "§f vient d'acheter le grade §c" . $this->core->ranksManager->getRankColorToString($args[1]) . "§f !");
 
         $this->sendStaffLogs($player->getName() . " vient de donner le grade " . $args[1] . " à $target");
         return true;

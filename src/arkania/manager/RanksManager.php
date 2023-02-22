@@ -106,9 +106,7 @@ final class RanksManager {
         $db->close();
 
         $players = self::getDataBase()->query("SELECT name FROM player_ranks WHERE ranks='" . self::getDataBase()->real_escape_string($rankName) . "'");
-        var_dump($players);
         $target = Server::getInstance()->getPlayerExact($players->fetch_array()[0]);
-        var_dump($target);
         if ($target instanceof Player){
             $this->updatePermission($target);
         }
@@ -360,20 +358,11 @@ final class RanksManager {
      */
     public function getRankColor(string $playerName): string {
         $ranks = $this->getPlayerRank($playerName);
-        if ($ranks === 'Joueur') return '§7Joueur';
-        if ($ranks === 'Booster') return '§dBooster';
-        if ($ranks === 'Noble') return '§eNoble';
-        if ($ranks === 'Héro') return '§6Héro';
-        if ($ranks === 'Seigneur') return '§4Seigneur';
-        if ($ranks === 'Vidéaste') return '§cVidéaste';
-        if ($ranks === 'Helper') return '§aHelper';
-        if ($ranks === 'Modérateur') return '§3Modérateur';
-        if ($ranks === 'Opérateur') return '§1Opérateur';
-        if ($ranks === 'Développeur') return '§2Développeur';
-        if ($ranks === 'Administrateur') return '§6Administrateur';
-        if ($ranks === 'Co-Fondateur') return '§cCo§f-§cFondateur';
-        if ($ranks === 'Fondateur') return '§4Fondateur';
-        return '§7Joueur';
+        return $this->extracted($ranks);
+    }
+
+    public function getRankColorToString(string $ranks): string {
+        return $this->extracted($ranks);
     }
 
     /**
@@ -393,6 +382,7 @@ final class RanksManager {
         if ($ranks === 'Opérateur') return '§1';
         if ($ranks === 'Développeur') return '§2';
         if ($ranks === 'Administrateur') return '§6';
+        if ($ranks === 'Développeurplus') return '§2';
         if ($ranks === 'Co-Fondateur') return '§c';
         if ($ranks === 'Fondateur') return '§4';
         return '§7';
@@ -420,4 +410,55 @@ final class RanksManager {
         return (new RanksManager)->getRankColor($player->getName()) . ' §f- ' . (new RanksManager)->getRankColorBis($player->getName()) . $player->getName() . ' §r';
     }
 
+    /**
+     * @param string $ranks
+     * @return string
+     */
+    private function extracted(string $ranks): string
+    {
+        if ($ranks === 'Joueur') return '§7Joueur';
+        if ($ranks === 'Booster') return '§dBooster';
+        if ($ranks === 'Noble') return '§eNoble';
+        if ($ranks === 'Héro') return '§6Héro';
+        if ($ranks === 'Seigneur') return '§4Seigneur';
+        if ($ranks === 'Vidéaste') return '§cVidéaste';
+        if ($ranks === 'Helper') return '§aHelper';
+        if ($ranks === 'Modérateur') return '§3Modérateur';
+        if ($ranks === 'Opérateur') return '§1Opérateur';
+        if ($ranks === 'Développeur') return '§2Développeur';
+        if ($ranks === 'Administrateur') return '§6Administrateur';
+        if ($ranks === 'Développeurplus') return '§2Développeur';
+        if ($ranks === 'Co-Fondateur') return '§cCo§f-§cFondateur';
+        if ($ranks === 'Fondateur') return '§4Fondateur';
+        return '§7Joueur';
+    }
+
+    /** @var array */
+    public static array $rankList = [
+        'Fondateur',
+        'Co-Fondateur',
+        'Développeurplus',
+        'Administrateur',
+        'Opérateur',
+        'Modérateur',
+        'Développeur',
+        'Helper',
+        'Vidéaste',
+        'Seigneur',
+        'Héro',
+        'Noble',
+        'Booster',
+        'Joueur'
+    ];
+
+    /**
+     * @param string $playerName
+     * @param string $targetName
+     * @return bool
+     */
+    public static function compareRank(string $playerName, string $targetName): bool {
+        $rankp = (new RanksManager)->getPlayerRank($playerName);
+        $rankt = (new RanksManager)->getPlayerRank($targetName);
+        return self::$rankList[array_search($rankp, self::$rankList)] >= self::$rankList[array_search($rankt, self::$rankList)];
+    }
 }
