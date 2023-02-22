@@ -1,0 +1,32 @@
+name: Bug Faction
+description: Permet de report un bug présent avec le core faction.
+title: '[Bug][Faction]: '
+assignees:
+    - Dumont-Julien
+labels:
+    - bug
+    - faction
+body:
+    - type: input
+      id: pseudo
+      attributes:
+          label: Pseudo InGame
+      validation:
+          required: true
+    - type: textarea
+      id: what-happened
+      attributes:
+          label: Définition du problème
+      validations:
+          required: true
+    - type: dropdown
+      id: server
+      validations:
+          required: true
+      attributes:
+          label: Server
+          description: Sur quel serveur est-ce arrivé ?
+          options:
+              - Thêta (Faction 1)
+              - Zeta (Faction 2)
+              - Epsilon (Faction 3)
