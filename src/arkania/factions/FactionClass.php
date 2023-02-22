@@ -17,18 +17,18 @@ declare(strict_types=1);
 
 namespace arkania\factions;
 
+use arkania\Core;
 use arkania\data\DataBaseConnector;
 use arkania\manager\FactionManager;
 use arkania\utils\Query;
 use arkania\utils\Utils;
 use mysqli;
+use pocketmine\entity\Location;
 use pocketmine\player\Player;
 use pocketmine\Server;
+use pocketmine\world\World;
 
 class FactionClass {
-
-    /** @var Claim[][] */
-    public static array $claim = [];
 
     public function __construct(private string $factionName, private string $ownerName, private bool $logs , private string $creationTime, private ?string $description = '', private string $url = '') {
     }
@@ -45,8 +45,9 @@ class FactionClass {
      */
     public static function init(): void {
         $db = self::getDataBase();
-        $db->query("CREATE TABLE IF NOT EXISTS factions(name VARCHAR(10), description TEXT, creation_date TEXT, ownerName VARCHAR(20), allies TEXT, members TEXT, power INT, money INT, logs BOOL, url TEXT)");
+        $db->query("CREATE TABLE IF NOT EXISTS factions(name VARCHAR(10), description TEXT, creation_date TEXT, ownerName VARCHAR(20), allies TEXT, members TEXT, power INT, money INT, logs BOOL, url TEXT, home TEXT)");
         $db->query("CREATE TABLE IF NOT EXISTS players_faction(name VARCHAR(20), faction VARCHAR(10), faction_rank VARCHAR(10))");
+        $db->query("CREATE TABLE IF NOT EXISTS claims(factionName VARCHAR(10), x INT, z INT, world TEXT, faction VARCHAR(10), server TEXT)");
         $db->close();
     }
 
@@ -67,7 +68,7 @@ class FactionClass {
      */
     public function createFaction(): void {
         $db = self::getDataBase();
-        $db->query("INSERT INTO factions(name,
+        Query::query("INSERT INTO factions(name,
                      description,
                      creation_date,
                      ownerName,
@@ -76,7 +77,8 @@ class FactionClass {
                      power,
                      money,
                      logs,
-                     url
+                     url,
+                     home
                      ) VALUES (
                                '" . self::getDataBase()->real_escape_string($this->factionName) . "',
                                 '" . self::getDataBase()->real_escape_string($this->description) ."',
@@ -87,7 +89,8 @@ class FactionClass {
                                   0,
                                   0,
                                   '" . $this->logs . "',
-                                  '" . self::getDataBase()->real_escape_string($this->url) . "')");
+                                  '" . self::getDataBase()->real_escape_string($this->url) . "',
+                                  '" . serialize([]) . "')");
         Query::query("INSERT INTO players_faction(name,
                             faction,
                             faction_rank
@@ -124,7 +127,7 @@ class FactionClass {
      */
     public function setDescription(string $value): void {
         $db = self::getDataBase();
-        $db->query("UPDATE factions SET description='$value' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        Query::query("UPDATE factions SET description='$value' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
         $db->close();
     }
 
@@ -272,7 +275,7 @@ class FactionClass {
      */
     public function addMoney(int $money): void {
         $db = self::getDataBase();
-        $db->query("UPDATE factions SET money=money + '$money' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        Query::query("UPDATE factions SET money=money + '$money' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
         $db->close();
     }
 
@@ -282,7 +285,7 @@ class FactionClass {
      */
     public function delMoney(int $money): void {
         $db = self::getDataBase();
-        $db->query("UPDATE factions SET money=money - '$money' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        Query::query("UPDATE factions SET money=money - '$money' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
         $db->close();
     }
 
@@ -302,7 +305,7 @@ class FactionClass {
      */
     public function setPower(int $power): void {
         $db = self::getDataBase();
-        $db->query("UPDATE factions SET power='$power' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        Query::query("UPDATE factions SET power='$power' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
         $db->close();
     }
 
@@ -312,7 +315,7 @@ class FactionClass {
      */
     public function addPower(int $power): void {
         $db = self::getDataBase();
-        $db->query("UPDATE factions SET power=power + '$power' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        Query::query("UPDATE factions SET power=power + '$power' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
         $db->close();
     }
 
@@ -322,7 +325,7 @@ class FactionClass {
      */
     public function delPower(int $power): void {
         $db = self::getDataBase();
-        $db->query("UPDATE factions SET power=power - '$power' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        Query::query("UPDATE factions SET power=power - '$power' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
         $db->close();
     }
 
@@ -331,7 +334,7 @@ class FactionClass {
      */
     public function resetPower(): void {
         $db = self::getDataBase();
-        $db->query("UPDATE factions SET power=0 WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        Query::query("UPDATE factions SET power=0 WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
         $db->close();
     }
 
@@ -378,7 +381,7 @@ class FactionClass {
      */
     public function setLogsStatus(bool $value): void {
         $db = self::getDataBase();
-        $db->query("UPDATE factions SET logs=$value WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        Query::query("UPDATE factions SET logs='$value' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
         $db->close();
     }
 
@@ -388,7 +391,8 @@ class FactionClass {
      */
     public function setUrl(string $url): void {
         $db = self::getDataBase();
-        $db->query("UPDATE factions SET url='$url' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        Query::query("UPDATE factions SET url='$url' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        $db->close();
     }
 
     /**
@@ -423,5 +427,70 @@ class FactionClass {
         }
         $res->close();
         return $ret;
+    }
+
+    /**
+     * @param Player $player
+     * @return void
+     */
+    public function setHome(Player $player): void {
+        $x = $player->getPosition()->getFloorX();
+        $y = $player->getPosition()->getFloorY();
+        $z = $player->getPosition()->getFloorZ();
+        $world = $player->getWorld()->getDisplayName();
+        $home = [
+            'x' => $x,
+            'y' => $y,
+            'z' => $z,
+            'world' => $world,
+            'server' => Utils::getServerName()
+        ];
+        $db = self::getDataBase();
+        Query::query("UPDATE factions SET home='" . serialize($home) . "' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        $db->close();
+    }
+
+    /**
+     * @param Player $player
+     * @return void
+     */
+    public function teleportHome(Player $player): void {
+        $db = self::getDataBase()->query("SELECT home FROM factions WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        $result = $db->fetch_array()[0];
+        $home = unserialize($result);
+        if (!isset($home['x'])) {
+            $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas définit de home de faction.");
+            return;
+        }
+        $x = $home['x'];
+        $y = $home['y'];
+        $z = $home['z'];
+        $world = $home['world'];
+        $server = $home['server'];
+
+        if ($server === Utils::getServerName()){
+            $player->teleport(new Location($x, $y, $z, Core::getInstance()->getServer()->getWorldManager()->getWorldByName($world), 1, 1));
+            $player->sendMessage(Utils::getPrefix() . "§aVous avez été téléporté au home de faction.");
+        }else{
+            $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas de home sur ce serveur. Votre home de faction se trouve sur le serveur §e" . $server . "§c.");
+        }
+
+    }
+
+    /**
+     * @param Player $player
+     * @return void
+     */
+    public function addClaim(Player $player): void {
+        $db = self::getDataBase()->query("SELECT * FROM claims WHERE factionName='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        $z = $player->getPosition()->getFloorZ() / 16;
+        $x = $player->getPosition()->getFloorX() / 16;
+        $world = $player->getWorld()->getDisplayName();
+        $server = Utils::getServerName();
+        if ($db->num_rows > 0)
+            Query::query("UPDATE claims SET factionName='" . $this->factionName . "', x='$x', z='$z', world='$world', server='$server' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
+        else
+            Query::query("INSERT INTO claims (factionName, x, z,world, server) VALUES ('" . self::getDataBase()->real_escape_string($this->factionName) . "', '$x', '$z', '$world', '$server')");
+        $db->close();
     }
 }

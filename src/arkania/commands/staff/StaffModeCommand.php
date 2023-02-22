@@ -15,24 +15,24 @@ declare(strict_types=1);
  * Tous ce qui est développé par nos équipes, ou qui concerne le serveur, restent confidentiels et est interdit à l’utilisation tiers.
  */
 
-namespace arkania\commands\player;
+namespace arkania\commands\staff;
 
 use arkania\commands\BaseCommand;
 use arkania\Core;
-use arkania\manager\SettingsManager;
-use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
+use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 
-class SettingsCommand extends BaseCommand {
+class StaffModeCommand extends BaseCommand {
 
     /** @var Core */
     private Core $core;
 
     public function __construct(Core $core) {
-        parent::__construct('settings',
-        'Settings - ArkaniaStudios',
-        '/settings <reset:optional>');
+        parent::__construct('staffmode',
+        'Staffmode - ArkaniaStudios',
+        '/staffmode');
+        $this->setPermission('arkania:permission.staffmode');
         $this->core = $core;
     }
 
@@ -40,15 +40,16 @@ class SettingsCommand extends BaseCommand {
         if (!$player instanceof Player)
             return true;
 
-        if (count($args) === 0){
-            $this->core->ui->sendSettingsForm($player);
-        }else{
-            if (strtolower($args[0]) === 'reset'){
-                $settings = new SettingsManager($player);
-                $settings->resetSettings();
-                $player->sendMessage(Utils::getPrefix() . "Vous avez réinitialisé vos paramètres.");
-            }
-        }
+        if (!$this->testPermission($player))
+            return true;
+
+        if (count($args) !== 0)
+            return throw new InvalidCommandSyntaxException();
+
+        if ($this->core->staff->isInStaffMode($player))
+            $this->core->staff->removeStaffMode($player);
+        else
+            $this->core->staff->addStaffMode($player);
         return true;
     }
 }

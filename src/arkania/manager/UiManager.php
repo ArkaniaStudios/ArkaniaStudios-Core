@@ -166,7 +166,7 @@ final class UiManager {
      */
     public function sendSettingsForm(Player $player): void {
 
-        $settings = new SettingsManager(Core::getInstance(), $player);
+        $settings = new SettingsManager($player);
         if ($settings->getSettings(SettingsNameIds::CLEARLAG) === false)
             $statusC = '§aActivé';
         else
@@ -196,7 +196,7 @@ final class UiManager {
         $menu->getInventory()->setItem(53, $glass);
         $menu->setListener(function (InvMenuTransaction $transaction): InvMenuTransactionResult{
             $player = $transaction->getPlayer();
-            $settings = new SettingsManager(Core::getInstance(), $player);
+            $settings = new SettingsManager($player);
 
             if ($transaction->getItemClicked()->getId() === VanillaItems::CLOCK()->getId()){
                 if ($settings->getSettings(SettingsNameIds::CLEARLAG) === false)
@@ -272,14 +272,14 @@ final class UiManager {
 
             $inscription = $jour . ' ' . date('d') . ' ' . $mois . ' ' . $annee;
 
-            $description = $data[2] ?? ' ';
+            $description = $data[2] ?? 'Aucune';
 
             if (strlen($description) > 50){
                 $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez pas mettre plus de §e50 caractères §cdans la description de votre faction.");
                 return;
             }
 
-            $url = '';
+            $url = 'unknow';
 
             if ((bool)$data[3] === false){
                 self::$faction_webhook[$player->getName()] = $player->getName();
@@ -527,7 +527,7 @@ final class UiManager {
      */
     public function sendKitForm(Player $player, bool $isAdmin = false): void {
         $menu = InvMenu::create(InvMenuTypeIds::TYPE_CHEST);
-        $menu->setName('      §cKits');
+        $menu->setName('            §cKits');
         $menu->getInventory()->setItem(10, VanillaItems::RECORD_WAIT()->setCustomName('Kit §7Joueur'));
         $menu->getInventory()->setItem(11, VanillaItems::RECORD_13()->setCustomName('Kit §dBooster'));
         $menu->getInventory()->setItem(13, VanillaItems::RECORD_STAL()->setCustomName('Kit §eNoble'));

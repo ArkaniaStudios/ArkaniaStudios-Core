@@ -19,6 +19,7 @@ namespace arkania\commands\staff;
 
 use arkania\commands\BaseCommand;
 use arkania\Core;
+use arkania\data\WebhookData;
 use arkania\manager\RanksManager;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
@@ -64,6 +65,7 @@ class KickCommand extends BaseCommand {
             $target->disconnect("§7» §cVous avez été expulsé d'Arkania: \n§7» §cStaff: " . $rank . "\n§7» §cRaison: Aucune");
             $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§c" . $target->getName() . "§c vient de se faire expulsé d'Arkania pour le motif Aucun !");
             $this->sendStaffLogs($target->getName() . " vient de se faire kick par " . $rank);
+            Utils::sendDiscordWebhook('**KICK**', '・**' . $target->getName() . "** vient de se faire expulser du serveur par **" . $player->getName() . '**', '・Sanction système - ArkaniaStudios', 0x8F3A84, WebhookData::KICK);
         } else {
             $raison = [];
             for ($i = 1; $i < count($args); $i++)
@@ -72,6 +74,7 @@ class KickCommand extends BaseCommand {
             $target->disconnect("§7» §cVous avez été expulsé d'Arkania: \n§7» §cStaff: " . $rank . "\n§7» §cRaison: $raison");
             $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§c" . $target->getName() . "§c vient de se faire expulsé d'Arkania pour le motif $raison !");
             $this->sendStaffLogs($target->getName() . " vient de se faire kick par " . $rank . " pour le motif $raison");
+            Utils::sendDiscordWebhook('**KICK**', '・**' . $target->getName() . "** vient de se faire expulser du serveur par **" . $player->getName() . '** pour le motif **' . $raison . '**', '・Sanction système - ArkaniaStudios', 0x8F3A84, WebhookData::KICK);
         }
         return true;
     }

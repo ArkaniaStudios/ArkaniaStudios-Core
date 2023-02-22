@@ -46,10 +46,10 @@ class PlayerJoinEvent implements Listener {
         $this->core->stats->createTime($player);
 
         /* Ranks */
-        $this->core->ranksManager->register($player);
-
         if (!$this->core->ranksManager->existPlayer($player->getName()))
             $this->core->ranksManager->setRank($player->getName(), 'Joueur');
+
+        $this->core->ranksManager->register($player);
 
         /* Economy */
         if (!$this->core->economyManager->hasAccount($player->getName()))
@@ -69,7 +69,8 @@ class PlayerJoinEvent implements Listener {
             $inscription = $jour . ' ' . date('d') . ' ' . $mois . ' ' . $annee;
 
             $this->core->stats->setInscription($player, $inscription);
-            $this->core->stats->addPlayerCount();
+            if (!$this->core->ranksManager->existPlayer($player->getName()))
+                $this->core->stats->addPlayerCount();
 
             $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§e" . $player->getName() . "§f vient de rejoindre §cArkania §fpour la première fois ! (§7§o#" . $this->core->stats->getPlayerRegister() . "§f)");
             $event->setJoinMessage('');

@@ -15,18 +15,34 @@ declare(strict_types=1);
  * Tous ce qui est développé par nos équipes, ou qui concerne le serveur, restent confidentiels et est interdit à l’utilisation tiers.
  */
 
-namespace arkania\utils;
+namespace arkania\tasks\async;
 
-use arkania\tasks\async\QueryTask;
-use pocketmine\Server;
+use pocketmine\scheduler\AsyncTask;
 
-class Query {
+class VoteTask extends AsyncTask {
+
+    /** @var callable */
+    private $callable1;
+
+    /** @var callable */
+    private $callable2;
+    public function __construct(callable $callable1, callable $callable2) {
+        $this->callable1 = $callable1;
+        $this->callable2 = $callable2;
+    }
 
     /**
-     * @param string $text
      * @return void
      */
-    public static function query(string $text): void {
-        Server::getInstance()->getAsyncPool()->submitTask(new QueryTask($text));
+    public function onRun(): void {
+        call_user_func($this->callable1, $this);
     }
+
+    /**
+     * @return void
+     */
+    public function onCompletion(): void {
+         call_user_func($this->callable2, $this);
+    }
+
 }

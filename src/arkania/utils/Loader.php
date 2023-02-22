@@ -42,9 +42,11 @@ use arkania\commands\player\PayCommand;
 use arkania\commands\player\ReplyCommand;
 use arkania\commands\player\ServerSelectorCommand;
 use arkania\commands\player\SettingsCommand;
+use arkania\commands\player\VoteCommand;
 use arkania\commands\staff\KickCommand;
 use arkania\commands\staff\LogsCommand;
 use arkania\commands\staff\RedemCommand;
+use arkania\commands\staff\StaffModeCommand;
 use arkania\Core;
 use arkania\entity\base\BaseEntity;
 use arkania\entity\entities\VillagerEntity;
@@ -60,7 +62,6 @@ use arkania\libs\customies\CustomiesListener;
 use arkania\libs\customies\item\CustomiesItemFactory;
 use arkania\listener\SynchronisationListener;
 use arkania\manager\EconomyManager;
-use arkania\manager\KitsManager;
 use arkania\manager\RanksManager;
 use arkania\manager\ServerStatusManager;
 use arkania\manager\SettingsManager;
@@ -144,6 +145,7 @@ final class Loader {
             new KickCommand($this->core),
             new LogsCommand($this->core),
             new RedemCommand($this->core),
+            new StaffModeCommand($this->core),
 
             /* Player */
             new DiscordCommand(),
@@ -155,6 +157,7 @@ final class Loader {
             new ServerSelectorCommand($this->core),
             new PayCommand($this->core),
             new KitsCommand($this->core),
+            new VoteCommand($this->core),
         ];
 
         $this->core->getServer()->getCommandMap()->registerAll('Arkania-Commands', $commands);
@@ -193,7 +196,6 @@ final class Loader {
         SynchronisationManager::init();
         ServerStatusManager::init();
         EconomyManager::init();
-        KitsManager::init();
     }
 
     /**

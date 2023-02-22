@@ -23,6 +23,7 @@ use arkania\libs\discord\Embed;
 use arkania\libs\discord\Message;
 use arkania\libs\discord\Webhook;
 use mysqli;
+use pocketmine\player\Player;
 use pocketmine\Server;
 
 final class Utils {
@@ -49,15 +50,16 @@ final class Utils {
     /**
      * @return string
      */
-    public static function getServerName(): string {
+    public static function getServerName(): string
+    {
         $port = Server::getInstance()->getPort();
         if ($port === 10286)
             return 'Arkania-V2';
-        elseif($port === 10297)
+        elseif ($port === 10297)
             return 'Theta';
-        elseif($port === 10298)
+        elseif ($port === 10298)
             return 'Zeta';
-        elseif($port === 10299)
+        elseif ($port === 10299)
             return 'Epsilon';
         return 'unknown';
     }
