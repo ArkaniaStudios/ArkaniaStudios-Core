@@ -1,32 +1,48 @@
 name: Bug Faction
 description: Permet de report un bug présent avec le core faction.
 title: '[Bug][Faction]: '
-assignees:
-    - Dumont-Julien
 labels:
     - bug
     - faction
+    - ' triage'
 body:
     - type: input
       id: pseudo
       attributes:
           label: Pseudo InGame
-      validation:
+      validations:
           required: true
     - type: textarea
       id: what-happened
       attributes:
-          label: Définition du problème
+          label: Que s'est-il passé ?
+          description: Dites-nous ce qui est arrivé
       validations:
           required: true
+    - type: textarea
+      id: what-should-happened
+      attributes:
+          label: 'Qu''aurait-il dû arriver ?'
     - type: dropdown
       id: server
       validations:
           required: true
       attributes:
-          label: Server
+          label: Serveur
           description: Sur quel serveur est-ce arrivé ?
           options:
               - Thêta (Faction 1)
               - Zeta (Faction 2)
               - Epsilon (Faction 3)
+    - type: input
+      id: date
+      attributes:
+          label: Date et heure de la production du bug
+      validations:
+          required: true
+    - type: checkboxes
+      attributes:
+          label: Bug du plugin Faction
+          options:
+              - label: Le bug que je signale concerne **uniquement** un bug du plugin Factions
+                required: true
