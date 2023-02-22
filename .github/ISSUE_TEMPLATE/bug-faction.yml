@@ -4,7 +4,8 @@ title: '[Bug][Faction]: '
 labels:
     - bug
     - faction
-    - ' triage'
+assignees:
+    - Dumont-Julien
 body:
     - type: input
       id: pseudo
