@@ -19,10 +19,14 @@ namespace arkania\events\players;
 
 use arkania\Core;
 use arkania\manager\RanksManager;
+use arkania\tasks\BanTask;
+use arkania\utils\Date;
 use arkania\utils\Utils;
 use pocketmine\event\Listener;
 
 class PlayerJoinEvent implements Listener {
+
+    use Date;
 
     /** @var Core */
     private Core $core;
@@ -42,6 +46,15 @@ class PlayerJoinEvent implements Listener {
             }
         }
 
+        /* Bannissement */
+        if ($this->core->sanction->isBan($player->getName())){
+            $time = $this->core->sanction->getBanTime($player->getName());
+            if ($time - time() <= 0)
+                $this->core->sanction->removeBan($player->getName());
+            else
+                $this->core->getScheduler()->scheduleRepeatingTask(new BanTask($this->core, $player), 7);
+        }
+
         /* PlayerTime */
         $this->core->stats->createTime($player);
 
@@ -58,16 +71,7 @@ class PlayerJoinEvent implements Listener {
 
         /* PlayerBefore */
         if (!$player->hasPlayedBefore()){
-            $jours = array('Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi');
-            $mois = array('Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre');
-            $num_jour = date('w');
-            $jour = $jours[$num_jour];
-            $num_mois = date('n') - 1;
-            $mois = $mois[$num_mois];
-            $annee = date('Y');
-
-            $inscription = $jour . ' ' . date('d') . ' ' . $mois . ' ' . $annee;
-
+            $inscription = $this->dateFormat();
             $this->core->stats->setInscription($player, $inscription);
             if (!$this->core->ranksManager->existPlayer($player->getName()))
                 $this->core->stats->addPlayerCount();

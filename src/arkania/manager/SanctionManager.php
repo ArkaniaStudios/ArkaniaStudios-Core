@@ -21,7 +21,6 @@ use arkania\Core;
 use arkania\data\DataBaseConnector;
 use arkania\utils\Query;
 use mysqli;
-use pocketmine\player\Player;
 
 final class SanctionManager {
 
@@ -37,8 +36,8 @@ final class SanctionManager {
      */
     public static function init(): void {
         $db = self::getDataBase();
-        $db->query("CREATE TABLE IF NOT EXISTS ban(name VARCHAR(20), staff TEXT, temps INT, raison TEXT, server TEXT)");
-        $db->query("CREATE TABLE IF NOT EXISTS mute(name VARCHAR(20), staff TEXT, temps INT, raison TEXT, server TEXT)");
+        $db->query("CREATE TABLE IF NOT EXISTS ban(name VARCHAR(20), staff TEXT, temps INT, raison TEXT, server TEXT, date TEXT)");
+        $db->query("CREATE TABLE IF NOT EXISTS mute(name VARCHAR(20), staff TEXT, temps INT, raison TEXT, server TEXT, date TEXT)");
         $db->query("CREATE TABLE IF NOT EXISTS warn(name VARCHAR(20), value TEXT)");
         $db->close();
     }
@@ -59,22 +58,24 @@ final class SanctionManager {
      * @param int $time
      * @param string $raison
      * @param string $server
-     * @param string $ip
+     * @param string $date
      * @return void
      */
-    public function addBan(string $playerName, string $staff, int $time, string $raison, string $server): void {
+    public function addBan(string $playerName, string $staff, int $time, string $raison, string $server, string $date): void {
         $db = self::getDataBase();
         Query::query("INSERT INTO ban(name,
                 staff,
                 temps,
                 raison,
-                server
+                server,
+                date
                 )VALUES (
                          '$playerName',
                          '$staff',
                          '$time',
                          '$raison',
-                         '$server'
+                         '$server',
+                         '$date'
                 )");
         $db->close();
     }
@@ -96,7 +97,7 @@ final class SanctionManager {
      * @return int
      */
     public function getBanTime(string $playerName): int {
-        $db = self::getDataBase()->query("SELECT time FROM ban WHERE name='" . self::getDataBase()->real_escape_string($playerName) . "'");
+        $db = self::getDataBase()->query("SELECT temps FROM ban WHERE name='" . self::getDataBase()->real_escape_string($playerName) . "'");
         $result = $db->fetch_array()[0] ?? false;
         return (int)$result;
     }
@@ -137,6 +138,16 @@ final class SanctionManager {
      */
     public function getBanIp(string $playerName): string {
         $db = self::getDataBase()->query("SELECT ip FROM ban WHERE name='" . self::getDataBase()->real_escape_string($playerName) . "'");
+        $result = $db->fetch_array()[0] ?? false;
+        return (string)$result;
+    }
+
+    /**
+     * @param string $playerName
+     * @return string
+     */
+    public function getBanData(string $playerName): string {
+        $db = self::getDataBase()->query("SELECT date FROM ban WHERE name='" . self::getDataBase()->real_escape_string($playerName) . "'");
         $result = $db->fetch_array()[0] ?? false;
         return (string)$result;
     }

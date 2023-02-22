@@ -36,7 +36,7 @@ class SynchronisationListener implements Listener {
     public function onPlayerJoin(PlayerJoinEvent $event) {
         $player = $event->getPlayer();
 
-        $settings = new SettingsManager($this->core, $player);
+        $settings = new SettingsManager($player);
         $settings->createUserSettings();
 
         $this->core->ranksManager->synchroJoinRank($player);
