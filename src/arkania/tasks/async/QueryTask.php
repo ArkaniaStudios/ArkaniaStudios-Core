@@ -41,5 +41,6 @@ class QueryTask extends AsyncTask {
         $database = new MySQLi(DataBaseConnector::HOST_NAME, DataBaseConnector::USER_NAME, DataBaseConnector::PASSWORD, DataBaseConnector::DATABASE);
         $database->query($this->text);
         if ($database->error) throw new DataBaseException('DataBaseError: ' . $database->error);
+        $database->close();
     }
 }
