@@ -4,11 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="add same update">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="update">
+      <change afterPath="$PROJECT_DIR$/src/arkania/jobs/Jobs.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/jobs/class/Mineur.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/session/Session.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/utils/trait/Provider.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/staff/TempsBanCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/staff/TempsBanCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/events/players/PlayerJoinEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerJoinEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/jobs/JobsIds.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/jobs/JobsIds.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/manager/EconomyManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/EconomyManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/FactionManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/FactionManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/RanksManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/RanksManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/ServerStatusManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/ServerStatusManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/UiManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/UiManager.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/tasks/async/QueryTask.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/tasks/async/QueryTask.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/utils/Date.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/trait/Date.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/utils/Loader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/Loader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/utils/SerializeItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/trait/SerializeItem.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +99,7 @@
       <workItem from="1677170046685" duration="1000" />
       <workItem from="1677171396492" duration="606000" />
       <workItem from="1677173620171" duration="9000" />
-      <workItem from="1677177068525" duration="4166000" />
+      <workItem from="1677177068525" duration="10337000" />
     </task>
     <task id="LOCAL-00001" summary="add template">
       <created>1676844106724</created>
@@ -200,7 +213,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677165709224</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="update">
+      <created>1677185394609</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1677185394609</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -230,6 +250,7 @@
     <MESSAGE value="add same update (juste bug with synchronizer)" />
     <MESSAGE value="update template" />
     <MESSAGE value="add same update" />
-    <option name="LAST_COMMIT_MESSAGE" value="add same update" />
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
 </project>
