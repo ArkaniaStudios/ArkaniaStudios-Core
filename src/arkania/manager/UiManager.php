@@ -17,7 +17,6 @@ declare(strict_types=1);
 
 namespace arkania\manager;
 
-use arkania\commands\BaseCommand;
 use arkania\commands\player\ServerSelectorCommand;
 use arkania\Core;
 use arkania\data\SettingsNameIds;
@@ -38,6 +37,7 @@ use pocketmine\item\Item;
 use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;
 use pocketmine\Server;
+use src\arkania\api\BaseCommand;
 
 final class UiManager {
 
@@ -576,6 +576,11 @@ final class UiManager {
         $menu->send($player);
     }
 
+    /**
+     * @param Player $player
+     * @param bool|string $faction
+     * @return void
+     */
     public function sendSettingsFactionForm(Player $player, bool|string $faction): void {
         $form = new SimpleForm(function (Player $player, $data) use ($faction){
 
@@ -594,6 +599,11 @@ final class UiManager {
         $player->sendForm($form);
     }
 
+    /**
+     * @param Player $player
+     * @param $faction
+     * @return void
+     */
     public function sendDescriptionFactionForm(Player $player, $faction): void {
         $form = new CustomForm(function (Player $player, $data) use ($faction){
 
@@ -615,6 +625,11 @@ final class UiManager {
         $player->sendForm($form);
     }
 
+    /**
+     * @param Player $player
+     * @param $faction
+     * @return void
+     */
     public function sendLogsDiscordForm(Player $player, $faction): void {
         $form = new CustomForm(function (Player $player, $data) use ($faction){
             if (is_null($data))
@@ -634,4 +649,20 @@ final class UiManager {
         $player->sendForm($form);
     }
 
+    /**
+     * @param Player $player
+     * @return void
+     */
+    public function sendUnBanForm(Player $player): void {
+        $form = new SimpleForm(function (Player $player, $data){
+            if (is_null($data))
+                return;
+        });
+        $form->setTitle('§c- §fUnBan §c-');
+        $form->setContent("§7» §rSéléctionnez la personne que vous souhaitez débannir.");
+        foreach (Core::getInstance()->sanction->getAllBan() as $ban){
+            $form->addButton($ban);
+        }
+        $player->sendForm($form);
+    }
 }

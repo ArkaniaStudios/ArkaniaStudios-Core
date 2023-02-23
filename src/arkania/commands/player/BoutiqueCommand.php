@@ -17,9 +17,9 @@ declare(strict_types=1);
 
 namespace arkania\commands\player;
 
-use arkania\commands\BaseCommand;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
+use arkania\commands\BaseCommand;
 
 class BoutiqueCommand extends BaseCommand {
 

@@ -49,12 +49,14 @@ use arkania\commands\staff\LogsCommand;
 use arkania\commands\staff\RedemCommand;
 use arkania\commands\staff\StaffModeCommand;
 use arkania\commands\staff\TempsBanCommand;
+use arkania\commands\staff\UnBanCommand;
 use arkania\Core;
 use arkania\entity\base\BaseEntity;
 use arkania\entity\entities\VillagerEntity;
 use arkania\events\entity\EntityDamageEntityEvent;
 use arkania\events\players\PlayerChatEvent;
 use arkania\events\players\PlayerJoinEvent;
+use arkania\events\players\PlayerLoginEvent;
 use arkania\events\players\PlayerQuitEvent;
 use arkania\factions\FactionClass;
 use arkania\items\ItemIds;
@@ -152,6 +154,7 @@ final class Loader {
             new RedemCommand($this->core),
             new StaffModeCommand($this->core),
             new TempsBanCommand($this->core),
+            new UnBanCommand($this->core),
 
             /* Player */
             new DiscordCommand(),
@@ -176,6 +179,7 @@ final class Loader {
     private function initEvents(): void {
         $events = [
 
+            new PlayerLoginEvent($this->core),
             new PlayerJoinEvent($this->core),
             new PlayerQuitEvent($this->core),
             new PlayerChatEvent($this->core),

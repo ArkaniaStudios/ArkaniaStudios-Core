@@ -17,7 +17,6 @@ declare(strict_types=1);
 
 namespace arkania\commands\player;
 
-use arkania\commands\BaseCommand;
 use arkania\Core;
 use arkania\data\SettingsNameIds;
 use arkania\manager\RanksManager;
@@ -27,6 +26,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 use pocketmine\Server;
+use arkania\commands\BaseCommand;
 
 class MsgCommand extends BaseCommand {
 

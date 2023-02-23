@@ -60,7 +60,7 @@ class PlayerJoinEvent implements Listener {
 
         /* Ranks */
         if (!$this->core->ranksManager->existPlayer($player->getName()))
-            $this->core->ranksManager->setRank($player->getName(), 'Joueur');
+            $this->core->ranksManager->setDefaultRank($player->getName());
 
         $this->core->ranksManager->register($player);
 
@@ -71,15 +71,18 @@ class PlayerJoinEvent implements Listener {
 
         /* PlayerBefore */
         if (!$player->hasPlayedBefore()){
-            $inscription = $this->dateFormat();
-            $this->core->stats->setInscription($player, $inscription);
-            if (!$this->core->ranksManager->existPlayer($player->getName()))
-                $this->core->stats->addPlayerCount();
+            if (!$this->core->sanction->isBan($player->getName())){
+                $inscription = $this->dateFormat();
+                $this->core->stats->setInscription($player, $inscription);
+                if (!$this->core->ranksManager->existPlayer($player->getName()))
+                    $this->core->stats->addPlayerCount();
 
-            $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§e" . $player->getName() . "§f vient de rejoindre §cArkania §fpour la première fois ! (§7§o#" . $this->core->stats->getPlayerRegister() . "§f)");
-            $event->setJoinMessage('');
+                $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§e" . $player->getName() . "§f vient de rejoindre §cArkania §fpour la première fois ! (§7§o#" . $this->core->stats->getPlayerRegister() . "§f)");
+                $event->setJoinMessage('');
+            }
         }else{
-            $event->setJoinMessage('[§a+§f] ' . RanksManager::getRanksFormatPlayer($player));
+            if (!$this->core->sanction->isBan($player->getName()))
+                $event->setJoinMessage('[§a+§f] ' . RanksManager::getRanksFormatPlayer($player));
         }
     }
 }

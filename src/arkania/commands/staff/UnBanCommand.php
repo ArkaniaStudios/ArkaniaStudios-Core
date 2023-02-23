@@ -42,5 +42,8 @@ class UnBanCommand extends BaseCommand {
 
         if (!$this->testPermission($player))
             return true;
+
+        $this->core->ui->sendUnBanForm($player);
+        return true;
     }
 }
