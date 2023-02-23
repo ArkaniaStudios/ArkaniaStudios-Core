@@ -14,3 +14,14 @@ declare(strict_types=1);
  *
  * Tous ce qui est développé par nos équipes, ou qui concerne le serveur, restent confidentiels et est interdit à l’utilisation tiers.
  */
+
+namespace arkania\jobs;
+
+interface JobsIds {
+
+    const MINEUR = 'job:mineur';
+    const FARMER = 'job:farmer';
+    const LUMBERJACK = 'job:bucheron';
+    const HUNTER = 'job:hunter';
+
+}
