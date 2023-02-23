@@ -167,7 +167,8 @@ final class SynchronisationManager {
      * @param Player $player
      * @return void
      */
-    public function restorInventory(Player $player): void {
+    public function restorInventory(Player $player): void
+    {
         $name = $player->getName();
         $inventaire = $this->getInventory($name);
         $armure = $this->getArmorInventory($name);
@@ -184,7 +185,5 @@ final class SynchronisationManager {
         if (isset($armure['boots'])) $player->getArmorInventory()->setBoots($armure['boots']);
 
         $player->getXpManager()->setXpLevel((int)$this->getExperience($name));
-
     }
-
 }

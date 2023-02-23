@@ -65,7 +65,11 @@ final class RanksManager {
         return false;
     }
 
-    public function existPlayer(string $playerName): bool {
+    /**
+     * @param $playerName
+     * @return bool
+     */
+    public function existPlayer($playerName): bool {
         $db = self::getDataBase()->query("SELECT * FROM players_ranks WHERE name='" . self::getDataBase()->real_escape_string($playerName) ."'");
         $player = $db->num_rows > 0;
         $db->close();
@@ -82,7 +86,7 @@ final class RanksManager {
         $db = self::getDataBase()->query("SELECT ranks FROM players_ranks WHERE name='" . self::getDataBase()->real_escape_string($playerName) . "'");
         $ranks = $db->fetch_array()[0] ?? false;
         $db->close();
-        return !$ranks ? '§7Joueur' : $ranks;
+        return !$ranks ? 'Joueur' : $ranks;
     }
 
     /* Management rank */
@@ -184,15 +188,28 @@ final class RanksManager {
         if ($db->num_rows > 0)
             Query::query("UPDATE players_ranks SET ranks='$rank' WHERE name='" . self::getDataBase()->real_escape_string($playerName) . "'");
         else
-            Query::query("INSERT INTO players_ranks(name, ranks, permissions) VALUES ('" . self::getDataBase()->real_escape_string($playerName) . "', '$rank', '" . serialize([]) ."')");
-
+            Query::query("INSERT INTO players_ranks(name, ranks, permissions) VALUES ('" . self::getDataBase()->real_escape_string($playerName) . "', '$rank', '" . serialize([]) . "')");
         $target = Server::getInstance()->getPlayerExact($playerName);
 
         if ($target instanceof Player){
-            $this->updatePermission($target);
+            if (isset($this->attachment[$target->getName()]))
+                $this->updatePermission($target);
             $this->updateNameTag($target);
         }
         $db->close();
+    }
+
+    /**
+     * @param string $playerName
+     * @return void
+     */
+    public function setDefaultRank(string $playerName): void {
+        $db = self::getDataBase()->query("SELECT * FROM players_ranks WHERE name='" . self::getDataBase()->real_escape_string($playerName) . "'");
+        Query::query("INSERT INTO players_ranks(name, ranks, permissions) VALUES ('" . $playerName . "', 'Joueur', '" . serialize([]) . "')");
+        $target = Server::getInstance()->getPlayerExact($playerName);
+        $db->close();
+        if ($target instanceof Player)
+            $this->updateNameTag($target);
     }
 
     /* Synchronisation */
@@ -358,11 +375,11 @@ final class RanksManager {
      */
     public function getRankColor(string $playerName): string {
         $ranks = $this->getPlayerRank($playerName);
-        return $this->extracted($ranks);
+        return $this->ex($ranks);
     }
 
     public function getRankColorToString(string $ranks): string {
-        return $this->extracted($ranks);
+        return $this->ex($ranks);
     }
 
     /**
@@ -414,7 +431,7 @@ final class RanksManager {
      * @param string $ranks
      * @return string
      */
-    private function extracted(string $ranks): string
+    private function ex(string $ranks): string
     {
         if ($ranks === 'Joueur') return '§7Joueur';
         if ($ranks === 'Booster') return '§dBooster';
@@ -459,6 +476,6 @@ final class RanksManager {
     public static function compareRank(string $playerName, string $targetName): bool {
         $rankp = (new RanksManager)->getPlayerRank($playerName);
         $rankt = (new RanksManager)->getPlayerRank($targetName);
-        return self::$rankList[array_search($rankp, self::$rankList)] >= self::$rankList[array_search($rankt, self::$rankList)];
+        return self::$rankList[array_search($rankp, self::$rankList)] < self::$rankList[array_search($rankt, self::$rankList)];
     }
 }

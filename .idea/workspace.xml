@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="add same update">
+      <change afterPath="$PROJECT_DIR$/.idea/ArkaniaStudios-Core.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/11afa8bd-3b75-4fa7-b1c1-950cc8d2fa3a.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/11afa8bd-3b75-4fa7-b1c1-950cc8d2fa3a/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/webResources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerLoginEvent.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/jobs/JobsIds.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/BoutiqueCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/BoutiqueCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/DiscordCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/DiscordCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/FactionCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/FactionCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/KitsCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/KitsCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/MoneyCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/MoneyCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/MsgCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/MsgCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/PayCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/PayCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/ReplyCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/ReplyCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/ServerInfoCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/ServerInfoCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/ServerSelectorCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/ServerSelectorCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/SettingsCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/SettingsCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/VoteCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/VoteCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/staff/UnBanCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/staff/UnBanCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/events/players/PlayerJoinEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerJoinEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/RanksManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/RanksManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/SanctionManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/SanctionManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/SynchronisationManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/SynchronisationManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/UiManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/UiManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/tasks/RedemTask.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/tasks/RedemTask.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/utils/Loader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/Loader.php" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="stable" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="PhpDebugGeneral" listening_started="true" />
+  <component name="PhpWorkspaceProjectConfiguration">
+    <include_path>
+      <path value="$PROJECT_DIR$/../../API/PocketMine-MP" />
+    </include_path>
+  </component>
+  <component name="ProjectId" id="2LyVV9NppQZpsdws5uCbqTzOuO7" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenDatabaseViewOnStart": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/dumon/OneDrive/Bureau",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mariadb"
+    ]
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="" />
+      <created>1676843334987</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1676843334987</updated>
+      <workItem from="1676843336228" duration="1761000" />
+      <workItem from="1676874331462" duration="9000" />
+      <workItem from="1676877100720" duration="11000" />
+      <workItem from="1676877122332" duration="46000" />
+      <workItem from="1676877178046" duration="2950000" />
+      <workItem from="1676912597883" duration="12706000" />
+      <workItem from="1676967610645" duration="42000" />
+      <workItem from="1676967856736" duration="9433000" />
+      <workItem from="1676983244350" duration="16109000" />
+      <workItem from="1677052892639" duration="26103000" />
+      <workItem from="1677085202072" duration="8464000" />
+      <workItem from="1677145587617" duration="12549000" />
+    </task>
+    <task id="LOCAL-00001" summary="add template">
+      <created>1676844106724</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1676844106724</updated>
+    </task>
+    <task id="LOCAL-00002" summary="add template">
+      <created>1676844775291</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1676844775291</updated>
+    </task>
+    <task id="LOCAL-00003" summary="update faction debug">
+      <created>1676877495464</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1676877495464</updated>
+    </task>
+    <task id="LOCAL-00004" summary="add server selector and same change in faction system">
+      <created>1676929571132</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1676929571132</updated>
+    </task>
+    <task id="LOCAL-00005" summary="test">
+      <created>1676929759749</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1676929759749</updated>
+    </task>
+    <task id="LOCAL-00006" summary="implement debug">
+      <created>1676929918218</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1676929918218</updated>
+    </task>
+    <task id="LOCAL-00007" summary="update ranks system">
+      <created>1676933746042</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1676933746042</updated>
+    </task>
+    <task id="LOCAL-00008" summary="add economy system">
+      <created>1676977395591</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1676977395591</updated>
+    </task>
+    <task id="LOCAL-00009" summary="correction of economy system and add maintenance system">
+      <created>1676993572306</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1676993572306</updated>
+    </task>
+    <task id="LOCAL-00010" summary="correction permission system, implement feature on faction system">
+      <created>1677012302969</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1677012302969</updated>
+    </task>
+    <task id="LOCAL-00011" summary="add same update (juste bug with synchronizer)">
+      <created>1677092995146</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1677092995146</updated>
+    </task>
+    <task id="LOCAL-00012" summary="update template">
+      <created>1677098994909</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1677098994909</updated>
+    </task>
+    <task id="LOCAL-00013" summary="update template">
+      <created>1677099268871</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1677099268871</updated>
+    </task>
+    <task id="LOCAL-00014" summary="update template">
+      <created>1677099666986</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1677099666986</updated>
+    </task>
+    <task id="LOCAL-00015" summary="add same update">
+      <created>1677109932538</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1677109932538</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add template" />
+    <MESSAGE value="update faction debug" />
+    <MESSAGE value="add server selector and same change in faction system" />
+    <MESSAGE value="test" />
+    <MESSAGE value="implement debug" />
+    <MESSAGE value="update ranks system" />
+    <MESSAGE value="add economy system" />
+    <MESSAGE value="correction of economy system and add maintenance system" />
+    <MESSAGE value="correction permission system, implement feature on faction system" />
+    <MESSAGE value="add same update (juste bug with synchronizer)" />
+    <MESSAGE value="update template" />
+    <MESSAGE value="add same update" />
+    <option name="LAST_COMMIT_MESSAGE" value="add same update" />
+  </component>
+</project>

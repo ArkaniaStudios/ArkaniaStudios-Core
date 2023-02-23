@@ -162,4 +162,17 @@ final class SanctionManager {
         $db->close();
     }
 
+    /**
+     * @return array
+     */
+    public function getAllBan(): array {
+        $res = self::getDatabase()->query("SELECT * FROM ban");
+        $ret = [];
+        foreach($res->fetch_all() as $val){
+            $ret[$val[0]] = $val[0];
+        }
+        $res->close();
+        return $ret;
+    }
+
 }

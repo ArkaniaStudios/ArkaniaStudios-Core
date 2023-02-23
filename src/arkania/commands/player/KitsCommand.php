@@ -17,11 +17,11 @@ declare(strict_types=1);
 
 namespace arkania\commands\player;
 
-use arkania\commands\BaseCommand;
 use arkania\Core;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
+use arkania\commands\BaseCommand;
 
 class KitsCommand extends BaseCommand {
 

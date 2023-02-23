@@ -17,14 +17,14 @@ declare(strict_types=1);
 
 namespace arkania\commands\player;
 
-use arkania\commands\BaseCommand;
 use arkania\Core;
 use arkania\manager\RanksManager;
+use arkania\tasks\async\VoteTask;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\utils\Internet;
-use arkania\tasks\async\VoteTask;
+use arkania\commands\BaseCommand;
 
 class VoteCommand extends BaseCommand {
 
