@@ -17,17 +17,18 @@ declare(strict_types=1);
 
 namespace arkania\manager;
 
-use arkania\data\DataBaseConnector;
 use arkania\utils\Query;
+use arkania\utils\trait\Provider;
 use mysqli;
 
-final class EconomyManager {
+final class EconomyManager{
+    use Provider;
 
     /**
      * @return MySQLi
      */
     private static function getDataBase(): MySQLi {
-        return new MySQLi(DataBaseConnector::HOST_NAME, DataBaseConnector::USER_NAME, DataBaseConnector::PASSWORD, DataBaseConnector::DATABASE);
+        return (new EconomyManager)->getProvider();
     }
 
     /**
@@ -49,7 +50,6 @@ final class EconomyManager {
         $db->close();
         return $money;
     }
-
     /**
      * @param $playerName
      * @param int $amount

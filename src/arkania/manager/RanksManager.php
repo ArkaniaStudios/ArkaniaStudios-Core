@@ -18,9 +18,9 @@ declare(strict_types=1);
 namespace arkania\manager;
 
 use arkania\Core;
-use arkania\data\DataBaseConnector;
 use arkania\exception\PermissionMissingException;
 use arkania\utils\Query;
+use arkania\utils\trait\Provider;
 use mysqli;
 use pocketmine\permission\PermissionAttachment;
 use pocketmine\player\IPlayer;
@@ -28,6 +28,7 @@ use pocketmine\player\Player;
 use pocketmine\Server;
 
 final class RanksManager {
+    use Provider;
 
     /** @var array  */
     public array $attachment = [];
@@ -37,7 +38,7 @@ final class RanksManager {
      * @return mysqli
      */
     private static function getDataBase(): MySQLi {
-        return new MySQLi(DataBaseConnector::HOST_NAME, DataBaseConnector::USER_NAME, DataBaseConnector::PASSWORD, DataBaseConnector::DATABASE);
+        return (new RanksManager)->getProvider();
     }
 
     /**

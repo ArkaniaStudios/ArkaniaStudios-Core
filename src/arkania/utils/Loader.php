@@ -62,6 +62,7 @@ use arkania\factions\FactionClass;
 use arkania\items\ItemIds;
 use arkania\items\NoneEnchant;
 use arkania\items\npc\NpcManagerItem;
+use arkania\jobs\class\Mineur;
 use arkania\libs\customies\CustomiesListener;
 use arkania\libs\customies\item\CustomiesItemFactory;
 use arkania\listener\SynchronisationListener;
@@ -208,6 +209,7 @@ final class Loader {
         ServerStatusManager::init();
         EconomyManager::init();
         SanctionManager::init();
+        Mineur::init();
     }
 
     /**

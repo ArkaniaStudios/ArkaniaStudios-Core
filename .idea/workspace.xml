@@ -4,38 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="add same update">
-      <change afterPath="$PROJECT_DIR$/.idea/ArkaniaStudios-Core.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/11afa8bd-3b75-4fa7-b1c1-950cc8d2fa3a.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/11afa8bd-3b75-4fa7-b1c1-950cc8d2fa3a/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/webResources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerLoginEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/jobs/JobsIds.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/BoutiqueCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/BoutiqueCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/DiscordCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/DiscordCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/FactionCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/FactionCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/KitsCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/KitsCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/MoneyCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/MoneyCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/MsgCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/MsgCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/PayCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/PayCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/ReplyCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/ReplyCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/ServerInfoCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/ServerInfoCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/ServerSelectorCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/ServerSelectorCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/SettingsCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/SettingsCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/VoteCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/VoteCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/staff/UnBanCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/staff/UnBanCommand.php" afterDir="false" />
+    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="update">
+      <change afterPath="$PROJECT_DIR$/src/arkania/jobs/Jobs.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/jobs/class/Mineur.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/session/Session.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/utils/trait/Provider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/staff/TempsBanCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/staff/TempsBanCommand.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/events/players/PlayerJoinEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerJoinEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/jobs/JobsIds.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/jobs/JobsIds.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/EconomyManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/EconomyManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/FactionManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/FactionManager.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/manager/RanksManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/RanksManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/manager/SanctionManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/SanctionManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/manager/SynchronisationManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/SynchronisationManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/ServerStatusManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/ServerStatusManager.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/manager/UiManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/UiManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/tasks/RedemTask.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/tasks/RedemTask.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/tasks/async/QueryTask.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/tasks/async/QueryTask.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/utils/Date.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/trait/Date.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/utils/Loader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/Loader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/utils/SerializeItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/trait/SerializeItem.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +34,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="stable" />
+        <entry key="$PROJECT_DIR$" value="database" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -79,6 +65,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "php.override.implement.member.chooser.php.doc": "NONE",
     "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
   },
@@ -107,7 +94,12 @@
       <workItem from="1676983244350" duration="16109000" />
       <workItem from="1677052892639" duration="26103000" />
       <workItem from="1677085202072" duration="8464000" />
-      <workItem from="1677145587617" duration="12549000" />
+      <workItem from="1677145587617" duration="13195000" />
+      <workItem from="1677169418767" duration="1000" />
+      <workItem from="1677170046685" duration="1000" />
+      <workItem from="1677171396492" duration="606000" />
+      <workItem from="1677173620171" duration="9000" />
+      <workItem from="1677177068525" duration="10337000" />
     </task>
     <task id="LOCAL-00001" summary="add template">
       <created>1676844106724</created>
@@ -214,7 +206,21 @@
       <option name="project" value="LOCAL" />
       <updated>1677109932538</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="add same update">
+      <created>1677165709224</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1677165709224</updated>
+    </task>
+    <task id="LOCAL-00017" summary="update">
+      <created>1677185394609</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1677185394609</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -244,6 +250,7 @@
     <MESSAGE value="add same update (juste bug with synchronizer)" />
     <MESSAGE value="update template" />
     <MESSAGE value="add same update" />
-    <option name="LAST_COMMIT_MESSAGE" value="add same update" />
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
 </project>

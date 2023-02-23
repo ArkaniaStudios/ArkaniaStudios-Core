@@ -17,17 +17,18 @@ declare(strict_types=1);
 
 namespace arkania\manager;
 
-use arkania\data\DataBaseConnector;
 use arkania\factions\FactionClass;
+use arkania\utils\trait\Provider;
 use mysqli;
 
 final class FactionManager {
+    use Provider;
 
     /**
      * @return mysqli
      */
     private static function getDataBase(): MySQLi{
-        return new MySQLi(DataBaseConnector::HOST_NAME, DataBaseConnector::USER_NAME, DataBaseConnector::PASSWORD, DataBaseConnector::DATABASE);
+        return (new FactionManager)->getProvider();
     }
 
     /**

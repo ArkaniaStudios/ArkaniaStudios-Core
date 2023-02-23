@@ -28,7 +28,7 @@ use arkania\libs\muqsit\invmenu\transaction\InvMenuTransaction;
 use arkania\libs\muqsit\invmenu\transaction\InvMenuTransactionResult;
 use arkania\libs\muqsit\invmenu\type\InvMenuTypeIds;
 use arkania\tasks\TransfertTask;
-use arkania\utils\Date;
+use arkania\utils\trait\Date;
 use arkania\utils\Utils;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\item\enchantment\EnchantmentInstance;
@@ -37,7 +37,7 @@ use pocketmine\item\Item;
 use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;
 use pocketmine\Server;
-use src\arkania\api\BaseCommand;
+use arkania\commands\BaseCommand;
 
 final class UiManager {
 

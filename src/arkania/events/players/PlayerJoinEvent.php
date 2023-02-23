@@ -20,7 +20,7 @@ namespace arkania\events\players;
 use arkania\Core;
 use arkania\manager\RanksManager;
 use arkania\tasks\BanTask;
-use arkania\utils\Date;
+use arkania\utils\trait\Date;
 use arkania\utils\Utils;
 use pocketmine\event\Listener;
 
