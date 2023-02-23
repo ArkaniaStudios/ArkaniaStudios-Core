@@ -19,16 +19,18 @@ namespace arkania\manager;
 
 use arkania\data\DataBaseConnector;
 use arkania\utils\Query;
+use arkania\utils\trait\Provider;
 use arkania\utils\Utils;
 use mysqli;
 
 final class ServerStatusManager {
+    use Provider;
 
     /**
      * @return mysqli
      */
     private static function getDataBase(): MySQLi {
-        return new MySQLi(DataBaseConnector::HOST_NAME, DataBaseConnector::USER_NAME, DataBaseConnector::PASSWORD, DataBaseConnector::DATABASE);
+        return (new ServerStatusManager)->getProvider();
     }
 
     /**

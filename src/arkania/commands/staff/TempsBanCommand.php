@@ -21,7 +21,7 @@ use arkania\commands\BaseCommand;
 use arkania\Core;
 use arkania\data\WebhookData;
 use arkania\manager\RanksManager;
-use arkania\utils\Date;
+use arkania\utils\trait\Date;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
