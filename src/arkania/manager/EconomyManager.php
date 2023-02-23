@@ -21,7 +21,7 @@ use arkania\data\DataBaseConnector;
 use arkania\utils\Query;
 use mysqli;
 
-final class EconomyManager {
+final class EconomyManager{
 
     /**
      * @return MySQLi
@@ -49,7 +49,6 @@ final class EconomyManager {
         $db->close();
         return $money;
     }
-
     /**
      * @param $playerName
      * @param int $amount
