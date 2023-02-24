@@ -21,12 +21,14 @@ use arkania\commands\BaseCommand;
 use arkania\Core;
 use arkania\data\WebhookData;
 use arkania\manager\RanksManager;
+use arkania\utils\trait\Webhook;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 
 class SetMoneyCommand extends BaseCommand {
+    use Webhook;
 
     /** @var Core */
     private Core $core;
@@ -59,7 +61,7 @@ class SetMoneyCommand extends BaseCommand {
         $this->core->economyManager->setMoney($target, (int)$args[1]);
         $player->sendMessage(Utils::getPrefix() . "Vous avez définit l'argent de §e" . $target . "§f à §e" . $args[1] . "§f.");
 
-        Utils::sendDiscordWebhook('**SETMONEY**',"**" . $this->core->ranksManager->getRankColor($player->getName()) . " - " . $player->getName() . "** vient de définir l'argent de **" . $target . "** à  **" . $args[1] . "**$", 'ArkaniaStudios - Money', 0x05E82E, WebhookData::MONEY);
+        $this->sendDiscordWebhook('**SETMONEY**',"**" . Utils::removeColorOnMessage($rank) . "** vient de définir l'argent de **" . $target . "** à  **" . $args[1] . "**$", 'ArkaniaStudios - Money', 0x05E82E, WebhookData::MONEY);
         $this->sendStaffLogs($rank . ' vient de définir l\'\argent de ' . $target . ' à ' . $args[1] . '');
 
         if ($this->core->getServer()->getPlayerExact($target) instanceof Player)

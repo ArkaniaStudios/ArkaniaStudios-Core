@@ -91,7 +91,7 @@ class Core extends PluginBase {
     protected function onLoad(): void {
         self::setInstance($this);
 
-        $provider = new WritableWorldProviderManagerEntry(\Closure::fromCallable([LevelDB::class, 'isValid']), fn(string $path) => new LevelDB($path), Closure::fromCallable([LevelDB::class, 'generate']));
+        $provider = new WritableWorldProviderManagerEntry(Closure::fromCallable([LevelDB::class, 'isValid']), fn(string $path) => new LevelDB($path), Closure::fromCallable([LevelDB::class, 'generate']));
         $this->getServer()->getWorldManager()->getProviderManager()->addProvider($provider, 'leveldb', true);
         $this->getServer()->getWorldManager()->getProviderManager()->setDefault($provider);
     }
@@ -106,8 +106,8 @@ class Core extends PluginBase {
         if (!file_exists($this->getDataFolder() . 'npc/data.json'))
             $this->saveResource($this->getDataFolder() . 'npc/data.json');
 
-        if (!file_exists($this->getDataFolder() . 'Kits/'))
-            @mkdir($this->getDataFolder() . 'Kits/');
+        if (!file_exists($this->getDataFolder() . 'kits/'))
+            @mkdir($this->getDataFolder() . 'kits/');
         if (!file_exists($this->getDataFolder() . 'stats/'))
             @mkdir($this->getDataFolder() . 'stats/');
 
@@ -156,6 +156,9 @@ class Core extends PluginBase {
         );
     }
 
+    /**
+     * @return void
+     */
     protected function onDisable(): void {
         $serverName = Utils::getServerName();
         if ($this->serverStatus->getServerStatus($serverName) !== '§6Maintenance')

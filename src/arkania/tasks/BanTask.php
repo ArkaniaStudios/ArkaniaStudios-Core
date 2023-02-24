@@ -18,10 +18,12 @@ declare(strict_types=1);
 namespace arkania\tasks;
 
 use arkania\Core;
+use arkania\utils\trait\Date;
 use pocketmine\player\Player;
 use pocketmine\scheduler\Task;
 
 class BanTask extends Task {
+    use Date;
 
     /** @var Player */
     private Player $player;
@@ -40,23 +42,6 @@ class BanTask extends Task {
         $staff = $this->core->sanction->getBanStaff($player->getName());
         $temps = $this->core->sanction->getBanTime($player->getName());
         $raison = $this->core->sanction->getBanRaison($player->getName());
-
-        $timeRestant = $temps - time();
-        $jours = intval(abs($timeRestant / 86400));
-        $timeRestant = $timeRestant - ($jours * 86400);
-        $heures = intval(abs($timeRestant / 3600));
-        $timeRestant = $timeRestant - ($heures * 3600);
-        $minutes = intval(abs($timeRestant / 60));
-        $secondes = intval(abs($timeRestant - $minutes * 60));
-
-        if($jours > 0)
-            $format = $jours . ' jour(s) et ' .  $heures . ' heure(s)';
-        else if($heures > 0)
-            $format = $heures . ' heure(s) et ' . $minutes . ' minute(s)';
-        else if($minutes > 0)
-            $format = $minutes . ' minute(s) et ' . $secondes . ' seconde(s)';
-        else
-            $format = $secondes . 'seconde(s)';
-        $player->disconnect("§7» §cVous êtes banni d'Arkania:\n§7» §cStaff: " . $staff . "\n§7» §cTemps: §e" . $format . "\n§7» §cRaison: §e" . $raison);
+        $player->disconnect("§7» §cVous êtes banni d'Arkania:\n§7» §cStaff: " . $staff . "\n§7» §cTemps: §e" . $this->tempsFormat($temps) . "\n§7» §cRaison: §e" . $raison);
     }
 }

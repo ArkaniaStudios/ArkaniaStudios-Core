@@ -20,6 +20,7 @@ namespace arkania\commands\admin;
 use arkania\commands\BaseCommand;
 use arkania\Core;
 use arkania\utils\Utils;
+use JsonException;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
@@ -37,6 +38,9 @@ class AdminKitCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @throws JsonException
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         if (!$player instanceof Player)
             return true;

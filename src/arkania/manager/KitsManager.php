@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace arkania\manager;
 
 use arkania\Core;
+use arkania\utils\trait\Date;
 use arkania\utils\Utils;
 use JsonException;
 use pocketmine\block\VanillaBlocks;
@@ -28,9 +29,10 @@ use pocketmine\player\Player;
 use pocketmine\utils\Config;
 
 final class KitsManager {
+    use Date;
 
     private static function getKitConfig(string $kitName): Config {
-        return new Config(Core::getInstance()->getDataFolder() . 'Kits/' . $kitName . '.json', Config::JSON);
+        return new Config(Core::getInstance()->getDataFolder() . 'kits/' . $kitName . '.json', Config::JSON);
     }
 
     /**
@@ -271,25 +273,8 @@ final class KitsManager {
      * @param Player $player
      * @return void
      */
-    private static function sendTimeFormat($time, Player $player): void
-    {
-        $timeRestant = $time - time();
-        $jours = intval(abs($timeRestant / 86400));
-        $timeRestant = $timeRestant - ($jours * 86400);
-        $heures = intval(abs($timeRestant / 3600));
-        $timeRestant = $timeRestant - ($heures * 3600);
-        $minutes = intval(abs($timeRestant / 60));
-        $secondes = intval(abs($timeRestant - $minutes * 60));
-        if ($jours > 1) {
-            $formatTemp = "$jours jour(s) et $heures heure(s)";
-        } else if ($heures > 0) {
-            $formatTemp = "$heures heure(s) et $minutes minute(s)";
-        } else if ($minutes > 0) {
-            $formatTemp = "$minutes minute(s) et $secondes seconde(s)";
-        } else {
-            $formatTemp = "$secondes seconde(s)";
-        }
-        $player->sendMessage(Utils::getPrefix() . "§cVous ne pourrez récupérer ce kit que dans " . $formatTemp . ".");
+    private function sendTimeFormat($time, Player $player): void {
+        $player->sendMessage(Utils::getPrefix() . "§cVous ne pourrez récupérer ce kit que dans " . $this->tempsFormat($time) . ".");
     }
 
     /**

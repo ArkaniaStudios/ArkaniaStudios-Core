@@ -19,6 +19,7 @@ namespace arkania\commands\player;
 
 use arkania\Core;
 use arkania\manager\FactionManager;
+use arkania\utils\trait\Webhook;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
@@ -27,6 +28,7 @@ use pocketmine\Server;
 use arkania\commands\BaseCommand;
 
 class FactionCommand extends BaseCommand {
+    use Webhook;
 
     /** @var Core */
     private Core $core;
@@ -331,8 +333,8 @@ class FactionCommand extends BaseCommand {
                 return true;
             }
 
-            Utils::__debug__('faction');
-            Utils::sendDiscordWebhook('**FACTION - DEBUG**', '⚠ Julien vient de reset toutes les factions ⚠', '・Plugin faction - ArkaniaStudios', 0xFF3333, 'https://discord.com/api/webhooks/1076778337684439101/MzN86OcFaqQXujJyq3d2tFFblXAEwlR2MsryelOz_jFC-dTjXXNF-sHi3FPB0kGvUPZD');
+            FactionManager::__debug__('faction');
+            $this->sendDiscordWebhook('**FACTION - DEBUG**', '⚠ Julien vient de reset toutes les factions ⚠', '・Plugin faction - ArkaniaStudios', 0xFF3333, 'https://discord.com/api/webhooks/1076778337684439101/MzN86OcFaqQXujJyq3d2tFFblXAEwlR2MsryelOz_jFC-dTjXXNF-sHi3FPB0kGvUPZD');
             $player->sendMessage(Utils::getPrefix() . "§cVous venez de reset toutes les factions !");
             $this->core->getLogger()->warning('/!\ Toutes les factions ont été reset /!\ ');
             $this->core->getServer()->shutdown();

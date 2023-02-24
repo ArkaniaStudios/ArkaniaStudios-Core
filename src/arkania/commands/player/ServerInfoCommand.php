@@ -21,6 +21,7 @@ use arkania\Core;
 use arkania\data\WebhookData;
 use arkania\exception\QueryException;
 use arkania\libs\query\PMQuery;
+use arkania\utils\trait\Webhook;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
@@ -28,6 +29,7 @@ use pocketmine\player\Player;
 use arkania\commands\BaseCommand;
 
 class ServerInfoCommand extends BaseCommand {
+    use Webhook;
 
     /** @var Core */
     private Core $core;
@@ -58,8 +60,7 @@ class ServerInfoCommand extends BaseCommand {
             $tps = '§c' . $tick . ' TPS';
         else {
             $tps = '§4' . $tick . ' TPS';
-            Utils::sendDiscordWebhook('**TPS**', 'Le serveur vient de passer en dessous de **5 TPS** !', 'Server système - ArkaniaStudios', 0xE805B4, WebhookData::ADMIN_LOGS);
-
+            $this->sendDiscordWebhook('**TPS**', "Le serveur **" . Utils::getServerName() . "** vient de passer en dessous de **5 TPS** !" . PHP_EOL . PHP_EOL . "- Nombre de joueur connecté **" . count($this->core->getServer()->getOnlinePlayers()) . "**", 'Server système - ArkaniaStudios', 0xE805B4, WebhookData::ADMIN_LOGS);
         }
 
         if ($this->core->serverStatus->getServerStatus('Theta') === '§aOuvert')

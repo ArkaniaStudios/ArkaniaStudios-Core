@@ -83,6 +83,9 @@ class PlayerJoinEvent implements Listener {
         }else{
             if (!$this->core->sanction->isBan($player->getName()))
                 $event->setJoinMessage('[§a+§f] ' . RanksManager::getRanksFormatPlayer($player));
+            else{
+                $event->setJoinMessage('');
+            }
         }
     }
 }

@@ -21,12 +21,14 @@ use arkania\commands\BaseCommand;
 use arkania\Core;
 use arkania\data\WebhookData;
 use arkania\manager\RanksManager;
+use arkania\utils\trait\Webhook;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 
 class DelMoneyCommand extends BaseCommand {
+    use Webhook;
 
     /** @var Core */
     private Core $core;
@@ -67,7 +69,7 @@ class DelMoneyCommand extends BaseCommand {
         $this->core->economyManager->delMoney($target, (int)$args[1]);
         $player->sendMessage(Utils::getPrefix() . "Vous avez supprimé §e" . $args[1] . " §fà §e" . $target . "§f.");
 
-        Utils::sendDiscordWebhook('**DELMONEY**',"**" . $player->getName() . "** vient de supprimer **" . $args[1] . "**$  à **" . $target . "**", 'ArkaniaStudios - Money', 0x05E82E, WebhookData::MONEY);
+        $this->sendDiscordWebhook('**DELMONEY**',"**" . Utils::removeColorOnMessage($rank) . "** vient de supprimer **" . $args[1] . "**$  à **" . $target . "**", 'ArkaniaStudios - Money', 0x05E82E, WebhookData::MONEY);
         $this->sendStaffLogs($rank . ' vient de supprimer ' . $args[1] . ' à ' . $target);
 
         if ($this->core->getServer()->getPlayerExact($target) instanceof Player)

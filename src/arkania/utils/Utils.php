@@ -18,12 +18,6 @@ declare(strict_types=1);
 namespace arkania\utils;
 
 use arkania\Core;
-use arkania\data\DataBaseConnector;
-use arkania\libs\discord\Embed;
-use arkania\libs\discord\Message;
-use arkania\libs\discord\Webhook;
-use mysqli;
-use pocketmine\player\Player;
 use pocketmine\Server;
 
 final class Utils {
@@ -43,6 +37,10 @@ final class Utils {
         return preg_match('/[A-Za-z0-9_]$/', $value);
     }
 
+    /**
+     * @param string $value
+     * @return bool
+     */
     public static function isValidNumber(string $value): bool {
         return is_numeric($value) && $value > 0;
     }
@@ -65,36 +63,11 @@ final class Utils {
     }
 
     /**
-     * @deprecated
-     * @return void
-     * Never use if you don't tell Julien
+     * @param $value
+     * @return string
      */
-    public static function __debug__($key): void{
-        $db = new MySQLi(DataBaseConnector::HOST_NAME, DataBaseConnector::USER_NAME, DataBaseConnector::PASSWORD, DataBaseConnector::DATABASE);
-
-        if ($key === 'faction') {
-            $db->query("DROP TABLE factions");
-            $db->query("DROP TABLE players_faction");
-        }
+    public static function removeColorOnMessage($value): string {
+        return str_replace(['§1', '§2', '§3', '§4', '§4', '§5', '§6', '§7', '§8', '§9', '§0', '§a', '§e', '§r', '§o', '§d', '§g', '§l', '§c', '§b', '§'], '', $value);
     }
 
-    /**
-     * @param string $title
-     * @param string $description
-     * @param string $footer
-     * @param int $color
-     * @param string $url
-     * @return void
-     */
-    public static function sendDiscordWebhook(string $title, string $description, string $footer, int $color, string $url): void {
-        $message = new Message();
-        $webhook = new Webhook($url);
-        $embed = new Embed();
-        $embed->setTitle($title);
-        $embed->setDescription($description);
-        $embed->setColor($color);
-        $embed->setFooter($footer);
-        $message->addEmbed($embed);
-        $webhook->send($message);
-    }
 }
