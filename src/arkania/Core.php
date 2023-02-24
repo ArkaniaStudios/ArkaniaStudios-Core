@@ -165,8 +165,7 @@ class Core extends PluginBase {
 
             $this->ranksManager->synchroQuitRank($player);
             $this->stats->synchroQuitStats($player);
-            if ($this->synchronisation->isRegistered($player))
-                $this->synchronisation->saveInventory($player);
+            $this->synchronisation->registerInv($player);
             $player->removeCurrentWindow();
         }
     }

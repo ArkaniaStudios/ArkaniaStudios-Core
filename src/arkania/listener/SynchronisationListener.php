@@ -43,11 +43,7 @@ class SynchronisationListener implements Listener {
         $this->core->stats->createPlayerStats($player->getName());
         $this->core->stats->synchroJoinStats($player);
 
-        if (!$this->core->synchronisation->isRegistered($player))
-            $this->core->synchronisation->register($player);
-        else
-            $this->core->synchronisation->restorInventory($player);
-
+        $this->core->synchronisation->syncPlayer($player);
     }
 
     public function onPlayerQuit(PlayerQuitEvent $event) {
@@ -56,16 +52,14 @@ class SynchronisationListener implements Listener {
         $this->core->ranksManager->synchroQuitRank($player);
         $this->core->stats->synchroQuitStats($player);
 
-        if ($this->core->synchronisation->isRegistered($player))
-            $this->core->synchronisation->saveInventory($player);
+        $this->core->synchronisation->registerInv($player);
 
     }
 
     public function onPlayerKick(PlayerKickEvent $event) {
         $player = $event->getPlayer();
 
-        if ($this->core->synchronisation->isRegistered($player))
-            $this->core->synchronisation->saveInventory($player);
+        $this->core->synchronisation->registerInv($player);
 
         $this->core->ranksManager->synchroQuitRank($player);
         $this->core->stats->synchroQuitStats($player);
