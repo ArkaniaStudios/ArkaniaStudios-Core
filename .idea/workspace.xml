@@ -4,23 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="correction of synchronisation">
-      <change afterPath="$PROJECT_DIR$/src/arkania/utils/trait/Webhook.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/date.php" afterDir="false" />
+    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="implement ban system, update webhook system and date system">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/MsgCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/MsgCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/staff/KickCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/staff/KickCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/staff/TempsBanCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/staff/TempsBanCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/staff/UnBanCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/staff/UnBanCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/events/players/PlayerJoinEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerJoinEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/manager/KitsManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/KitsManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/manager/RanksManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/RanksManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/manager/SanctionManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/SanctionManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/manager/UiManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/UiManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/tasks/BanTask.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/tasks/BanTask.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/utils/Utils.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/Utils.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/utils/trait/Date.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/trait/Date.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,14 +43,14 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/dumon/Downloads/DestiCore_V2.5",
+    "last_opened_file_path": "C:/Users/dumon/OneDrive/Documents/ArkaniaStudios/V2/ArkaniaStudios-Site/img/banner.png",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "php.override.implement.member.chooser.php.doc": "NONE",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -101,7 +86,7 @@
       <workItem from="1677177068525" duration="10911000" />
       <workItem from="1677232566978" duration="7741000" />
       <workItem from="1677245200268" duration="38000" />
-      <workItem from="1677249231327" duration="7088000" />
+      <workItem from="1677249231327" duration="7808000" />
     </task>
     <task id="LOCAL-00001" summary="add template">
       <created>1676844106724</created>
@@ -264,7 +249,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677234143741</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="implement ban system, update webhook system and date system">
+      <created>1677258208954</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1677258208954</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -301,6 +293,7 @@
     <MESSAGE value="implement session" />
     <MESSAGE value="another update" />
     <MESSAGE value="correction of synchronisation" />
-    <option name="LAST_COMMIT_MESSAGE" value="correction of synchronisation" />
+    <MESSAGE value="implement ban system, update webhook system and date system" />
+    <option name="LAST_COMMIT_MESSAGE" value="implement ban system, update webhook system and date system" />
   </component>
 </project>

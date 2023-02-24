@@ -32,7 +32,7 @@ final class KitsManager {
     use Date;
 
     private static function getKitConfig(string $kitName): Config {
-        return new Config(Core::getInstance()->getDataFolder() . 'Kits/' . $kitName . '.json', Config::JSON);
+        return new Config(Core::getInstance()->getDataFolder() . 'kits/' . $kitName . '.json', Config::JSON);
     }
 
     /**

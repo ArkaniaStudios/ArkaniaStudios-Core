@@ -333,7 +333,7 @@ class FactionCommand extends BaseCommand {
                 return true;
             }
 
-            Utils::__debug__('faction');
+            FactionManager::__debug__('faction');
             $this->sendDiscordWebhook('**FACTION - DEBUG**', '⚠ Julien vient de reset toutes les factions ⚠', '・Plugin faction - ArkaniaStudios', 0xFF3333, 'https://discord.com/api/webhooks/1076778337684439101/MzN86OcFaqQXujJyq3d2tFFblXAEwlR2MsryelOz_jFC-dTjXXNF-sHi3FPB0kGvUPZD');
             $player->sendMessage(Utils::getPrefix() . "§cVous venez de reset toutes les factions !");
             $this->core->getLogger()->warning('/!\ Toutes les factions ont été reset /!\ ');

@@ -18,8 +18,6 @@ declare(strict_types=1);
 namespace arkania\utils;
 
 use arkania\Core;
-use arkania\data\DataBaseConnector;
-use mysqli;
 use pocketmine\Server;
 
 final class Utils {
@@ -39,6 +37,10 @@ final class Utils {
         return preg_match('/[A-Za-z0-9_]$/', $value);
     }
 
+    /**
+     * @param string $value
+     * @return bool
+     */
     public static function isValidNumber(string $value): bool {
         return is_numeric($value) && $value > 0;
     }
@@ -61,25 +63,11 @@ final class Utils {
     }
 
     /**
-     * @deprecated
-     * @return void
-     * Never use if you don't tell Julien
-     */
-    public static function __debug__($key): void{
-        $db = new MySQLi(DataBaseConnector::HOST_NAME, DataBaseConnector::USER_NAME, DataBaseConnector::PASSWORD, DataBaseConnector::DATABASE);
-
-        if ($key === 'faction') {
-            $db->query("DROP TABLE factions");
-            $db->query("DROP TABLE players_faction");
-        }
-    }
-
-    /**
      * @param $value
      * @return string
      */
     public static function removeColorOnMessage($value): string {
-        return str_replace(['§c', '§f', '§2', '§a', '§e', '§1', '§3', '§4', '§5', '§6', '§7', '§8', '§9', '§r'], '', $value);
+        return str_replace(['§1', '§2', '§3', '§4', '§4', '§5', '§6', '§7', '§8', '§9', '§0', '§a', '§e', '§r', '§o', '§d', '§g', '§l', '§c', '§b', '§'], '', $value);
     }
 
 }

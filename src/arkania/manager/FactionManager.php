@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace arkania\manager;
 
+use arkania\data\DataBaseConnector;
 use arkania\factions\FactionClass;
 use arkania\utils\trait\Provider;
 use mysqli;
@@ -66,4 +67,19 @@ final class FactionManager {
         $db->close();
         return $factionRank;
     }
+
+    /**
+     * @deprecated
+     * @return void
+     * Never use if you don't tell Julien
+     */
+    public static function __debug__($key): void{
+        $db = new MySQLi(DataBaseConnector::HOST_NAME, DataBaseConnector::USER_NAME, DataBaseConnector::PASSWORD, DataBaseConnector::DATABASE);
+
+        if ($key === 'faction') {
+            $db->query("DROP TABLE factions");
+            $db->query("DROP TABLE players_faction");
+        }
+    }
+
 }
