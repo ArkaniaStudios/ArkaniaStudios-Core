@@ -40,6 +40,7 @@ final class MaintenanceManager {
             $serverStatus->setServerStatus('maintenance');
 
             foreach ($this->core->getServer()->getOnlinePlayers() as $onlinePlayer) {
+
                 $onlinePlayer->sendMessage(Utils::getPrefix() . "§aLe serveur §e" . Utils::getServerName() . "§a vient de passer en maintenance.");
                 if (!$onlinePlayer->hasPermission('arkania:permission.maintenance.bypass')){
                     $onlinePlayer->transfer('lobby1');

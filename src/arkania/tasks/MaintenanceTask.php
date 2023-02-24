@@ -18,11 +18,14 @@ declare(strict_types=1);
 namespace arkania\tasks;
 
 use arkania\Core;
+use arkania\data\WebhookData;
+use arkania\utils\trait\Webhook;
 use arkania\utils\Utils;
 use pocketmine\scheduler\Task;
 use pocketmine\Server;
 
 class MaintenanceTask extends Task {
+    use Webhook;
 
     /** @var Core */
     private Core $core;
@@ -30,14 +33,19 @@ class MaintenanceTask extends Task {
     /** @var int */
     private int $time =20;
 
-    public function __construct(Core $core) {
+    /** @var string */
+    private string $ranks;
+
+    public function __construct(Core $core, string $ranks) {
         $this->core = $core;
+        $this->ranks = $ranks;
     }
 
     public function onRun(): void {
-        if ($this->time === 0)
+        if ($this->time === 0) {
+            $this->sendDiscordWebhook('**MAINTENANCE**', "La maintenance vient d'être activé sur un serveur." . PHP_EOL . PHP_EOL . "- Server : **" . Utils::getServerName() . "**" . PHP_EOL . "- Staff : " . Utils::removeColorOnMessage($this->ranks), 'Maintenance Système - ArkaniaStudios', 0xEFA, WebhookData::MAINTENANCE);
             $this->core->maintenance->setMaintenance();
-        elseif($this->time === 2) {
+        }elseif($this->time === 2) {
             foreach (Server::getInstance()->getOnlinePlayers() as $players)
                 $players->removeCurrentWindow();
         }elseif($this->time === 10)

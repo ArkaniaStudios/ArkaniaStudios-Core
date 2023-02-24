@@ -32,7 +32,7 @@ trait Date {
         $annee = date('Y');
         $heure = date('H');
         $minute = date('i');
-        return $jour . ' ' . date('d') . ' ' . $mois . ' ' . $annee . ' à ' . $heure . ' heure et ' . $minute . ' minute(s)';
+        return $jour . ' ' . date('d') . ' ' . $mois . ' ' . $annee . ' à ' . (int)$heure + 1 . 'H' . $minute;
     }
 
     /**

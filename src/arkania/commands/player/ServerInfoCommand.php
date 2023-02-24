@@ -60,7 +60,7 @@ class ServerInfoCommand extends BaseCommand {
             $tps = '§c' . $tick . ' TPS';
         else {
             $tps = '§4' . $tick . ' TPS';
-            $this->sendDiscordWebhook('**TPS**', "Le serveur **" . Utils::getServerName() . "** vient de passer en dessous de **5 TPS** !" . PHP_EOL . PHP_EOL . "- Nombre de joueur connecté **" . count($this->core->getServer()->getOnlinePlayers()) . "**", 'Server système - ArkaniaStudios', 0xE805B4, WebhookData::ADMIN_LOGS);
+            $this->sendDiscordWebhook('**TPS**', "Le serveur **" . Utils::getServerName() . "** vient de passer en dessous de **5 TPS** !" . PHP_EOL . PHP_EOL . "- Nombre de joueur connecté **" . count($this->core->getServer()->getOnlinePlayers()) . "**", 'Server système - ArkaniaStudios', 0xE805B4, WebhookData::TPS);
         }
 
         if ($this->core->serverStatus->getServerStatus('Theta') === '§aOuvert')
