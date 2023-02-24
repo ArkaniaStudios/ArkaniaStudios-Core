@@ -101,3 +101,7 @@ permissions:
         default: op
     "arkania:permission.kick.bypass":
         default: op
+    "arkania:permission.feed":
+        default: op
+    "arkania:permission.feed.other":
+        default: op

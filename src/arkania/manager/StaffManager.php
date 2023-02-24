@@ -18,7 +18,11 @@ declare(strict_types=1);
 namespace arkania\manager;
 
 use arkania\Core;
+use arkania\data\WebhookData;
+use arkania\utils\trait\Webhook;
 use arkania\utils\Utils;
+use pocketmine\block\VanillaBlocks;
+use pocketmine\item\VanillaItems;
 use pocketmine\network\mcpe\convert\SkinAdapterSingleton;
 use pocketmine\network\mcpe\protocol\PlayerListPacket;
 use pocketmine\network\mcpe\protocol\types\PlayerListEntry;
@@ -27,6 +31,7 @@ use pocketmine\player\Player;
 use pocketmine\Server;
 
 final class StaffManager {
+    use Webhook;
 
     /** @var Core */
     private Core $core;
@@ -55,8 +60,8 @@ final class StaffManager {
      * @return void
      */
     public function saveInventory(Player $player): void {
-        $this->inventory[$player->getName()] = serialize($player->getInventory()->getContents());
-        $this->armor[$player->getName()] = serialize($player->getArmorInventory()->getContents());
+        $this->inventory[$player->getName()] = $player->getInventory()->getContents();
+        $this->armor[$player->getName()] = $player->getArmorInventory()->getContents();
     }
 
     /**
@@ -64,8 +69,8 @@ final class StaffManager {
      * @return void
      */
     public function restorInventory(Player $player): void {
-        $player->getInventory()->setContents(unserialize($this->inventory[$player->getName()]));
-        $player->getArmorInventory()->setContents(unserialize($this->armor[$player->getName()]));
+        $player->getInventory()->setContents($this->inventory[$player->getName()]);
+        $player->getArmorInventory()->setContents($this->armor[$player->getName()]);
     }
 
     /**
@@ -160,11 +165,28 @@ final class StaffManager {
      */
     public function addStaffMode(Player $player): void {
 
+        $contentInv = null;
+        foreach ($player->getInventory()->getContents() as $item)
+            $contentInv .= '- ' . $item . PHP_EOL;
+        $contentArmor = null;
+        foreach ($player->getArmorInventory()->getContents() as $armor)
+            $contentArmor .= '- ' . $armor . PHP_EOL;
+
         $this->saveInventory($player);
+        $player->getInventory()->clearAll();
+        $player->getArmorInventory()->clearAll();
+
+        $this->sendDiscordWebhook('**STAFFMODE**', "**" . $player->getName() . "** vient de ce mettre en staff mode." . PHP_EOL . PHP_EOL . "*Contenue de son inventaire*" . PHP_EOL . $contentInv . PHP_EOL . '*Armure*' . PHP_EOL . $contentArmor, '・StaffMode Système - ArkaniaStudios', 0xFFF, WebhookData::STAFFMODE);
 
         $player->setGamemode(GameMode::ADVENTURE());
         $player->setFlying(true);
         $player->setAllowFlight(true);
+
+        $player->getInventory()->setItem(0, VanillaItems::GRAY_DYE()->setCustomName('§c- §fVanish §c-'));
+        $player->getInventory()->setItem(2, VanillaItems::BOOK()->setCustomName('§c- §fPlayerInfos §c-'));
+        $player->getInventory()->setItem(4, VanillaItems::COMPASS()->setCustomName('§c- §fRandomTp §c-'));
+        $player->getInventory()->setItem(6, VanillaBlocks::ICE()->asItem()->setCustomName('§c- §fFreeze §c-'));
+        $player->getInventory()->setItem(8, VanillaItems::STONE_AXE()->setCustomName('§c- §fSanctions §c-'));
 
         $this->setVanish($player);
 
@@ -177,7 +199,14 @@ final class StaffManager {
      * @return void
      */
     public function removeStaffMode(Player $player): void {
-        $this->saveInventory($player);
+        $this->restorInventory($player);
+
+        if ($player->getInventory()->getContents() !== $this->inventory[$player->getName()] || $player->getArmorInventory()->getContents() !== $this->armor[$player->getName()])
+            $status = 'Problème de restitution...';
+        else
+            $status = 'Récupéré';
+
+        $this->sendDiscordWebhook('**STAFFMODE**', "**" . $player->getName() . "** vient de retirer son staffmode." . PHP_EOL . PHP_EOL . "- Status de l'inventaire : **" . $status . "**", 'StaffMode Système - ArkaniaStudios', 0xFEA, WebhookData::STAFFMODE);
 
         $player->setGamemode(GameMode::ADVENTURE());
         $player->setFlying(false);
@@ -186,6 +215,8 @@ final class StaffManager {
         $this->removeVanish($player);
 
         unset($this->staffmode[$player->getName()]);
-        $player->sendMessage(Utils::getPrefix() . "Vous êtes maintenant en staffmode.");
+        unset($this->inventory[$player->getName()]);
+        unset($this->armor[$player->getName()]);
+        $player->sendMessage(Utils::getPrefix() . "Vous n'êtes plus en StaffMode.");
     }
 }

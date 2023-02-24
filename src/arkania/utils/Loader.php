@@ -44,6 +44,7 @@ use arkania\commands\player\ServerInfoCommand;
 use arkania\commands\player\ServerSelectorCommand;
 use arkania\commands\player\SettingsCommand;
 use arkania\commands\player\VoteCommand;
+use arkania\commands\ranks\FeedCommand;
 use arkania\commands\staff\KickCommand;
 use arkania\commands\staff\LogsCommand;
 use arkania\commands\staff\RedemCommand;
@@ -156,6 +157,9 @@ final class Loader {
             new StaffModeCommand($this->core),
             new TempsBanCommand($this->core),
             new UnBanCommand($this->core),
+
+            /* Grade */
+            new FeedCommand(),
 
             /* Player */
             new DiscordCommand(),
