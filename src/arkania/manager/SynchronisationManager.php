@@ -21,6 +21,7 @@ use arkania\Core;
 use arkania\data\DataBaseConnector;
 use arkania\utils\Query;
 use mysqli;
+use pocketmine\item\Item;
 use pocketmine\player\Player;
 
 final class SynchronisationManager {
@@ -44,146 +45,103 @@ final class SynchronisationManager {
      */
     public static function init(): void {
         $db = self::getDataBase();
-        $db->query("CREATE TABLE IF NOT EXISTS inventory(name VARCHAR(20), inventaire TEXT, armure TEXT, experience INT)");
-        $db->query("CREATE TABLE IF NOT EXISTS enderchest(name VARCHAR(20), inventaire TEXT)");
+        $db->query("CREATE TABLE IF NOT EXISTS inventory(name VARCHAR(20), inventaire TEXT, armure TEXT, enderchest TEXT, xplvl INT, xpp FLOAT)");
         $db->close();
     }
 
     /**
      * @param Player $player
-     * @return void
      */
-    public function register(Player $player): void {
-        $db = self::getDataBase();
-        $inventory = $player->getInventory()->getContents();
-        $armor = $player->getArmorInventory()->getContents();
+    public function registerInv(Player $player): void {
+        if ($player->spawned) {
+            $name = $player->getName();
+            $xp_lvl = $player->getXpManager()->getXpLevel();
+            $xp_progress = $player->getXpManager()->getXpProgress();
+            $inv_armor = [];
+            $inv = [];
+            $inv_ender = [];
+            foreach ($player->getArmorInventory()->getContents() as $slot => $item) {
+                $inv_armor[$slot] = $item->jsonSerialize();
+            }
+            foreach ($player->getInventory()->getContents() as $slot => $item) {
+                $inv[$slot] = $item->jsonSerialize();
+            }
+            foreach ($player->getEnderInventory()->getContents() as $slot => $item) {
+                $inv_ender[$slot] = $item->jsonSerialize();
+            }
 
-        $dataInventory = [];
-        $dataArmor = [];
-
-        foreach ($inventory as $slot => $item)
-            $dataInventory[$slot] = $item;
-        foreach ($armor as $slot => $item)
-            $dataArmor[$slot] = $item;
-
-        $dataInventory = base64_encode(serialize($dataInventory));
-        $dataArmor = base64_encode(serialize($dataArmor));
-        $experience = $player->getXpManager()->getXpLevel();
-        $db->query("INSERT INTO inventory(name, inventaire, armure, experience) VALUES ('" . self::getDataBase()->real_escape_string($player->getName()) . "', '$dataInventory', '$dataArmor', '$experience')");
-        $db->close();
+            $db = self::getDataBase()->query("SELECT * FROM inventory WHERE name='" . $name . "'");
+            if ($db->num_rows > 0)
+                Query::query("UPDATE inventory SET inventaire='" . json_encode($inv) . "', armure='" . json_encode($inv_armor) . "', enderchest='" . json_encode($inv_ender) . "', xplvl='$xp_lvl', xpp='$xp_progress' WHERE name='$name'");
+            else
+                Query::query("INSERT INTO inventory(name,
+                      inventaire,
+                      armure,
+                      enderchest,
+                      xplvl,
+                      xpp)VALUES (
+                                  '$name',
+                                  '" . json_encode($inv) . "',
+                                  '" . json_encode($inv_armor) . "',
+                                  '" . json_encode($inv_ender) . "',
+                                  '$xp_lvl',
+                                  '$xp_progress'
+                      )");
+            $db->close();
+        }
     }
 
     /**
      * @param Player $player
-     * @return bool
      */
-    public function isRegistered(Player $player): bool {
-        $db = self::getDataBase();
-        $result = $db->query("SELECT * FROM inventory WHERE name='" . self::getDataBase()->real_escape_string($player->getName()) . "'");
-        $db->close();
-        if ($result->num_rows <= 0)
-            return false;
-        else
-            return true;
-    }
-
-    /**
-     * @param string $name
-     * @return array
-     */
-    public function getArmorInventory(string $name): array{
-        $db = self::getDataBase();
-
-        $result = $db->query("SELECT * FROM inventory WHERE name='" . self::getDataBase()->real_escape_string($name) . "'");
-        $db->close();
-
-        return unserialize(base64_decode($result->fetch_array()['armure']));
-    }
-
-    /**
-     * @param string $name
-     * @return array
-     */
-    public function getInventory(string $name): array{
-        $db = self::getDataBase();
-
-        $result = $db->query("SELECT * FROM inventory WHERE name='" . self::getDataBase()->real_escape_string($name) . "'");
-        $db->close();
-
-        return unserialize(base64_decode($result->fetch_array()['inventaire']));
-    }
-
-    /**
-     * @param string $name
-     * @return mixed
-     */
-    public function getExperience(string $name): mixed
+    public function syncPlayer(Player $player): void
     {
-        $db = self::getDataBase();
-
-        $result = $db->query("SELECT * FROM inventory WHERE name='" . self::getDataBase()->real_escape_string($name) . "'");
-        $db->close();
-
-        return $result->fetch_array()['experience'];
-    }
-
-    public function saveInventory(Player $player): void {
-        $db = self::getDataBase();
-
-        $inventory = $player->getInventory()->getContents();
-        $armor = $player->getArmorInventory()->getContents();
-
-        $dataInventory = [];
-        $dataArmor = [];
-
-        foreach ($inventory as $slot => $item)
-            $dataInventory[$slot] = $item;
-        foreach ($armor as $slot => $item) {
-            switch ($slot) {
-                case 0:
-                    $dataArmor['helmet'] = $item;
-                    break;
-                case 1:
-                    $dataArmor['chestplate'] = $item;
-                    break;
-                case 2:
-                    $dataArmor['leggings'] = $item;
-                    break;
-                case 3:
-                    $dataArmor['boots'] = $item;
-                    break;
+        $db = self::getDataBase()->query("SELECT * FROM inventory WHERE name='" . $player->getName() . "'");
+        $xp_lvl = null;
+        $xp_progress = null;
+        $inv_armor = null;
+        $inv_db = null;
+        $inv_ender = null;
+        foreach ($db as $result) {
+            $inv_db = $result["inventaire"];
+            $inv_armor = $result["armure"];
+            $inv_ender = $result["enderchest"];
+            $xp_lvl = $result["xplvl"];
+            $xp_progress = $result["xpp"];
+            break;
+        }
+        if ($inv_db !== null) {
+            $inv = $player->getInventory();
+            if ($inv !== null) {
+                $inv->clearAll();
+                foreach (json_decode($inv_db, true) as $slot => $item) {
+                    $inv->setItem($slot, Item::jsonDeserialize($item));
+                }
             }
         }
-
-        $dataInventory = base64_encode(serialize($dataInventory));
-        $dataArmor = base64_encode(serialize($dataArmor));
-        $experience = $player->getXpManager()->getXpLevel();
-
-        Query::query("UPDATE inventory SET inventaire='$dataInventory', armure='$dataArmor', experience='$experience' WHERE name='" . self::getDataBase()->real_escape_string($player->getName()) . "'");
-        $db->close();
-    }
-
-    /**
-     * @param Player $player
-     * @return void
-     */
-    public function restorInventory(Player $player): void
-    {
-        $name = $player->getName();
-        $inventaire = $this->getInventory($name);
-        $armure = $this->getArmorInventory($name);
-
-        $player->getInventory()->clearAll();
-        $player->getArmorInventory()->clearAll();
-
-        foreach ($inventaire as $slot => $item)
-            $player->getInventory()->setItem($slot, $item);
-
-        if (isset($armure['helmet'])) $player->getArmorInventory()->setHelmet($armure['helmet']);
-        if (isset($armure['chestplate'])) $player->getArmorInventory()->setChestplate($armure['chestplate']);
-        if (isset($armure['leggings'])) $player->getArmorInventory()->setLeggings($armure['leggings']);
-        if (isset($armure['boots'])) $player->getArmorInventory()->setBoots($armure['boots']);
-
-        $player->getXpManager()->setXpLevel((int)$this->getExperience($name));
+        if ($inv_armor !== null) {
+            $armor = $player->getArmorInventory();
+            if ($armor !== null) {
+                $armor->clearAll();
+                foreach (json_decode($inv_armor, true) as $slot => $item) {
+                    $armor->setItem($slot, Item::jsonDeserialize($item));
+                }
+            }
+        }
+        if ($inv_ender !== null) {
+            $ender = $player->getEnderInventory();
+            if ($ender !== null) {
+                $ender->clearAll();
+                foreach (json_decode($inv_ender, true) as $slot => $item) {
+                    $ender->setItem($slot, Item::jsonDeserialize($item));
+                }
+            }
+        }
+        if ($xp_lvl !== null) {
+            $player->getXpManager()->setXpLevel((int)$xp_lvl);
+        }
+        if ($xp_progress !== null) {
+            $player->getXpManager()->setXpProgress((float)$xp_progress);
+        }
     }
 }
