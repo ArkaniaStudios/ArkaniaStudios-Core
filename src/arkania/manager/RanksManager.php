@@ -320,7 +320,7 @@ final class RanksManager {
     public function delPermission(string $rankName, string $permission): void {
         $db = self::getDataBase()->query("SELECT permissions FROM ranks WHERE name='" . self::getDataBase()->real_escape_string($rankName) . "'");
         $permissionArray = unserialize($db->fetch_array()[0]);
-        if (!in_array($permission, $permissionArray));
+        if (!in_array($permission, $permissionArray)) return;
         unset($permissionArray[array_search($permission, $permissionArray)]);
         asort($permissionArray);
         Query::query("UPDATE ranks SET permissions='" . serialize($permissionArray) . "' WHERE name='" . self::getDataBase()->real_escape_string($rankName) . "'");

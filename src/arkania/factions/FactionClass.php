@@ -21,6 +21,7 @@ use arkania\Core;
 use arkania\data\DataBaseConnector;
 use arkania\manager\FactionManager;
 use arkania\utils\Query;
+use arkania\utils\trait\Webhook;
 use arkania\utils\Utils;
 use mysqli;
 use pocketmine\entity\Location;
@@ -29,6 +30,7 @@ use pocketmine\Server;
 use pocketmine\world\World;
 
 class FactionClass {
+    use Webhook;
 
     public function __construct(private string $factionName, private string $ownerName, private bool $logs , private string $creationTime, private ?string $description = '', private string $url = '') {
     }
@@ -413,7 +415,7 @@ class FactionClass {
      */
     public function sendFactionLogs(string $title, string $message, string $footer = '・Plugin faction - ArkaniaStudios'): void {
         if ($this->getLogsStatus() === true)
-            Utils::sendDiscordWebhook($title, $message, $footer, 0x3374FF, $this->getUrl());
+            $this->sendDiscordWebhook($title, $message, $footer, 0x3374FF, $this->getUrl());
     }
 
     /**

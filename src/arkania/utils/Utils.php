@@ -19,11 +19,7 @@ namespace arkania\utils;
 
 use arkania\Core;
 use arkania\data\DataBaseConnector;
-use arkania\libs\discord\Embed;
-use arkania\libs\discord\Message;
-use arkania\libs\discord\Webhook;
 use mysqli;
-use pocketmine\player\Player;
 use pocketmine\Server;
 
 final class Utils {
@@ -79,22 +75,11 @@ final class Utils {
     }
 
     /**
-     * @param string $title
-     * @param string $description
-     * @param string $footer
-     * @param int $color
-     * @param string $url
-     * @return void
+     * @param $value
+     * @return string
      */
-    public static function sendDiscordWebhook(string $title, string $description, string $footer, int $color, string $url): void {
-        $message = new Message();
-        $webhook = new Webhook($url);
-        $embed = new Embed();
-        $embed->setTitle($title);
-        $embed->setDescription($description);
-        $embed->setColor($color);
-        $embed->setFooter($footer);
-        $message->addEmbed($embed);
-        $webhook->send($message);
+    public static function removeColorOnMessage($value): string {
+        return str_replace(['§c', '§f', '§2', '§a', '§e', '§1', '§3', '§4', '§5', '§6', '§7', '§8', '§9', '§r'], '', $value);
     }
+
 }

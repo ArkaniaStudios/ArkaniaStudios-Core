@@ -21,12 +21,14 @@ use arkania\commands\BaseCommand;
 use arkania\Core;
 use arkania\data\WebhookData;
 use arkania\manager\RanksManager;
+use arkania\utils\trait\Webhook;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 
 class ResetMoneyCommand extends BaseCommand {
+    use Webhook;
 
     /** @var Core */
     private Core $core;
@@ -54,7 +56,7 @@ class ResetMoneyCommand extends BaseCommand {
         $this->core->economyManager->resetMoney($target);
         $player->sendMessage(Utils::getPrefix() . "Vous avez reset l'argent de §e" . $target . "§f.");
 
-        Utils::sendDiscordWebhook('**RESETMONEY**',"**" . $this->core->ranksManager->getRankColor($player->getName()) . " - " . $player->getName() . "** vient de reset l'argent de  **" . $target . "**", 'ArkaniaStudios - Money', 0x05E82E, WebhookData::MONEY);
+        $this->sendDiscordWebhook('**RESETMONEY**',"**" . Utils::removeColorOnMessage($rank) . "** vient de reset l'argent de  **" . $target . "**", 'ArkaniaStudios - Money', 0x05E82E, WebhookData::MONEY);
         $this->sendStaffLogs($rank . ' vient de reset l\'\argent de ' . $target);
 
         if ($this->core->getServer()->getPlayerExact($target) instanceof Player)

@@ -68,7 +68,7 @@ class MsgCommand extends BaseCommand {
             return true;
         }
 
-        $settings = new SettingsManager($this->core, $target);
+        $settings = new SettingsManager($target);
 
         if ($settings->getSettings(SettingsNameIds::MESSAGE) === true){
             if (!$player->hasPermission('arkania:permission.settings.bypass'))

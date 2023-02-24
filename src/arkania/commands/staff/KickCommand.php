@@ -21,6 +21,7 @@ use arkania\commands\BaseCommand;
 use arkania\Core;
 use arkania\data\WebhookData;
 use arkania\manager\RanksManager;
+use arkania\utils\trait\Webhook;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
@@ -28,6 +29,7 @@ use pocketmine\player\Player;
 use pocketmine\Server;
 
 class KickCommand extends BaseCommand {
+    use Webhook;
 
     /** @var Core */
     private Core $core;
@@ -67,20 +69,22 @@ class KickCommand extends BaseCommand {
         }
 
         if (!isset($args[1])) {
-            $target->disconnect("§7» §cVous avez été expulsé d'Arkania: \n§7» §cStaff: " . $rank . "\n§7» §cRaison: Aucune");
-            $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§c" . $target->getName() . "§c vient de se faire expulsé d'Arkania pour le motif Aucun !");
-            $this->sendStaffLogs($target->getName() . " vient de se faire kick par " . $rank);
-            Utils::sendDiscordWebhook('**KICK**', '・**' . $target->getName() . "** vient de se faire expulser du serveur par **" . $player->getName() . '**', '・Sanction système - ArkaniaStudios', 0x8F3A84, WebhookData::KICK);
+            if (!$player->hasPermission('arkania:permission.kick.bypass')){
+                $player->sendMessage(Utils::getPrefix() . "§cVous devez obligatoirement mettre une raison pour bannir une personne.");
+                return true;
+            }
+            $raison = 'Aucun';
         } else {
             $raison = [];
             for ($i = 1; $i < count($args); $i++)
                 $raison[] = $args[$i];
             $raison = implode(' ', $raison);
-            $target->disconnect("§7» §cVous avez été expulsé d'Arkania: \n§7» §cStaff: " . $rank . "\n§7» §cRaison: $raison");
-            $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§c" . $target->getName() . "§c vient de se faire expulsé d'Arkania pour le motif $raison !");
-            $this->sendStaffLogs($target->getName() . " vient de se faire kick par " . $rank . " pour le motif $raison");
-            Utils::sendDiscordWebhook('**KICK**', '・**' . $target->getName() . "** vient de se faire expulser du serveur par **" . $player->getName() . '** pour le motif **' . $raison . '**', '・Sanction système - ArkaniaStudios', 0x8F3A84, WebhookData::KICK);
         }
+        $target->disconnect("§7» §cVous avez été expulsé d'Arkania: \n§7» §cStaff: " . $rank . "\n§7» §cMotif: $raison");
+        $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§c" . $target->getName() . "§c vient de se faire expulsé d'Arkania pour le motif $raison !");
+        $this->sendStaffLogs($target->getName() . " vient de se faire kick par " . $rank . " pour le motif $raison");
+        $this->sendDiscordWebhook('**KICK**', '・**' . $target->getName() . "** vient de se faire expulser d'arkania." . PHP_EOL . PHP_EOL . "*Informations*" . PHP_EOL . "- Expulser par **" . Utils::removeColorOnMessage($rank) . "**" . PHP_EOL . "- Server : **" . Utils::getServerName() . "**" . PHP_EOL . "- Motif : **" . $raison . "**", '・Sanction système - ArkaniaStudios', 0x8F3A84, WebhookData::KICK);
+
         return true;
     }
 }

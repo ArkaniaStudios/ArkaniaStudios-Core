@@ -109,6 +109,7 @@ final class SanctionManager {
     public function getBanRaison(string $playerName): string {
         $db = self::getDataBase()->query("SELECT raison FROM ban WHERE name='" . self::getDataBase()->real_escape_string($playerName) . "'");
         $result = $db->fetch_array()[0] ?? false;
+        $db->close();
         return (string)$result;
     }
 
@@ -119,6 +120,7 @@ final class SanctionManager {
     public function getBanStaff(string $playerName): string {
         $db = self::getDataBase()->query("SELECT staff FROM ban WHERE name='" . self::getDataBase()->real_escape_string($playerName) . "'");
         $result = $db->fetch_array()[0] ?? false;
+        $db->close();
         return (string)$result;
     }
 
@@ -129,16 +131,7 @@ final class SanctionManager {
     public function getBanServer(string $playerName): string {
         $db = self::getDataBase()->query("SELECT server FROM ban WHERE name='" . self::getDataBase()->real_escape_string($playerName) . "'");
         $result = $db->fetch_array()[0] ?? false;
-        return (string)$result;
-    }
-
-    /**
-     * @param string $playerName
-     * @return string
-     */
-    public function getBanIp(string $playerName): string {
-        $db = self::getDataBase()->query("SELECT ip FROM ban WHERE name='" . self::getDataBase()->real_escape_string($playerName) . "'");
-        $result = $db->fetch_array()[0] ?? false;
+        $db->close();
         return (string)$result;
     }
 
@@ -149,6 +142,7 @@ final class SanctionManager {
     public function getBanData(string $playerName): string {
         $db = self::getDataBase()->query("SELECT date FROM ban WHERE name='" . self::getDataBase()->real_escape_string($playerName) . "'");
         $result = $db->fetch_array()[0] ?? false;
+        $db->close();
         return (string)$result;
     }
 

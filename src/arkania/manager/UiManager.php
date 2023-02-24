@@ -20,6 +20,7 @@ namespace arkania\manager;
 use arkania\commands\player\ServerSelectorCommand;
 use arkania\Core;
 use arkania\data\SettingsNameIds;
+use arkania\data\WebhookData;
 use arkania\entity\base\BaseEntity;
 use arkania\libs\form\CustomForm;
 use arkania\libs\form\SimpleForm;
@@ -536,7 +537,6 @@ final class UiManager {
 
             if ($transaction->getItemClicked()->getCustomName() === 'Kit §7Joueur') {
                 $player->removeCurrentWindow();
-                var_dump($isAdmin);
                 $kits->sendKitPlayer($player, $isAdmin);
             }elseif($transaction->getItemClicked()->getCustomName() === 'Kit §dBooster') {
                 if ($player->hasPermission('arkania:permission.kit.booster')) {
@@ -646,23 +646,6 @@ final class UiManager {
         });
         $form->setTitle('§c- §fLogs §c-');
         $form->addDropdown('§7» §rLogs', ['§aActivé', '§cDésactivé']);
-        $player->sendForm($form);
-    }
-
-    /**
-     * @param Player $player
-     * @return void
-     */
-    public function sendUnBanForm(Player $player): void {
-        $form = new SimpleForm(function (Player $player, $data){
-            if (is_null($data))
-                return;
-        });
-        $form->setTitle('§c- §fUnBan §c-');
-        $form->setContent("§7» §rSéléctionnez la personne que vous souhaitez débannir.");
-        foreach (Core::getInstance()->sanction->getAllBan() as $ban){
-            $form->addButton($ban);
-        }
         $player->sendForm($form);
     }
 }

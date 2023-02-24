@@ -22,13 +22,14 @@ use arkania\Core;
 use arkania\data\WebhookData;
 use arkania\manager\RanksManager;
 use arkania\utils\trait\Date;
+use arkania\utils\trait\Webhook;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 
 class TempsBanCommand extends BaseCommand {
-
+    use Webhook;
     use Date;
 
     /** @var Core */
@@ -89,9 +90,8 @@ class TempsBanCommand extends BaseCommand {
             $raison = implode(' ', $raison);
         }
         $this->core->sanction->addBan($target, $rank, $temps, $raison, Utils::getServerName(), $this->dateFormat());
-        $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§e" . $target . "§c vient de se faire bannir du serveur par " . $rank . " §cdurant §e" . $format . "§c pour le motif §e" . $raison . "§c !");
-        Utils::sendDiscordWebhook('**BANNISSEMENT**', '**' . $player->getName() . '** vient de bannir **' . $target . '** du serveur durant **' . $format . '** pour le motif **' . $raison . '**', '・Sanction système - ArkaniaStudios', 0xE70235, WebhookData::BAN);
-
+        $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§e" . $target . "§c vient de se faire bannir du serveur §cdurant §e" . $format . "§c pour le motif §e" . $raison . "§c !");
+        $this->sendDiscordWebhook('**BANNISSEMENT**', '**' . $player->getName() . "** vient de bannir **" . $target . "** d'arkania." . PHP_EOL . PHP_EOL . "*Informations*" . PHP_EOL . "- Banni par **" . Utils::removeColorOnMessage($rank) . "**" . PHP_EOL . "- Durée : **" . $format . "**" . PHP_EOL . "- Server : **" . Utils::getServerName() . "**" . PHP_EOL . "- Raison : **" . $raison . "**", '・Sanction système - ArkaniaStudios', 0xE70235, WebhookData::BAN);
         if ($this->core->getServer()->getPlayerExact($target) instanceof Player)
             $this->core->getServer()->getPlayerExact($target)->disconnect("§7» §cVous avez été banni d'Arkania:\n§7» §cStaff: " . $rank . "\n§7» §cTemps: §e" . $format . "\n§7» §cMotif: §e" . $raison);
         return true;
