@@ -25,7 +25,6 @@ use arkania\utils\Utils;
 use pocketmine\event\Listener;
 
 class PlayerJoinEvent implements Listener {
-
     use Date;
 
     /** @var Core */
@@ -51,8 +50,10 @@ class PlayerJoinEvent implements Listener {
             $time = $this->core->sanction->getBanTime($player->getName());
             if ($time - time() <= 0)
                 $this->core->sanction->removeBan($player->getName());
-            else
+            else {
                 $this->core->getScheduler()->scheduleRepeatingTask(new BanTask($this->core, $player), 7);
+                return;
+            }
         }
 
         /* PlayerTime */
@@ -68,10 +69,16 @@ class PlayerJoinEvent implements Listener {
         if (!$this->core->economyManager->hasAccount($player->getName()))
             $this->core->economyManager->resetMoney($player->getName());
 
+        $this->core->stats->setServerConnection($player);
+
+        foreach ($this->core->getServer()->getOnlinePlayers() as $onlinePlayer){
+            if ($this->core->staff->isInVanish($onlinePlayer))
+                if (!$player->hasPermission('arkania:permission.vanish'))
+                    $player->hidePlayer($onlinePlayer);
+        }
 
         /* PlayerBefore */
         if (!$player->hasPlayedBefore()){
-            if (!$this->core->sanction->isBan($player->getName())){
                 $inscription = $this->dateFormat();
                 $this->core->stats->setInscription($player, $inscription);
                 if (!$this->core->ranksManager->existPlayer($player->getName()))
@@ -79,13 +86,8 @@ class PlayerJoinEvent implements Listener {
 
                 $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§e" . $player->getName() . "§f vient de rejoindre §cArkania §fpour la première fois ! (§7§o#" . $this->core->stats->getPlayerRegister() . "§f)");
                 $event->setJoinMessage('');
-            }
         }else{
-            if (!$this->core->sanction->isBan($player->getName()))
-                $event->setJoinMessage('[§a+§f] ' . RanksManager::getRanksFormatPlayer($player));
-            else{
-                $event->setJoinMessage('');
-            }
+            $event->setJoinMessage('[§a+§f] ' . RanksManager::getRanksFormatPlayer($player));
         }
     }
 }

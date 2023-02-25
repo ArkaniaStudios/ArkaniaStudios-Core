@@ -25,5 +25,4 @@ trait Provider {
     public function getProvider(): mysqli {
         return new mysqli(DataBaseConnector::HOST_NAME, DataBaseConnector::USER_NAME, DataBaseConnector::PASSWORD, DataBaseConnector::DATABASE);
     }
-
 }

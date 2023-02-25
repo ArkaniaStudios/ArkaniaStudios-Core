@@ -20,6 +20,7 @@ namespace arkania\manager;
 use arkania\Core;
 use arkania\data\DataBaseConnector;
 use arkania\utils\Query;
+use arkania\utils\Utils;
 use mysqli;
 use pocketmine\player\Player;
 
@@ -49,6 +50,7 @@ final class StatsManager {
         $db->query("CREATE TABLE IF NOT EXISTS deaths(name VARCHAR(20), DeathCount INT)");
         $db->query("CREATE TABLE IF NOT EXISTS player_time(name VARCHAR(20), time FLOAT)");
         $db->query("CREATE TABLE IF NOT EXISTS player_number(number INT)");
+        $db->query("CREATE TABLE IF NOT EXISTS player_connection(name VARCHAR(20), server TEXT)");
         $db->close();
     }
 
@@ -67,16 +69,15 @@ final class StatsManager {
         $player = $player->getName();
         $player = strtolower($player);
         $db = self::getDataBase();
-        self::getDatabase()->query("INSERT INTO  player_time(name, inscription) VALUES ('" . self::getDatabase()->real_escape_string($player) . "', '$date');");
+        Query::query("INSERT INTO  inscription(name, inscription) VALUES ('" . self::getDatabase()->real_escape_string($player) . "', '$date');");
         $db->close();
     }
 
     /**
-     * @param Player $player
+     * @param string $player
      * @return false|mixed
      */
-    public function getInscription(Player $player): mixed {
-        $player = $player->getName();
+    public function getInscription(string $player): mixed {
         $player = strtolower($player);
         $data = self::getDataBase()->query("SELECT inscription FROM inscription WHERE name='" . self::getDataBase()->real_escape_string($player) . "'");
         $date = $data->fetch_array()[0] ?? false;
@@ -91,6 +92,18 @@ final class StatsManager {
     public function getTime(Player $player): mixed {
         $player = strtolower($player->getName());
         return self::$time[$player];
+    }
+
+    /**
+     * @param string $playerName
+     * @return int|mixed
+     */
+    public function getCurrentTime(string $playerName): mixed {
+        $result = self::getDatabase()->query("SELECT time FROM player_time WHERE name='" . $playerName . "'");
+        if ($result->num_rows < 0)
+            return 0;
+        else
+            return $result->fetch_array()[0];
     }
 
     /**
@@ -279,4 +292,34 @@ final class StatsManager {
         return (int)$number;
     }
 
+    /**
+     * @param Player $player
+     * @return void
+     */
+    public function setServerConnection(Player $player): void {
+        $db = self::getDatabase()->query("SELECT * FROM player_connection WHERE name='" . $player->getName() . "'");
+        if ($db->num_rows > 0)
+            Query::query("UPDATE player_connection SET server='§aEn ligne §f(§e" . Utils::getServerName() . "§f)' WHERE name='" . $player->getName() . "'");
+        else
+            Query::query("INSERT INTO player_connection(name, server) VALUES ('" . $player->getName() . "', '" . Utils::getServerName() . "')");
+    }
+
+    /**
+     * @param Player $player
+     * @return void
+     */
+    public function removeServerConnection(Player $player): void {
+        Query::query("UPDATE player_connection SET server='§cHors ligne' WHERE name='" . $player->getName() . "'");
+    }
+
+    /**
+     * @param $playerName
+     * @return string
+     */
+    public function getServerConnection($playerName): string {
+        $db = self::getDatabase()->query("SELECT server FROM player_connection WHERE name='" . $playerName . "'");
+        $result = $db->fetch_array()[0] ?? 'Error';
+        $db->close();
+        return $result;
+    }
 }

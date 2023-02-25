@@ -20,13 +20,14 @@ namespace arkania\entity\base;
 use arkania\Core;
 use arkania\entity\EntityIds;
 use arkania\entity\EntityTrait;
+use arkania\items\npc\NpcManagerItem;
 use pocketmine\entity\Living;
 use pocketmine\entity\Location;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\item\VanillaItems;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\player\Player;
-use src\arkania\items\npc\NpcManagerItem;
 
 abstract class BaseEntity extends Living {
 
@@ -50,7 +51,7 @@ abstract class BaseEntity extends Living {
         if ($source instanceof EntityDamageByEntityEvent) {
             $player = $source->getDamager();
             if ($player instanceof Player) {
-                if ($player->getInventory()->getItemInHand() instanceof NpcManagerItem)
+                if ($player->getInventory()->getItemInHand()->getId() === VanillaItems::RECORD_STRAD()->getId())
                     Core::getInstance()->ui->sendMenuForm($player, $this);
                 else
                     $this->executeCommand($player);

@@ -95,7 +95,6 @@ trait EntityTrait {
      * @return array
      */
     public function getCommand(): array {
-        var_dump($this->commands);
         return $this->commands;
     }
 

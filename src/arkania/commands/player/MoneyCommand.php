@@ -45,11 +45,11 @@ class MoneyCommand extends BaseCommand {
 
         if (!isset($args[0])){
             $money = $this->core->economyManager->getMoney($player->getName());
-            $player->sendMessage(Utils::getPrefix() . "Vous avez actuellement §c" . $money . "§f.");
+            $player->sendMessage(Utils::getPrefix() . "Vous avez actuellement §e" . $money . "§f.");
         }else{
             $target = $args[0];
             $money = $this->core->economyManager->getMoney($target);
-            $player->sendMessage(Utils::getPrefix() . "§c" . $target . " a actuellement §c" . $money . "§f.");
+            $player->sendMessage(Utils::getPrefix() . "§e" . $target . " a actuellement §e" . $money . "§f.");
         }
         return true;
     }

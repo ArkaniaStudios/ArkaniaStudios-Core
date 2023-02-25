@@ -39,7 +39,6 @@ final class ServerStatusManager {
     public static function init(): void {
         $db = self::getDataBase();
         $db->query("CREATE TABLE IF NOT EXISTS server_status(serverName VARCHAR(20), status TEXT)");
-        $db->query("CREATE TABLE IF NOT EXISTS debug(isDebug BOOL)");
         $db->close();
     }
 
