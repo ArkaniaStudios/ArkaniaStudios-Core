@@ -39,6 +39,10 @@ class PlayerQuitEvent implements Listener {
         /* Connection */
         $this->core->stats->removeServerConnection($player);
 
+        /* StaffMode */
+        if ($this->core->staff->isInStaffMode($player))
+            $this->core->staff->removeStaffMode($player);
+
         /* QuitMessage */
         $event->setQuitMessage('[§c-§f] ' . RanksManager::getRanksFormatPlayer($player));
 

@@ -86,24 +86,30 @@ final class StatsManager {
     }
 
     /**
-     * @param Player $player
-     * @return mixed
+     * @param string $player
+     * @return int
      */
-    public function getTime(Player $player): mixed {
-        $player = strtolower($player->getName());
-        return self::$time[$player];
+    public function getTime(string $player): int
+    {
+        $player = strtolower($player);
+        if (self::$time[$player])
+            return (int)self::$time[$player];
+        else
+            return 0;
     }
 
     /**
-     * @param string $playerName
-     * @return int|mixed
+     * @param string $name
+     * @return int
      */
-    public function getCurrentTime(string $playerName): mixed {
-        $result = self::getDatabase()->query("SELECT time FROM player_time WHERE name='" . $playerName . "'");
-        if ($result->num_rows < 0)
-            return 0;
-        else
-            return $result->fetch_array()[0];
+    public function getRealPlayTime(string $name): int {
+        $name = strtolower($name);
+        if (isset(self::$jointime[$name])){
+            $additionallyTime = time() - self::$jointime[$name];
+            $savePlayTime = $this->getTime($name);
+            return $additionallyTime + $savePlayTime;
+        }
+        return $this->getTime($name);
     }
 
     /**
@@ -140,29 +146,9 @@ final class StatsManager {
         $db->close();
     }
 
-    /**
-     * @param Player $player
-     * @return void
-     */
-    public function synchroJoinStats(Player $player): void {
-        $name = strtolower($player->getName());
-        $data = self::getDatabase()->query("SELECT time FROM player_time WHERE name='" . self::getDatabase()->real_escape_string($name) . "'");
-        $time = $data->fetch_array()[0] ?? false;
-        self::$time[strtolower($player->getName())] = $time;
-        self::$jointime[strtolower($player->getName())] = time();
-        $data->close();
-    }
-
-    /**
-     * @param Player $player
-     * @return void
-     */
-    public function synchroQuitStats(Player $player): void {
-        $name = strtolower($player->getName());
-        $time = self::$time[$name];
-        $newtime = $time + (time() - self::$jointime[$name]);
+    public function addPlayTime(string $name, $playtimeToAdd): void {
         $db = self::getDatabase();
-        Query::query("UPDATE player_time SET time = '$newtime' WHERE name='" . self::getDatabase()->real_escape_string($name) . "'");
+        Query::query("UPDATE player_time SET time =time + '$playtimeToAdd' WHERE name='" . self::getDatabase()->real_escape_string($name) . "'");
         $db->close();
     }
 

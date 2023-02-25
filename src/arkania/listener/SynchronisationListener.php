@@ -19,6 +19,7 @@ namespace arkania\listener;
 
 use arkania\Core;
 use arkania\manager\SettingsManager;
+use arkania\manager\StatsManager;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerKickEvent;
@@ -41,7 +42,9 @@ class SynchronisationListener implements Listener {
 
         $this->core->ranksManager->synchroJoinRank($player);
         $this->core->stats->createPlayerStats($player->getName());
-        $this->core->stats->synchroJoinStats($player);
+
+        $name = strtolower($player->getName());
+        StatsManager::$jointime[$name] = time();
 
         $this->core->synchronisation->syncPlayer($player);
     }
@@ -50,7 +53,12 @@ class SynchronisationListener implements Listener {
         $player = $event->getPlayer();
 
         $this->core->ranksManager->synchroQuitRank($player);
-        $this->core->stats->synchroQuitStats($player);
+
+        $name = strtolower($player->getName());
+        if (isset(StatsManager::$jointime[$name])){
+            $playTimeToAdd = time() - StatsManager::$jointime[$name];
+            $this->core->stats->addPlayTime($name, $playTimeToAdd);
+        }
 
         $this->core->synchronisation->registerInv($player);
 
@@ -60,9 +68,12 @@ class SynchronisationListener implements Listener {
         $player = $event->getPlayer();
 
         $this->core->synchronisation->registerInv($player);
-
+        $name = strtolower($player->getName());
+        if (isset(StatsManager::$jointime[$name])){
+            $playTimeToAdd = time() - StatsManager::$jointime[$name];
+            $this->core->stats->addPlayTime($name, $playTimeToAdd);
+        }
         $this->core->ranksManager->synchroQuitRank($player);
-        $this->core->stats->synchroQuitStats($player);
 
     }
 }
