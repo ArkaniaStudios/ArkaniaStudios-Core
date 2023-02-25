@@ -46,6 +46,7 @@ use arkania\commands\player\ServerSelectorCommand;
 use arkania\commands\player\SettingsCommand;
 use arkania\commands\player\VoteCommand;
 use arkania\commands\ranks\FeedCommand;
+use arkania\commands\staff\BanListCommand;
 use arkania\commands\staff\KickCommand;
 use arkania\commands\staff\LogsCommand;
 use arkania\commands\staff\RedemCommand;
@@ -120,7 +121,8 @@ final class Loader {
             'tell',
             'whitelist',
             'pardon',
-            'pardon-ip'
+            'pardon-ip',
+            'banlist'
         ];
 
         $commandMap = $this->core->getServer()->getCommandMap();
@@ -159,6 +161,7 @@ final class Loader {
             new StaffModeCommand($this->core),
             new TempsBanCommand($this->core),
             new UnBanCommand($this->core),
+            new BanListCommand($this->core),
 
             /* Grade */
             new FeedCommand(),
