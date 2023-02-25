@@ -85,72 +85,6 @@ final class StatsManager {
         return $date;
     }
 
-    /**
-     * @param string $player
-     * @return int
-     */
-    public function getTime(string $player): int
-    {
-        $player = strtolower($player);
-        if (self::$time[$player])
-            return (int)self::$time[$player];
-        else
-            return 0;
-    }
-
-    /**
-     * @param string $name
-     * @return int
-     */
-    public function getRealPlayTime(string $name): int {
-        $name = strtolower($name);
-        if (isset(self::$jointime[$name])){
-            $additionallyTime = time() - self::$jointime[$name];
-            $savePlayTime = $this->getTime($name);
-            return $additionallyTime + $savePlayTime;
-        }
-        return $this->getTime($name);
-    }
-
-    /**
-     * @return array
-     */
-    public function getAllTime(): array {
-        $res = self::getDataBase()->query("SELECT * FROM player_time");
-
-        $ret = [];
-        foreach ($res->fetch_all() as $value){
-            $ret[$value[0]] = $value[1];
-        }
-        $res->close();
-        return $ret;
-    }
-
-    /**
-     * @param Player $player
-     * @return void
-     */
-    public function createTime(Player $player): void {
-        $name = strtolower($player->getName());
-        $db = self::getDatabase()->query("SELECT * FROM player_time WHERE name='" . self::getDatabase()->real_escape_string($name) . "'");
-        $time = $db->num_rows > 0;
-        if(!$time){
-            $path = $this->core->playertime;
-            if($path->exists($name)){
-                $time = $path->get($name);
-            } else {
-                $time = 0;
-            }
-            self::getDatabase()->query("INSERT INTO player_time (name, time) VALUES ('" . self::getDatabase()->real_escape_string($name) . "', '$time');");
-        }
-        $db->close();
-    }
-
-    public function addPlayTime(string $name, $playtimeToAdd): void {
-        $db = self::getDatabase();
-        Query::query("UPDATE player_time SET time =time + '$playtimeToAdd' WHERE name='" . self::getDatabase()->real_escape_string($name) . "'");
-        $db->close();
-    }
 
 
     /**
@@ -232,27 +166,24 @@ final class StatsManager {
     }
 
     /**
-     * @param $player
+     * @param Player $player
      * @return void
      */
-    public function createPlayerStats($player): void {
-        if ($player instanceof Player) {
-            $player = $player->getName();
-        }
-
-        $player = strtolower($player);
-        $db = self::getDatabase()->query("SELECT * FROM kills WHERE name='" . self::getDatabase()->real_escape_string($player) . "'");
+    public function createPlayerStats(Player $player): void {
+        $name = strtolower($player->getName());
+        $db = self::getDatabase()->query("SELECT * FROM kills WHERE name='" . self::getDatabase()->real_escape_string($name) . "'");
         $coins = $db->num_rows > 0;
         if(!$coins){
-            self::getDatabase()->query("INSERT INTO kills (name, killCount) VALUES ('" . self::getDatabase()->real_escape_string($player) . "', 0);");
+            self::getDatabase()->query("INSERT INTO kills (name, killCount) VALUES ('" . self::getDatabase()->real_escape_string($name) . "', 0);");
         }
         $db->close();
-        $db = self::getDatabase()->query("SELECT * FROM deaths WHERE name='" . self::getDatabase()->real_escape_string($player) . "'");
+        $db = self::getDatabase()->query("SELECT * FROM deaths WHERE name='" . self::getDatabase()->real_escape_string($name) . "'");
         $coins = $db->num_rows > 0;
         if(!$coins){
-            self::getDatabase()->query("INSERT INTO deaths (name, deathCount) VALUES ('" . self::getDatabase()->real_escape_string($player) . "', 0);");
+            self::getDatabase()->query("INSERT INTO deaths (name, deathCount) VALUES ('" . self::getDatabase()->real_escape_string($name) . "', 0);");
         }
         $db->close();
+        $this->createTimeKey($player);
     }
 
     /**
@@ -308,4 +239,74 @@ final class StatsManager {
         $db->close();
         return $result;
     }
+
+    /**
+     * @param $player
+     * @return mixed
+     */
+    public function getTime($player): mixed
+    {
+        if ($player instanceof Player)$player = $player->getName();
+        $player = strtolower($player);
+        return self::$time[$player];
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllTime(): array {
+        $res = self::getDatabase()->query("SELECT * FROM player_time");
+
+        $ret = [];
+        foreach($res->fetch_all() as $val){
+            $ret[$val[0]] = $val[1];
+        }
+        $res->close();
+        return $ret;
+    }
+
+    /**
+     * @param Player $player
+     * @return void
+     */
+    public function createTimeKey(Player $player): void {
+        $name = strtolower($player->getName());
+        $db = self::getDatabase()->query("SELECT * FROM player_time WHERE name='" . self::getDatabase()->real_escape_string($name) . "'");
+        $time = $db->num_rows > 0;
+        if(!$time){
+            $config = $this->core->playertime;
+            if($config->exists($name)){
+                $time = $config->get($name);
+            } else {
+                $time = 0;
+            }
+            Query::query("INSERT INTO player_time (name, time) VALUES ('" . self::getDatabase()->real_escape_string($name) . "', '$time');");
+        }
+        $db->close();
+    }
+
+    /**
+     * @param Player $player
+     * @return void
+     */
+    public function synchroJoinStats(Player $player): void {
+        $name = strtolower($player->getName());
+        $data = self::getDatabase()->query("SELECT time FROM player_time WHERE name='" . self::getDatabase()->real_escape_string($name) . "'");
+        $time = $data->fetch_array()[0] ?? false;
+        self::$time[strtolower($player->getName())] = $time;
+        self::$jointime[strtolower($player->getName())] = time();
+        $data->close();
+    }
+
+    /**
+     * @param Player $player
+     * @return void
+     */
+    public function synchroQuitStats(Player $player): void {
+        $name = strtolower($player->getName());
+        $time = self::$time[$name];
+        $newtime = $time + (time() - self::$jointime[$name]);
+        Query::query("UPDATE player_time SET time = '$newtime' WHERE name='" . self::getDatabase()->real_escape_string($name) . "'");
+    }
+
 }
