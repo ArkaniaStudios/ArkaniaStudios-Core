@@ -17,6 +17,8 @@ declare(strict_types=1);
 
 namespace arkania;
 
+use arkania\commands\ranks\CraftCommand;
+use arkania\inventory\CraftingTableTypeInventory;
 use arkania\libs\customies\block\CustomiesBlockFactory;
 use arkania\libs\muqsit\invmenu\InvMenuHandler;
 use arkania\manager\EconomyManager;
@@ -115,6 +117,8 @@ class Core extends PluginBase {
 
         if (!InvMenuHandler::isRegistered())
             InvMenuHandler::register($this);
+
+        InvMenuHandler::getTypeRegistry()->register(CraftCommand::INV_MENU_TYPE_WORKBENCH, new CraftingTableTypeInventory());
 
         $this->loadAllConfig();
         $loader = new Loader($this);

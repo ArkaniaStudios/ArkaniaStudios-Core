@@ -33,19 +33,26 @@ use arkania\commands\admin\ranks\DelUPermissionCommand;
 use arkania\commands\admin\ranks\SetFormatCommand;
 use arkania\commands\admin\ranks\SetNametagCommand;
 use arkania\commands\admin\ranks\SetRankCommand;
+use arkania\commands\player\CoordinateCommand;
 use arkania\commands\player\DiscordCommand;
 use arkania\commands\player\FactionCommand;
 use arkania\commands\player\InfoCommand;
 use arkania\commands\player\KitsCommand;
+use arkania\commands\player\ListCommand;
 use arkania\commands\player\MoneyCommand;
 use arkania\commands\player\MsgCommand;
 use arkania\commands\player\PayCommand;
+use arkania\commands\player\PingCommand;
 use arkania\commands\player\ReplyCommand;
 use arkania\commands\player\ServerInfoCommand;
 use arkania\commands\player\ServerSelectorCommand;
 use arkania\commands\player\SettingsCommand;
+use arkania\commands\player\SiteCommand;
 use arkania\commands\player\VoteCommand;
+use arkania\commands\player\WikiCommand;
+use arkania\commands\ranks\CraftCommand;
 use arkania\commands\ranks\FeedCommand;
+use arkania\commands\ranks\NearCommand;
 use arkania\commands\staff\BanListCommand;
 use arkania\commands\staff\KickCommand;
 use arkania\commands\staff\LogsCommand;
@@ -122,7 +129,8 @@ final class Loader {
             'whitelist',
             'pardon',
             'pardon-ip',
-            'banlist'
+            'banlist',
+            'list'
         ];
 
         $commandMap = $this->core->getServer()->getCommandMap();
@@ -165,6 +173,8 @@ final class Loader {
 
             /* Grade */
             new FeedCommand(),
+            new CraftCommand(),
+            new NearCommand(),
 
             /* Player */
             new DiscordCommand(),
@@ -179,6 +189,11 @@ final class Loader {
             new VoteCommand($this->core),
             new ServerInfoCommand($this->core),
             new InfoCommand($this->core),
+            new SiteCommand(),
+            new WikiCommand(),
+            new PingCommand($this->core),
+            new CoordinateCommand(),
+            new ListCommand($this->core),
         ];
 
         $this->core->getServer()->getCommandMap()->registerAll('Arkania-Commands', $commands);
