@@ -30,6 +30,7 @@ use arkania\libs\muqsit\invmenu\transaction\InvMenuTransactionResult;
 use arkania\libs\muqsit\invmenu\type\InvMenuTypeIds;
 use arkania\tasks\TransfertTask;
 use arkania\utils\trait\Date;
+use arkania\utils\trait\Webhook;
 use arkania\utils\Utils;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\item\enchantment\EnchantmentInstance;
@@ -41,7 +42,7 @@ use pocketmine\Server;
 use arkania\commands\BaseCommand;
 
 final class UiManager {
-
+    use Webhook;
     use Date;
 
     /** @var FactionManager */
@@ -646,6 +647,60 @@ final class UiManager {
         });
         $form->setTitle('§c- §fLogs §c-');
         $form->addDropdown('§7» §rLogs', ['§aActivé', '§cDésactivé']);
+        $player->sendForm($form);
+    }
+
+    /**
+     * @param Player $player
+     * @param Player $target
+     * @return void
+     */
+    public function sendBanUi(Player $player, Player $target): void {
+        $form = new CustomForm(function (Player $player, $data) use ($target){
+            if (is_null($data))
+                return;
+
+            $temps = 0;
+            $format = '0 seconde';
+            if ($data[1] !== 0){
+                $temps = time() + ((int)$data[1]* 86400);
+                $format = (int)$data[1] . ' jour(s) ';
+            }elseif($data[2] !== 0){
+                $temps = time() + ((int)$data[2]* 3600);
+                $format = (int)$data[2] . ' heure(s) ';
+            }elseif($data[3] !== 0){
+                $temps = time() + ((int)$data[3]* 60);
+                $format = (int)$data[3] . ' minute(s) ';
+            }elseif($data[4] !== 0) {
+                $temps = time() + ((int)$data[4]);
+                $format = (int)$data[4] . ' seconde(s) ';
+            }
+
+            if (is_null($data[5])) {
+                if (!$player->hasPermission('arkania:permission.tempsban.bypass')) {
+                    $player->sendMessage(Utils::getPrefix() . "§cVous devez obligatoirement indiquer une raison");
+                    return;
+                }
+                $raison = 'Aucun';
+            }else
+                $raison = $data[5];
+
+            $rank = RanksManager::getRanksFormatPlayer($player);
+            Core::getInstance()->sanction->addBan($target->getName(), RanksManager::getRanksFormatPlayer($player), $temps, $raison, Utils::getServerName(), $this->dateFormat());
+            Server::getInstance()->broadcastMessage(Utils::getPrefix() . "§e" . $target->getName() . "§c vient de se faire bannir du serveur §cdurant §e" . $format . "§c pour le motif §e" . $raison . "§c !");
+            $this->sendDiscordWebhook('**BANNISSEMENT**', '**' . $player->getName() . "** vient de bannir **" . $target->getName() . "** d'arkania." . PHP_EOL . PHP_EOL . "*Informations*" . PHP_EOL . "- Banni par **" . Utils::removeColorOnMessage($rank) . "**" . PHP_EOL . "- Durée : **" . $format . "**" . PHP_EOL . "- Server : **" . Utils::getServerName() . "**" . PHP_EOL . "- Raison : **" . $raison . "**", '・Sanction système - ArkaniaStudios', 0xE70235, WebhookData::BAN);
+            $target->disconnect("§7» §cVous avez été banni d'Arkania:\n§7» §cStaff: " . $rank . "\n§7» §cTemps: §e" . $format . "\n§7» §cMotif: §e" . $raison);
+        });
+        $form->setTitle('§c- §fBan §c-');
+        $form->setContent("§7» §rVoici l'interface de bannissement.");
+        if (!$player->hasPermission('arkania:permission.tempsban.bypass'))
+            $form->addSlider('§7» §rJour(s) :', 0, 30, -1, 0);
+        else
+            $form->addSlider('§7» §rJour(s) :', 0, 100, -1, 0);
+        $form->addSlider('§7» §rHeure(s) :', 0, 24);
+        $form->addSlider('§7» §rMinute(s) :', 0, 60);
+        $form->addSlider('§7» §rSeconde(s) :', 0, 60);
+        $form->addInput('§7» §rRaison :');
         $player->sendForm($form);
     }
 }

@@ -108,7 +108,7 @@ final class StaffManager {
         foreach (Server::getInstance()->getOnlinePlayers() as $onlinePlayer){
             if (!$onlinePlayer->hasPermission('arkania:permission.vanish')) {
                 $onlinePlayer->hidePlayer($player);
-                $onlinePlayer->sendMessage("[§c-§f] ". $player->getName());
+                $onlinePlayer->sendMessage("[§c-§f] ". RanksManager::getRanksFormatPlayer($player));
                 $entry = new PlayerListEntry();
                 $entry->uuid = $player->getUniqueId();
                 $pk = new PlayerListPacket();
@@ -132,7 +132,7 @@ final class StaffManager {
         foreach ($this->core->getServer()->getOnlinePlayers() as $onlinePlayer){
             if (!$onlinePlayer->hasPermission('arkania:permission.vanish')) {
                 $onlinePlayer->showPlayer($player);
-                $onlinePlayer->sendMessage("[§a+§f] ". $player->getName());
+                $onlinePlayer->sendMessage("[§a+§f] ". RanksManager::getRanksFormatPlayer($player));
                 $pk = new PlayerListPacket();
                 $pk->type = PlayerListPacket::TYPE_ADD;
                 $pk->entries[] = PlayerListEntry::createAdditionEntry(
@@ -146,7 +146,7 @@ final class StaffManager {
             }
         }
 
-        $player->setNameTag('[§cVanish§f] ' . $player->getName());
+        $this->core->ranksManager->updateNameTag($player);
         unset($this->vanish[$player->getName()]);
     }
 
@@ -182,7 +182,7 @@ final class StaffManager {
         $player->setFlying(true);
         $player->setAllowFlight(true);
 
-        $player->getInventory()->setItem(0, VanillaItems::GRAY_DYE()->setCustomName('§c- §fVanish §c-'));
+        $player->getInventory()->setItem(0, VanillaItems::LIME_DYE()->setCustomName('§c- §fVanish §c-'));
         $player->getInventory()->setItem(2, VanillaItems::BOOK()->setCustomName('§c- §fPlayerInfos §c-'));
         $player->getInventory()->setItem(4, VanillaItems::COMPASS()->setCustomName('§c- §fRandomTp §c-'));
         $player->getInventory()->setItem(6, VanillaBlocks::ICE()->asItem()->setCustomName('§c- §fFreeze §c-'));
@@ -191,7 +191,7 @@ final class StaffManager {
         $this->setVanish($player);
 
         $this->staffmode[$player->getName()] = $player->getName();
-        $player->sendMessage(Utils::getPrefix() . "Vous êtes maintenant en staffmode.");
+        $player->sendMessage(Utils::getPrefix() . "§aVous êtes maintenant en staffmode.");
     }
 
     /**
@@ -201,14 +201,9 @@ final class StaffManager {
     public function removeStaffMode(Player $player): void {
         $this->restorInventory($player);
 
-        if ($player->getInventory()->getContents() !== $this->inventory[$player->getName()] || $player->getArmorInventory()->getContents() !== $this->armor[$player->getName()])
-            $status = 'Problème de restitution...';
-        else
-            $status = 'Récupéré';
+        $this->sendDiscordWebhook('**STAFFMODE**', "**" . $player->getName() . "** vient de retirer son staffmode." . PHP_EOL . PHP_EOL . "- Status de l'inventaire : **Récupéré**", 'StaffMode Système - ArkaniaStudios', 0xFEA, WebhookData::STAFFMODE);
 
-        $this->sendDiscordWebhook('**STAFFMODE**', "**" . $player->getName() . "** vient de retirer son staffmode." . PHP_EOL . PHP_EOL . "- Status de l'inventaire : **" . $status . "**", 'StaffMode Système - ArkaniaStudios', 0xFEA, WebhookData::STAFFMODE);
-
-        $player->setGamemode(GameMode::ADVENTURE());
+        $player->setGamemode(GameMode::SURVIVAL());
         $player->setFlying(false);
         $player->setAllowFlight(false);
 
@@ -217,6 +212,6 @@ final class StaffManager {
         unset($this->staffmode[$player->getName()]);
         unset($this->inventory[$player->getName()]);
         unset($this->armor[$player->getName()]);
-        $player->sendMessage(Utils::getPrefix() . "Vous n'êtes plus en StaffMode.");
+        $player->sendMessage(Utils::getPrefix() . "§cVous n'êtes plus en StaffMode.");
     }
 }

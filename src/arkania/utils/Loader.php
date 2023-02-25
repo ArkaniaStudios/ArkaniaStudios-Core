@@ -35,6 +35,7 @@ use arkania\commands\admin\ranks\SetNametagCommand;
 use arkania\commands\admin\ranks\SetRankCommand;
 use arkania\commands\player\DiscordCommand;
 use arkania\commands\player\FactionCommand;
+use arkania\commands\player\InfoCommand;
 use arkania\commands\player\KitsCommand;
 use arkania\commands\player\MoneyCommand;
 use arkania\commands\player\MsgCommand;
@@ -66,6 +67,7 @@ use arkania\items\npc\NpcManagerItem;
 use arkania\jobs\class\Mineur;
 use arkania\libs\customies\CustomiesListener;
 use arkania\libs\customies\item\CustomiesItemFactory;
+use arkania\listener\StaffModeListener;
 use arkania\listener\SynchronisationListener;
 use arkania\manager\EconomyManager;
 use arkania\manager\RanksManager;
@@ -173,6 +175,7 @@ final class Loader {
             new KitsCommand($this->core),
             new VoteCommand($this->core),
             new ServerInfoCommand($this->core),
+            new InfoCommand($this->core),
         ];
 
         $this->core->getServer()->getCommandMap()->registerAll('Arkania-Commands', $commands);
@@ -193,6 +196,7 @@ final class Loader {
 
             new SynchronisationListener($this->core),
             new CustomiesListener(),
+            new StaffModeListener($this->core),
         ];
 
         $eventManager = $this->core->getServer()->getPluginManager();

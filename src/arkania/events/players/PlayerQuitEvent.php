@@ -36,6 +36,9 @@ class PlayerQuitEvent implements Listener {
         /* Ranks */
         $this->core->ranksManager->unRegister($player);
 
+        /* Connection */
+        $this->core->stats->removeServerConnection($player);
+
         /* QuitMessage */
         $event->setQuitMessage('[§c-§f] ' . RanksManager::getRanksFormatPlayer($player));
 

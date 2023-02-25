@@ -166,10 +166,14 @@ class Core extends PluginBase {
 
         foreach ($this->getServer()->getOnlinePlayers() as $player){
 
+            if ($this->staff->isInStaffMode($player))
+                $this->staff->removeStaffMode($player);
+
+            $this->stats->removeServerConnection($player);
+            $player->sendMessage(Utils::getPrefix() . "§cLe serveur vient de redémarrer. Si vous n'avez pas été merci de vous déconnecter et de vous reconnecter au serveur !");
             $this->ranksManager->synchroQuitRank($player);
             $this->stats->synchroQuitStats($player);
             $this->synchronisation->registerInv($player);
-            $player->removeCurrentWindow();
         }
     }
 

@@ -219,7 +219,7 @@ final class RanksManager {
      * @return void
      */
     public function synchroJoinRank(Player $player): void {
-        $name = strtolower($player->getName());
+        $name = $player->getName();
         $data = self::getDatabase()->query("SELECT ranks FROM players_ranks WHERE name='" . self::getDatabase()->real_escape_string($name) . "'");
         $rank = $data->fetch_array()[0] ?? false;
         $this->setRank($player->getName(), $rank);
@@ -231,7 +231,7 @@ final class RanksManager {
      * @return void
      */
     public function synchroQuitRank(Player $player): void {
-        $name = strtolower($player->getName());
+        $name = $player->getName();
         $rank = $this->getPlayerRank($player->getName());
         $db = self::getDatabase();
         Query::query("UPDATE players_ranks SET ranks = '$rank' WHERE name='" . self::getDatabase()->real_escape_string($name) . "'");
