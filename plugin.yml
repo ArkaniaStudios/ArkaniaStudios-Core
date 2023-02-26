@@ -111,3 +111,15 @@ permissions:
         default: op
     "arkania:permission.near":
         default: op
+    "arkania:permission.clearlagtime":
+        default: op
+    "arkania:permission.forceclearlag":
+        default: op
+    "arkania:permission.enderinvsee":
+        default: op
+    "arkania:permission.seigneur":
+        default: op
+    "arkania:permission.hero":
+        default: op
+    "arkania:permission.noble":
+        default: op

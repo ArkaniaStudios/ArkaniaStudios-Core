@@ -50,10 +50,14 @@ use arkania\commands\player\SettingsCommand;
 use arkania\commands\player\SiteCommand;
 use arkania\commands\player\VoteCommand;
 use arkania\commands\player\WikiCommand;
+use arkania\commands\player\XpBottleCommand;
+use arkania\commands\ranks\ClearLagTimeCommand;
 use arkania\commands\ranks\CraftCommand;
 use arkania\commands\ranks\FeedCommand;
 use arkania\commands\ranks\NearCommand;
 use arkania\commands\staff\BanListCommand;
+use arkania\commands\staff\EnderinvseeCommand;
+use arkania\commands\staff\ForceClearLagCommand;
 use arkania\commands\staff\KickCommand;
 use arkania\commands\staff\LogsCommand;
 use arkania\commands\staff\RedemCommand;
@@ -65,6 +69,7 @@ use arkania\entity\base\BaseEntity;
 use arkania\entity\entities\VillagerEntity;
 use arkania\events\entity\EntityDamageEntityEvent;
 use arkania\events\players\PlayerChatEvent;
+use arkania\events\players\PlayerInteractEvent;
 use arkania\events\players\PlayerJoinEvent;
 use arkania\events\players\PlayerLoginEvent;
 use arkania\events\players\PlayerQuitEvent;
@@ -84,6 +89,7 @@ use arkania\manager\ServerStatusManager;
 use arkania\manager\SettingsManager;
 use arkania\manager\StatsManager;
 use arkania\manager\SynchronisationManager;
+use arkania\tasks\ClearLagTask;
 use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\data\bedrock\EntityLegacyIds;
 use pocketmine\entity\Entity;
@@ -170,11 +176,14 @@ final class Loader {
             new TempsBanCommand($this->core),
             new UnBanCommand($this->core),
             new BanListCommand($this->core),
+            new ForceClearLagCommand($this->core),
+            new EnderinvseeCommand($this->core),
 
             /* Grade */
             new FeedCommand(),
             new CraftCommand(),
             new NearCommand(),
+            new ClearLagTimeCommand(),
 
             /* Player */
             new DiscordCommand(),
@@ -194,6 +203,7 @@ final class Loader {
             new PingCommand($this->core),
             new CoordinateCommand(),
             new ListCommand($this->core),
+            new XpBottleCommand(),
         ];
 
         $this->core->getServer()->getCommandMap()->registerAll('Arkania-Commands', $commands);
@@ -209,6 +219,7 @@ final class Loader {
             new PlayerJoinEvent($this->core),
             new PlayerQuitEvent($this->core),
             new PlayerChatEvent($this->core),
+            new PlayerInteractEvent(),
 
             new EntityDamageEntityEvent(),
 
@@ -242,7 +253,7 @@ final class Loader {
      * @return void
      */
     private function initTask(): void {
-
+        $this->core->getScheduler()->scheduleRepeatingTask(new ClearLagTask($this->core, 300), 20);
     }
 
     /**
