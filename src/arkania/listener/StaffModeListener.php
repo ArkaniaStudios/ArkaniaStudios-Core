@@ -140,7 +140,7 @@ class StaffModeListener implements Listener {
                     $faction = new FactionManager();
                     $player->sendMessage(Utils::getPrefix() . "Voici les informations concernant " . RanksManager::getRanksFormatPlayer($target) . "§f:" . PHP_EOL . PHP_EOL . "- Grade : " . $this->core->ranksManager->getRankColor($target->getName()) . PHP_EOL . "§f- Faction: §e" . $faction->getFaction($target->getName()) . PHP_EOL . "§f- Argent : §e" . $this->core->economyManager->getMoney($target->getName()) . "" . PHP_EOL . PHP_EOL . "§f- Inscription : §e" . $stats->getInscription($target->getName()) . PHP_EOL . "§f- Temps de jeu : §e" . $this->tempsFormat($stats->getTime($target->getName())) . PHP_EOL . PHP_EOL . "§f- Status : " . $this->core->stats->getServerConnection($target->getName()));
                 }elseif($item === VanillaItems::STONE_AXE()->getId()){
-                    $this->core->ui->sendBanUi($player, $target);
+                    $this->core->ui->sendBanUiForm($player, $target);
                 }
             }
         }

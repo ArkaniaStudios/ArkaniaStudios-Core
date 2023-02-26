@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace arkania\manager;
 
+use arkania\commands\BaseCommand;
 use arkania\commands\player\ServerSelectorCommand;
 use arkania\Core;
 use arkania\data\SettingsNameIds;
@@ -39,7 +40,6 @@ use pocketmine\item\Item;
 use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;
 use pocketmine\Server;
-use arkania\commands\BaseCommand;
 
 final class UiManager {
     use Webhook;
@@ -172,17 +172,17 @@ final class UiManager {
     public function sendSettingsForm(Player $player): void {
 
         $settings = new SettingsManager($player);
-        if ($settings->getSettings(SettingsNameIds::CLEARLAG) === false)
+        if ($settings->getSettings(SettingsNameIds::CLEARLAG) === true)
             $statusC = '§aActivé';
         else
             $statusC = '§cDésactivé';
 
-        if ($settings->getSettings(SettingsNameIds::MESSAGE) === false)
+        if ($settings->getSettings(SettingsNameIds::MESSAGE) === true)
             $statusM = '§aActivé';
         else
             $statusM = '§cDésactivé';
 
-        if ($settings->getSettings(SettingsNameIds::TELEPORT) === false)
+        if ($settings->getSettings(SettingsNameIds::TELEPORT) === true)
             $statusT = '§aActivé';
         else
             $statusT = '§cDésactivé';
@@ -209,21 +209,18 @@ final class UiManager {
                 else
                     $settings->setSettings(SettingsNameIds::CLEARLAG, false);
                 $player->removeCurrentWindow();
-                $this->sendSettingsForm($player);
             }elseif ($transaction->getItemClicked()->getId() === VanillaItems::PAPER()->getId()){
                 if ($settings->getSettings(SettingsNameIds::MESSAGE) === false)
                     $settings->setSettings(SettingsNameIds::MESSAGE, true);
                 else
                     $settings->setSettings(SettingsNameIds::MESSAGE, false);
                 $player->removeCurrentWindow();
-                $this->sendSettingsForm($player);
             }elseif ($transaction->getItemClicked()->getId() === VanillaItems::SNOWBALL()->getId()){
                 if ($settings->getSettings(SettingsNameIds::TELEPORT) === false)
                     $settings->setSettings(SettingsNameIds::TELEPORT, true);
                 else
                     $settings->setSettings(SettingsNameIds::TELEPORT, false);
                 $player->removeCurrentWindow();
-                $this->sendSettingsForm($player);
             }
             return $transaction->discard();
         });
@@ -655,7 +652,7 @@ final class UiManager {
      * @param Player $target
      * @return void
      */
-    public function sendBanUi(Player $player, Player $target): void {
+    public function sendBanUiForm(Player $player, Player $target): void {
         $form = new CustomForm(function (Player $player, $data) use ($target){
             if (is_null($data))
                 return;
@@ -703,4 +700,21 @@ final class UiManager {
         $form->addInput('§7» §rRaison :');
         $player->sendForm($form);
     }
+
+    /**
+     * @param Player $player
+     * @param Player $target
+     * @return void
+     */
+    public function sendEnderInvseeForm(Player $player, Player $target): void {
+        $menu = InvMenu::create(InvMenuTypeIds::TYPE_CHEST);
+        $menu->setName('§c- §fEnderChest de §e' . $target->getName() . ' §c-');
+        $menu->getInventory()->setContents($target->getEnderInventory()->getContents());
+        $menu->setListener(function (InvMenuTransaction $transaction)use ($target): InvMenuTransactionResult{
+            $target->getEnderInventory()->setItem($transaction->getAction()->getSlot(), $transaction->getIn());
+            return $transaction->continue();
+        });
+        $menu->send($player);
+    }
+
 }

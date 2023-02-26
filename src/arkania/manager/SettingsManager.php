@@ -60,7 +60,7 @@ final class SettingsManager {
      * @return false|bool
      */
     public function getSettings($key): bool {
-        $db = self::getDataBase()->query("SELECT `$key` FROM settings WHERE name='" . self::getDataBase()->real_escape_string($this->player->getName()) ."'");
+        $db = self::getDataBase()->query("SELECT $key FROM settings WHERE name='" . self::getDataBase()->real_escape_string($this->player->getName()) ."'");
         $settings = $db->fetch_array()[0] ?? false;
         $db->close();
         return (bool)$settings;
@@ -73,7 +73,7 @@ final class SettingsManager {
      */
     public function setSettings($key, bool $value): void {
         $db = self::getDataBase();
-        Query::query("UPDATE settings SET `$key`='" . $value ."' WHERE name='" . self::getDataBase()->real_escape_string($this->player->getName()) . "'");
+        Query::query("UPDATE settings SET $key='$value' WHERE name='" . self::getDataBase()->real_escape_string($this->player->getName()) . "'");
         $db->close();
     }
 
