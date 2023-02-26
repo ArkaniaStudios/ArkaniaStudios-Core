@@ -19,6 +19,7 @@ namespace arkania\factions;
 
 use arkania\Core;
 use arkania\data\DataBaseConnector;
+use arkania\factions\claims\ClaimManager;
 use arkania\manager\FactionManager;
 use arkania\utils\Query;
 use arkania\utils\trait\Webhook;
@@ -49,7 +50,7 @@ class FactionClass {
         $db = self::getDataBase();
         $db->query("CREATE TABLE IF NOT EXISTS factions(name VARCHAR(10), description TEXT, creation_date TEXT, ownerName VARCHAR(20), allies TEXT, members TEXT, power INT, money INT, logs BOOL, url TEXT, home TEXT)");
         $db->query("CREATE TABLE IF NOT EXISTS players_faction(name VARCHAR(20), faction VARCHAR(10), faction_rank VARCHAR(10))");
-        $db->query("CREATE TABLE IF NOT EXISTS claims(factionName VARCHAR(10), x INT, z INT, world TEXT, faction VARCHAR(10), server TEXT)");
+        $db->query("CREATE TABLE IF NOT EXISTS claims(factionName VARCHAR(10), chunkX INT, chunkZ INT, world TEXT)");
         $db->close();
     }
 
@@ -108,6 +109,10 @@ class FactionClass {
      */
     public function disbandFaction(): void {
         $db = self::getDataBase();
+
+        foreach (ClaimManager::getInstance()->getFactionClaim($this->factionName) as $claim)
+            ClaimManager::getInstance()->deleteClaim($claim);
+
         Query::query("DELETE FROM factions WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
         Query::query("DELETE FROM players_faction WHERE faction='" . self::getDataBase()->real_escape_string($this->factionName) ."'");
         $db->close();
@@ -249,16 +254,6 @@ class FactionClass {
         $db = self::getDataBase();
         Query::query("UPDATE players_faction SET faction_rank='member' WHERE name='" . self::getDataBase()->real_escape_string($player) . "'");
         $db->close();
-    }
-
-    /**
-     * @return array|bool
-     */
-    public function getClaim(): array|bool {
-        $db = self::getDataBase()->query("SELECT claims FROM factions WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
-        $claims = $db->fetch_array()[0] ?? false;
-        $db->close();
-        return unserialize($claims);
     }
 
     /**
@@ -477,22 +472,5 @@ class FactionClass {
             $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas de home sur ce serveur. Votre home de faction se trouve sur le serveur §e" . $server . "§c.");
         }
 
-    }
-
-    /**
-     * @param Player $player
-     * @return void
-     */
-    public function addClaim(Player $player): void {
-        $db = self::getDataBase()->query("SELECT * FROM claims WHERE factionName='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
-        $z = $player->getPosition()->getFloorZ() / 16;
-        $x = $player->getPosition()->getFloorX() / 16;
-        $world = $player->getWorld()->getDisplayName();
-        $server = Utils::getServerName();
-        if ($db->num_rows > 0)
-            Query::query("UPDATE claims SET factionName='" . $this->factionName . "', x='$x', z='$z', world='$world', server='$server' WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
-        else
-            Query::query("INSERT INTO claims (factionName, x, z,world, server) VALUES ('" . self::getDataBase()->real_escape_string($this->factionName) . "', '$x', '$z', '$world', '$server')");
-        $db->close();
     }
 }

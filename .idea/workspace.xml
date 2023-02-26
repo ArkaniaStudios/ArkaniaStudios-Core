@@ -5,19 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="add same update">
-      <change afterPath="$PROJECT_DIR$/src/arkania/commands/player/XpBottleCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/commands/ranks/ClearLagTimeCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/commands/staff/EnderinvseeCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/commands/staff/ForceClearLagCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerInteractEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/tasks/ClearLagTask.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/factions/claims/Claim.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/factions/claims/ClaimListener.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/factions/claims/ClaimManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/11afa8bd-3b75-4fa7-b1c1-950cc8d2fa3a.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/11afa8bd-3b75-4fa7-b1c1-950cc8d2fa3a.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/listener/StaffModeListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/listener/StaffModeListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/manager/SettingsManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/SettingsManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/manager/UiManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/UiManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/FactionCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/FactionCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/factions/FactionClass.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/factions/FactionClass.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/StatsManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/StatsManager.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/utils/Loader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/Loader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/date.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/date.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,28 +47,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/dumon/OneDrive/Documents/Minecraft/NitroCore/Plugin/Plugin/Core Faction v1&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;php.override.implement.member.chooser.php.doc&quot;: &quot;NONE&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenDatabaseViewOnStart": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/dumon/Downloads/PiggyFactions-master",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "php.override.implement.member.chooser.php.doc": "NONE",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mariadb&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mariadb"
     ]
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -315,7 +313,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677362808271</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="add same update">
+      <created>1677414025240</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1677414025240</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -123,3 +123,5 @@ permissions:
         default: op
     "arkania:permission.noble":
         default: op
+    "arkania:permission.faction.break":
+        default: op
