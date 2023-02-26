@@ -73,6 +73,7 @@ use arkania\events\players\PlayerInteractEvent;
 use arkania\events\players\PlayerJoinEvent;
 use arkania\events\players\PlayerLoginEvent;
 use arkania\events\players\PlayerQuitEvent;
+use arkania\factions\claims\ClaimListener;
 use arkania\factions\FactionClass;
 use arkania\items\ItemIds;
 use arkania\items\NoneEnchant;
@@ -226,6 +227,7 @@ final class Loader {
             new SynchronisationListener($this->core),
             new CustomiesListener(),
             new StaffModeListener($this->core),
+            //new ClaimListener(),
         ];
 
         $eventManager = $this->core->getServer()->getPluginManager();

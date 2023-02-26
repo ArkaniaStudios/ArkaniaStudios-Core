@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace arkania\commands\player;
 
 use arkania\Core;
+use arkania\factions\claims\ClaimManager;
 use arkania\manager\FactionManager;
 use arkania\utils\trait\Webhook;
 use arkania\utils\Utils;
@@ -26,6 +27,7 @@ use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 use pocketmine\Server;
 use arkania\commands\BaseCommand;
+use pocketmine\world\format\Chunk;
 
 class FactionCommand extends BaseCommand {
     use Webhook;
@@ -685,6 +687,11 @@ class FactionCommand extends BaseCommand {
             }
             $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->setHome($player);
             $player->sendMessage(Utils::getPrefix() . "§aHome de faction bien définit sur le serveur §e" . Utils::getServerName() . "§a !");
+        }elseif(strtolower($args[0]) === 'claim'){
+            /*$factionManager = new FactionManager();
+            $chunkX = $player->getPosition()->getFloorX() >> Chunk::COORD_BIT_SIZE;
+            $chunkZ = $player->getPosition()->getFloorZ() >> Chunk::COORD_BIT_SIZE;
+            ClaimManager::getInstance()->createClaim($factionManager->getFaction($player->getName()), $player->getWorld(), $chunkX, $chunkZ);*/
         }
         return true;
     }
