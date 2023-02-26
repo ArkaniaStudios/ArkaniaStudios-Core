@@ -56,9 +56,6 @@ class PlayerJoinEvent implements Listener {
             }
         }
 
-        /* PlayerTime */
-        $this->core->stats->createTime($player);
-
         /* Ranks */
         if (!$this->core->ranksManager->existPlayer($player->getName()))
             $this->core->ranksManager->setDefaultRank($player->getName());

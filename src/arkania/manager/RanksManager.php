@@ -479,4 +479,20 @@ final class RanksManager {
         $rankt = (new RanksManager)->getPlayerRank($targetName);
         return self::$rankList[array_search($rankp, self::$rankList)] < self::$rankList[array_search($rankt, self::$rankList)];
     }
+    public function classPlayersByRank(): array{
+        $array = [];
+        foreach(Server::getInstance()->getOnlinePlayers() as $player) {
+            if ($player->isOnline())
+                $array[$this->getRankColor($player->getName())][] = $player;
+        }
+        return $array;
+    }
+
+    /**
+     * @return array|string[]
+     */
+    public function getRanksList(): array {
+        return self::$rankList;
+    }
+
 }

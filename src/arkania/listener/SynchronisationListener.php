@@ -41,10 +41,8 @@ class SynchronisationListener implements Listener {
         $settings->createUserSettings();
 
         $this->core->ranksManager->synchroJoinRank($player);
-        $this->core->stats->createPlayerStats($player->getName());
-
-        $name = strtolower($player->getName());
-        StatsManager::$jointime[$name] = time();
+        $this->core->stats->createPlayerStats($player);
+        $this->core->stats->synchroJoinStats($player);
 
         $this->core->synchronisation->syncPlayer($player);
     }
@@ -52,28 +50,16 @@ class SynchronisationListener implements Listener {
     public function onPlayerQuit(PlayerQuitEvent $event) {
         $player = $event->getPlayer();
 
+        $this->core->stats->synchroQuitStats($player);
         $this->core->ranksManager->synchroQuitRank($player);
-
-        $name = strtolower($player->getName());
-        if (isset(StatsManager::$jointime[$name])){
-            $playTimeToAdd = time() - StatsManager::$jointime[$name];
-            $this->core->stats->addPlayTime($name, $playTimeToAdd);
-        }
-
         $this->core->synchronisation->registerInv($player);
-
     }
 
     public function onPlayerKick(PlayerKickEvent $event) {
         $player = $event->getPlayer();
 
+        $this->core->stats->synchroQuitStats($player);
         $this->core->synchronisation->registerInv($player);
-        $name = strtolower($player->getName());
-        if (isset(StatsManager::$jointime[$name])){
-            $playTimeToAdd = time() - StatsManager::$jointime[$name];
-            $this->core->stats->addPlayTime($name, $playTimeToAdd);
-        }
         $this->core->ranksManager->synchroQuitRank($player);
-
     }
 }

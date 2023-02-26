@@ -17,6 +17,8 @@ declare(strict_types=1);
 
 namespace arkania;
 
+use arkania\commands\ranks\CraftCommand;
+use arkania\inventory\CraftingTableTypeInventory;
 use arkania\libs\customies\block\CustomiesBlockFactory;
 use arkania\libs\muqsit\invmenu\InvMenuHandler;
 use arkania\manager\EconomyManager;
@@ -116,6 +118,8 @@ class Core extends PluginBase {
         if (!InvMenuHandler::isRegistered())
             InvMenuHandler::register($this);
 
+        InvMenuHandler::getTypeRegistry()->register(CraftCommand::INV_MENU_TYPE_WORKBENCH, new CraftingTableTypeInventory());
+
         $this->loadAllConfig();
         $loader = new Loader($this);
         $loader->init();
@@ -172,7 +176,6 @@ class Core extends PluginBase {
             $this->stats->removeServerConnection($player);
             $player->sendMessage(Utils::getPrefix() . "§cLe serveur vient de redémarrer. Si vous n'avez pas été merci de vous déconnecter et de vous reconnecter au serveur !");
             $this->ranksManager->synchroQuitRank($player);
-            $this->stats->synchroQuitStats($player);
             $this->synchronisation->registerInv($player);
         }
     }
