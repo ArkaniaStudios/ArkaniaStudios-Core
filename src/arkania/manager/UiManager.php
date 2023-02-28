@@ -717,4 +717,37 @@ final class UiManager {
         $menu->send($player);
     }
 
+    public function sendInvseeForm(Player $player, Player $target): void {
+        $menu = InvMenu::create(InvMenuTypeIds::TYPE_DOUBLE_CHEST);
+        $menu->setName('§c- §fInventaire de §e' . $target->getName() . ' §c-');
+        foreach ($target->getInventory()->getContents() as $slot => $item)
+            $menu->getInventory()->setItem($slot, $item);
+        for ($i = 36;$i <= 44;$i++)
+            $menu->getInventory()->setItem($i, VanillaBlocks::STAINED_GLASS_PANE()->asItem()->setCustomName('§cBloqué'));
+        $menu->getInventory()->setItem(45, VanillaBlocks::STAINED_GLASS_PANE()->asItem()->setCustomName('§cBloqué'));
+        $menu->getInventory()->setItem(46, $target->getArmorInventory()->getHelmet());
+        $menu->getInventory()->setItem(47, VanillaBlocks::STAINED_GLASS_PANE()->asItem()->setCustomName('§cBloqué'));
+        $menu->getInventory()->setItem(48, $target->getArmorInventory()->getChestplate());
+        $menu->getInventory()->setItem(49, VanillaBlocks::STAINED_GLASS_PANE()->asItem()->setCustomName('§cBloqué'));
+        $menu->getInventory()->setItem(50, $target->getArmorInventory()->getLeggings());
+        $menu->getInventory()->setItem(51, VanillaBlocks::STAINED_GLASS_PANE()->asItem()->setCustomName('§cBloqué'));
+        $menu->getInventory()->setItem(52, $target->getArmorInventory()->getBoots());
+        $menu->getInventory()->setItem(53, VanillaBlocks::STAINED_GLASS_PANE()->asItem()->setCustomName('§cBloqué'));
+        $menu->setListener(function (InvMenuTransaction $transaction) use ($target): InvMenuTransactionResult{
+            if ($transaction->getAction()->getSlot() >= 36 && $transaction->getAction()->getSlot() <= 44 || $transaction->getAction()->getSlot() == 45 || $transaction->getAction()->getSlot() == 47 || $transaction->getAction()->getSlot() == 49 || $transaction->getAction()->getSlot() == 51 || $transaction->getAction()->getSlot() == 53)
+                $transaction->discard();
+            if ($transaction->getAction()->getSlot() <= 35)
+                $target->getInventory()->setItem($transaction->getAction()->getSlot(), $transaction->getIn());
+            if ($transaction->getAction()->getSlot() === 46)
+                $target->getArmorInventory()->setHelmet($transaction->getIn());
+            if ($transaction->getAction()->getSlot() === 48)
+                $target->getArmorInventory()->setChestplate($transaction->getIn());
+            if ($transaction->getAction()->getSlot() === 50)
+                $target->getArmorInventory()->setLeggings($transaction->getIn());
+            if ($transaction->getAction()->getSlot() === 52)
+                $target->getArmorInventory()->setBoots($transaction->getIn());
+            return $transaction->continue();
+        });
+        $menu->send($player);
+    }
 }

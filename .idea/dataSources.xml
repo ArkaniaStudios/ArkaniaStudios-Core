@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:mariadb://45.145.164.37:3306/ArkaniaStudios2</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="s5_Poney@endiorite.com" uuid="9c593f87-ba7a-46f3-98fa-022af200cede">
+      <driver-ref>mariadb</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mariadb://endiorite.com:3306/s5_Poney</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

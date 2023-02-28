@@ -41,12 +41,12 @@ trait Date {
      */
     final public function tempsFormat($temps): string {
         $timeRestant = $temps - time();
-        $jours = intval(abs($timeRestant / 86400));
+        $jours = floor(abs($timeRestant / 86400));
         $timeRestant = $timeRestant - ($jours * 86400);
-        $heures = intval(abs($timeRestant / 3600));
+        $heures = floor(abs($timeRestant / 3600));
         $timeRestant = $timeRestant - ($heures * 3600);
-        $minutes = intval(abs($timeRestant / 60));
-        $secondes = intval(abs($timeRestant - $minutes * 60));
+        $minutes = floor(abs($timeRestant / 60));
+        $secondes = ceil(abs($timeRestant - $minutes * 60));
 
         if($jours > 0)
             $format = $jours . ' jour(s) et ' .  $heures . ' heure(s)';

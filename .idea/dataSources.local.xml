@@ -15,5 +15,9 @@
         </introspection-scope>
       </schema-mapping>
     </data-source>
+    <data-source name="s5_Poney@endiorite.com" uuid="9c593f87-ba7a-46f3-98fa-022af200cede">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MARIADB" exact-version="0" />
+      <schema-mapping />
+    </data-source>
   </component>
 </project>
