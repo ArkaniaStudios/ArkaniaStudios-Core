@@ -45,13 +45,6 @@ interface Jobs {
 
     /**
      * @param $playerName
-     * @param int $value
-     * @return void
-     */
-    public function delXp($playerName, int $value): void;
-
-    /**
-     * @param $playerName
      * @return int
      */
     public function getPlayerXp($playerName): int;
@@ -66,19 +59,30 @@ interface Jobs {
      * @param $playerName
      * @return void
      */
-    public function resetPlayerXp($playerName): void;
+    public function resetPlayerJob($playerName): void;
 
     /**
      * @param $playerName
      * @param int $level
      * @return void
      */
-    public function checkRecompense($playerName, int $level): void;
+    public function sendReward($playerName, int $level): void;
 
     /**
-     * @param Player $player
+     * @param $playerName
      * @return void
      */
-    public function createJobsProfile(Player $player): void;
+    public function createJobsProfile($playerName): void;
+
+    /**
+     * @param $playerName
+     * @param $value
+     * @return bool
+     */
+    public function canRecupReward($playerName, $value): bool;
+
+    public function synchroJobsOnJoin(Player $player): void;
+
+    public function synchroJobsOnQuit(Player $player): void;
 
 }

@@ -53,10 +53,10 @@ class Mineur implements Jobs {
     }
 
     /**
-     * @param Player $player
+     * @param $playerName
      * @return void
      */
-    public function createJobsProfile(Player $player): void {
+    public function createJobsProfile($playerName): void {
         Query::query("INSERT INTO mineur (name,
                     xp,
                     level,
@@ -110,7 +110,7 @@ class Mineur implements Jobs {
                     rec48,
                     rec49,
                     rec50)VALUES(
-                                 '" . $player->getName() . "',
+                                 '" . $playerName . "',
                                  0,
                                  0,
                                  'indisponible',
@@ -166,7 +166,7 @@ class Mineur implements Jobs {
             "
                                  
                     )");
-        Query::query("INSERT INTO mineur_xp(name, stone, cold, iron, gold, redstone, dimant, etain, tungsten) VALUES ('" . $player->getName() . "', 1, 3, 4, 0, 3, 0, 0, 0)");
+        Query::query("INSERT INTO mineur_xp(name, stone, cold, iron, gold, redstone, dimant, etain, tungsten) VALUES ('" . $playerName . "', 1, 3, 4, 0, 3, 0, 0, 0)");
     }
 
     /**
@@ -175,25 +175,91 @@ class Mineur implements Jobs {
      * @return void
      */
     public function addXp($playerName, int $value): void {
+        $xp = $this->getPlayerXp($playerName);
+        $this->jobs[$playerName]['xp'] = $xp + $value;
+        if ($this->getPlayerXp($playerName) >= $this->getMaxXp()[$this->getPlayerLevel($playerName)])
+            $this->updateLevel($playerName, $this->getPlayerLevel($playerName) + 1);
     }
 
-    public function delXp($playerName, int $value): void {
-
+    /**
+     * @param $playerName
+     * @param int $level
+     * @return void
+     */
+    public function updateLevel($playerName, int $level): void {
+        Query::query("UPDATE mineur SET level='$level' WHERE name='$playerName'");
+        Query::query("UPDATE mineur SET rec$level='disponible' WHERE name='$playerName'");
     }
 
+    /**
+     * @param $playerName
+     * @return int
+     */
     public function getPlayerXp($playerName): int {
-
+        return (int)$this->jobs[$playerName]['xp'];
     }
 
+    /**
+     * @param $playerName
+     * @return int
+     */
     public function getPlayerLevel($playerName): int {
-
+        return (int)$this->jobs[$playerName]['level'];
     }
 
-    public function resetPlayerXp($playerName): void {
-
+    /**
+     * @param $playerName
+     * @return void
+     */
+    public function resetPlayerJob($playerName): void {
+        Query::query("DELETE FROM mineur WHERE name='$playerName'");
+        $this->createJobsProfile($playerName);
     }
 
-    public function checkRecompense($playerName, int $level): void {
+    /**
+     * @param $playerName
+     * @param int $level
+     * @return void
+     */
+    public function sendReward($playerName, int $level): void {
+    }
 
+    /**
+     * @param $playerName
+     * @param $value
+     * @return bool
+     */
+    public function canRecupReward($playerName, $value): bool {
+        $db = $this->getProvider()->query("SELECT $value FROM mineur WHERE name='$playerName'");
+        $result = $db->fetch_array()[0] ?? false;
+        $db->close();
+        if ($result === 'indisponible')
+            return false;
+        if ($result === 'disponible')
+            return true;
+        return false;
+    }
+
+    /**
+     * @param Player $player
+     * @return void
+     */
+    public function synchroJobsOnJoin(Player $player): void {
+        $xp = $this->getProvider()->query("SELECT xp FROM mineur WHERE name='" . $player->getName() . "'");
+        $level = $this->getProvider()->query("SELECT level FROM mineur WHERE name='" . $player->getName() . "'");
+        $this->jobs[$player->getName()]['xp'] = $xp;
+        $this->jobs[$player->getName()]['level'] = $level;
+    }
+
+    /**
+     * @param Player $player
+     * @return void
+     */
+    public function synchroJobsOnQuit(Player $player): void {
+        $xp = $this->getPlayerXp($player);
+        $level = $this->getPlayerLevel($player);
+
+        Query::query("UPDATE mineur SET xp='$xp', WHERE name='" . $player->getName() . "'");
+        Query::query("UPDATE mineur SET level='$level', WHERE name='" . $player->getName() . "'");
     }
 }

@@ -4,21 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="update time system and add claim (bug)">
-      <change afterPath="$PROJECT_DIR$/src/arkania/commands/staff/InvseeCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/discord.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="same update">
+      <change afterPath="$PROJECT_DIR$/src/arkania/commands/player/JobsCommand.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/jobs/JobsManager.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/InfoCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/InfoCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/events/players/PlayerChatEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerChatEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/Core.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/Core.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/jobs/Jobs.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/jobs/Jobs.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/jobs/class/Mineur.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/jobs/class/Mineur.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/manager/UiManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/UiManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/utils/Loader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/Loader.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/utils/Utils.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/Utils.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/utils/trait/Date.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/trait/Date.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/date.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/date.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +103,7 @@
       <workItem from="1677441390895" duration="6686000" />
       <workItem from="1677513800416" duration="31000" />
       <workItem from="1677580327122" duration="4202000" />
-      <workItem from="1677584682720" duration="4593000" />
+      <workItem from="1677584682720" duration="9264000" />
     </task>
     <task id="LOCAL-00001" summary="add template">
       <created>1676844106724</created>
@@ -336,7 +329,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677437477905</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="same update">
+      <created>1677616182897</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1677616182897</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -354,7 +354,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="update faction debug" />
     <MESSAGE value="add server selector and same change in faction system" />
     <MESSAGE value="test" />
     <MESSAGE value="implement debug" />
@@ -379,6 +378,7 @@
     <MESSAGE value="change time system" />
     <MESSAGE value="add same update" />
     <MESSAGE value="update time system and add claim (bug)" />
-    <option name="LAST_COMMIT_MESSAGE" value="update time system and add claim (bug)" />
+    <MESSAGE value="same update" />
+    <option name="LAST_COMMIT_MESSAGE" value="same update" />
   </component>
 </project>
