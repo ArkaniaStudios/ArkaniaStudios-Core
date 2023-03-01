@@ -19,6 +19,7 @@ namespace arkania;
 
 use arkania\commands\ranks\CraftCommand;
 use arkania\inventory\CraftingTableTypeInventory;
+use arkania\jobs\JobsManager;
 use arkania\libs\customies\block\CustomiesBlockFactory;
 use arkania\libs\muqsit\invmenu\InvMenuHandler;
 use arkania\manager\EconomyManager;
@@ -37,6 +38,7 @@ use arkania\utils\Utils;
 use Closure;
 use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
+use pocketmine\Server;
 use pocketmine\utils\Config;
 use pocketmine\utils\SingletonTrait;
 use pocketmine\world\format\io\leveldb\LevelDB;
@@ -92,6 +94,11 @@ class Core extends PluginBase {
 
     protected function onLoad(): void {
         self::setInstance($this);
+
+        foreach (scandir('/home/container/worlds/') as $world){
+            if (Server::getInstance()->getWorldManager()->isWorldGenerated($world))
+                $this->getServer()->getWorldManager()->loadWorld($world);
+        }
 
         $provider = new WritableWorldProviderManagerEntry(Closure::fromCallable([LevelDB::class, 'isValid']), fn(string $path) => new LevelDB($path), Closure::fromCallable([LevelDB::class, 'generate']));
         $this->getServer()->getWorldManager()->getProviderManager()->addProvider($provider, 'leveldb', true);
@@ -180,8 +187,19 @@ class Core extends PluginBase {
         }
     }
 
+    /**
+     * @return void
+     */
     protected function loadAllConfig(): void {
         $this->config = $this->getConfig();
         $this->playertime = new Config($this->getDataFolder() . 'stats/player_time.json', Config::JSON);
     }
+
+    /**
+     * @return JobsManager
+     */
+    public function getJobsManager(): JobsManager {
+        return new JobsManager();
+    }
+
 }

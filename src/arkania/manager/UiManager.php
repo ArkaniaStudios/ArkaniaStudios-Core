@@ -733,9 +733,9 @@ final class UiManager {
         $menu->getInventory()->setItem(51, VanillaBlocks::STAINED_GLASS_PANE()->asItem()->setCustomName('§cBloqué'));
         $menu->getInventory()->setItem(52, $target->getArmorInventory()->getBoots());
         $menu->getInventory()->setItem(53, VanillaBlocks::STAINED_GLASS_PANE()->asItem()->setCustomName('§cBloqué'));
-        $menu->setListener(function (InvMenuTransaction $transaction) use ($target): InvMenuTransactionResult{
+        $menu->setListener(function (InvMenuTransaction $transaction) use ($target, $menu): InvMenuTransactionResult{
             if ($transaction->getAction()->getSlot() >= 36 && $transaction->getAction()->getSlot() <= 44 || $transaction->getAction()->getSlot() == 45 || $transaction->getAction()->getSlot() == 47 || $transaction->getAction()->getSlot() == 49 || $transaction->getAction()->getSlot() == 51 || $transaction->getAction()->getSlot() == 53)
-                $transaction->discard();
+                return $transaction->discard();
             if ($transaction->getAction()->getSlot() <= 35)
                 $target->getInventory()->setItem($transaction->getAction()->getSlot(), $transaction->getIn());
             if ($transaction->getAction()->getSlot() === 46)
@@ -749,5 +749,16 @@ final class UiManager {
             return $transaction->continue();
         });
         $menu->send($player);
+    }
+
+    /**
+     * @param Player $player
+     * @return void
+     */
+    public function sendJobsForm(Player $player): void {
+        $form = new SimpleForm(function (Player $player, $data){
+
+        });
+        $form->setTitle('§c- §fJobs §c-');
     }
 }
