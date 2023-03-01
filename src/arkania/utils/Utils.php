@@ -34,7 +34,7 @@ final class Utils {
      * @return bool|int
      */
     public static function isValidArgument(string $value): bool|int {
-        return preg_match('/[A-Za-z0-9_]$/', $value);
+        return preg_match('/^[A-Za-z0-9_]+$/', $value);
     }
 
     /**
@@ -43,6 +43,14 @@ final class Utils {
      */
     public static function isValidNumber(string $value): bool {
         return is_numeric($value) && $value > 0;
+    }
+
+    /**
+     * @param $value
+     * @return bool
+     */
+    public static function isValidUrl($value): bool {
+        return filter_var($value, FILTER_VALIDATE_URL);
     }
 
     /**

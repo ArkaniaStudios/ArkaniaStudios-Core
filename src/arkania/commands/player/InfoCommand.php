@@ -47,7 +47,7 @@ class InfoCommand extends BaseCommand {
         $stats = $this->core->stats;
 
         if (count($args) === 0){
-            $player->sendMessage(Utils::getPrefix() . "Voici les informations vous concernant :" . PHP_EOL . PHP_EOL . "- Grade : " . $this->core->ranksManager->getRankColor($player->getName()) . PHP_EOL . "§f- Faction: §e" . $faction->getFaction($player->getName()) . PHP_EOL . "§f- Argent : §e" . $this->core->economyManager->getMoney($player->getName()) . "" . PHP_EOL . PHP_EOL . "§f- Inscription : §e" . $stats->getInscription($player->getName()) . PHP_EOL . "§f- Temps de jeu : §e" . $this->tempsFormat($stats->getTime($player->getName())) . PHP_EOL . PHP_EOL . "§f- Status : " . $this->core->stats->getServerConnection($player->getName()));
+            $player->sendMessage(Utils::getPrefix() . "Voici les informations vous concernant :" . PHP_EOL . PHP_EOL . "- Grade : " . $this->core->ranksManager->getRankColor($player->getName()) . PHP_EOL . "§f- Faction: §e" . $faction->getFaction($player->getName()) . PHP_EOL . "§f- Argent : §e" . $this->core->economyManager->getMoney($player->getName()) . "" . PHP_EOL . PHP_EOL . "§f- Inscription : §e" . $stats->getInscription($player->getName()) . PHP_EOL . "§f- Temps de jeu : §e" . $this->tempsFormat(abs($stats->getTime($player->getName()))) . PHP_EOL . PHP_EOL . "§f- Status : " . $this->core->stats->getServerConnection($player->getName()));
         }else{
             $target = $args[0];
             if (!$this->core->ranksManager->existPlayer($target)){
@@ -55,7 +55,7 @@ class InfoCommand extends BaseCommand {
                 return true;
             }
 
-            $player->sendMessage(Utils::getPrefix() . "Voici les informations concernant §e" . $target . "§f:" . PHP_EOL . PHP_EOL . "- Grade : " . $this->core->ranksManager->getRankColor($target) . PHP_EOL . "§f- Faction: §e" . $faction->getFaction($target) . PHP_EOL . "§f- Argent : §e" . $this->core->economyManager->getMoney($target) . "" . PHP_EOL . PHP_EOL . "§f- Inscription : §e" . $stats->getInscription($target) . PHP_EOL . "§f- Temps de jeu : §e" . $this->tempsFormat($stats->getTime($target)) . PHP_EOL . PHP_EOL . "§f- Status : " . $this->core->stats->getServerConnection($target));
+            $player->sendMessage(Utils::getPrefix() . "Voici les informations concernant §e" . $target . "§f:" . PHP_EOL . PHP_EOL . "- Grade : " . $this->core->ranksManager->getRankColor($target) . PHP_EOL . "§f- Faction: §e" . $faction->getFaction($target) . PHP_EOL . "§f- Argent : §e" . $this->core->economyManager->getMoney($target) . "" . PHP_EOL . PHP_EOL . "§f- Inscription : §e" . $stats->getInscription($target) . PHP_EOL . "§f- Temps de jeu : §e" . $this->tempsFormat(abs($stats->getTime($target))) . PHP_EOL . PHP_EOL . "§f- Status : " . $this->core->stats->getServerConnection($target));
 
         }
         return true;

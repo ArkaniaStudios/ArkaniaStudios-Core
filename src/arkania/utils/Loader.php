@@ -58,6 +58,7 @@ use arkania\commands\ranks\NearCommand;
 use arkania\commands\staff\BanListCommand;
 use arkania\commands\staff\EnderinvseeCommand;
 use arkania\commands\staff\ForceClearLagCommand;
+use arkania\commands\staff\InvseeCommand;
 use arkania\commands\staff\KickCommand;
 use arkania\commands\staff\LogsCommand;
 use arkania\commands\staff\RedemCommand;
@@ -179,6 +180,7 @@ final class Loader {
             new BanListCommand($this->core),
             new ForceClearLagCommand($this->core),
             new EnderinvseeCommand($this->core),
+            new InvseeCommand($this->core),
 
             /* Grade */
             new FeedCommand(),

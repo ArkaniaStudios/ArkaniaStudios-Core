@@ -125,3 +125,5 @@ permissions:
         default: op
     "arkania:permission.faction.break":
         default: op
+    "arkania:permission.invsee":
+        default: op
