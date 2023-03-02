@@ -25,7 +25,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 
-class InvseeCommand extends BaseCommand {
+final class InvseeCommand extends BaseCommand {
 
     /** @var Core */
     private Core $core;
@@ -38,6 +38,12 @@ class InvseeCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
 
         if (!$player instanceof Player)
@@ -56,7 +62,7 @@ class InvseeCommand extends BaseCommand {
             return true;
         }
 
-        $this->core->ui->sendInvseeForm($player, $target);
+        $this->core->getFormManager()->sendInvseeForm($player, $target);
         return true;
     }
 }

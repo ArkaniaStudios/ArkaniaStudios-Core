@@ -23,7 +23,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 
-class StaffModeCommand extends BaseCommand {
+final class StaffModeCommand extends BaseCommand {
 
     /** @var Core */
     private Core $core;
@@ -36,6 +36,12 @@ class StaffModeCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         if (!$player instanceof Player)
             return true;
@@ -46,10 +52,10 @@ class StaffModeCommand extends BaseCommand {
         if (count($args) !== 0)
             return throw new InvalidCommandSyntaxException();
 
-        if ($this->core->staff->isInStaffMode($player))
-            $this->core->staff->removeStaffMode($player);
+        if ($this->core->getStaffManager()->isInStaffMode($player))
+            $this->core->getStaffManager()->removeStaffMode($player);
         else
-            $this->core->staff->addStaffMode($player);
+            $this->core->getStaffManager()->addStaffMode($player);
         return true;
     }
 }

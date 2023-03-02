@@ -146,7 +146,7 @@ final class StaffManager {
             }
         }
 
-        $this->core->ranksManager->updateNameTag($player);
+        $this->core->getRanksManager()->updateNameTag($player);
         unset($this->vanish[$player->getName()]);
     }
 

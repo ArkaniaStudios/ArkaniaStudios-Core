@@ -19,8 +19,7 @@ namespace arkania\events\players;
 
 use arkania\commands\player\FactionCommand;
 use arkania\Core;
-use arkania\manager\FactionManager;
-use arkania\manager\UiManager;
+use arkania\manager\FormManager;
 use arkania\utils\Utils;
 use pocketmine\event\Listener;
 
@@ -33,26 +32,35 @@ class PlayerChatEvent implements Listener {
         $this->core = $core;
     }
 
-    public function onPlayerChat(\pocketmine\event\player\PlayerChatEvent $event) {
+    /**
+     * @param \pocketmine\event\player\PlayerChatEvent $event
+     * @return void
+     */
+    public function onPlayerChat(\pocketmine\event\player\PlayerChatEvent $event): void {
         $player = $event->getPlayer();
         $message = $event->getMessage();
-        $factionManager = new FactionManager();
+        $factionManager = $this->core->getFactionManager();
+
+        if ($this->core->getNickManager()->isNick($player))
+            $nick = $this->core->getNickManager()->getNickName($player);
+        else
+            $nick = null;
 
         /* Ranks */
-        $event->setFormat($this->core->ranksManager->getChatFormat($player, $message));
+        $event->setFormat($this->core->getRanksManager()->getChatFormat($player, $message, $nick));
 
-        if (isset(UiManager::$faction_webhook[$player->getName()])){
+        if (isset(FormManager::$faction_webhook[$player->getName()])){
             $event->cancel();
-            if (!filter_var($message, FILTER_VALIDATE_URL) && !preg_match('#^https://discord\.com/api/webhooks/+#', $message)){
+            if (!Utils::isValidUrl($message) && !preg_match('#^https://discord\.com/api/webhooks/+#', $message)){
                 $player->sendMessage(Utils::getPrefix() . "§cLe liens du webhook n'est pas valide. Les logs de faction ont été automatiquement désactivé.");
-                unset(UiManager::$faction_webhook[$player->getName()]);
+                unset(FormManager::$faction_webhook[$player->getName()]);
                 $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->setLogsStatus(false);
             }else{
                 $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->setLogsStatus(true);
                 $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->setUrl($message);
                 $player->sendMessage(Utils::getPrefix() . "§aLe webhook a bien été mis en place, les logs de votre faction ont été activés.");
                 $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->sendFactionLogs('**FACTION - LOGS**', "Les logs de faction ont été activés !");
-                unset(UiManager::$faction_webhook[$player->getName()]);
+                unset(FormManager::$faction_webhook[$player->getName()]);
             }
         }
 

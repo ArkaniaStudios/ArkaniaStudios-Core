@@ -23,7 +23,7 @@ use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 
-class NearCommand extends BaseCommand {
+final class NearCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('near',
@@ -32,6 +32,12 @@ class NearCommand extends BaseCommand {
         $this->setPermission('arkania:permission.near');
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         if (!$player instanceof Player)
             return true;

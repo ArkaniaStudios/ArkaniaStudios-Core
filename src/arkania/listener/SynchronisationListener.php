@@ -19,7 +19,6 @@ namespace arkania\listener;
 
 use arkania\Core;
 use arkania\manager\SettingsManager;
-use arkania\manager\StatsManager;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerKickEvent;
@@ -34,32 +33,47 @@ class SynchronisationListener implements Listener {
         $this->core = $core;
     }
 
-    public function onPlayerJoin(PlayerJoinEvent $event) {
+    /**
+     * @param PlayerJoinEvent $event
+     * @return void
+     */
+    public function onPlayerJoin(PlayerJoinEvent $event): void {
         $player = $event->getPlayer();
 
         $settings = new SettingsManager($player);
         $settings->createUserSettings();
 
-        $this->core->ranksManager->synchroJoinRank($player);
-        $this->core->stats->createPlayerStats($player);
-        $this->core->stats->synchroJoinStats($player);
+        $this->core->getRanksManager()->synchroJoinRank($player);
+        $this->core->getStatsManager()->createPlayerStats($player);
+        $this->core->getStatsManager()->synchroJoinStats($player);
 
-        $this->core->synchronisation->syncPlayer($player);
+        $this->core->getSynchronisationManager()->syncPlayer($player);
+        $this->core->getJobsManager()->getMineurJobs()->synchroJobsOnJoin($player);
     }
 
-    public function onPlayerQuit(PlayerQuitEvent $event) {
+    /**
+     * @param PlayerQuitEvent $event
+     * @return void
+     */
+    public function onPlayerQuit(PlayerQuitEvent $event): void {
         $player = $event->getPlayer();
 
-        $this->core->stats->synchroQuitStats($player);
-        $this->core->ranksManager->synchroQuitRank($player);
-        $this->core->synchronisation->registerInv($player);
+        $this->core->getStatsManager()->synchroQuitStats($player);
+        $this->core->getRanksManager()->synchroQuitRank($player);
+        $this->core->getSynchronisationManager()->registerInv($player);
+        $this->core->getJobsManager()->getMineurJobs()->synchroJobsOnQuit($player);
     }
 
-    public function onPlayerKick(PlayerKickEvent $event) {
+    /**
+     * @param PlayerKickEvent $event
+     * @return void
+     */
+    public function onPlayerKick(PlayerKickEvent $event): void {
         $player = $event->getPlayer();
 
-        $this->core->stats->synchroQuitStats($player);
-        $this->core->synchronisation->registerInv($player);
-        $this->core->ranksManager->synchroQuitRank($player);
+        $this->core->getStatsManager()->synchroQuitStats($player);
+        $this->core->getSynchronisationManager()->registerInv($player);
+        $this->core->getRanksManager()->synchroQuitRank($player);
+        $this->core->getJobsManager()->getMineurJobs()->synchroJobsOnQuit($player);
     }
 }

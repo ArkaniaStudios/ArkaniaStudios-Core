@@ -28,7 +28,7 @@ use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 use arkania\commands\BaseCommand;
 
-class ServerInfoCommand extends BaseCommand {
+final class ServerInfoCommand extends BaseCommand {
     use Webhook;
 
     /** @var Core */
@@ -42,6 +42,10 @@ class ServerInfoCommand extends BaseCommand {
     }
 
     /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
      * @throws QueryException
      */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
@@ -63,23 +67,22 @@ class ServerInfoCommand extends BaseCommand {
             $this->sendDiscordWebhook('**TPS**', "Le serveur **" . Utils::getServerName() . "** vient de passer en dessous de **5 TPS** !" . PHP_EOL . PHP_EOL . "- Nombre de joueur connecté **" . count($this->core->getServer()->getOnlinePlayers()) . "**", 'Server système - ArkaniaStudios', 0xE805B4, WebhookData::TPS);
         }
 
-        if ($this->core->serverStatus->getServerStatus('Theta') === '§aOuvert')
+        if ($this->core->getServerStatus()->getServerStatus('Theta') === '§aOuvert')
             $playerTheta = (int)PMQuery::query('arkaniastudios.org', 10297)['Players'];
         else
             $playerTheta = 0;
-        if ($this->core->serverStatus->getServerStatus('Zeta') === '§aOuvert')
+        if ($this->core->getServerStatus()->getServerStatus('Zeta') === '§aOuvert')
             $playerZeta = (int)PMQuery::query('arkaniastudios.org', 10298)['Players'];
         else
             $playerZeta = 0;
-        if ($this->core->serverStatus->getServerStatus('Epsilon') === '§aOuvert')
+        if ($this->core->getServerStatus()->getServerStatus('Epsilon') === '§aOuvert')
             $playerEpsilon = (int)PMQuery::query('arkaniastudios.org', 10299)['Players'];
         else
             $playerEpsilon = 0;
 
         $allPlayer = $playerTheta + $playerZeta + $playerEpsilon;
 
-        $player->sendMessage(Utils::getPrefix() . "Voici les informations du serveur §e" . Utils::getServerName() . "§f:\n\n§7» §fTPS: " . $tps . "\n§7» §rJoueur(s) en ligne: §e" . count($this->core->getServer()->getOnlinePlayers()) . "\n\n§7» §rJoueurs inscrit: §e" . $this->core->stats->getPlayerRegister() . "\n§7» §rJoueur(s) network: §e" . $allPlayer . "\n\n§7» §fTheta§f: " . $this->core->serverStatus->getServerStatus('Theta') . "\n§7» §fZeta§f: " . $this->core->serverStatus->getServerStatus('Zeta') . "\n§7» §fEpsilon§f: " . $this->core->serverStatus->getServerStatus('Epsilon'));
+        $player->sendMessage(Utils::getPrefix() . "Voici les informations du serveur §e" . Utils::getServerName() . "§f:\n\n§7» §fTPS: " . $tps . "\n§7» §rJoueur(s) en ligne: §e" . count($this->core->getServer()->getOnlinePlayers()) . "\n\n§7» §rJoueurs inscrit: §e" . $this->core->getStatsManager()->getPlayerRegister() . "\n§7» §rJoueur(s) network: §e" . $allPlayer . "\n\n§7» §fTheta§f: " . $this->core->getServerStatus()->getServerStatus('Theta') . "\n§7» §fZeta§f: " . $this->core->getServerStatus()->getServerStatus('Zeta') . "\n§7» §fEpsilon§f: " . $this->core->getServerStatus()->getServerStatus('Epsilon'));
         return true;
     }
-
 }

@@ -23,7 +23,7 @@ use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 
-class AddRankCommand extends BaseCommand {
+final class AddRankCommand extends BaseCommand {
 
     /** @var Core  */
     private Core $core;
@@ -36,6 +36,12 @@ class AddRankCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
 
         if (!$this->testPermission($player))
@@ -49,12 +55,12 @@ class AddRankCommand extends BaseCommand {
             return true;
         }
 
-        if ($this->core->ranksManager->existRank($args[0])){
+        if ($this->core->getRanksManager()->existRank($args[0])){
             $player->sendMessage(Utils::getPrefix() . "§cCe grade existe déjà.");
             return true;
         }
 
-        $this->core->ranksManager->addRank($args[0]);
+        $this->core->getRanksManager()->addRank($args[0]);
         $player->sendMessage(Utils::getPrefix() . "§aVous venez d'ajouter le grade §2" . $args[0] . "§f.");
         $this->sendStaffLogs($player->getName() . ' vient de créer le grade ' . $args[0] . '§f.');
         return true;

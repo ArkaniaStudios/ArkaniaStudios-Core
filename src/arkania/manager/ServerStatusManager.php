@@ -17,7 +17,6 @@ declare(strict_types=1);
 
 namespace arkania\manager;
 
-use arkania\data\DataBaseConnector;
 use arkania\utils\Query;
 use arkania\utils\trait\Provider;
 use arkania\utils\Utils;

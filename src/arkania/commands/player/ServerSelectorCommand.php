@@ -23,7 +23,7 @@ use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 use arkania\commands\BaseCommand;
 
-class ServerSelectorCommand extends BaseCommand {
+final class ServerSelectorCommand extends BaseCommand {
 
     /** @var Core */
     private Core $core;
@@ -38,6 +38,12 @@ class ServerSelectorCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         if (!$player instanceof Player)
             return true;
@@ -45,7 +51,7 @@ class ServerSelectorCommand extends BaseCommand {
         if (count($args) !== 0)
             return throw new InvalidCommandSyntaxException();
 
-        $this->core->ui->sendServerSelectorForm($player);
+        $this->core->getFormManager()->sendServerSelectorForm($player);
         return true;
     }
 

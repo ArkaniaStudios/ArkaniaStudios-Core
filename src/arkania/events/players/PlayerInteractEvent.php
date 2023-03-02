@@ -11,7 +11,11 @@ use pocketmine\item\VanillaItems;
 
 class PlayerInteractEvent implements Listener {
 
-    public function onPlayerInteract(\pocketmine\event\player\PlayerInteractEvent $event){
+    /**
+     * @param \pocketmine\event\player\PlayerInteractEvent $event
+     * @return void
+     */
+    public function onPlayerInteract(\pocketmine\event\player\PlayerInteractEvent $event): void {
         $player = $event->getPlayer();
         $item = $event->getItem();
         $itemName = $item->getCustomName();

@@ -25,7 +25,7 @@ use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;
 
-class XpBottleCommand extends BaseCommand {
+final class XpBottleCommand extends BaseCommand {
     use Date;
 
     /** @var array */
@@ -37,6 +37,12 @@ class XpBottleCommand extends BaseCommand {
         '/xpbottle');
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         if (!$player instanceof Player)
             return true;

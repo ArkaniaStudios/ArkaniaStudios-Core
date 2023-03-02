@@ -23,7 +23,7 @@ use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 
-class DelUPermissionCommand extends BaseCommand {
+final class DelUPermissionCommand extends BaseCommand {
 
     /** @var Core */
     private Core $core;
@@ -36,6 +36,12 @@ class DelUPermissionCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         if (!$this->testPermission($player))
             return true;
@@ -45,7 +51,7 @@ class DelUPermissionCommand extends BaseCommand {
 
         $target = $args[0];
 
-        $this->core->ranksManager->delPlayerPermission($target, $args[1]);
+        $this->core->getRanksManager()->delPlayerPermission($target, $args[1]);
         $player->sendMessage(Utils::getPrefix() . "Vous avez supprimé la permission §c" . $args[1] . "§f au joueur §c" . $target . "§f.");
 
         $this->sendStaffLogs($player->getName() . " vient de supprimer la permission " . $args[1] . " au joueur " . $target . ".");

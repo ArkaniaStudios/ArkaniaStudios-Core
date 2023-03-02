@@ -26,13 +26,6 @@ use pocketmine\player\Player;
 
 final class StatsManager {
 
-    /** @var Core */
-    private Core $core;
-
-    public function __construct(Core $core) {
-        $this->core = $core;
-    }
-
     /**
      * @return mysqli
      */
@@ -56,9 +49,6 @@ final class StatsManager {
 
     /** @var array */
     public static array $time = [];
-
-    /** @var array */
-    public static array $jointime = [];
 
     /**
      * @param Player $player
@@ -296,5 +286,4 @@ final class StatsManager {
         $newtime = $time + (time() - self::$time[$player->getName()]);
         Query::query("UPDATE player_time SET time = '$newtime' WHERE name='" . self::getDatabase()->real_escape_string($name) . "'");
     }
-
 }

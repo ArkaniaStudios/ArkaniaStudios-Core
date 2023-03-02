@@ -28,7 +28,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 
-class TempsBanCommand extends BaseCommand {
+final class TempsBanCommand extends BaseCommand {
     use Webhook;
     use Date;
 
@@ -44,6 +44,12 @@ class TempsBanCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         if ($player instanceof Player)
             $rank = RanksManager::getRanksFormatPlayer($player);
@@ -89,7 +95,7 @@ class TempsBanCommand extends BaseCommand {
                 $raison[] = $args[$i];
             $raison = implode(' ', $raison);
         }
-        $this->core->sanction->addBan($target, $rank, $temps, $raison, Utils::getServerName(), $this->dateFormat());
+        $this->core->getSanctionManager()->addBan($target, $rank, $temps, $raison, Utils::getServerName(), $this->dateFormat());
         $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§e" . $target . "§c vient de se faire bannir du serveur §cdurant §e" . $format . "§c pour le motif §e" . $raison . "§c !");
         $this->sendDiscordWebhook('**BANNISSEMENT**', '**' . $player->getName() . "** vient de bannir **" . $target . "** d'arkania." . PHP_EOL . PHP_EOL . "*Informations*" . PHP_EOL . "- Banni par **" . Utils::removeColorOnMessage($rank) . "**" . PHP_EOL . "- Durée : **" . $format . "**" . PHP_EOL . "- Server : **" . Utils::getServerName() . "**" . PHP_EOL . "- Raison : **" . $raison . "**", '・Sanction système - ArkaniaStudios', 0xE70235, WebhookData::BAN);
         if ($this->core->getServer()->getPlayerExact($target) instanceof Player)

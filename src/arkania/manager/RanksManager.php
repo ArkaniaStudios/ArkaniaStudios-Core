@@ -243,28 +243,38 @@ final class RanksManager {
     /**
      * @param Player $player
      * @param string $message
+     * @param string|null $nickName
      * @return string
      */
-    public function getChatFormat(Player $player, string $message): string {
+    public function getChatFormat(Player $player, string $message, string $nickName = null): string {
         $ranks = $this->getPlayerRank($player->getName());
         $db = self::getDataBase()->query("SELECT format FROM ranks WHERE name='" . self::getDataBase()->real_escape_string($ranks) . "'");
         $format = $db->fetch_array()[0] ?? false;
         $db->close();
         $faction = new FactionManager();
-        return str_replace(['{FACTION_RANK}','{FACTION}', '{PLAYER}', '{MESSAGE}'], [$this->getFactionRankFormat($player), $faction->getFaction($player->getName()), $player->getName(), $message], $format);
+        if (is_null($nickName))
+            $name = $player->getName();
+        else
+            $name = $nickName;
+        return str_replace(['{FACTION_RANK}','{FACTION}', '{PLAYER}', '{MESSAGE}'], [$this->getFactionRankFormat($player), $faction->getFaction($player->getName()), $name, $message], $format);
     }
 
     /**
      * @param Player $player
+     * @param string|null $nickName
      * @return void
      */
-    public function updateNameTag(Player $player): void {
+    public function updateNameTag(Player $player, string $nickName = null): void {
         $ranks = $this->getPlayerRank($player->getName());
         $db = self::getDataBase()->query("SELECT nametag FROM ranks WHERE name='" . self::getDataBase()->real_escape_string($ranks) . "'");
         $format = $db->fetch_array()[0] ?? false;
         $db->close();
         $faction = new FactionManager();
-        $nametag = str_replace(['{FACTION_RANK}', '{FACTION}', '{LINE}', '{PLAYER}'], [$this->getFactionRankFormat($player), $faction->getFaction($player->getName()), "\n", $player->getName()], $format);
+        if (is_null($nickName))
+            $name = $player->getName();
+        else
+            $name = $nickName;
+        $nametag = str_replace(['{FACTION_RANK}', '{FACTION}', '{LINE}', '{PLAYER}'], [$this->getFactionRankFormat($player), $faction->getFaction($player->getName()), "\n", $name], $format);
         $player->setNameTag($nametag);
     }
 

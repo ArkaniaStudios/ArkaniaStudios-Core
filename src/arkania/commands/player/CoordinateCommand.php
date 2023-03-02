@@ -25,7 +25,7 @@ use pocketmine\network\mcpe\protocol\GameRulesChangedPacket;
 use pocketmine\network\mcpe\protocol\types\BoolGameRule;
 use pocketmine\player\Player;
 
-class CoordinateCommand extends BaseCommand {
+final class CoordinateCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('coordinates',
@@ -34,6 +34,12 @@ class CoordinateCommand extends BaseCommand {
         ['xyz', 'coord', 'co', 'coordinate', 'coordonne']);
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         if (!$player instanceof Player)
             return true;

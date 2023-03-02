@@ -127,3 +127,5 @@ permissions:
         default: op
     "arkania:permission.invsee":
         default: op
+    "arkania:permission.nick":
+        default: op

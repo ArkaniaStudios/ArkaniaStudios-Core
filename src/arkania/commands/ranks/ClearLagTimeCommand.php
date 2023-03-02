@@ -24,7 +24,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 
-class ClearLagTimeCommand extends BaseCommand {
+final class ClearLagTimeCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('clearlagtime',
@@ -33,6 +33,12 @@ class ClearLagTimeCommand extends BaseCommand {
         $this->setPermission('arkania:permission.clearlagtime');
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         if (!$player instanceof Player)
             return true;

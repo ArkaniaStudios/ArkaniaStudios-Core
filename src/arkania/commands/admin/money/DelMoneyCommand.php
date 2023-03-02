@@ -27,7 +27,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 
-class DelMoneyCommand extends BaseCommand {
+final class DelMoneyCommand extends BaseCommand {
     use Webhook;
 
     /** @var Core */
@@ -41,6 +41,12 @@ class DelMoneyCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
 
         if ($player instanceof Player)
@@ -61,12 +67,12 @@ class DelMoneyCommand extends BaseCommand {
             return true;
         }
 
-        if ($this->core->economyManager->getMoney($target) - $args[1] < 0){
-            $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez pas supprimer §e" . $args[1] . "§c à §e" . $target . "§c.Vous ne pouvez lui supprimer seulement §e" . $this->core->economyManager->getMoney($target) . "§c.");
+        if ($this->core->getEconomyManager()->getMoney($target) - $args[1] < 0){
+            $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez pas supprimer §e" . $args[1] . "§c à §e" . $target . "§c.Vous ne pouvez lui supprimer seulement §e" . $this->core->getEconomyManager()->getMoney($target) . "§c.");
             return true;
         }
 
-        $this->core->economyManager->delMoney($target, (int)$args[1]);
+        $this->core->getEconomyManager()->delMoney($target, (int)$args[1]);
         $player->sendMessage(Utils::getPrefix() . "Vous avez supprimé §e" . $args[1] . " §fà §e" . $target . "§f.");
 
         $this->sendDiscordWebhook('**DELMONEY**',"**" . Utils::removeColorOnMessage($rank) . "** vient de supprimer **" . $args[1] . "**$  à **" . $target . "**", 'ArkaniaStudios - Money', 0x05E82E, WebhookData::MONEY);

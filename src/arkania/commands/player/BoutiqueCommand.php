@@ -21,7 +21,7 @@ use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use arkania\commands\BaseCommand;
 
-class BoutiqueCommand extends BaseCommand {
+final class BoutiqueCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('boutique',
@@ -29,8 +29,15 @@ class BoutiqueCommand extends BaseCommand {
         '/boutique');
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         $player->sendMessage(Utils::getPrefix() . "Voici le liens vers notre boutique: §ehttps://arkaniastudios.com/boutique§f.");
+        return true;
     }
 
 }

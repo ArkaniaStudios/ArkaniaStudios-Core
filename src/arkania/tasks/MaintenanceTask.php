@@ -44,7 +44,7 @@ class MaintenanceTask extends Task {
     public function onRun(): void {
         if ($this->time === 0) {
             $this->sendDiscordWebhook('**MAINTENANCE**', "La maintenance vient d'être activé sur un serveur." . PHP_EOL . PHP_EOL . "- Server : **" . Utils::getServerName() . "**" . PHP_EOL . "- Staff : " . Utils::removeColorOnMessage($this->ranks), 'Maintenance Système - ArkaniaStudios', 0xEFA, WebhookData::MAINTENANCE);
-            $this->core->maintenance->setMaintenance();
+            $this->core->getMaintenanceManager()->setMaintenance();
         }elseif($this->time === 2) {
             foreach (Server::getInstance()->getOnlinePlayers() as $players)
                 $players->removeCurrentWindow();

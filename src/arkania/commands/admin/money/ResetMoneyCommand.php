@@ -27,7 +27,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 
-class ResetMoneyCommand extends BaseCommand {
+final class ResetMoneyCommand extends BaseCommand {
     use Webhook;
 
     /** @var Core */
@@ -41,6 +41,12 @@ class ResetMoneyCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
 
         $rank = $player instanceof Player ? RanksManager::getRanksFormatPlayer($player) : '§cAdministrateur §f- §cConsole';
@@ -53,7 +59,7 @@ class ResetMoneyCommand extends BaseCommand {
 
         $target = $args[0];
 
-        $this->core->economyManager->resetMoney($target);
+        $this->core->getEconomyManager()->resetMoney($target);
         $player->sendMessage(Utils::getPrefix() . "Vous avez reset l'argent de §e" . $target . "§f.");
 
         $this->sendDiscordWebhook('**RESETMONEY**',"**" . Utils::removeColorOnMessage($rank) . "** vient de reset l'argent de  **" . $target . "**", 'ArkaniaStudios - Money', 0x05E82E, WebhookData::MONEY);

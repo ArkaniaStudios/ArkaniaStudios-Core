@@ -23,15 +23,17 @@ use arkania\jobs\JobsManager;
 use arkania\libs\customies\block\CustomiesBlockFactory;
 use arkania\libs\muqsit\invmenu\InvMenuHandler;
 use arkania\manager\EconomyManager;
+use arkania\manager\FactionManager;
 use arkania\manager\KitsManager;
 use arkania\manager\MaintenanceManager;
+use arkania\manager\NickManager;
 use arkania\manager\RanksManager;
 use arkania\manager\SanctionManager;
 use arkania\manager\ServerStatusManager;
 use arkania\manager\StaffManager;
 use arkania\manager\StatsManager;
 use arkania\manager\SynchronisationManager;
-use arkania\manager\UiManager;
+use arkania\manager\FormManager;
 use arkania\manager\VoteManager;
 use arkania\utils\Loader;
 use arkania\utils\Utils;
@@ -46,50 +48,55 @@ use pocketmine\world\format\io\WritableWorldProviderManagerEntry;
 use ReflectionException;
 
 class Core extends PluginBase {
-
     use SingletonTrait;
 
     /** @var Config */
     public Config $config;
 
-    /** @var Config */
-    public Config $playertime;
-
     /** @var array */
     public array $staff_logs = [];
 
     /** @var RanksManager */
-    public RanksManager $ranksManager;
+    private RanksManager $ranksManager;
 
-    /** @var UiManager */
-    public UiManager $ui;
+    /** @var FormManager */
+    private FormManager $formManager;
 
     /** @var StatsManager */
-    public StatsManager $stats;
+    private StatsManager $statsManager;
 
     /** @var EconomyManager */
-    public EconomyManager $economyManager;
+    private EconomyManager $economyManager;
 
     /** @var SynchronisationManager */
-    public SynchronisationManager $synchronisation;
+    private SynchronisationManager $synchronisationManager;
 
     /** @var ServerStatusManager */
-    public ServerStatusManager $serverStatus;
+    private ServerStatusManager $serverStatusManager;
 
     /** @var MaintenanceManager */
-    public MaintenanceManager $maintenance;
+    private MaintenanceManager $maintenanceManager;
 
     /** @var KitsManager */
-    public KitsManager $kits;
+    private KitsManager $kitsManager;
 
     /** @var StaffManager */
-    public StaffManager $staff;
+    private StaffManager $staffManager;
 
     /** @var VoteManager */
-    public VoteManager $vote;
+    private VoteManager $voteManager;
 
     /** @var SanctionManager */
-    public SanctionManager $sanction;
+    private SanctionManager $sanctionManager;
+
+    /** @var NickManager */
+    private NickManager $nickManager;
+
+    /** @var JobsManager */
+    private JobsManager $jobsManager;
+
+    /** @var FactionManager */
+    private FactionManager $factionManager;
 
 
     protected function onLoad(): void {
@@ -103,6 +110,10 @@ class Core extends PluginBase {
         $provider = new WritableWorldProviderManagerEntry(Closure::fromCallable([LevelDB::class, 'isValid']), fn(string $path) => new LevelDB($path), Closure::fromCallable([LevelDB::class, 'generate']));
         $this->getServer()->getWorldManager()->getProviderManager()->addProvider($provider, 'leveldb', true);
         $this->getServer()->getWorldManager()->getProviderManager()->setDefault($provider);
+
+        if (!InvMenuHandler::isRegistered())
+            InvMenuHandler::register($this);
+        InvMenuHandler::getTypeRegistry()->register(CraftCommand::INV_MENU_TYPE_WORKBENCH, new CraftingTableTypeInventory());
     }
 
     /**
@@ -112,21 +123,10 @@ class Core extends PluginBase {
         /* Config */
         if (!file_exists($this->getDataFolder() . 'config.yml'))
             $this->saveDefaultConfig();
-        if (!file_exists($this->getDataFolder() . 'npc/data.json'))
-            $this->saveResource($this->getDataFolder() . 'npc/data.json');
-
         if (!file_exists($this->getDataFolder() . 'kits/'))
             @mkdir($this->getDataFolder() . 'kits/');
-        if (!file_exists($this->getDataFolder() . 'stats/'))
-            @mkdir($this->getDataFolder() . 'stats/');
 
         /* Loader */
-
-        if (!InvMenuHandler::isRegistered())
-            InvMenuHandler::register($this);
-
-        InvMenuHandler::getTypeRegistry()->register(CraftCommand::INV_MENU_TYPE_WORKBENCH, new CraftingTableTypeInventory());
-
         $this->loadAllConfig();
         $loader = new Loader($this);
         $loader->init();
@@ -137,25 +137,27 @@ class Core extends PluginBase {
         }), 0);
 
         $this->ranksManager = new RanksManager();
-        $this->ui = new UiManager();
-        $this->stats = new StatsManager($this);
+        $this->formManager = new FormManager();
+        $this->statsManager = new StatsManager();
         $this->economyManager = new EconomyManager();
-        $this->synchronisation = new SynchronisationManager($this);
-        $this->serverStatus = new ServerStatusManager();
-        $this->maintenance = new MaintenanceManager($this);
-        $this->kits = new KitsManager();
-        $this->staff = new StaffManager($this);
-        $this->vote = new VoteManager($this);
-        $this->sanction = new SanctionManager($this);
-
+        $this->synchronisationManager = new SynchronisationManager();
+        $this->serverStatusManager = new ServerStatusManager();
+        $this->maintenanceManager = new MaintenanceManager($this);
+        $this->kitsManager = new KitsManager();
+        $this->staffManager = new StaffManager($this);
+        $this->voteManager = new VoteManager($this);
+        $this->sanctionManager = new SanctionManager();
+        $this->nickManager = new NickManager();
+        $this->jobsManager = new JobsManager();
+        $this->factionManager = new FactionManager();
         /* Ranks */
         if (!$this->ranksManager->existRank('Joueur'))
             $this->ranksManager->addRank('Joueur');
 
         /* Logger */
         $serverName = Utils::getServerName();
-        if ($this->serverStatus->getServerStatus($serverName) !== '§6Maintenance')
-            $this->serverStatus->setServerStatus('ouvert');
+        if ($this->serverStatusManager->getServerStatus($serverName) !== '§6Maintenance')
+            $this->serverStatusManager->setServerStatus('ouvert');
         $this->getLogger()->info(
             "\n     _      ____    _  __     _      _   _   ___      _".
             "\n    / \    |  _ \  | |/ /    / \    | \ | | |_ _|    / \ ".
@@ -172,18 +174,21 @@ class Core extends PluginBase {
      */
     protected function onDisable(): void {
         $serverName = Utils::getServerName();
-        if ($this->serverStatus->getServerStatus($serverName) !== '§6Maintenance')
-            $this->serverStatus->setServerStatus('ferme');
+        if ($this->serverStatusManager->getServerStatus($serverName) !== '§6Maintenance')
+            $this->serverStatusManager->setServerStatus('ferme');
 
         foreach ($this->getServer()->getOnlinePlayers() as $player){
 
-            if ($this->staff->isInStaffMode($player))
-                $this->staff->removeStaffMode($player);
+            if ($this->nickManager->isNick($player))
+                $this->nickManager->removePlayerNick($player);
 
-            $this->stats->removeServerConnection($player);
+            if ($this->staffManager->isInStaffMode($player))
+                $this->staffManager->removeStaffMode($player);
+
+            $this->statsManager->removeServerConnection($player);
             $player->sendMessage(Utils::getPrefix() . "§cLe serveur vient de redémarrer. Si vous n'avez pas été merci de vous déconnecter et de vous reconnecter au serveur !");
             $this->ranksManager->synchroQuitRank($player);
-            $this->synchronisation->registerInv($player);
+            $this->synchronisationManager->registerInv($player);
         }
     }
 
@@ -192,14 +197,104 @@ class Core extends PluginBase {
      */
     protected function loadAllConfig(): void {
         $this->config = $this->getConfig();
-        $this->playertime = new Config($this->getDataFolder() . 'stats/player_time.json', Config::JSON);
     }
 
     /**
      * @return JobsManager
      */
     public function getJobsManager(): JobsManager {
-        return new JobsManager();
+        return $this->jobsManager;
+    }
+
+    /**
+     * @return EconomyManager
+     */
+    public function getEconomyManager(): EconomyManager {
+        return $this->economyManager;
+    }
+
+    /**
+     * @return RanksManager
+     */
+    public function getRanksManager(): RanksManager {
+        return $this->ranksManager;
+    }
+
+    /**
+     * @return SanctionManager
+     */
+    public function getSanctionManager(): SanctionManager {
+        return $this->sanctionManager;
+    }
+
+    /**
+     * @return FormManager
+     */
+    public function getFormManager(): FormManager {
+        return $this->formManager;
+    }
+
+    /**
+     * @return FactionManager
+     */
+    public function getFactionManager(): FactionManager {
+        return $this->factionManager;
+    }
+
+    /**
+     * @return StaffManager
+     */
+    public function getStaffManager(): StaffManager {
+        return $this->staffManager;
+    }
+
+    /**
+     * @return KitsManager
+     */
+    public function getKitsManager(): KitsManager {
+        return $this->kitsManager;
+    }
+
+    /**
+     * @return MaintenanceManager
+     */
+    public function getMaintenanceManager(): MaintenanceManager {
+        return $this->maintenanceManager;
+    }
+
+    /**
+     * @return NickManager
+     */
+    public function getNickManager(): NickManager {
+        return $this->nickManager;
+    }
+
+    /**
+     * @return ServerStatusManager
+     */
+    public function getServerStatus(): ServerStatusManager {
+        return $this->serverStatusManager;
+    }
+
+    /**
+     * @return SynchronisationManager
+     */
+    public function getSynchronisationManager(): SynchronisationManager {
+        return $this->synchronisationManager;
+    }
+
+    /**
+     * @return VoteManager
+     */
+    public function getVoteManager(): VoteManager {
+        return $this->voteManager;
+    }
+
+    /**
+     * @return StatsManager
+     */
+    public function getStatsManager(): StatsManager {
+        return $this->statsManager;
     }
 
 }

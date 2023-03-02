@@ -26,7 +26,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 
-class ForceClearLagCommand extends BaseCommand {
+final class ForceClearLagCommand extends BaseCommand {
 
     /** @var Core */
     private Core $core;
@@ -39,6 +39,12 @@ class ForceClearLagCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
 
         if (!$player instanceof Player)

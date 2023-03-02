@@ -24,7 +24,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use arkania\commands\BaseCommand;
 
-class SettingsCommand extends BaseCommand {
+final class SettingsCommand extends BaseCommand {
 
     /** @var Core */
     private Core $core;
@@ -36,12 +36,18 @@ class SettingsCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         if (!$player instanceof Player)
             return true;
 
         if (count($args) === 0){
-            $this->core->ui->sendSettingsForm($player);
+            $this->core->getFormManager()->sendSettingsForm($player);
         }else{
             if (strtolower($args[0]) === 'reset'){
                 $settings = new SettingsManager($player);

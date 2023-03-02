@@ -27,7 +27,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 
-class AddMoneyCommand extends BaseCommand {
+final class AddMoneyCommand extends BaseCommand {
     use Webhook;
 
     /** @var Core */
@@ -41,6 +41,12 @@ class AddMoneyCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
 
         if ($player instanceof Player)
@@ -61,7 +67,7 @@ class AddMoneyCommand extends BaseCommand {
             return true;
         }
 
-        $this->core->economyManager->addMoney($target, (int)$args[1]);
+        $this->core->getEconomyManager()->addMoney($target, (int)$args[1]);
         $player->sendMessage(Utils::getPrefix() . "Vous avez ajouté §e" . $args[1] . " §fà §e" . $target . "§f.");
 
         $this->sendDiscordWebhook('**ADDMONEY**',"**" . Utils::removeColorOnMessage($rank) . "** vient d'ajouter **" . $args[1] . "**$  à **" . $target . "**", 'ArkaniaStudios - Money', 0x05E82E, WebhookData::MONEY);

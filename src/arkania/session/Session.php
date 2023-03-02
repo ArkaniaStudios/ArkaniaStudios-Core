@@ -17,12 +17,7 @@ declare(strict_types=1);
 
 namespace arkania\session;
 
-use WeakMap;
-
 class Session {
-
-    /** @var WeakMap */
-    private WeakMap $data;
 
 
 

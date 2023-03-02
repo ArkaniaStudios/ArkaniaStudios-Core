@@ -23,7 +23,7 @@ use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 
-class SetFormatCommand extends BaseCommand {
+final class SetFormatCommand extends BaseCommand {
 
     /** @var Core */
     private Core $core;
@@ -36,6 +36,12 @@ class SetFormatCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         if (!$this->testPermission($player))
             return true;
@@ -43,7 +49,7 @@ class SetFormatCommand extends BaseCommand {
         if (count($args) < 2)
             return throw new InvalidCommandSyntaxException();
 
-        if (!$this->core->ranksManager->existRank($args[0])){
+        if (!$this->core->getRanksManager()->existRank($args[0])){
             $player->sendMessage(Utils::getPrefix() . "§cCe grade n'existe pas.");
             return true;
         }
@@ -53,7 +59,7 @@ class SetFormatCommand extends BaseCommand {
             $format[] = $args[$i];
         $format = implode(' ', $format);
 
-        $this->core->ranksManager->updateRankFormat($args[0], $format);
+        $this->core->getRanksManager()->updateRankFormat($args[0], $format);
         $player->sendMessage(Utils::getPrefix() . "§aVous avez bien modifier le format du grade §2" . $args[0] . "§a.");
 
         $this->sendStaffLogs($player->getName() . " vient de modifier le format du grade " . $args[0] . " en $format.");

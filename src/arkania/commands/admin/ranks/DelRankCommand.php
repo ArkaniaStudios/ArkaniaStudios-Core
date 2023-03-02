@@ -23,7 +23,7 @@ use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 
-class DelRankCommand extends BaseCommand {
+final class DelRankCommand extends BaseCommand {
 
     /** @var Core  */
     private Core $core;
@@ -36,6 +36,12 @@ class DelRankCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         if (!$this->testPermission($player))
             return true;
@@ -43,7 +49,7 @@ class DelRankCommand extends BaseCommand {
         if (count($args) !== 1)
             return throw new InvalidCommandSyntaxException();
 
-        if (!$this->core->ranksManager->existRank($args[0])){
+        if (!$this->core->getRanksManager()->existRank($args[0])){
             $player->sendMessage(Utils::getPrefix() . "§cCe grade n'existe pas.");
             return true;
         }
@@ -53,7 +59,7 @@ class DelRankCommand extends BaseCommand {
             return true;
         }
 
-        $this->core->ranksManager->delRank($args[0]);
+        $this->core->getRanksManager()->delRank($args[0]);
         $player->sendMessage(Utils::getPrefix() . "§aVous venez de supprimer le grade §2" . $args[0] . "§a.");
         $this->sendStaffLogs($player->getName() . ' vient de supprimer le grade ' . $args[0] . '.');
         return true;

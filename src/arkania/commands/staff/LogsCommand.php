@@ -24,7 +24,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 
-class LogsCommand extends BaseCommand {
+final class LogsCommand extends BaseCommand {
 
     /** @var Core  */
     private Core $core;
@@ -37,6 +37,12 @@ class LogsCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         if (!$player instanceof Player)
             return true;

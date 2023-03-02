@@ -28,7 +28,7 @@ use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 use pocketmine\Server;
 
-class KickCommand extends BaseCommand {
+final class KickCommand extends BaseCommand {
     use Webhook;
 
     /** @var Core */
@@ -42,6 +42,12 @@ class KickCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
 
         if ($player instanceof Player)

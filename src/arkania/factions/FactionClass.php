@@ -19,7 +19,6 @@ namespace arkania\factions;
 
 use arkania\Core;
 use arkania\data\DataBaseConnector;
-use arkania\factions\claims\ClaimManager;
 use arkania\manager\FactionManager;
 use arkania\utils\Query;
 use arkania\utils\trait\Webhook;
@@ -28,7 +27,6 @@ use mysqli;
 use pocketmine\entity\Location;
 use pocketmine\player\Player;
 use pocketmine\Server;
-use pocketmine\world\World;
 
 class FactionClass {
     use Webhook;
@@ -109,9 +107,6 @@ class FactionClass {
      */
     public function disbandFaction(): void {
         $db = self::getDataBase();
-
-        foreach (ClaimManager::getInstance()->getFactionClaim($this->factionName) as $claim)
-            ClaimManager::getInstance()->deleteClaim($claim);
 
         Query::query("DELETE FROM factions WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
         Query::query("DELETE FROM players_faction WHERE faction='" . self::getDataBase()->real_escape_string($this->factionName) ."'");
@@ -471,6 +466,5 @@ class FactionClass {
         }else{
             $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas de home sur ce serveur. Votre home de faction se trouve sur le serveur §e" . $server . "§c.");
         }
-
     }
 }

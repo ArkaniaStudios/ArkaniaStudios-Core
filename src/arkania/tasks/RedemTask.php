@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace arkania\tasks;
 
-use arkania\commands\RedemCommand;
+use arkania\commands\staff\RedemCommand;
 use arkania\utils\Utils;
 use pocketmine\scheduler\Task;
 use pocketmine\Server;
