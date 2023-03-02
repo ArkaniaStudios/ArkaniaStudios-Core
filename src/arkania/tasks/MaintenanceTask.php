@@ -24,7 +24,7 @@ use arkania\utils\Utils;
 use pocketmine\scheduler\Task;
 use pocketmine\Server;
 
-class MaintenanceTask extends Task {
+final class MaintenanceTask extends Task {
     use Webhook;
 
     /** @var Core */

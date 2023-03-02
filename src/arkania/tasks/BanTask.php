@@ -22,7 +22,7 @@ use arkania\utils\trait\Date;
 use pocketmine\player\Player;
 use pocketmine\scheduler\Task;
 
-class BanTask extends Task {
+final class BanTask extends Task {
     use Date;
 
     /** @var Player */

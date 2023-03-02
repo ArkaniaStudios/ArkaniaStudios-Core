@@ -33,6 +33,7 @@ use arkania\commands\admin\ranks\DelUPermissionCommand;
 use arkania\commands\admin\ranks\SetFormatCommand;
 use arkania\commands\admin\ranks\SetNametagCommand;
 use arkania\commands\admin\ranks\SetRankCommand;
+use arkania\commands\admin\SetSpawnCommand;
 use arkania\commands\player\BoutiqueCommand;
 use arkania\commands\player\CoordinateCommand;
 use arkania\commands\player\CreditCommand;
@@ -41,6 +42,7 @@ use arkania\commands\player\FactionCommand;
 use arkania\commands\player\InfoCommand;
 use arkania\commands\player\KitsCommand;
 use arkania\commands\player\ListCommand;
+use arkania\commands\player\LobbyCommand;
 use arkania\commands\player\MoneyCommand;
 use arkania\commands\player\MsgCommand;
 use arkania\commands\player\PayCommand;
@@ -50,6 +52,7 @@ use arkania\commands\player\ServerInfoCommand;
 use arkania\commands\player\ServerSelectorCommand;
 use arkania\commands\player\SettingsCommand;
 use arkania\commands\player\SiteCommand;
+use arkania\commands\player\SpawnCommand;
 use arkania\commands\player\VoteCommand;
 use arkania\commands\player\WikiCommand;
 use arkania\commands\player\XpBottleCommand;
@@ -171,6 +174,7 @@ final class Loader {
             new ResetMoneyCommand($this->core),
             new MaintenanceCommand($this->core),
             new AdminKitCommand($this->core),
+            new SetSpawnCommand($this->core),
 
             /* Moderation */
             new KickCommand($this->core),
@@ -212,6 +216,8 @@ final class Loader {
             new XpBottleCommand(),
             new BoutiqueCommand(),
             new CreditCommand(),
+            new SpawnCommand($this->core),
+            new LobbyCommand($this->core),
         ];
 
         $this->core->getServer()->getCommandMap()->registerAll('Arkania-Commands', $commands);

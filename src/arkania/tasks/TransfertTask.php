@@ -23,7 +23,7 @@ use arkania\utils\Utils;
 use pocketmine\player\Player;
 use pocketmine\scheduler\Task;
 
-class TransfertTask extends Task {
+final class TransfertTask extends Task {
 
     /** @var int */
     private int $time = 5;

@@ -22,7 +22,7 @@ use arkania\utils\Utils;
 use pocketmine\scheduler\Task;
 use pocketmine\Server;
 
-class RedemTask extends Task {
+final class RedemTask extends Task {
 
     /** @var RedemCommand */
     private RedemCommand $redemCommand;

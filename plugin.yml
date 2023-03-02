@@ -129,3 +129,5 @@ permissions:
         default: op
     "arkania:permission.nick":
         default: op
+    "arkania:permission.setspawn":
+        default: op
