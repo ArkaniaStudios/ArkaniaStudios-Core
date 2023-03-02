@@ -26,7 +26,7 @@ use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 
-final class UnBanCommand extends BaseCommand {
+final class UnMuteCommand extends BaseCommand {
     use Date;
     use Webhook;
 
@@ -34,11 +34,10 @@ final class UnBanCommand extends BaseCommand {
     private Core $core;
 
     public function __construct(Core $core) {
-        parent::__construct('unban',
-        'Unban - ArkaniaStudios',
-        '/unban <playerName>',
-        ['pardon']);
-        $this->setPermission('arkania:permission.unban');
+        parent::__construct('unmute',
+        'Unmute - ArkaniaStudios',
+        '/unmute <player>');
+        $this->setPermission('arkania:permission.unmute');
         $this->core = $core;
     }
 
@@ -49,7 +48,6 @@ final class UnBanCommand extends BaseCommand {
      * @return bool
      */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
-
         if (!$this->testPermission($player))
             return true;
 
@@ -58,14 +56,14 @@ final class UnBanCommand extends BaseCommand {
 
         $target = $args[0];
 
-        if ($this->core->getSanctionManager()->isBan($target)) {
-            $this->sendStaffLogs($player->getName() . ' vient de unban ' . $target);
-            $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§e" . $target . " §avient d'être débanni du serveur !");
+        if ($this->core->getSanctionManager()->isMute($target)) {
+            $this->sendStaffLogs($player->getName() . ' vient de unmute ' . $target);
+            $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§e" . $target . " §avient d'être unmute du serveur !");
             $sanction = $this->core->getSanctionManager();
-            $this->sendDiscordWebhook('**UNBAN**', "**" . $target . "** vient d'être débanni d'arkania. " . PHP_EOL . PHP_EOL . "*Informations*" . PHP_EOL . "- Banni par **" . Utils::removeColorOnMessage($sanction->getBanStaff($target)) . "**" . PHP_EOL . "- Temps restant : **" . $this->tempsFormat($sanction->getBanTime($target)) . "**" . PHP_EOL . "- Date du bannissement : **" . $sanction->getBanDate($target) . "**" . PHP_EOL . "- Serveur : **" . $sanction->getBanServer($target) . "**" . PHP_EOL . "- Raison : **" . $sanction->getBanRaison($target) . "**", '・Système de sanction - ArkaniaStudios', 0xE85F05, WebhookData::BAN);
-            $this->core->getSanctionManager()->removeBan($target);
+            $this->sendDiscordWebhook('**UNMUTE**', "**" . $target . "** vient d'être unmute d'arkania. " . PHP_EOL . PHP_EOL . "*Informations*" . PHP_EOL . "- Mute par **" . Utils::removeColorOnMessage($sanction->getMuteStaff($target)) . "**" . PHP_EOL . "- Temps restant : **" . $this->tempsFormat($sanction->getMuteTime($target)) . "**" . PHP_EOL . "- Date du mute : **" . $sanction->getMuteDate($target) . "**" . PHP_EOL . "- Serveur : **" . $sanction->getMuteServer($target) . "**" . PHP_EOL . "- Raison : **" . $sanction->getMuteRaison($target) . "**", '・Système de sanction - ArkaniaStudios', 0xE85F05, WebhookData::MUTE);
+            $this->core->getSanctionManager()->removeMute($target);
         }else
-            $player->sendMessage(Utils::getPrefix() . "§cCette personne n'est pas banni.");
+            $player->sendMessage(Utils::getPrefix() . "§cCette personne n'est pas mute.");
         return true;
     }
 }

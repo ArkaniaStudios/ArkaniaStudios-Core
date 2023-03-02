@@ -35,6 +35,7 @@ use arkania\manager\StaffManager;
 use arkania\manager\StatsManager;
 use arkania\manager\SynchronisationManager;
 use arkania\manager\FormManager;
+use arkania\manager\TeleportManager;
 use arkania\manager\VoteManager;
 use arkania\utils\Loader;
 use arkania\utils\Utils;
@@ -102,6 +103,9 @@ class Core extends PluginBase {
     /** @var SpawnManager */
     private SpawnManager $spawnManager;
 
+    /** @var TeleportManager */
+    private TeleportManager $teleportManager;
+
 
     protected function onLoad(): void {
         self::setInstance($this);
@@ -148,6 +152,7 @@ class Core extends PluginBase {
         $this->jobsManager = new JobsManager();
         $this->factionManager = new FactionManager();
         $this->spawnManager = new SpawnManager($this);
+        $this->teleportManager = new TeleportManager();
 
         $this->loadAllConfig();
         $loader = new Loader($this);
@@ -309,6 +314,13 @@ class Core extends PluginBase {
      */
     public function getSpawnManager(): SpawnManager {
         return $this->spawnManager;
+    }
+
+    /**
+     * @return TeleportManager
+     */
+    public function getTeleportManager(): TeleportManager {
+        return $this->teleportManager;
     }
 
 }

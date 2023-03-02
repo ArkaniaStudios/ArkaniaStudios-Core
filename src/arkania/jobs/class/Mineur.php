@@ -188,7 +188,7 @@ class Mineur implements Jobs {
      */
     public function updateLevel($playerName, int $level): void {
         Query::query("UPDATE mineur SET level='$level' WHERE name='$playerName'");
-        Query::query("UPDATE mineur SET rec$level='disponible' WHERE name='$playerName'");
+        Query::query("UPDATE mineur SET `rec$level`='disponible' WHERE name='$playerName'");
     }
 
     /**

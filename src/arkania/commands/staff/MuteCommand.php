@@ -28,19 +28,18 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 
-final class TempsBanCommand extends BaseCommand {
-    use Webhook;
+final class MuteCommand extends BaseCommand {
     use Date;
+    use Webhook;
 
     /** @var Core */
     private Core $core;
 
     public function __construct(Core $core) {
-        parent::__construct('tempsban',
-        'Tempsban - ArkaniaStudios',
-        '/tempsban <player> <temps> <raison>',
-        ['tban']);
-        $this->setPermission('arkania:permission.tempsban');
+        parent::__construct('mute',
+        'Mute - ArkaniaStudios',
+        '/mute <player> <time> <raison:optional>');
+        $this->setPermission('arkania:permission.mute');
         $this->core = $core;
     }
 
@@ -54,9 +53,12 @@ final class TempsBanCommand extends BaseCommand {
         if ($player instanceof Player)
             $rank = RanksManager::getRanksFormatPlayer($player);
         else
-            $rank = '§cAdministrateur §f- §cConsole §r';
+            $rank = '§cAdministrateur §f- §cConsole';
 
-        if (count($args) < 3)
+        if (!$this->testPermission($player))
+            return true;
+
+        if (count($args) < 2)
             return throw new InvalidCommandSyntaxException();
 
         $target = $args[0];
@@ -67,8 +69,8 @@ final class TempsBanCommand extends BaseCommand {
         }
 
         if ($args[2] > '30j') {
-            if (!$player->hasPermission('arkania:permission.tempsban.bypass')) {
-                $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez pas bannir une personne plus de §e30 jours§c. Si vous souhaitez dépasser cette limite merci de contacter un membre de l'administration.");
+            if (!$player->hasPermission('arkania:permission.mute.bypass')) {
+                $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez pas rendre muet une personne plus de §e30 jours§c. Si vous souhaitez dépasser cette limite merci de contacter un membre de l'administration.");
                 return true;
             }
         }
@@ -89,8 +91,8 @@ final class TempsBanCommand extends BaseCommand {
             return throw new InvalidCommandSyntaxException();
 
         if (!isset($args[2])) {
-            if (!$player->hasPermission('arkania:permission.tempsban.bypass')) {
-                $player->sendMessage(Utils::getPrefix() . "§cVous êtes obligé de mettre une raison pour bannir une personne.Seul l'administration est autorisé à ne pas en mettre.");
+            if (!$player->hasPermission('arkania:permission.mute.bypass')) {
+                $player->sendMessage(Utils::getPrefix() . "§cVous êtes obligé de mettre une raison pour rendre muet une personne.Seul l'administration est autorisé à ne pas en mettre.");
                 return true;
             }
             $raison = 'Aucun';
@@ -100,11 +102,11 @@ final class TempsBanCommand extends BaseCommand {
                 $raison[] = $args[$i];
             $raison = implode(' ', $raison);
         }
-        $this->core->getSanctionManager()->addBan($target, $rank, $temps, $raison, Utils::getServerName(), $this->dateFormat());
-        $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§e" . $target . "§c vient de se faire bannir du serveur §cdurant §e" . $format . "§c pour le motif §e" . $raison . "§c !");
-        $this->sendDiscordWebhook('**BANNISSEMENT**', '**' . $player->getName() . "** vient de bannir **" . $target . "** d'arkania." . PHP_EOL . PHP_EOL . "*Informations*" . PHP_EOL . "- Banni par **" . Utils::removeColorOnMessage($rank) . "**" . PHP_EOL . "- Durée : **" . $format . "**" . PHP_EOL . "- Server : **" . Utils::getServerName() . "**" . PHP_EOL . "- Raison : **" . $raison . "**", '・Sanction système - ArkaniaStudios', 0xE70235, WebhookData::BAN);
+        $this->core->getSanctionManager()->addMute($target, $rank, $temps, $raison, Utils::getServerName(), $this->dateFormat());
+        $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§e" . $target . "§c vient de se faire mute du serveur §cdurant §e" . $format . "§c pour le motif §e" . $raison . "§c !");
+        $this->sendDiscordWebhook('**MUTE**', '**' . $player->getName() . "** vient de se faire mute **" . $target . "** d'arkania." . PHP_EOL . PHP_EOL . "*Informations*" . PHP_EOL . "- Mute par **" . Utils::removeColorOnMessage($rank) . "**" . PHP_EOL . "- Durée : **" . $format . "**" . PHP_EOL . "- Server : **" . Utils::getServerName() . "**" . PHP_EOL . "- Raison : **" . $raison . "**", '・Sanction système - ArkaniaStudios', 0xE70235, WebhookData::MUTE);
         if ($this->core->getServer()->getPlayerExact($target) instanceof Player)
-            $this->core->getServer()->getPlayerExact($target)->disconnect("§7» §cVous avez été banni d'Arkania:\n§7» §cStaff: " . $rank . "\n§7» §cTemps: §e" . $format . "\n§7» §cMotif: §e" . $raison);
+            $this->core->getServer()->getPlayerExact($target)->sendMessage(Utils::getPrefix() . "§cVous avez été mute d'Arkania:\n§7» §cStaff: " . $rank . "\n§7» §cTemps: §e" . $format . "\n§7» §cMotif: §e" . $raison);
         return true;
     }
 }

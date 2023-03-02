@@ -35,6 +35,8 @@ use arkania\commands\admin\ranks\SetNametagCommand;
 use arkania\commands\admin\ranks\SetRankCommand;
 use arkania\commands\admin\SetSpawnCommand;
 use arkania\commands\player\BoutiqueCommand;
+use arkania\commands\player\CashCommand;
+use arkania\commands\player\CoinsflipCommand;
 use arkania\commands\player\CoordinateCommand;
 use arkania\commands\player\CreditCommand;
 use arkania\commands\player\DiscordCommand;
@@ -53,6 +55,10 @@ use arkania\commands\player\ServerSelectorCommand;
 use arkania\commands\player\SettingsCommand;
 use arkania\commands\player\SiteCommand;
 use arkania\commands\player\SpawnCommand;
+use arkania\commands\player\TpacceptCommand;
+use arkania\commands\player\TpaCommand;
+use arkania\commands\player\TpaHereCommand;
+use arkania\commands\player\TpDenyCommand;
 use arkania\commands\player\VoteCommand;
 use arkania\commands\player\WikiCommand;
 use arkania\commands\player\XpBottleCommand;
@@ -67,10 +73,14 @@ use arkania\commands\staff\ForceClearLagCommand;
 use arkania\commands\staff\InvseeCommand;
 use arkania\commands\staff\KickCommand;
 use arkania\commands\staff\LogsCommand;
+use arkania\commands\staff\MuteCommand;
+use arkania\commands\staff\MuteListCommand;
 use arkania\commands\staff\RedemCommand;
 use arkania\commands\staff\StaffModeCommand;
 use arkania\commands\staff\TempsBanCommand;
+use arkania\commands\staff\TpWorldCommand;
 use arkania\commands\staff\UnBanCommand;
+use arkania\commands\staff\UnMuteCommand;
 use arkania\Core;
 use arkania\entity\base\BaseEntity;
 use arkania\entity\entities\VillagerEntity;
@@ -187,6 +197,10 @@ final class Loader {
             new ForceClearLagCommand($this->core),
             new EnderinvseeCommand($this->core),
             new InvseeCommand($this->core),
+            new TpWorldCommand($this->core),
+            new MuteCommand($this->core),
+            new UnMuteCommand($this->core),
+            new MuteListCommand($this->core),
 
             /* Grade */
             new FeedCommand(),
@@ -218,6 +232,12 @@ final class Loader {
             new CreditCommand(),
             new SpawnCommand($this->core),
             new LobbyCommand($this->core),
+            new TpaCommand($this->core),
+            new TpaHereCommand($this->core),
+            new TpacceptCommand($this->core),
+            new TpDenyCommand($this->core),
+            new CashCommand($this->core),
+            new CoinsflipCommand($this->core)
         ];
 
         $this->core->getServer()->getCommandMap()->registerAll('Arkania-Commands', $commands);
@@ -233,7 +253,7 @@ final class Loader {
             new PlayerJoinEvent($this->core),
             new PlayerQuitEvent($this->core),
             new PlayerChatEvent($this->core),
-            new PlayerInteractEvent(),
+            new PlayerInteractEvent($this->core),
 
             new EntityDamageEntityEvent($this->core),
 

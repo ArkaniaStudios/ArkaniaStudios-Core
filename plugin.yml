@@ -131,3 +131,15 @@ permissions:
         default: op
     "arkania:permission.setspawn":
         default: op
+    "arkania:permission.tpm":
+        default: op
+    "arkania:permission.mute":
+        default: op
+    "arkania:permission.mute.bypass":
+        default: op
+    "arkania:permission.unmute":
+        default: op
+    "arkania:permission.mutelist":
+        default: op
+    "arkania:permission.cash.seigneur":
+        default: op
