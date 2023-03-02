@@ -30,6 +30,7 @@ use arkania\manager\NickManager;
 use arkania\manager\RanksManager;
 use arkania\manager\SanctionManager;
 use arkania\manager\ServerStatusManager;
+use arkania\manager\SpawnManager;
 use arkania\manager\StaffManager;
 use arkania\manager\StatsManager;
 use arkania\manager\SynchronisationManager;
@@ -98,6 +99,9 @@ class Core extends PluginBase {
     /** @var FactionManager */
     private FactionManager $factionManager;
 
+    /** @var SpawnManager */
+    private SpawnManager $spawnManager;
+
 
     protected function onLoad(): void {
         self::setInstance($this);
@@ -110,10 +114,6 @@ class Core extends PluginBase {
         $provider = new WritableWorldProviderManagerEntry(Closure::fromCallable([LevelDB::class, 'isValid']), fn(string $path) => new LevelDB($path), Closure::fromCallable([LevelDB::class, 'generate']));
         $this->getServer()->getWorldManager()->getProviderManager()->addProvider($provider, 'leveldb', true);
         $this->getServer()->getWorldManager()->getProviderManager()->setDefault($provider);
-
-        if (!InvMenuHandler::isRegistered())
-            InvMenuHandler::register($this);
-        InvMenuHandler::getTypeRegistry()->register(CraftCommand::INV_MENU_TYPE_WORKBENCH, new CraftingTableTypeInventory());
     }
 
     /**
@@ -126,15 +126,12 @@ class Core extends PluginBase {
         if (!file_exists($this->getDataFolder() . 'kits/'))
             @mkdir($this->getDataFolder() . 'kits/');
 
-        /* Loader */
-        $this->loadAllConfig();
-        $loader = new Loader($this);
-        $loader->init();
+        /* InvMenu */
+        if (!InvMenuHandler::isRegistered())
+            InvMenuHandler::register($this);
+        InvMenuHandler::getTypeRegistry()->register(CraftCommand::INV_MENU_TYPE_WORKBENCH, new CraftingTableTypeInventory());
 
-        $this->getScheduler()->scheduleDelayedTask(new ClosureTask(static function (): void {
-            CustomiesBlockFactory::getInstance()->registerCustomRuntimeMappings();
-            CustomiesBlockFactory::getInstance()->addWorkerInitHook();
-        }), 0);
+        /* Loader */
 
         $this->ranksManager = new RanksManager();
         $this->formManager = new FormManager();
@@ -150,6 +147,16 @@ class Core extends PluginBase {
         $this->nickManager = new NickManager();
         $this->jobsManager = new JobsManager();
         $this->factionManager = new FactionManager();
+        $this->spawnManager = new SpawnManager($this);
+
+        $this->loadAllConfig();
+        $loader = new Loader($this);
+        $loader->init();
+
+        $this->getScheduler()->scheduleDelayedTask(new ClosureTask(static function (): void {
+            CustomiesBlockFactory::getInstance()->registerCustomRuntimeMappings();
+            CustomiesBlockFactory::getInstance()->addWorkerInitHook();
+        }), 0);
         /* Ranks */
         if (!$this->ranksManager->existRank('Joueur'))
             $this->ranksManager->addRank('Joueur');
@@ -295,6 +302,13 @@ class Core extends PluginBase {
      */
     public function getStatsManager(): StatsManager {
         return $this->statsManager;
+    }
+
+    /**
+     * @return SpawnManager
+     */
+    public function getSpawnManager(): SpawnManager {
+        return $this->spawnManager;
     }
 
 }

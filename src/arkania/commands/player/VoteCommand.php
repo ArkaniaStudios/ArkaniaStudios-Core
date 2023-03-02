@@ -48,7 +48,7 @@ final class VoteCommand extends BaseCommand {
         if (!$player instanceof Player)
             return true;
 
-        $key = $this->core->getConfig()->get('vote-key');
+        $key = $this->core->config->get('vote-key');
         $playerName = $player->getName();
 
         $voteAsync = new VoteTask(function (VoteTask $a) use ($key, $playerName){
