@@ -25,7 +25,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 
-class NpcCommand extends BaseCommand {
+final class NpcCommand extends BaseCommand {
 
     private Core $core;
 
@@ -37,6 +37,12 @@ class NpcCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
 
         $entityManager = new Loader($this->core);

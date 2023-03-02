@@ -25,7 +25,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 
-class AdminKitCommand extends BaseCommand {
+final class AdminKitCommand extends BaseCommand {
 
     /** @var Core */
     private Core $core;
@@ -39,6 +39,10 @@ class AdminKitCommand extends BaseCommand {
     }
 
     /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
      * @throws JsonException
      */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
@@ -46,19 +50,19 @@ class AdminKitCommand extends BaseCommand {
             return true;
 
         if (count($args) < 1)
-            $this->core->ui->sendKitForm($player, true);
+            $this->core->getFormManager()->sendKitForm($player, true);
         else{
             if ($args[0] === 'reset'){
                 if (!isset($args[1])) {
                     $player->sendMessage(Utils::getPrefix() . "§aOK !");
-                    $this->core->kits->resetCooldown($player);
+                    $this->core->getKitsManager()->resetCooldown($player);
                 }else{
                     $target = $this->core->getServer()->getPlayerByPrefix($args[1]);
                     if (!$target instanceof Player){
                         $player->sendMessage(Utils::getPrefix() . "§cCe joueur n'est pas connecté.");
                         return true;
                     }
-                    $this->core->kits->resetCooldown($target);
+                    $this->core->getKitsManager()->resetCooldown($target);
                     $player->sendMessage(Utils::getPrefix() . "§aOK !");
                 }
             }else

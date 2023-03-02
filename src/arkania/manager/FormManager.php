@@ -41,7 +41,7 @@ use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;
 use pocketmine\Server;
 
-final class UiManager {
+final class FormManager {
     use Webhook;
     use Date;
 
@@ -283,7 +283,7 @@ final class UiManager {
             $factionManager->getFactionClass($data[1], $player->getName(), (bool)$data[3], $inscription, $description, $url)->createFaction();
             BaseCommand::sendToastPacket($player, '§7-> §fFACTION', '§aVOUS VENEZ DE CREER LA FACTION §e' . $data[1] . "§a.");
             Server::getInstance()->broadcastMessage(Utils::getPrefix() . "§e" . $player->getName() . "§f vient de créer la faction §e" . $data[1] . "§f.");
-            Core::getInstance()->ranksManager->updateNameTag($player);
+            Core::getInstance()->getRanksManager()->updateNameTag($player);
         });
         $form->setTitle('§c- §fFaction §c-');
         $form->setContent("§7» §rBienvenue dans l'interface de création de votre faction. Précisez le nom de votre faction afin de la créer. Vous pouvez aussi préciser une description mais celle-ci est facultative.");
@@ -330,7 +330,7 @@ final class UiManager {
         $menu->setListener(function(InvMenuTransaction $transaction): InvMenuTransactionResult{
             $player = $transaction->getPlayer();
             $scheduler = Core::getInstance()->getScheduler();
-            $serverStatus = Core::getInstance()->serverStatus;
+            $serverStatus = Core::getInstance()->getServerStatus();
 
             if ($transaction->getItemClicked()->getCustomName() === '§6Thêta'){
                 if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
@@ -531,7 +531,7 @@ final class UiManager {
         $menu->setListener(function (InvMenuTransaction $transaction) use ($isAdmin): InvMenuTransactionResult {
 
             $player = $transaction->getPlayer();
-            $kits = Core::getInstance()->kits;
+            $kits = Core::getInstance()->getKitsManager();
 
             if ($transaction->getItemClicked()->getCustomName() === 'Kit §7Joueur') {
                 $player->removeCurrentWindow();
@@ -613,7 +613,7 @@ final class UiManager {
                 return;
             }
 
-            $factionManager = new FactionManager();
+            $factionManager = Core::getInstance()->getFactionManager();
             $factionManager->getFactionClass($faction, $player->getName())->setDescription($data[1]);
             $player->sendMessage(Utils::getPrefix() . "§aVous avez bien mis à jour la description de votre faction.");
         });
@@ -683,7 +683,7 @@ final class UiManager {
                 $raison = $data[5];
 
             $rank = RanksManager::getRanksFormatPlayer($player);
-            Core::getInstance()->sanction->addBan($target->getName(), RanksManager::getRanksFormatPlayer($player), $temps, $raison, Utils::getServerName(), $this->dateFormat());
+            Core::getInstance()->getSanctionManager()->addBan($target->getName(), RanksManager::getRanksFormatPlayer($player), $temps, $raison, Utils::getServerName(), $this->dateFormat());
             Server::getInstance()->broadcastMessage(Utils::getPrefix() . "§e" . $target->getName() . "§c vient de se faire bannir du serveur §cdurant §e" . $format . "§c pour le motif §e" . $raison . "§c !");
             $this->sendDiscordWebhook('**BANNISSEMENT**', '**' . $player->getName() . "** vient de bannir **" . $target->getName() . "** d'arkania." . PHP_EOL . PHP_EOL . "*Informations*" . PHP_EOL . "- Banni par **" . Utils::removeColorOnMessage($rank) . "**" . PHP_EOL . "- Durée : **" . $format . "**" . PHP_EOL . "- Server : **" . Utils::getServerName() . "**" . PHP_EOL . "- Raison : **" . $raison . "**", '・Sanction système - ArkaniaStudios', 0xE70235, WebhookData::BAN);
             $target->disconnect("§7» §cVous avez été banni d'Arkania:\n§7» §cStaff: " . $rank . "\n§7» §cTemps: §e" . $format . "\n§7» §cMotif: §e" . $raison);

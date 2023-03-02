@@ -26,7 +26,7 @@ use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 
-class UnBanCommand extends BaseCommand {
+final class UnBanCommand extends BaseCommand {
     use Date;
     use Webhook;
 
@@ -42,6 +42,12 @@ class UnBanCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
 
         if (!$this->testPermission($player))
@@ -52,12 +58,12 @@ class UnBanCommand extends BaseCommand {
 
         $target = $args[0];
 
-        if ($this->core->sanction->isBan($target)) {
+        if ($this->core->getSanctionManager()->isBan($target)) {
             $this->sendStaffLogs($player->getName() . ' vient de unban ' . $target);
             $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§e" . $target . " §avient d'être débanni du serveur !");
-            $sanction = $this->core->sanction;
+            $sanction = $this->core->getSanctionManager();
             $this->sendDiscordWebhook('**UNBAN**', "**" . $target . "** vient d'être débanni d'arkania. " . PHP_EOL . PHP_EOL . "*Informations*" . PHP_EOL . "- Banni par **" . Utils::removeColorOnMessage($sanction->getBanStaff($target)) . "**" . PHP_EOL . "- Temps restant : **" . $this->tempsFormat($sanction->getBanTime($target)) . "**" . PHP_EOL . "- Date du bannissement : **" . $sanction->getBanData($target) . "**" . PHP_EOL . "- Serveur : **" . $sanction->getBanServer($target) . "**" . PHP_EOL . "- Raison : **" . $sanction->getBanRaison($target) . "**", '・Système de sanction - ArkaniaStudios', 0xE85F05, WebhookData::BAN);
-            $this->core->sanction->removeBan($target);
+            $this->core->getSanctionManager()->removeBan($target);
         }else
             $player->sendMessage(Utils::getPrefix() . "§cCette personne n'est pas banni.");
         return true;

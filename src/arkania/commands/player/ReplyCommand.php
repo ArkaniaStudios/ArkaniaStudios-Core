@@ -25,7 +25,7 @@ use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 use arkania\commands\BaseCommand;
 
-class ReplyCommand extends BaseCommand {
+final class ReplyCommand extends BaseCommand {
 
     /** @var Core */
     private Core $core;
@@ -38,6 +38,12 @@ class ReplyCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
 
         if ($player instanceof Player)

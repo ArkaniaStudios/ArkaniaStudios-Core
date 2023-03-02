@@ -17,7 +17,6 @@ declare(strict_types=1);
 
 namespace arkania\manager;
 
-use arkania\Core;
 use arkania\data\DataBaseConnector;
 use arkania\utils\Query;
 use mysqli;
@@ -25,13 +24,6 @@ use pocketmine\item\Item;
 use pocketmine\player\Player;
 
 final class SynchronisationManager {
-
-    /** @var Core */
-    private Core $core;
-
-    public function __construct(Core $core) {
-        $this->core = $core;
-    }
 
     /**
      * @return mysqli
@@ -121,21 +113,15 @@ final class SynchronisationManager {
         }
         if ($inv_armor !== null) {
             $armor = $player->getArmorInventory();
-            if ($armor !== null) {
-                $armor->clearAll();
-                foreach (json_decode($inv_armor, true) as $slot => $item) {
-                    $armor->setItem($slot, Item::jsonDeserialize($item));
-                }
-            }
+            $armor->clearAll();
+            foreach (json_decode($inv_armor, true) as $slot => $item)
+                $armor->setItem($slot, Item::jsonDeserialize($item));
         }
         if ($inv_ender !== null) {
             $ender = $player->getEnderInventory();
-            if ($ender !== null) {
-                $ender->clearAll();
-                foreach (json_decode($inv_ender, true) as $slot => $item) {
-                    $ender->setItem($slot, Item::jsonDeserialize($item));
-                }
-            }
+            $ender->clearAll();
+            foreach (json_decode($inv_ender, true) as $slot => $item)
+                $ender->setItem($slot, Item::jsonDeserialize($item));
         }
         if ($xp_lvl !== null) {
             $player->getXpManager()->setXpLevel((int)$xp_lvl);

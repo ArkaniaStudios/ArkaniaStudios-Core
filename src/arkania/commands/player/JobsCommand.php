@@ -23,7 +23,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 
-class JobsCommand extends BaseCommand {
+final class JobsCommand extends BaseCommand {
 
     /** @var Core */
     private Core $core;
@@ -36,6 +36,12 @@ class JobsCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
 
         if (!$player instanceof Player)
@@ -44,7 +50,7 @@ class JobsCommand extends BaseCommand {
         if (count($args) !== 0)
             return throw new InvalidCommandSyntaxException();
 
-        $this->core->ui->sendJobsForm($player);
+        $this->core->getFormManager()->sendJobsForm($player);
         return true;
     }
 }

@@ -25,7 +25,7 @@ use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 use arkania\commands\BaseCommand;
 
-class PayCommand extends BaseCommand {
+final class PayCommand extends BaseCommand {
 
     /** @var Core */
     private Core $core;
@@ -37,6 +37,12 @@ class PayCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         if (!$player instanceof Player)
             return true;
@@ -56,13 +62,13 @@ class PayCommand extends BaseCommand {
             return true;
         }
 
-        if (!$this->core->economyManager->getMoney($player->getName()) - $args[1] >= 0){
+        if (!$this->core->getEconomyManager()->getMoney($player->getName()) - $args[1] >= 0){
             $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas les fonds requis pour effectuer cette transaction.");
             return true;
         }
 
-        $this->core->economyManager->addMoney($target->getName(), $args[1]);
-        $this->core->economyManager->delMoney($player->getName(), $args[1]);
+        $this->core->getEconomyManager()->addMoney($target->getName(), $args[1]);
+        $this->core->getEconomyManager()->delMoney($player->getName(), $args[1]);
         $player->sendMessage(Utils::getPrefix() . "Vous avez envoyé §e" . $args[1] . " §rà " . RanksManager::getRanksFormatPlayer($target));
         $target->sendMessage(Utils::getPrefix() . "Vous avez reçu §e" . $args[1] . " §r");
         return true;

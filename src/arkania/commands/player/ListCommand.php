@@ -24,7 +24,7 @@ use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 
-class ListCommand extends BaseCommand {
+final class ListCommand extends BaseCommand {
 
     /** @var Core */
     private Core $core;
@@ -36,14 +36,20 @@ class ListCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         $online = '';
         $onlineCount = 0;
-        $array = $this->core->ranksManager->classPlayersByRank();
+        $array = $this->core->getRanksManager()->classPlayersByRank();
 
-        foreach ($this->core->ranksManager->getRanksList() as $rank) {
-            if(isset($array[$this->core->ranksManager->getRankColorToString($rank)])) {
-                foreach ($array[$this->core->ranksManager->getRankColorToString($rank)] as $target)
+        foreach ($this->core->getRanksManager()->getRanksList() as $rank) {
+            if(isset($array[$this->core->getRanksManager()->getRankColorToString($rank)])) {
+                foreach ($array[$this->core->getRanksManager()->getRankColorToString($rank)] as $target)
                     if((!($player instanceof Player) or $player->canSee($target))) {
 
                         $onlineCount++;

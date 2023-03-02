@@ -15,24 +15,25 @@ declare(strict_types=1);
  * Tous ce qui est développé par nos équipes, ou qui concerne le serveur, restent confidentiels et est interdit à l’utilisation tiers.
  */
 
-namespace arkania\commands\admin\ranks;
+namespace arkania\commands\ranks;
 
 use arkania\commands\BaseCommand;
 use arkania\Core;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
+use pocketmine\player\Player;
 
-final class AddPermissionCommand extends BaseCommand {
+final class NickCommand extends BaseCommand {
 
     /** @var Core */
     private Core $core;
 
     public function __construct(Core $core) {
-        parent::__construct('addpermission',
-        'Addpermission - ArkaniaStudios',
-        '/addpermission <rank> <permission>');
-        $this->setPermission('arkania:permission.addpermission');
+        parent::__construct('nick',
+        'Nick - ArkaniaStudios',
+        '/nick <name>');
+        $this->setPermission('arkania:permission.nick');
         $this->core = $core;
     }
 
@@ -43,21 +44,31 @@ final class AddPermissionCommand extends BaseCommand {
      * @return bool
      */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
+        if (!$player instanceof Player)
+            return true;
+
         if (!$this->testPermission($player))
             return true;
 
-        if (count($args) !== 2)
+        if (count($args) !== 1)
             return throw new InvalidCommandSyntaxException();
 
-        if (!$this->core->getRanksManager()->existRank($args[0])) {
-            $player->sendMessage(Utils::getPrefix() . "§cCe grade n'existe pas.");
+        if (!Utils::isValidArgument($args[0])){
+            $player->sendMessage(Utils::getPrefix() . "§cCe nom n'est pas valide. Merci de ne par mettre d'espace ou de caractères spéciaux.");
+        }
+
+        if ((strlen($args[0]) < 3 || strlen($args[0]) > 16)){
+            $player->sendMessage(Utils::getPrefix() . "§cVotre pseudo doit contenir au moins §e3 caractères §cet au maximum §e16§c.");
             return true;
         }
 
-        $this->core->getRanksManager()->addPermission($args[0], $args[1]);
-        $player->sendMessage(Utils::getPrefix() . "Vous avez ajouté la permission §c" . $args[1] . "§f au grade §c" . $args[0] . "§f.");
-
-        $this->sendStaffLogs($player->getName() . " vient d'ajouter la permission " . $args[1] . " au grade " . $args[0] . ".");
+        if (strtolower($args[0]) === 'reset') {
+            $this->core->getNickManager()->removePlayerNick($player);
+            $player->sendMessage(Utils::getPrefix() . "§aVous avez remis votre pseudo par défaut.");
+        }else{
+            $this->core->getNickManager()->setPlayerNick($player, $args[0]);
+            $player->sendMessage(Utils::getPrefix() . "§aVous avez changer votre pseudo en §e" . $args[0] . "§a.");
+        }
         return true;
     }
 }

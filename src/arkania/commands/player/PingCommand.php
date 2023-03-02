@@ -24,7 +24,7 @@ use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 
-class PingCommand extends BaseCommand {
+final class PingCommand extends BaseCommand {
 
     /** @var Core */
     private Core $core;
@@ -36,6 +36,12 @@ class PingCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         if (!$player instanceof Player)
             return true;

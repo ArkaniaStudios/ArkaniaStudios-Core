@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace arkania\commands\player;
 
-use arkania\Core;
+use arkania\commands\BaseCommand;
 use arkania\data\SettingsNameIds;
 use arkania\manager\RanksManager;
 use arkania\manager\SettingsManager;
@@ -26,25 +26,26 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 use pocketmine\Server;
-use arkania\commands\BaseCommand;
 
-class MsgCommand extends BaseCommand {
-
-    /** @var Core */
-    private Core $core;
+final class MsgCommand extends BaseCommand {
 
     /** @var array */
     public static array $lastMessager = [];
 
-    public function __construct(Core $core) {
+    public function __construct() {
         parent::__construct('msg',
             'Msg - ArkaniaStudios',
             '/msg <player> <message>',
             ['tell', 'w', 'm', 'wish']
         );
-        $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
 
         if ($player instanceof Player)

@@ -16,8 +16,16 @@ class PlayerLoginEvent implements Listener {
         $this->core = $core;
     }
 
-    public function onPlayerLogin(\pocketmine\event\player\PlayerLoginEvent $event) {
+    /**
+     * @param \pocketmine\event\player\PlayerLoginEvent $event
+     * @return void
+     */
+    public function onPlayerLogin(\pocketmine\event\player\PlayerLoginEvent $event): void {
         $player = $event->getPlayer();
 
+        if (!$this->core->getRanksManager()->existPlayer($player->getName()))
+            $this->core->getRanksManager()->setDefaultRank($player->getName());
+
+        $this->core->getRanksManager()->register($player);
     }
 }

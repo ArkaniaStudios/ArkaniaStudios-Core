@@ -42,16 +42,6 @@ final class SanctionManager {
         $db->close();
     }
 
-    /** @var Core */
-    private Core $core;
-
-    /**
-     * @param Core $core
-     */
-    public function __construct(Core $core) {
-        $this->core = $core;
-    }
-
     /**
      * @param string $playerName
      * @param string $staff

@@ -23,7 +23,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 
-class CraftCommand extends BaseCommand {
+final class CraftCommand extends BaseCommand {
 
     public const INV_MENU_TYPE_WORKBENCH = 'portablecrafting:workbench';
 
@@ -38,6 +38,12 @@ class CraftCommand extends BaseCommand {
         $this->setPermission('arkania:permission.craft');
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         if (!$player instanceof Player)
             return true;

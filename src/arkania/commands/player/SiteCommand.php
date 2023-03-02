@@ -19,7 +19,7 @@ use arkania\commands\BaseCommand;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 
-class SiteCommand extends BaseCommand {
+final class SiteCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('site',
@@ -28,6 +28,12 @@ class SiteCommand extends BaseCommand {
         ['web']);
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         $player->sendMessage(Utils::getPrefix() . "Voici le site web d'arkania : §ehttps://arkaniastudios.com/");
         return true;

@@ -24,7 +24,7 @@ use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 use arkania\commands\BaseCommand;
 
-class MoneyCommand extends BaseCommand {
+final class MoneyCommand extends BaseCommand {
 
     /** @var Core */
     private Core $core;
@@ -36,6 +36,12 @@ class MoneyCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         if (!$player instanceof Player)
             return true;
@@ -44,11 +50,11 @@ class MoneyCommand extends BaseCommand {
             return throw new InvalidCommandSyntaxException();
 
         if (!isset($args[0])){
-            $money = $this->core->economyManager->getMoney($player->getName());
+            $money = $this->core->getEconomyManager()->getMoney($player->getName());
             $player->sendMessage(Utils::getPrefix() . "Vous avez actuellement §e" . $money . "§f.");
         }else{
             $target = $args[0];
-            $money = $this->core->economyManager->getMoney($target);
+            $money = $this->core->getEconomyManager()->getMoney($target);
             $player->sendMessage(Utils::getPrefix() . "§e" . $target . " a actuellement §e" . $money . "§f.");
         }
         return true;

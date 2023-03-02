@@ -28,7 +28,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 
-class MaintenanceCommand extends BaseCommand {
+final class MaintenanceCommand extends BaseCommand {
     use Webhook;
 
     /** @var Core */
@@ -42,6 +42,12 @@ class MaintenanceCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
 
         if ($player instanceof Player)
@@ -56,7 +62,7 @@ class MaintenanceCommand extends BaseCommand {
             return throw new InvalidCommandSyntaxException();
 
         if (strtolower($args[0]) === 'on'){
-            if ($this->core->serverStatus->getServerStatus(Utils::getServerName()) === '§6Maintenance'){
+            if ($this->core->getServerStatus()->getServerStatus(Utils::getServerName()) === '§6Maintenance'){
                 $player->sendMessage(Utils::getServerName() . "§cLe serveur est déjà en maintenance.");
                 return true;
             }
@@ -64,17 +70,16 @@ class MaintenanceCommand extends BaseCommand {
             $this->core->getScheduler()->scheduleRepeatingTask(new MaintenanceTask($this->core, $rank), 20);
 
         }elseif(strtolower($args[0]) === 'off'){
-            if ($this->core->serverStatus->getServerStatus(Utils::getServerName()) !== '§6Maintenance'){
+            if ($this->core->getServerStatus()->getServerStatus(Utils::getServerName()) !== '§6Maintenance'){
                 $player->sendMessage(Utils::getPrefix() . "§cLe serveur n'est pas en maintenance.");
                 return true;
             }
 
             $this->sendDiscordWebhook('**MAINTENANCE**', "La maintenance vient d'être désactivé sur un serveur." . PHP_EOL . PHP_EOL . "- Server : **" . Utils::getServerName() . "**" . PHP_EOL . "- Staff : " . Utils::removeColorOnMessage($rank), 'Maintenance Système - ArkaniaStudios', 0xEFA, WebhookData::MAINTENANCE);
-            $this->core->maintenance->setMaintenance(false);
+            $this->core->getMaintenanceManager()->setMaintenance(false);
 
-        }else{
+        }else
             return throw new InvalidCommandSyntaxException();
-        }
         return true;
     }
 

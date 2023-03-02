@@ -23,7 +23,7 @@ use arkania\utils\trait\Date;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 
-class BanListCommand extends BaseCommand {
+final class BanListCommand extends BaseCommand {
     use Date;
 
     /** @var Core */
@@ -37,11 +37,17 @@ class BanListCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         if (!$this->testPermission($player))
             return true;
 
-        $banList = $this->core->sanction->getAllBan();
+        $banList = $this->core->getSanctionManager()->getAllBan();
         asort($banList);
         $maxpages = intval(abs(count($banList) / 10));
         $reste = count($banList) % 10;
@@ -75,7 +81,7 @@ class BanListCommand extends BaseCommand {
         foreach ($banList as $name => $value) {
             if ($top === $fintop) break;
             if ($top >= $deptop)
-                $player->sendMessage('§6#§e' . $top . ' §7» §e' . $name . ' §fdurant §e' . $this->tempsFormat($this->core->sanction->getBanTime($name)) . '§f pour le motif §e' . $this->core->sanction->getBanRaison($name));
+                $player->sendMessage('§6#§e' . $top . ' §7» §e' . $name . ' §fdurant §e' . $this->tempsFormat($this->core->getSanctionManager()->getBanTime($name)) . '§f pour le motif §e' . $this->core->getSanctionManager()->getBanRaison($name));
             $top++;
         }
         return true;

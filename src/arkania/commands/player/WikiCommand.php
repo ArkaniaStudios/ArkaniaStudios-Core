@@ -21,7 +21,7 @@ use arkania\commands\BaseCommand;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 
-class WikiCommand extends BaseCommand {
+final class WikiCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('wiki',
@@ -29,9 +29,14 @@ class WikiCommand extends BaseCommand {
         '/wiki');
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         $player->sendMessage(Utils::getPrefix() . "Voici le lien vers le wiki du serveur §ehttps://arkaniastudios.org/wiki");
         return true;
     }
-
 }

@@ -24,7 +24,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\Server;
 
-class FeedCommand extends BaseCommand {
+final class FeedCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('feed',
@@ -34,6 +34,12 @@ class FeedCommand extends BaseCommand {
         $this->setPermission('arkania:permission.feed');
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         if (!$player instanceof Player)
             return true;

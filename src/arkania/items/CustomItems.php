@@ -18,7 +18,6 @@ declare(strict_types=1);
 namespace arkania\items;
 
 use arkania\libs\customies\item\CustomiesItemFactory;
-use arkania\libs\customies\item\ItemIds;
 use pocketmine\item\Item;
 use pocketmine\utils\CloningRegistryTrait;
 

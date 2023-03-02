@@ -39,9 +39,9 @@ class BanTask extends Task {
     public function onRun(): void {
         $player = $this->player;
 
-        $staff = $this->core->sanction->getBanStaff($player->getName());
-        $temps = $this->core->sanction->getBanTime($player->getName());
-        $raison = $this->core->sanction->getBanRaison($player->getName());
+        $staff = $this->core->getSanctionManager()->getBanStaff($player->getName());
+        $temps = $this->core->getSanctionManager()->getBanTime($player->getName());
+        $raison = $this->core->getSanctionManager()->getBanRaison($player->getName());
         $player->disconnect("§7» §cVous êtes banni d'Arkania:\n§7» §cStaff: " . $staff . "\n§7» §cTemps: §e" . $this->tempsFormat($temps) . "\n§7» §cRaison: §e" . $raison);
     }
 }

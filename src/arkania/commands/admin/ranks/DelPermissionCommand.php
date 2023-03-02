@@ -23,7 +23,7 @@ use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 
-class DelPermissionCommand extends BaseCommand {
+final class DelPermissionCommand extends BaseCommand {
 
     /** @var Core */
     private Core $core;
@@ -36,6 +36,12 @@ class DelPermissionCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         if (!$this->testPermission($player))
             return true;
@@ -43,12 +49,12 @@ class DelPermissionCommand extends BaseCommand {
         if (count($args) !== 2)
             return throw new InvalidCommandSyntaxException();
 
-        if (!$this->core->ranksManager->existRank($args[0])) {
+        if (!$this->core->getRanksManager()->existRank($args[0])) {
             $player->sendMessage(Utils::getPrefix() . "§cCe grade n'existe pas.");
             return true;
         }
 
-        $this->core->ranksManager->delPermission($args[0], $args[1]);
+        $this->core->getRanksManager()->delPermission($args[0], $args[1]);
         $player->sendMessage(Utils::getPrefix() . "Vous avez supprimé la permission §c" . $args[1] . "§f au grade §c" . $args[0] . "§f.");
 
         $this->sendStaffLogs($player->getName() . " vient de supprimer la permission " . $args[1] . " au grade " . $args[0] . ".");

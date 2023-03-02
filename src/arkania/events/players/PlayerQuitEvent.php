@@ -30,18 +30,22 @@ class PlayerQuitEvent implements Listener {
         $this->core = $core;
     }
 
-    public function onPlayerQuit(\pocketmine\event\player\PlayerQuitEvent $event){
+    public function onPlayerQuit(\pocketmine\event\player\PlayerQuitEvent $event): void {
         $player = $event->getPlayer();
 
+        /* Nick */
+        if ($this->core->getNickManager()->isNick($player))
+            $this->core->getNickManager()->removePlayerNick($player);
+
         /* Ranks */
-        $this->core->ranksManager->unRegister($player);
+        $this->core->getRanksManager()->unRegister($player);
 
         /* Connection */
-        $this->core->stats->removeServerConnection($player);
+        $this->core->getStatsManager()->removeServerConnection($player);
 
         /* StaffMode */
-        if ($this->core->staff->isInStaffMode($player))
-            $this->core->staff->removeStaffMode($player);
+        if ($this->core->getStaffManager()->isInStaffMode($player))
+            $this->core->getStaffManager()->removeStaffMode($player);
 
         /* QuitMessage */
         $event->setQuitMessage('[§c-§f] ' . RanksManager::getRanksFormatPlayer($player));

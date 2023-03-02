@@ -21,7 +21,7 @@ use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use arkania\commands\BaseCommand;
 
-class DiscordCommand extends BaseCommand {
+final class DiscordCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('discord',
@@ -29,6 +29,12 @@ class DiscordCommand extends BaseCommand {
         '/discord');
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         $player->sendMessage(Utils::getPrefix() . 'Voici le discord du serveur: §9https://arkaniastudios.com/discord§f.');
         return true;

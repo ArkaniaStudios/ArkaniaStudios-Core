@@ -33,7 +33,9 @@ use arkania\commands\admin\ranks\DelUPermissionCommand;
 use arkania\commands\admin\ranks\SetFormatCommand;
 use arkania\commands\admin\ranks\SetNametagCommand;
 use arkania\commands\admin\ranks\SetRankCommand;
+use arkania\commands\player\BoutiqueCommand;
 use arkania\commands\player\CoordinateCommand;
+use arkania\commands\player\CreditCommand;
 use arkania\commands\player\DiscordCommand;
 use arkania\commands\player\FactionCommand;
 use arkania\commands\player\InfoCommand;
@@ -55,6 +57,7 @@ use arkania\commands\ranks\ClearLagTimeCommand;
 use arkania\commands\ranks\CraftCommand;
 use arkania\commands\ranks\FeedCommand;
 use arkania\commands\ranks\NearCommand;
+use arkania\commands\ranks\NickCommand;
 use arkania\commands\staff\BanListCommand;
 use arkania\commands\staff\EnderinvseeCommand;
 use arkania\commands\staff\ForceClearLagCommand;
@@ -74,7 +77,6 @@ use arkania\events\players\PlayerInteractEvent;
 use arkania\events\players\PlayerJoinEvent;
 use arkania\events\players\PlayerLoginEvent;
 use arkania\events\players\PlayerQuitEvent;
-use arkania\factions\claims\ClaimListener;
 use arkania\factions\FactionClass;
 use arkania\items\ItemIds;
 use arkania\items\NoneEnchant;
@@ -187,11 +189,12 @@ final class Loader {
             new CraftCommand(),
             new NearCommand(),
             new ClearLagTimeCommand(),
+            new NickCommand($this->core),
 
             /* Player */
             new DiscordCommand(),
             new SettingsCommand($this->core),
-            new MsgCommand($this->core),
+            new MsgCommand(),
             new ReplyCommand($this->core),
             new FactionCommand($this->core),
             new MoneyCommand($this->core),
@@ -207,6 +210,8 @@ final class Loader {
             new CoordinateCommand(),
             new ListCommand($this->core),
             new XpBottleCommand(),
+            new BoutiqueCommand(),
+            new CreditCommand(),
         ];
 
         $this->core->getServer()->getCommandMap()->registerAll('Arkania-Commands', $commands);
@@ -224,12 +229,11 @@ final class Loader {
             new PlayerChatEvent($this->core),
             new PlayerInteractEvent(),
 
-            new EntityDamageEntityEvent(),
+            new EntityDamageEntityEvent($this->core),
 
             new SynchronisationListener($this->core),
             new CustomiesListener(),
             new StaffModeListener($this->core),
-            //new ClaimListener(),
         ];
 
         $eventManager = $this->core->getServer()->getPluginManager();

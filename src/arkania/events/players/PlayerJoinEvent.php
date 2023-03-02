@@ -34,11 +34,15 @@ class PlayerJoinEvent implements Listener {
         $this->core = $core;
     }
 
-    public function onPlayerJoin(\pocketmine\event\player\PlayerJoinEvent $event){
+    /**
+     * @param \pocketmine\event\player\PlayerJoinEvent $event
+     * @return void
+     */
+    public function onPlayerJoin(\pocketmine\event\player\PlayerJoinEvent $event): void {
         $player = $event->getPlayer();
 
         /* Maintenance */
-        if ($this->core->serverStatus->getServerStatus(Utils::getServerName()) === '§6Maintenance'){
+        if ($this->core->getServerStatus()->getServerStatus(Utils::getServerName()) === '§6Maintenance'){
             if (!$player->hasPermission('arkania:permission.maintenance.bypass')){
                 $player->sendMessage(Utils::getPrefix() . "§cLe serveur est actuellement en maintenance. Merci de rester patient.");
                 $player->transfer('lobby1');
@@ -46,30 +50,24 @@ class PlayerJoinEvent implements Listener {
         }
 
         /* Bannissement */
-        if ($this->core->sanction->isBan($player->getName())){
-            $time = $this->core->sanction->getBanTime($player->getName());
+        if ($this->core->getSanctionManager()->isBan($player->getName())){
+            $time = $this->core->getSanctionManager()->getBanTime($player->getName());
             if ($time - time() <= 0)
-                $this->core->sanction->removeBan($player->getName());
+                $this->core->getSanctionManager()->removeBan($player->getName());
             else {
                 $this->core->getScheduler()->scheduleRepeatingTask(new BanTask($this->core, $player), 7);
                 return;
             }
         }
 
-        /* Ranks */
-        if (!$this->core->ranksManager->existPlayer($player->getName()))
-            $this->core->ranksManager->setDefaultRank($player->getName());
-
-        $this->core->ranksManager->register($player);
-
         /* Economy */
-        if (!$this->core->economyManager->hasAccount($player->getName()))
-            $this->core->economyManager->resetMoney($player->getName());
+        if (!$this->core->getEconomyManager()->hasAccount($player->getName()))
+            $this->core->getEconomyManager()->resetMoney($player->getName());
 
-        $this->core->stats->setServerConnection($player);
+        $this->core->getStatsManager()->setServerConnection($player);
 
         foreach ($this->core->getServer()->getOnlinePlayers() as $onlinePlayer){
-            if ($this->core->staff->isInVanish($onlinePlayer))
+            if ($this->core->getStaffManager()->isInVanish($onlinePlayer))
                 if (!$player->hasPermission('arkania:permission.vanish'))
                     $player->hidePlayer($onlinePlayer);
         }
@@ -77,11 +75,11 @@ class PlayerJoinEvent implements Listener {
         /* PlayerBefore */
         if (!$player->hasPlayedBefore()){
                 $inscription = $this->dateFormat();
-                $this->core->stats->setInscription($player, $inscription);
-                if (!$this->core->ranksManager->existPlayer($player->getName()))
-                    $this->core->stats->addPlayerCount();
+                $this->core->getStatsManager()->setInscription($player, $inscription);
+                if (!$this->core->getRanksManager()->existPlayer($player->getName()))
+                    $this->core->getStatsManager()->addPlayerCount();
 
-                $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§e" . $player->getName() . "§f vient de rejoindre §cArkania §fpour la première fois ! (§7§o#" . $this->core->stats->getPlayerRegister() . "§f)");
+                $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§e" . $player->getName() . "§f vient de rejoindre §cArkania §fpour la première fois ! (§7§o#" . $this->core->getStatsManager()->getPlayerRegister() . "§f)");
                 $event->setJoinMessage('');
         }else{
             $event->setJoinMessage('[§a+§f] ' . RanksManager::getRanksFormatPlayer($player));

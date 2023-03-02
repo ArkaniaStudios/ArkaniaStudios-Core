@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace arkania\commands\player;
 
+use arkania\commands\BaseCommand;
 use arkania\Core;
 use arkania\manager\RanksManager;
 use arkania\tasks\async\VoteTask;
@@ -24,9 +25,8 @@ use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\utils\Internet;
-use arkania\commands\BaseCommand;
 
-class VoteCommand extends BaseCommand {
+final class VoteCommand extends BaseCommand {
 
     /** @var Core */
     private Core $core;
@@ -38,6 +38,12 @@ class VoteCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
         if (!$player instanceof Player)
             return true;
@@ -58,12 +64,12 @@ class VoteCommand extends BaseCommand {
                         $v = new VoteTask(function (VoteTask $a) use ($key, $playerName){
                             $get = Internet::getURL('https://minecraftpocket-servers.com/api/?action=post&object=votes&element=claim&key=' . $key . '&username=' . $playerName);
                             $a->setResult($get->getBody());
-                        }, function (VoteTask $a) use ($playerName){
+                        }, function () use ($playerName){
                             if ($p = $this->core->getServer()->getPlayerExact($playerName)) {
                                 $money = mt_rand(500, 2500);
-                                $this->core->economyManager->addMoney($p->getName(), $money);
+                                $this->core->getEconomyManager()->addMoney($p->getName(), $money);
                                 $p->getServer()->broadcastMessage(Utils::getPrefix() . RanksManager::getRanksFormatPlayer($p) . " §fvient de voter pour le serveur et a reçu une récompense !");
-                                $this->core->vote->addVoteParty();
+                                $this->core->getVoteManager()->addVoteParty();
                             }
                         });
 

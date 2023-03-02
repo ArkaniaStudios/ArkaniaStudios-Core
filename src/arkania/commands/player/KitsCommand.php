@@ -23,7 +23,7 @@ use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
 use arkania\commands\BaseCommand;
 
-class KitsCommand extends BaseCommand {
+final class KitsCommand extends BaseCommand {
 
     /** @var Core */
     private Core $core;
@@ -36,6 +36,12 @@ class KitsCommand extends BaseCommand {
         $this->core = $core;
     }
 
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
 
         if (!$player instanceof Player)
@@ -44,7 +50,7 @@ class KitsCommand extends BaseCommand {
         if (count($args) !== 0)
             return throw new InvalidCommandSyntaxException();
 
-        $this->core->ui->sendKitForm($player);
+        $this->core->getFormManager()->sendKitForm($player);
         return true;
     }
 }

@@ -17,17 +17,28 @@ declare(strict_types=1);
 
 namespace arkania\events\entity;
 
-use arkania\manager\FactionManager;
+use arkania\Core;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\Listener;
 use pocketmine\player\Player;
 
 class EntityDamageEntityEvent implements Listener{
 
-    public function onEntityDamageByEntity(EntityDamageByEntityEvent $event){
+    /** @var Core */
+    private Core $core;
+
+    public function __construct(Core $core) {
+        $this->core = $core;
+    }
+
+    /**
+     * @param EntityDamageByEntityEvent $event
+     * @return void
+     */
+    public function onEntityDamageByEntity(EntityDamageByEntityEvent $event): void {
         $player = $event->getDamager();
         $target = $event->getEntity();
-        $factionManager = new FactionManager();
+        $factionManager = $this->core->getFactionManager();
 
         if ($player instanceof Player && $target instanceof Player) {
             if ($factionManager->getFaction($player->getName()) === $factionManager->getFaction($target->getName()))
