@@ -20,10 +20,12 @@ namespace arkania\events\players;
 use arkania\commands\player\FactionCommand;
 use arkania\Core;
 use arkania\manager\FormManager;
+use arkania\utils\trait\Date;
 use arkania\utils\Utils;
 use pocketmine\event\Listener;
 
 class PlayerChatEvent implements Listener {
+    use Date;
 
     /** @var Core */
     private Core $core;
@@ -40,6 +42,23 @@ class PlayerChatEvent implements Listener {
         $player = $event->getPlayer();
         $message = $event->getMessage();
         $factionManager = $this->core->getFactionManager();
+
+        if ($this->core->getSanctionManager()->isMute($player->getName())){
+
+            $sanction = $this->core->getSanctionManager();
+            $staff = $sanction->getMuteStaff($player->getName());
+            $temps = $sanction->getMuteTime($player->getName());
+            $raison = $sanction->getMuteRaison($player->getName());
+            $server = $sanction->getMuteServer($player->getName());
+            $date = $sanction->getMuteDate($player->getName());
+
+            if ($temps - time() <= 0)
+                $sanction->removeMute($player->getName());
+            else{
+                $player->sendMessage(Utils::getPrefix() . "§cVous êtes actuellement mute." . PHP_EOL . PHP_EOL . '§cStaff: ' . $staff . PHP_EOL . '§cTemps: §e' . $this->tempsFormat($temps) . PHP_EOL . '§cRaison: §e' . $raison . PHP_EOL . '§cServer: §e' . $server . PHP_EOL . '§cDate: §e' . $date);
+                $event->cancel();
+            }
+        }
 
         if ($this->core->getNickManager()->isNick($player))
             $nick = $this->core->getNickManager()->getNickName($player);

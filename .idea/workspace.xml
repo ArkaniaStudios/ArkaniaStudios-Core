@@ -4,20 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="big code cleaner">
-      <change afterPath="$PROJECT_DIR$/src/arkania/commands/admin/SetSpawnCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/commands/player/LobbyCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/commands/player/SpawnCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/manager/SpawnManager.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/tasks/TeleportTask.php" afterDir="false" />
+    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="implement lobby and spawn command &amp; update all task">
+      <change afterPath="$PROJECT_DIR$/src/arkania/commands/player/CashCommand.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/commands/player/CoinsflipCommand.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/commands/player/RtpCommand.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/commands/player/TpDenyCommand.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/commands/player/TpaCommand.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/commands/player/TpaHereCommand.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/commands/player/TpacceptCommand.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/commands/staff/MuteCommand.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/commands/staff/MuteListCommand.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/commands/staff/TpWorldCommand.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/commands/staff/UnMuteCommand.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/manager/TeleportManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/11afa8bd-3b75-4fa7-b1c1-950cc8d2fa3a.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/11afa8bd-3b75-4fa7-b1c1-950cc8d2fa3a.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/plugin.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/Core.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/Core.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/VoteCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/VoteCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/tasks/BanTask.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/tasks/BanTask.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/tasks/MaintenanceTask.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/tasks/MaintenanceTask.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/tasks/RedemTask.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/tasks/RedemTask.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/tasks/TransfertTask.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/tasks/TransfertTask.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/staff/TempsBanCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/staff/TempsBanCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/staff/UnBanCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/staff/UnBanCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/events/players/PlayerChatEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerChatEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/events/players/PlayerInteractEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerInteractEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/jobs/class/Mineur.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/jobs/class/Mineur.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/listener/SynchronisationListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/listener/SynchronisationListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/SanctionManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/SanctionManager.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/utils/Loader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/Loader.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -116,7 +127,7 @@
       <workItem from="1677663200134" duration="4000" />
       <workItem from="1677679580271" duration="2655000" />
       <workItem from="1677692417917" duration="6759000" />
-      <workItem from="1677753453538" duration="10375000" />
+      <workItem from="1677753453538" duration="17601000" />
     </task>
     <task id="LOCAL-00001" summary="add template">
       <created>1676844106724</created>
@@ -363,7 +374,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677758265709</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="implement lobby and spawn command &amp; update all task">
+      <created>1677764270990</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1677764270990</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -381,7 +399,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="test" />
     <MESSAGE value="implement debug" />
     <MESSAGE value="update ranks system" />
     <MESSAGE value="add economy system" />
@@ -406,6 +423,7 @@
     <MESSAGE value="update time system and add claim (bug)" />
     <MESSAGE value="same update" />
     <MESSAGE value="big code cleaner" />
-    <option name="LAST_COMMIT_MESSAGE" value="big code cleaner" />
+    <MESSAGE value="implement lobby and spawn command &amp; update all task" />
+    <option name="LAST_COMMIT_MESSAGE" value="implement lobby and spawn command &amp; update all task" />
   </component>
 </project>
