@@ -24,7 +24,7 @@ use arkania\utils\trait\Date;
 use arkania\utils\Utils;
 use pocketmine\event\Listener;
 
-class PlayerJoinEvent implements Listener {
+final class PlayerJoinEvent implements Listener {
     use Date;
 
     /** @var Core */

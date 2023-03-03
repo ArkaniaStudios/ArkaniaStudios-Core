@@ -33,9 +33,11 @@ use arkania\commands\admin\ranks\DelUPermissionCommand;
 use arkania\commands\admin\ranks\SetFormatCommand;
 use arkania\commands\admin\ranks\SetNametagCommand;
 use arkania\commands\admin\ranks\SetRankCommand;
+use arkania\commands\admin\SetBoxCommand;
 use arkania\commands\admin\SetSpawnCommand;
 use arkania\commands\player\BoutiqueCommand;
 use arkania\commands\player\CashCommand;
+use arkania\commands\player\ClassementCommand;
 use arkania\commands\player\CoinsflipCommand;
 use arkania\commands\player\CoordinateCommand;
 use arkania\commands\player\CreditCommand;
@@ -62,11 +64,16 @@ use arkania\commands\player\TpDenyCommand;
 use arkania\commands\player\VoteCommand;
 use arkania\commands\player\WikiCommand;
 use arkania\commands\player\XpBottleCommand;
+use arkania\commands\ranks\BackCommand;
 use arkania\commands\ranks\ClearLagTimeCommand;
 use arkania\commands\ranks\CraftCommand;
+use arkania\commands\ranks\EnderChestCommand;
 use arkania\commands\ranks\FeedCommand;
+use arkania\commands\ranks\FurnaceCommand;
 use arkania\commands\ranks\NearCommand;
 use arkania\commands\ranks\NickCommand;
+use arkania\commands\ranks\NightVisionCommand;
+use arkania\commands\ranks\RepairCommand;
 use arkania\commands\staff\BanListCommand;
 use arkania\commands\staff\EnderinvseeCommand;
 use arkania\commands\staff\ForceClearLagCommand;
@@ -86,6 +93,7 @@ use arkania\entity\base\BaseEntity;
 use arkania\entity\entities\VillagerEntity;
 use arkania\events\entity\EntityDamageEntityEvent;
 use arkania\events\players\PlayerChatEvent;
+use arkania\events\players\PlayerDeathEvent;
 use arkania\events\players\PlayerInteractEvent;
 use arkania\events\players\PlayerJoinEvent;
 use arkania\events\players\PlayerLoginEvent;
@@ -99,6 +107,7 @@ use arkania\libs\customies\CustomiesListener;
 use arkania\libs\customies\item\CustomiesItemFactory;
 use arkania\listener\StaffModeListener;
 use arkania\listener\SynchronisationListener;
+use arkania\manager\BoxManager;
 use arkania\manager\EconomyManager;
 use arkania\manager\RanksManager;
 use arkania\manager\SanctionManager;
@@ -185,6 +194,7 @@ final class Loader {
             new MaintenanceCommand($this->core),
             new AdminKitCommand($this->core),
             new SetSpawnCommand($this->core),
+            new SetBoxCommand($this->core),
 
             /* Moderation */
             new KickCommand($this->core),
@@ -208,6 +218,11 @@ final class Loader {
             new NearCommand(),
             new ClearLagTimeCommand(),
             new NickCommand($this->core),
+            new EnderChestCommand(),
+            new NightVisionCommand(),
+            new BackCommand(),
+            new FurnaceCommand(),
+            new RepairCommand(),
 
             /* Player */
             new DiscordCommand(),
@@ -237,8 +252,10 @@ final class Loader {
             new TpacceptCommand($this->core),
             new TpDenyCommand($this->core),
             new CashCommand($this->core),
-            new CoinsflipCommand($this->core)
-        ];
+            new CoinsflipCommand($this->core),
+            new ClassementCommand($this->core),
+            new BoxManager($this->core),
+            ];
 
         $this->core->getServer()->getCommandMap()->registerAll('Arkania-Commands', $commands);
     }
@@ -254,6 +271,7 @@ final class Loader {
             new PlayerQuitEvent($this->core),
             new PlayerChatEvent($this->core),
             new PlayerInteractEvent($this->core),
+            new PlayerDeathEvent(),
 
             new EntityDamageEntityEvent($this->core),
 

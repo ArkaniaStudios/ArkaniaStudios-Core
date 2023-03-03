@@ -1,0 +1,63 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ *     _      ____    _  __     _      _   _   ___      _
+ *    / \    |  _ \  | |/ /    / \    | \ | | |_ _|    / \
+ *   / _ \   | |_) | | ' /    / _ \   |  \| |  | |    / _ \
+ *  / ___ \  |  _ <  | . \   / ___ \  | |\  |  | |   / ___ \
+ * /_/   \_\ |_| \_\ |_|\_\ /_/   \_\ |_| \_| |___| /_/   \_\
+ *
+ * @author: Julien
+ * @link: https://github.com/ArkaniaStudios
+ *
+ * Tous ce qui est développé par nos équipes, ou qui concerne le serveur, restent confidentiels et est interdit à l’utilisation tiers.
+ */
+
+namespace arkania\commands\admin;
+
+use arkania\commands\BaseCommand;
+use arkania\Core;
+use arkania\utils\Utils;
+use JsonException;
+use pocketmine\command\CommandSender;
+use pocketmine\command\utils\InvalidCommandSyntaxException;
+use pocketmine\player\Player;
+
+final class SetBoxCommand extends BaseCommand {
+
+    /** @var Core */
+    private Core $core;
+
+    public function __construct(Core $core) {
+        parent::__construct('setbox',
+        'Setbox - ArkaniaStudios',
+        '/setbox');
+        $this->setPermission('arkania:permission.setbox');
+        $this->core = $core;
+    }
+
+    /**
+     * @param CommandSender $player
+     * @param string $commandLabel
+     * @param array $args
+     * @return bool
+     * @throws JsonException
+     */
+    public function execute(CommandSender $player, string $commandLabel, array $args): bool {
+        if (!$player instanceof Player)
+            return true;
+
+        if (!$this->testPermission($player))
+            return true;
+
+        if (count($args) !== 0)
+            return throw new InvalidCommandSyntaxException();
+
+        $this->core->getBoxManager()->setServerBox($player->getPosition()->getX(), $player->getPosition()->getY(), $player->getPosition()->getZ(), $player->getWorld()->getDisplayName());
+        $player->sendMessage(Utils::getPrefix() . "§aVous avez définis la zone des box en : " . PHP_EOL . "x: §e" . $player->getPosition()->getX() . PHP_EOL . '§ay: §e' . $player->getPosition()->getY() . PHP_EOL . '§az: §e' . $player->getPosition()->getZ() . PHP_EOL . '§aMonde: §e' . $player->getWorld()->getDisplayName());
+        return true;
+    }
+
+}

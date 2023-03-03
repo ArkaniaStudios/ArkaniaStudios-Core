@@ -143,3 +143,15 @@ permissions:
         default: op
     "arkania:permission.cash.seigneur":
         default: op
+    "arkania:permission.enderchest":
+        default: op
+    "arkania:permission.nightvision":
+        default: op
+    "arkania:permission.back":
+        default: op
+    "arkania:permission.setbox":
+        default: op
+    "arkania:permission.furnace":
+        default: op
+    "arkania:permission.repair":
+        default: op

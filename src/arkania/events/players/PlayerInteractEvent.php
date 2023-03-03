@@ -10,7 +10,7 @@ use pocketmine\event\Listener;
 use pocketmine\item\ItemFactory;
 use pocketmine\item\VanillaItems;
 
-class PlayerInteractEvent implements Listener {
+final class PlayerInteractEvent implements Listener {
 
     /** @var Core */
     private Core $core;

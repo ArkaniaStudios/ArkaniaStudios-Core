@@ -24,7 +24,7 @@ use arkania\utils\trait\Date;
 use arkania\utils\Utils;
 use pocketmine\event\Listener;
 
-class PlayerChatEvent implements Listener {
+final class PlayerChatEvent implements Listener {
     use Date;
 
     /** @var Core */

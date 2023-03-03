@@ -22,6 +22,7 @@ use arkania\inventory\CraftingTableTypeInventory;
 use arkania\jobs\JobsManager;
 use arkania\libs\customies\block\CustomiesBlockFactory;
 use arkania\libs\muqsit\invmenu\InvMenuHandler;
+use arkania\manager\BoxManager;
 use arkania\manager\EconomyManager;
 use arkania\manager\FactionManager;
 use arkania\manager\KitsManager;
@@ -106,6 +107,9 @@ class Core extends PluginBase {
     /** @var TeleportManager */
     private TeleportManager $teleportManager;
 
+    /** @var BoxManager */
+    private BoxManager $boxManager;
+
 
     protected function onLoad(): void {
         self::setInstance($this);
@@ -153,6 +157,7 @@ class Core extends PluginBase {
         $this->factionManager = new FactionManager();
         $this->spawnManager = new SpawnManager($this);
         $this->teleportManager = new TeleportManager();
+        $this->boxManager = new BoxManager($this);
 
         $this->loadAllConfig();
         $loader = new Loader($this);
@@ -321,6 +326,13 @@ class Core extends PluginBase {
      */
     public function getTeleportManager(): TeleportManager {
         return $this->teleportManager;
+    }
+
+    /**
+     * @return BoxManager
+     */
+    public function getBoxManager(): BoxManager {
+        return $this->boxManager;
     }
 
 }

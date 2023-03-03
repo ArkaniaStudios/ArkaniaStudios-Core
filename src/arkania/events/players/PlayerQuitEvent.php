@@ -21,7 +21,7 @@ use arkania\Core;
 use arkania\manager\RanksManager;
 use pocketmine\event\Listener;
 
-class PlayerQuitEvent implements Listener {
+final class PlayerQuitEvent implements Listener {
 
     /** @var Core */
     private Core $core;
