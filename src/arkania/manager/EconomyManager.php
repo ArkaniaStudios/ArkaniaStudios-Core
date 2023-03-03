@@ -109,4 +109,15 @@ final class EconomyManager{
         $db = self::getDataBase()->query("SELECT * FROM money WHERE name='" . self::getDataBase()->real_escape_string($playerName) . "'");
         return $db->num_rows > 0;
     }
+
+    public function getAllMoney(): array {
+        $res = self::getDatabase()->query("SELECT * FROM money");
+        $ret = [];
+        foreach($res->fetch_all() as $val){
+            $ret[$val[0]] = $val[1];
+        }
+        $res->close();
+        return $ret;
+    }
+
 }

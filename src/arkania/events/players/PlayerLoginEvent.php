@@ -7,7 +7,7 @@ namespace arkania\events\players;
 use arkania\Core;
 use pocketmine\event\Listener;
 
-class PlayerLoginEvent implements Listener {
+final class PlayerLoginEvent implements Listener {
 
     /** @var Core */
     private Core $core;
