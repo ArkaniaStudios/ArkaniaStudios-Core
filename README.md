@@ -17,5 +17,5 @@ Liens Utils :
 
 - ``Boutique`` : https://arkaniastudios.com/shop
 - ``Discord`` : https://arkaniastudios.com/discord
-- ``Wiki`` : https://arkaniastudios.com/wiki
+- ``Wiki`` : https://wiki.arkaniastudios.com
 - ``Site`` : https://arkaniastudios.com/
