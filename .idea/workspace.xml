@@ -4,29 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="- Implement mute system&#10;- Implement RtpCommand&#10;- Implement CoinsFlip &#10;- Implement TeleportSystem">
-      <change afterPath="$PROJECT_DIR$/src/arkania/commands/admin/SetBoxCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/commands/player/BoxCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/commands/player/ClassementCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/commands/ranks/BackCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/commands/ranks/EnderChestCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/commands/ranks/FurnaceCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/commands/ranks/NightVisionCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerDeathEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/inventory/FakeEnderChestInventory.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/manager/BoxManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="add same update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/Core.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/Core.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/events/players/PlayerChatEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerChatEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/events/players/PlayerInteractEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerInteractEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/events/players/PlayerJoinEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerJoinEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/events/players/PlayerLoginEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerLoginEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/events/players/PlayerQuitEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerQuitEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/manager/EconomyManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/EconomyManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/tasks/TeleportTask.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/tasks/TeleportTask.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/ranks/RepairCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/ranks/RepairCommand.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/utils/Loader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/Loader.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -66,7 +46,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/dumon/OneDrive/Documents/Minecraft/NitroCore/Plugin/Plugin&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/dumon/OneDrive/Bureau/Extra Chests [BP] V1.1 (8) [MConverter.eu]&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -126,7 +106,13 @@
       <workItem from="1677679580271" duration="2655000" />
       <workItem from="1677692417917" duration="6759000" />
       <workItem from="1677753453538" duration="17601000" />
-      <workItem from="1677799671066" duration="5072000" />
+      <workItem from="1677799671066" duration="6083000" />
+      <workItem from="1677846000235" duration="4687000" />
+      <workItem from="1677892370819" duration="623000" />
+      <workItem from="1677921152884" duration="2000" />
+      <workItem from="1677926683365" duration="17000" />
+      <workItem from="1677934613345" duration="615000" />
+      <workItem from="1677942791123" duration="628000" />
     </task>
     <task id="LOCAL-00001" summary="add template">
       <created>1676844106724</created>
@@ -387,7 +373,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677799746361</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="add same update">
+      <created>1677813373816</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1677813373816</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -424,12 +417,12 @@
     <MESSAGE value="staffmode system end" />
     <MESSAGE value="update time system" />
     <MESSAGE value="change time system" />
-    <MESSAGE value="add same update" />
     <MESSAGE value="update time system and add claim (bug)" />
     <MESSAGE value="same update" />
     <MESSAGE value="big code cleaner" />
     <MESSAGE value="implement lobby and spawn command &amp; update all task" />
     <MESSAGE value="- Implement mute system&#10;- Implement RtpCommand&#10;- Implement CoinsFlip &#10;- Implement TeleportSystem" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Implement mute system&#10;- Implement RtpCommand&#10;- Implement CoinsFlip &#10;- Implement TeleportSystem" />
+    <MESSAGE value="add same update" />
+    <option name="LAST_COMMIT_MESSAGE" value="add same update" />
   </component>
 </project>

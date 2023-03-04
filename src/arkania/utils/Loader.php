@@ -36,6 +36,7 @@ use arkania\commands\admin\ranks\SetRankCommand;
 use arkania\commands\admin\SetBoxCommand;
 use arkania\commands\admin\SetSpawnCommand;
 use arkania\commands\player\BoutiqueCommand;
+use arkania\commands\player\BoxCommand;
 use arkania\commands\player\CashCommand;
 use arkania\commands\player\ClassementCommand;
 use arkania\commands\player\CoinsflipCommand;
@@ -107,7 +108,6 @@ use arkania\libs\customies\CustomiesListener;
 use arkania\libs\customies\item\CustomiesItemFactory;
 use arkania\listener\StaffModeListener;
 use arkania\listener\SynchronisationListener;
-use arkania\manager\BoxManager;
 use arkania\manager\EconomyManager;
 use arkania\manager\RanksManager;
 use arkania\manager\SanctionManager;
@@ -254,7 +254,7 @@ final class Loader {
             new CashCommand($this->core),
             new CoinsflipCommand($this->core),
             new ClassementCommand($this->core),
-            new BoxManager($this->core),
+            new BoxCommand($this->core),
             ];
 
         $this->core->getServer()->getCommandMap()->registerAll('Arkania-Commands', $commands);
