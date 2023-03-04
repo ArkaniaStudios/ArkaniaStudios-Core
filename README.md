@@ -1,8 +1,6 @@
-![Logo](https://cdn.discordapp.com/attachments/1040721160477868083/1064224582191546498/banner.png)
-
 # ArkaniaStudios - FactionCore
 
-Ceci est un core utilisé pour les serveurs factions de ArkaniaStudios
+Ceci est un core utilisé pour les 3 serveurs factions de ArkaniaStudios
 
 - play.arkaniastudios.com
 
