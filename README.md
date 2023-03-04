@@ -4,7 +4,7 @@
 
 Ceci est un core utilisé pour les serveurs factions de ArkaniaStudios
 
-- play.arkaniastudios.org
+- play.arkaniastudios.com
 
 # Informations
 
