@@ -50,7 +50,7 @@ $result = setDiscordGameActivity($clientID, $activityName, $activityType, $activ
 var_dump($result);*/
 
 
-/*// Replace YOUR_WEBHOOK_URL_HERE with your Discord webhook URL
+// Replace YOUR_WEBHOOK_URL_HERE with your Discord webhook URL
 $webhook_url = "https://discord.com/api/webhooks/1080089314530164756/V2lLDuom_uv_2PH--bgYVONnyESXmusFBB5Ee2kCEAxeKo_6Xdh8Fht2tGw-RbAQWIvZ";
 
 // Function to send a message to Discord
@@ -95,7 +95,7 @@ $response = send_discord_message($message);
 $message_id = json_decode($response)->id;
 $new_message = "Hello, World! (edited)";
 $response = edit_discord_message($message_id, $new_message);
-echo $response;*/
+echo $response;
 
 
 // Définir l'URL du webhook
