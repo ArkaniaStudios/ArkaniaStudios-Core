@@ -508,11 +508,7 @@ class FactionClass {
         $chunkZ = $position->getFloorZ() >> Chunk::COORD_BIT_SIZE;
         $world = $player->getWorld()->getFolderName();
         Query::query("DELETE FROM claims WHERE factionName='" . $this->factionName . "' AND chunkX='$chunkX' AND chunkZ='$chunkZ' AND world='$world'");
-        if (isset(self::$claim[$chunkX.':'.$chunkZ])) {
-            unset(self::$claim[$chunkX . ':' . $chunkZ]);
-            $player->sendMessage(Utils::getPrefix() . "§aVous venez de supprimer ce claim.");
-        }else
-            $player->sendMessage(Utils::getPrefix() . "§cCe lieu n'est pas claim.");
+        unset(self::$claim[$chunkX . ':' . $chunkZ]);
     }
 
     /**
@@ -520,8 +516,10 @@ class FactionClass {
      */
     public function countClaim(): int {
         $db = $this->getProvider()->query("SELECT * FROM claims WHERE factionName='" . $this->factionName . "'");
-        $result = $db->fetch_array()[0] ?? 0;
+        $result = $db->fetch_all() ?? 0;
         $db->close();
-        return $result;
+        var_dump($result);
+        var_dump(count($result));
+        return count($result);
     }
 }

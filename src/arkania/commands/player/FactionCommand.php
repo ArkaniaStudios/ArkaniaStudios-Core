@@ -702,11 +702,6 @@ final class FactionCommand extends BaseCommand {
                 return true;
             }
 
-            if (!ProtectionManager::canModifyZone($player, 'warzone')){
-                $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez pas claim dans le spawn !");
-                return true;
-            }
-
             $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->addClaim($player);
             $player->sendMessage(Utils::getPrefix() . "§aVous venez de claim le chunk sur lequel vous êtes actuellement.");
         }elseif(strtolower($args[0]) === 'unclaim'){
@@ -725,6 +720,7 @@ final class FactionCommand extends BaseCommand {
                 return true;
             }
             $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->removeClaim($player);
+            $player->sendMessage(Utils::getPrefix() . "Vous venez de supprimer ce claim.");
         }
         return true;
     }
