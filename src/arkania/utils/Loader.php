@@ -12,7 +12,6 @@ declare(strict_types=1);
  * @author: Julien
  * @link: https://github.com/ArkaniaStudios
  *
- * Tous ce qui est développé par nos équipes, ou qui concerne le serveur, restent confidentiels et est interdit à l’utilisation tiers.
  */
 
 namespace arkania\utils;
@@ -101,12 +100,7 @@ use arkania\events\players\PlayerLoginEvent;
 use arkania\events\players\PlayerQuitEvent;
 use arkania\factions\events\FactionListener;
 use arkania\factions\FactionClass;
-use arkania\items\ItemIds;
-use arkania\items\NoneEnchant;
-use arkania\items\npc\NpcManagerItem;
 use arkania\jobs\class\Mineur;
-use arkania\libs\customies\CustomiesListener;
-use arkania\libs\customies\item\CustomiesItemFactory;
 use arkania\listener\StaffModeListener;
 use arkania\listener\SynchronisationListener;
 use arkania\manager\EconomyManager;
@@ -117,7 +111,6 @@ use arkania\manager\SettingsManager;
 use arkania\manager\StatsManager;
 use arkania\manager\SynchronisationManager;
 use arkania\tasks\ClearLagTask;
-use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\data\bedrock\EntityLegacyIds;
 use pocketmine\entity\Entity;
 use pocketmine\entity\EntityDataHelper;
@@ -146,7 +139,6 @@ final class Loader {
         $this->initData();
         $this->initEntity();
         $this->initTask();
-        $this->initItem();
     }
 
     /**
@@ -277,7 +269,6 @@ final class Loader {
             new EntityDamageEntityEvent($this->core),
 
             new SynchronisationListener($this->core),
-            new CustomiesListener(),
             new StaffModeListener($this->core),
             new FactionListener($this->core),
         ];
@@ -308,19 +299,6 @@ final class Loader {
      */
     private function initTask(): void {
         $this->core->getScheduler()->scheduleRepeatingTask(new ClearLagTask($this->core, 300), 20);
-    }
-
-    /**
-     * @throws ReflectionException
-     */
-    private function initItem(): void {
-        $items = CustomiesItemFactory::getInstance();
-
-        EnchantmentIdMap::getInstance()->register(-10, new NoneEnchant());
-
-        /* Admin */
-        $items->registerItem(NpcManagerItem::class, ItemIds::NPC, 'Npc Manager');
-
     }
 
     /**
