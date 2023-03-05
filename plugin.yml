@@ -155,3 +155,5 @@ permissions:
         default: op
     "arkania:permission.repair":
         default: op
+    "arkania:permission.faction.admin":
+        default: op

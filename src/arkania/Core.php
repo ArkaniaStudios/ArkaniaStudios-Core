@@ -114,10 +114,10 @@ class Core extends PluginBase {
     protected function onLoad(): void {
         self::setInstance($this);
 
-        foreach (scandir('/home/container/worlds/') as $world){
+       /*foreach (scandir('/home/container/worlds/') as $world){
             if (Server::getInstance()->getWorldManager()->isWorldGenerated($world))
                 $this->getServer()->getWorldManager()->loadWorld($world);
-        }
+        }*/
 
         $provider = new WritableWorldProviderManagerEntry(Closure::fromCallable([LevelDB::class, 'isValid']), fn(string $path) => new LevelDB($path), Closure::fromCallable([LevelDB::class, 'generate']));
         $this->getServer()->getWorldManager()->getProviderManager()->addProvider($provider, 'leveldb', true);
@@ -133,6 +133,8 @@ class Core extends PluginBase {
             $this->saveDefaultConfig();
         if (!file_exists($this->getDataFolder() . 'kits/'))
             @mkdir($this->getDataFolder() . 'kits/');
+        if (!file_exists($this->getDataFolder() . 'homes/'))
+            @mkdir($this->getDataFolder() . 'homes/');
 
         /* InvMenu */
         if (!InvMenuHandler::isRegistered())
@@ -159,6 +161,7 @@ class Core extends PluginBase {
         $this->teleportManager = new TeleportManager();
         $this->boxManager = new BoxManager($this);
 
+        $this->factionManager->loadAllConfig();
         $this->loadAllConfig();
         $loader = new Loader($this);
         $loader->init();

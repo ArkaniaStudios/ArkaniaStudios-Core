@@ -44,15 +44,6 @@ final class Utils {
     public static function isValidNumber(string $value): bool {
         return is_numeric($value) && $value > 0;
     }
-
-    /**
-     * @param $value
-     * @return bool
-     */
-    public static function isValidUrl($value): bool {
-        return filter_var($value, FILTER_VALIDATE_URL);
-    }
-
     /**
      * @return string
      */

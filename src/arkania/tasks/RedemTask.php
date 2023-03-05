@@ -48,7 +48,15 @@ final class RedemTask extends Task {
             }
             if (isset($redemCommand->redem['redemStatus']))
                 unset($redemCommand->redem['redemStatus']);
+
+            if (\pocketmine\utils\Utils::getOS() === 'linux'){
+                register_shutdown_function(function (): void{
+                    pcntl_exec('./start.sh');
+                });
+            }
+
             $server->shutdown();
+
         }elseif($time == 30)
             $server->broadcastMessage(Utils::getPrefix() . "§cLe serveur redémarrage dans 30 secondes !");
         elseif($time == 16)

@@ -21,15 +21,21 @@ use arkania\Core;
 use arkania\data\DataBaseConnector;
 use arkania\manager\FactionManager;
 use arkania\utils\Query;
+use arkania\utils\trait\Provider;
 use arkania\utils\trait\Webhook;
 use arkania\utils\Utils;
 use mysqli;
 use pocketmine\entity\Location;
 use pocketmine\player\Player;
 use pocketmine\Server;
+use pocketmine\world\format\Chunk;
 
 class FactionClass {
     use Webhook;
+    use Provider;
+
+    /** @var array */
+    public static array $claim = [];
 
     public function __construct(private string $factionName, private string $ownerName, private bool $logs , private string $creationTime, private ?string $description = '', private string $url = '') {
     }
@@ -108,8 +114,12 @@ class FactionClass {
     public function disbandFaction(): void {
         $db = self::getDataBase();
 
+        $claims = $db->query("SELECT * FROM claims WHERE factionName='" . $this->factionName . "'");
+
+
         Query::query("DELETE FROM factions WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
         Query::query("DELETE FROM players_faction WHERE faction='" . self::getDataBase()->real_escape_string($this->factionName) ."'");
+        Query::query("DELETE * FROM claims WHERE factionName='" . $this->factionName . "'");
         $db->close();
     }
 
@@ -466,5 +476,52 @@ class FactionClass {
         }else{
             $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas de home sur ce serveur. Votre home de faction se trouve sur le serveur §e" . $server . "§c.");
         }
+    }
+
+    /* query("CREATE TABLE IF NOT EXISTS claims(factionName VARCHAR(10), chunkX INT, chunkZ INT, world TEXT)"); */
+
+    /**
+     * @param Player $player
+     * @return void
+     */
+    public function addClaim(Player $player): void {
+        $position = $player->getPosition();
+        $chunkX = $position->getFloorX() >> Chunk::COORD_BIT_SIZE;
+        $chunkZ = $position->getFloorZ() >> Chunk::COORD_BIT_SIZE;
+        $world = $player->getWorld()->getFolderName();
+        Query::query("INSERT INTO claims(factionName, chunkX, chunkZ, world) VALUES ('" . $this->factionName . "', '$chunkX', '$chunkZ', '$world')");
+        self::$claim[$chunkX.':'.$chunkZ.':'.$world] = [
+            'x' => $chunkX,
+            'z' => $chunkZ,
+            'world' => $world,
+            'faction' => $this->factionName
+        ];
+    }
+
+    /**
+     * @param Player $player
+     * @return void
+     */
+    public function removeClaim(Player $player): void {
+        $position = $player->getPosition();
+        $chunkX = $position->getFloorX() >> Chunk::COORD_BIT_SIZE;
+        $chunkZ = $position->getFloorZ() >> Chunk::COORD_BIT_SIZE;
+        $world = $player->getWorld()->getFolderName();
+        Query::query("DELETE FROM claims WHERE factionName='" . $this->factionName . "' AND chunkX='$chunkX' AND chunkZ='$chunkZ' AND world='$world'");
+        if (isset(self::$claim[$chunkX.':'.$chunkZ])) {
+            unset(self::$claim[$chunkX . ':' . $chunkZ]);
+            $player->sendMessage(Utils::getPrefix() . "§aVous venez de supprimer ce claim.");
+        }else
+            $player->sendMessage(Utils::getPrefix() . "§cCe lieu n'est pas claim.");
+    }
+
+    /**
+     * @return int
+     */
+    public function countClaim(): int {
+        $db = $this->getProvider()->query("SELECT * FROM claims WHERE factionName='" . $this->factionName . "'");
+        $result = $db->fetch_array()[0] ?? 0;
+        $db->close();
+        return $result;
     }
 }
