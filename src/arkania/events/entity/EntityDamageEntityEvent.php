@@ -12,7 +12,6 @@ declare(strict_types=1);
  * @author: Julien
  * @link: https://github.com/ArkaniaStudios
  *
- * Tous ce qui est développé par nos équipes, ou qui concerne le serveur, restent confidentiels et est interdit à l’utilisation tiers.
  */
 
 namespace arkania\events\entity;
@@ -22,7 +21,7 @@ use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\Listener;
 use pocketmine\player\Player;
 
-class EntityDamageEntityEvent implements Listener{
+final class EntityDamageEntityEvent implements Listener{
 
     /** @var Core */
     private Core $core;

@@ -12,7 +12,6 @@ declare(strict_types=1);
  * @author: Julien
  * @link: https://github.com/ArkaniaStudios
  *
- * Tous ce qui est développé par nos équipes, ou qui concerne le serveur, restent confidentiels et est interdit à l’utilisation tiers.
  */
 
 namespace arkania;
@@ -20,11 +19,11 @@ namespace arkania;
 use arkania\commands\ranks\CraftCommand;
 use arkania\inventory\CraftingTableTypeInventory;
 use arkania\jobs\JobsManager;
-use arkania\libs\customies\block\CustomiesBlockFactory;
 use arkania\libs\muqsit\invmenu\InvMenuHandler;
 use arkania\manager\BoxManager;
 use arkania\manager\EconomyManager;
 use arkania\manager\FactionManager;
+use arkania\manager\FormManager;
 use arkania\manager\KitsManager;
 use arkania\manager\MaintenanceManager;
 use arkania\manager\NickManager;
@@ -35,19 +34,13 @@ use arkania\manager\SpawnManager;
 use arkania\manager\StaffManager;
 use arkania\manager\StatsManager;
 use arkania\manager\SynchronisationManager;
-use arkania\manager\FormManager;
 use arkania\manager\TeleportManager;
 use arkania\manager\VoteManager;
 use arkania\utils\Loader;
 use arkania\utils\Utils;
-use Closure;
 use pocketmine\plugin\PluginBase;
-use pocketmine\scheduler\ClosureTask;
-use pocketmine\Server;
 use pocketmine\utils\Config;
 use pocketmine\utils\SingletonTrait;
-use pocketmine\world\format\io\leveldb\LevelDB;
-use pocketmine\world\format\io\WritableWorldProviderManagerEntry;
 use ReflectionException;
 
 class Core extends PluginBase {
@@ -118,10 +111,6 @@ class Core extends PluginBase {
             if (Server::getInstance()->getWorldManager()->isWorldGenerated($world))
                 $this->getServer()->getWorldManager()->loadWorld($world);
         }*/
-
-        $provider = new WritableWorldProviderManagerEntry(Closure::fromCallable([LevelDB::class, 'isValid']), fn(string $path) => new LevelDB($path), Closure::fromCallable([LevelDB::class, 'generate']));
-        $this->getServer()->getWorldManager()->getProviderManager()->addProvider($provider, 'leveldb', true);
-        $this->getServer()->getWorldManager()->getProviderManager()->setDefault($provider);
     }
 
     /**
@@ -166,10 +155,6 @@ class Core extends PluginBase {
         $loader = new Loader($this);
         $loader->init();
 
-        $this->getScheduler()->scheduleDelayedTask(new ClosureTask(static function (): void {
-            CustomiesBlockFactory::getInstance()->registerCustomRuntimeMappings();
-            CustomiesBlockFactory::getInstance()->addWorkerInitHook();
-        }), 0);
         /* Ranks */
         if (!$this->ranksManager->existRank('Joueur'))
             $this->ranksManager->addRank('Joueur');

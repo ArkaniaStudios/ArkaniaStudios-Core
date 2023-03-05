@@ -12,7 +12,6 @@ declare(strict_types=1);
  * @author: Julien
  * @link: https://github.com/ArkaniaStudios
  *
- * Tous ce qui est développé par nos équipes, ou qui concerne le serveur, restent confidentiels et est interdit à l’utilisation tiers.
  */
 
 namespace arkania\listener;
@@ -33,7 +32,7 @@ use pocketmine\event\player\PlayerItemUseEvent;
 use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;
 
-class StaffModeListener implements Listener {
+final class StaffModeListener implements Listener {
     use Date;
 
     /** @var Core */
