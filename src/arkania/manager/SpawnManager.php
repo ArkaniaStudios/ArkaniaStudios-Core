@@ -20,6 +20,7 @@ namespace arkania\manager;
 use arkania\Core;
 use JsonException;
 use pocketmine\player\Player;
+use pocketmine\Server;
 use pocketmine\world\Position;
 
 final class SpawnManager {
@@ -58,6 +59,7 @@ final class SpawnManager {
         $y = $config->get('spawn')['y'];
         $z = $config->get('spawn')['z'];
         $world = $config->get('spawn')['world'];
+        Server::getInstance()->getWorldManager()->loadWorld($world);
         $player->teleport(new Position($x, $y, $z, $this->core->getServer()->getWorldManager()->getWorldByName($world)));
     }
 

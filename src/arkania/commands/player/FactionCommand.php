@@ -20,6 +20,7 @@ namespace arkania\commands\player;
 use arkania\commands\BaseCommand;
 use arkania\Core;
 use arkania\manager\FactionManager;
+use arkania\manager\ProtectionManager;
 use arkania\utils\trait\Webhook;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
@@ -685,6 +686,45 @@ final class FactionCommand extends BaseCommand {
             }
             $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->setHome($player);
             $player->sendMessage(Utils::getPrefix() . "§aHome de faction bien définit sur le serveur §e" . Utils::getServerName() . "§a !");
+        }elseif(strtolower($args[0]) === 'claim'){
+            if ($factionManager->getFaction($player->getName()) === '...'){
+                $player->sendMessage(Utils::getPrefix() . "§cVous devez être dans une faction pour pouvoir faire ceci. Faites §e/f create §cpour en créer une.");
+                return true;
+            }
+
+            if ($factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->getOwner() !== $player->getName()){
+                $player->sendMessage(Utils::getPrefix() . "§cVous devez être le chef de votre faction pour pouvoir faire ceci.");
+                return true;
+            }
+
+            if ($factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->countClaim() >= 2){
+                $player->sendMessage(Utils::getPrefix() . "§cVous avez déjà atteins la limite maximal de claim pour une faction.");
+                return true;
+            }
+
+            if (!ProtectionManager::canModifyZone($player, 'warzone')){
+                $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez pas claim dans le spawn !");
+                return true;
+            }
+
+            $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->addClaim($player);
+            $player->sendMessage(Utils::getPrefix() . "§aVous venez de claim le chunk sur lequel vous êtes actuellement.");
+        }elseif(strtolower($args[0]) === 'unclaim'){
+            if ($factionManager->getFaction($player->getName()) === '...'){
+                $player->sendMessage(Utils::getPrefix() . "§cVous devez être dans une faction pour pouvoir faire ceci. Faites §e/f create §cpour en créer une.");
+                return true;
+            }
+
+            if ($factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->getOwner() !== $player->getName()){
+                $player->sendMessage(Utils::getPrefix() . "§cVous devez être le chef de votre faction pour pouvoir faire ceci.");
+                return true;
+            }
+
+            if ($factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->countClaim() <= 0){
+                $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas de claim à unclaim.");
+                return true;
+            }
+            $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->removeClaim($player);
         }
         return true;
     }

@@ -82,4 +82,23 @@ final class FactionManager {
         }
     }
 
+    /**
+     * @return void
+     */
+    public function loadAllConfig(): void{
+        $db = $this->getProvider()->query("SELECT * FROM claims");
+        $result = $db->fetch_all() ?? false;
+        if ($result === false){
+            return;
+        }
+
+        foreach ($result as $value)
+            FactionClass::$claim[$value[1].':'.$value[2].':'.$value[3]] = [
+                'x' => $value[1],
+                'z' => $value[2],
+                'world' => $value[3],
+                'faction' => $value[0]
+            ];
+        $db->close();
+    }
 }

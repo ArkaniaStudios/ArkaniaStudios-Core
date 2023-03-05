@@ -70,7 +70,7 @@ final class PlayerChatEvent implements Listener {
 
         if (isset(FormManager::$faction_webhook[$player->getName()])){
             $event->cancel();
-            if (!Utils::isValidUrl($message) && !preg_match('#^https://discord\.com/api/webhooks/+#', $message)){
+            if (!preg_match('#^https://discord\.com/api/webhooks/+#', $message)){
                 $player->sendMessage(Utils::getPrefix() . "§cLe liens du webhook n'est pas valide. Les logs de faction ont été automatiquement désactivé.");
                 unset(FormManager::$faction_webhook[$player->getName()]);
                 $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->setLogsStatus(false);
