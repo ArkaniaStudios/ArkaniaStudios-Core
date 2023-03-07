@@ -57,12 +57,12 @@ final class PlayerInteractEvent implements Listener {
                 $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get($item->getID(), $item->getMeta(), $item->getCount() - 1));
             }
         }
-        if ($item->getId() == 339){
+        if ($item->getId() == VanillaItems::PAPER()){
             $event->cancel();
 
             if (str_contains($itemName, $name)){
-                $money = explode("§fBillet §c(", $itemName);
-                $money = explode(")", $money[1]);
+                $money = explode("§fBillet (", $itemName);
+                $money = explode("§f)", $money[1]);
                 $money = intval($money[0]);
                 $this->core->getEconomyManager()->addMoney($player, $money);
                 $itemremove = ItemFactory::getInstance()->get($item->getId(), $item->getMeta(), $item->getCount() - 1);

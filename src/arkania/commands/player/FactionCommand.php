@@ -19,7 +19,6 @@ namespace arkania\commands\player;
 use arkania\commands\BaseCommand;
 use arkania\Core;
 use arkania\manager\FactionManager;
-use arkania\manager\ProtectionManager;
 use arkania\utils\trait\Webhook;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
@@ -90,7 +89,6 @@ final class FactionCommand extends BaseCommand {
             }
 
             $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->sendFactionLogs('**FACTION - DISBAND**', "La faction vient d'être supprimé par **" . $player->getName() . "**");
-            self::sendToastPacket($player, '§7-> §fFACTION', "§cVOUS VENEZ DE SUPPRIMER LA FACTION §e" . $factionManager->getFaction($player->getName()) . " §c!");
             $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->disbandFaction();
             foreach ($this->core->getServer()->getOnlinePlayers() as $onlinePlayer)
                 $this->core->getRanksManager()->updateNameTag($onlinePlayer);
@@ -120,10 +118,6 @@ final class FactionCommand extends BaseCommand {
             }
 
             $player->sendMessage(Utils::getPrefix() . "§aVous venez de quitter la faction §e" . $factionManager->getFaction($player->getName()) . "§a.");
-            foreach ($this->core->getServer()->getOnlinePlayers() as $factionMembers) {
-                if ($factionManager->getFaction($factionMembers->getName()) === $factionManager->getFaction($player->getName()))
-                    self::sendToastPacket($factionMembers, "§7-> §fFACTION", "§e" . $player->getName() . " §cvient de quitter la faction");
-            }
             $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->removeMember($player->getName());
         }elseif(strtolower($args[0]) === 'invite'){
 
@@ -555,7 +549,6 @@ final class FactionCommand extends BaseCommand {
             }
 
             $factionManager->getFactionClass($faction, $player->getName())->sendFactionLogs('**FACTION - DISBAND**', "La faction vient d'être supprimé par **" . $this->core->getRanksManager()->getPlayerRank($player->getName()) . "-" . $player->getName() . "** (membre du staff d'arkania)");
-            self::sendToastPacket($player, '§7-> §fFACTION', "§cVOUS VENEZ DE SUPPRIMER LA FACTION §e" . $faction . " §c!");
             $factionManager->getFactionClass($faction, $player->getName())->disbandFaction();
             foreach ($this->core->getServer()->getOnlinePlayers() as $onlinePlayer)
                 $this->core->getRanksManager()->updateNameTag($onlinePlayer);

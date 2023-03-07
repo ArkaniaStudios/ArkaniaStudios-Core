@@ -274,4 +274,34 @@ final class SanctionManager {
         return $ret;
     }
 
+    /**
+     * @param $player
+     * @param $value
+     * @return void
+     */
+    public function addPlayerWarn($player, $value): void {
+        $warns = $this->getWarns($player);
+        if (!$warns) $warns = [];
+        var_dump($warns);
+        $warns[] = $value;
+        var_dump($warns);
+        $newWarn = serialize($warns);
+        var_dump($newWarn);
+        Query::query("UPDATE warn SET value='$newWarn' WHERE name='$player'");
+    }
+
+    /**
+     * @param $player
+     * @return array
+     */
+    public function getWarns($player): array {
+        $db = self::getDataBase()->query("SELECT value FROM warn WHERE name='$player'");
+        $result = $db->fetch_array()[0] ?? [];
+        var_dump($result);
+        var_dump(unserialize($result));
+        if ($result !== [])
+            return unserialize($result);
+        return [];
+    }
+
 }
