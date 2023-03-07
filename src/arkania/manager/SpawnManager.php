@@ -32,19 +32,16 @@ final class SpawnManager {
     }
 
     /**
-     * @param float $x
-     * @param float $y
-     * @param float $z
-     * @param string $world
+     * @param Position $position
      * @return void
      * @throws JsonException
      */
-    public function setServerSpawn(float $x, float $y, float $z, string $world): void {
+    public function setServerSpawn(Position $position): void {
         $config = $this->core->config;
-        $config->setNested('spawn.x', $x);
-        $config->setNested('spawn.y', $y);
-        $config->setNested('spawn.z', $z);
-        $config->setNested('spawn.world', $world);
+        $config->setNested('spawn.x', $position->getX());
+        $config->setNested('spawn.y', $position->getY());
+        $config->setNested('spawn.z', $position->getZ());
+        $config->setNested('spawn.world', $position->getWorld()->getFolderName());
         $config->save();
     }
 
@@ -54,10 +51,10 @@ final class SpawnManager {
      */
     public function teleportSpawn(Player $player): void {
         $config = $this->core->config;
-        $x = $config->get('spawn')['x'];
-        $y = $config->get('spawn')['y'];
-        $z = $config->get('spawn')['z'];
-        $world = $config->get('spawn')['world'];
+        $x = $config->getNested('spawn.x');
+        $y = $config->getNested('spawn.y');
+        $z = $config->getNested('spawn.z');
+        $world = $config->getNested('spawn.world');
         Server::getInstance()->getWorldManager()->loadWorld($world);
         $player->teleport(new Position($x, $y, $z, $this->core->getServer()->getWorldManager()->getWorldByName($world)));
     }

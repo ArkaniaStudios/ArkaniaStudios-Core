@@ -21,7 +21,7 @@ use arkania\Core;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
-use pocketmine\item\ItemFactory;
+use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;
 
 final class CashCommand extends BaseCommand {
@@ -75,15 +75,15 @@ final class CashCommand extends BaseCommand {
             return true;
         }
 
-        $item = ItemFactory::getInstance()->get(339);
+        $item = VanillaItems::PAPER();
         if (!$player->getInventory()->canAddItem($item)){
             $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas assez de place dans votre inventaire.");
             return true;
         }
-        $item->setCustomName("§fBillet §c($args[0])");
+        $item->setCustomName("§fBillet (§e$args[0]§f)");
         $player->sendMessage(Utils::getPrefix() . "Vous avez convertis §e$args[0] §fen billet.");
         $player->getInventory()->addItem($item);
-        $this->core->getEconomyManager()->delMoney($player->getName(), $args[0]);
+        $this->core->getEconomyManager()->delMoney($player->getName(), (int)$args[0]);
         return true;
     }
 }

@@ -81,7 +81,8 @@ final class PlayerJoinEvent implements Listener {
                 $this->core->getServer()->broadcastMessage(Utils::getPrefix() . "§e" . $player->getName() . "§f vient de rejoindre §cArkania §fpour la première fois ! (§7§o#" . $this->core->getStatsManager()->getPlayerRegister() . "§f)");
                 $event->setJoinMessage('');
         }else{
-            $event->setJoinMessage('[§a+§f] ' . RanksManager::getRanksFormatPlayer($player));
+            $event->setJoinMessage('');
+            $player->sendPopup('[§a+§f] ' . RanksManager::getRanksFormatPlayer($player));
         }
     }
 }

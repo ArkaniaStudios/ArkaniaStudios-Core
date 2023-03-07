@@ -18,46 +18,44 @@ namespace arkania\commands\admin;
 
 use arkania\commands\BaseCommand;
 use arkania\Core;
+use arkania\manager\HomeManager;
 use arkania\utils\Utils;
-use JsonException;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
-use pocketmine\world\Position;
 
-final class SetSpawnCommand extends BaseCommand {
+final class AdminHomeCommand extends BaseCommand {
 
     /** @var Core */
     private Core $core;
 
-    public function __construct(Core $core){
-        parent::__construct('setspawn',
-        'Setspawn - ArkaniaStudios',
-        '/setspawn');
-        $this->setPermission('arkania:permission.setspawn');
+    public function __construct(Core $core) {
+        parent::__construct('adminhome',
+        'Adminhome - ArkaniaStudios',
+        '/adminhome <player>');
+        $this->setPermission('arkania:permission.adminhome');
         $this->core = $core;
     }
 
-    /**
-     * @param CommandSender $player
-     * @param string $commandLabel
-     * @param array $args
-     * @return bool
-     * @throws JsonException
-     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
-
         if (!$player instanceof Player)
             return true;
 
         if (!$this->testPermission($player))
             return true;
 
-        if (count($args) !== 0)
+        if (count($args) !== 2)
             return throw new InvalidCommandSyntaxException();
 
-        $this->core->getSpawnManager()->setServerSpawn(new Position($player->getPosition()->getX(), $player->getPosition()->getY(), $player->getPosition()->getZ(), $player->getWorld()));
-        $player->sendMessage(Utils::getPrefix() . "§aVous avez définis le spawn du serveur en : " . PHP_EOL . "x: §e" . $player->getPosition()->getX() . PHP_EOL . '§ay: §e' . $player->getPosition()->getY() . PHP_EOL . '§az: §e' . $player->getPosition()->getZ() . PHP_EOL . '§aMonde: §e' . $player->getWorld()->getDisplayName());
+        $homeManager = new HomeManager($args[0]);
+
+        if (count($homeManager->getAllHome()) === 0){
+            $player->sendMessage(Utils::getPrefix() . "§cLe joueur §e" . $args[0] . "§c n'a pas home.");
+            return true;
+        }
+
+
+
         return true;
     }
 }

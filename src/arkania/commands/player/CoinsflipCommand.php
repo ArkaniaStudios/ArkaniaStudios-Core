@@ -63,7 +63,7 @@ final class CoinsflipCommand extends BaseCommand {
         $rand = mt_rand(1,100);
 
         if ($rand >= 30){
-            $economyAPI->delMoney($player->getName(), $args[0]);
+            $economyAPI->delMoney($player->getName(), (int)$args[0]);
             $player->sendMessage(Utils::getPrefix() . "§cVous avez perdu §e" . $args[0] . "§c.");
         }else{
             $economyAPI->addMoney($player->getName(), $args[0] * 2);

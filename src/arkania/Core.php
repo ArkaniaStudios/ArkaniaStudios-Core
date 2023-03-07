@@ -41,7 +41,6 @@ use arkania\utils\Utils;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 use pocketmine\utils\SingletonTrait;
-use ReflectionException;
 
 class Core extends PluginBase {
     use SingletonTrait;
@@ -113,9 +112,6 @@ class Core extends PluginBase {
         }*/
     }
 
-    /**
-     * @throws ReflectionException
-     */
     protected function onEnable(): void {
         /* Config */
         if (!file_exists($this->getDataFolder() . 'config.yml'))

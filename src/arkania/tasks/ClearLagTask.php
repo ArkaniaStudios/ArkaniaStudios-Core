@@ -47,7 +47,7 @@ final class ClearLagTask extends Task {
             foreach ($this->core->getServer()->getOnlinePlayers() as $player) {
                 $settings = new SettingsManager($player);
                 if ($settings->getSettings(SettingsNameIds::CLEARLAG) === false)
-                    $player->sendMessage(Utils::getPrefix() . "§cUn clearlag aura lieu dans §e" . $time . " secondes §c!");
+                    $player->sendPopup("§cUn clearlag aura lieu dans §e" . $time . " secondes §c!");
             }
         }
 
@@ -65,7 +65,7 @@ final class ClearLagTask extends Task {
                 foreach ($this->core->getServer()->getOnlinePlayers() as $player){
                     $settings = new SettingsManager($player);
                     if ($settings->getSettings(SettingsNameIds::CLEARLAG) === false)
-                        $player->sendMessage(Utils::getPrefix() . "§cIl y a eu §e" . $count . " entité(s) §csupprimé(s) !");
+                        $player->sendPopup("§cIl y a eu §e" . $count . " entité(s) §csupprimé(s) !");
                 }
             }
             self::$time = 300;

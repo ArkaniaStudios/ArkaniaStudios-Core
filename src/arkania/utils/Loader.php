@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace arkania\utils;
 
+use arkania\commands\admin\AdminHomeCommand;
 use arkania\commands\admin\AdminKitCommand;
 use arkania\commands\admin\MaintenanceCommand;
 use arkania\commands\admin\money\AddMoneyCommand;
@@ -41,8 +42,10 @@ use arkania\commands\player\ClassementCommand;
 use arkania\commands\player\CoinsflipCommand;
 use arkania\commands\player\CoordinateCommand;
 use arkania\commands\player\CreditCommand;
+use arkania\commands\player\DelHomeCommand;
 use arkania\commands\player\DiscordCommand;
 use arkania\commands\player\FactionCommand;
+use arkania\commands\player\HomeCommand;
 use arkania\commands\player\InfoCommand;
 use arkania\commands\player\KitsCommand;
 use arkania\commands\player\ListCommand;
@@ -54,6 +57,7 @@ use arkania\commands\player\PingCommand;
 use arkania\commands\player\ReplyCommand;
 use arkania\commands\player\ServerInfoCommand;
 use arkania\commands\player\ServerSelectorCommand;
+use arkania\commands\player\SetHomeCommand;
 use arkania\commands\player\SettingsCommand;
 use arkania\commands\player\SiteCommand;
 use arkania\commands\player\SpawnCommand;
@@ -62,6 +66,7 @@ use arkania\commands\player\TpaCommand;
 use arkania\commands\player\TpaHereCommand;
 use arkania\commands\player\TpDenyCommand;
 use arkania\commands\player\VoteCommand;
+use arkania\commands\player\WarnsCommand;
 use arkania\commands\player\WikiCommand;
 use arkania\commands\player\XpBottleCommand;
 use arkania\commands\ranks\BackCommand;
@@ -88,6 +93,7 @@ use arkania\commands\staff\TempsBanCommand;
 use arkania\commands\staff\TpWorldCommand;
 use arkania\commands\staff\UnBanCommand;
 use arkania\commands\staff\UnMuteCommand;
+use arkania\commands\staff\WarnCommand;
 use arkania\Core;
 use arkania\entity\base\BaseEntity;
 use arkania\entity\entities\VillagerEntity;
@@ -118,7 +124,6 @@ use pocketmine\entity\EntityFactory;
 use pocketmine\entity\Location;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\world\World;
-use ReflectionException;
 
 final class Loader {
 
@@ -129,9 +134,6 @@ final class Loader {
         $this->core = $core;
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function init(): void {
         $this->initEvents();
         $this->initUnLoadCommand();
@@ -188,6 +190,7 @@ final class Loader {
             new AdminKitCommand($this->core),
             new SetSpawnCommand($this->core),
             new SetBoxCommand($this->core),
+            new AdminHomeCommand($this->core),
 
             /* Moderation */
             new KickCommand($this->core),
@@ -204,6 +207,7 @@ final class Loader {
             new MuteCommand($this->core),
             new UnMuteCommand($this->core),
             new MuteListCommand($this->core),
+            new WarnCommand($this->core),
 
             /* Grade */
             new FeedCommand(),
@@ -248,6 +252,10 @@ final class Loader {
             new CoinsflipCommand($this->core),
             new ClassementCommand($this->core),
             new BoxCommand($this->core),
+            new SetHomeCommand(),
+            new DelHomeCommand(),
+            new HomeCommand(),
+            new WarnsCommand($this->core),
             ];
 
         $this->core->getServer()->getCommandMap()->registerAll('Arkania-Commands', $commands);
