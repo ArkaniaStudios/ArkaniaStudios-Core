@@ -19,6 +19,7 @@ namespace arkania\commands\player;
 use arkania\commands\BaseCommand;
 use arkania\Core;
 use arkania\manager\FactionManager;
+use arkania\manager\ProtectionManager;
 use arkania\utils\trait\Webhook;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
@@ -686,6 +687,11 @@ final class FactionCommand extends BaseCommand {
 
             if ($factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->getOwner() !== $player->getName()){
                 $player->sendMessage(Utils::getPrefix() . "§cVous devez être le chef de votre faction pour pouvoir faire ceci.");
+                return true;
+            }
+
+            if (ProtectionManager::isInProtectedZone($player->getLocation(), 'warzone')){
+                $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez pas claim dans le spawn.");
                 return true;
             }
 

@@ -7,7 +7,7 @@
 #@author: Julien
 
 name: ArkaniaStudios-Core
-version: 1.0.2
+version: 1.0.3
 main: arkania\Core
 api: 4.14.1
 authors:

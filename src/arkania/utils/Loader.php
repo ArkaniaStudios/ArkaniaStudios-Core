@@ -97,12 +97,18 @@ use arkania\commands\staff\WarnCommand;
 use arkania\Core;
 use arkania\entity\base\BaseEntity;
 use arkania\entity\entities\VillagerEntity;
+use arkania\events\entity\BlockBreakEvent;
+use arkania\events\entity\BlockPlaceEvent;
+use arkania\events\entity\CommandEvent;
 use arkania\events\entity\EntityDamageEntityEvent;
+use arkania\events\entity\EntityDamageEvent;
 use arkania\events\players\PlayerChatEvent;
+use arkania\events\players\PlayerCommandProcessEvent;
 use arkania\events\players\PlayerDeathEvent;
 use arkania\events\players\PlayerInteractEvent;
 use arkania\events\players\PlayerJoinEvent;
 use arkania\events\players\PlayerLoginEvent;
+use arkania\events\players\PlayerMoveEvent;
 use arkania\events\players\PlayerQuitEvent;
 use arkania\factions\events\FactionListener;
 use arkania\factions\FactionClass;
@@ -117,6 +123,7 @@ use arkania\manager\SettingsManager;
 use arkania\manager\StatsManager;
 use arkania\manager\SynchronisationManager;
 use arkania\tasks\ClearLagTask;
+use arkania\tasks\MessageTask;
 use pocketmine\data\bedrock\EntityLegacyIds;
 use pocketmine\entity\Entity;
 use pocketmine\entity\EntityDataHelper;
@@ -273,8 +280,14 @@ final class Loader {
             new PlayerChatEvent($this->core),
             new PlayerInteractEvent($this->core),
             new PlayerDeathEvent(),
+            new PlayerCommandProcessEvent(),
+            new PlayerMoveEvent($this-> core),
 
             new EntityDamageEntityEvent($this->core),
+            new BlockPlaceEvent(),
+            new BlockBreakEvent(),
+            new EntityDamageEvent(),
+            new CommandEvent($this->core),
 
             new SynchronisationListener($this->core),
             new StaffModeListener($this->core),
@@ -307,6 +320,7 @@ final class Loader {
      */
     private function initTask(): void {
         $this->core->getScheduler()->scheduleRepeatingTask(new ClearLagTask($this->core, 300), 20);
+        $this->core->getScheduler()->scheduleRepeatingTask(new MessageTask($this->core), 9000);
     }
 
     /**

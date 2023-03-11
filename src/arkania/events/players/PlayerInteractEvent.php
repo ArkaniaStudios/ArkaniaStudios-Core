@@ -57,7 +57,7 @@ final class PlayerInteractEvent implements Listener {
                 $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get($item->getID(), $item->getMeta(), $item->getCount() - 1));
             }
         }
-        if ($item->getId() == VanillaItems::PAPER()){
+        if ($item->getId() == VanillaItems::PAPER()->getId()){
             $event->cancel();
 
             if (str_contains($itemName, $name)){
