@@ -4,31 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="Release 1.0.1">
-      <change afterPath="$PROJECT_DIR$/banner.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/commands/admin/AdminHomeCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/commands/player/DelHomeCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/commands/player/HomeCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/commands/player/SetHomeCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/commands/player/WarnsCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/commands/staff/WarnCommand.php" afterDir="false" />
+    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="Release 1.0.2">
+      <change afterPath="$PROJECT_DIR$/src/arkania/events/animations/purif/PurifAnimation.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/events/entity/BlockBreakEvent.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/events/entity/BlockPlaceEvent.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/events/entity/CommandEvent.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/events/entity/EntityDamageEvent.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerCommandProcessEvent.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerMoveEvent.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/tasks/MessageTask.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arkania/tasks/PurifTask.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/plugin.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/Core.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/Core.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/admin/SetSpawnCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/admin/SetSpawnCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/CashCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/CashCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/CoinsflipCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/CoinsflipCommand.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/FactionCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/FactionCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/events/entity/EntityDamageEntityEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/entity/EntityDamageEntityEvent.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/events/players/PlayerInteractEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerInteractEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/events/players/PlayerJoinEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerJoinEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/manager/HomeManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/HomeManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/manager/SanctionManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/SanctionManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/manager/ShopManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/ShopManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/manager/SpawnManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/SpawnManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/tasks/ClearLagTask.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/tasks/ClearLagTask.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/tasks/TeleportTask.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/tasks/TeleportTask.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/jobs/class/Mineur.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/jobs/class/Mineur.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/listener/SynchronisationListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/listener/SynchronisationListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/ProtectionManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/ProtectionManager.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/utils/Loader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/Loader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/serialize.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/serialize.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,7 +136,12 @@
       <workItem from="1678043941442" duration="1071000" />
       <workItem from="1678133892814" duration="752000" />
       <workItem from="1678143100167" duration="3856000" />
-      <workItem from="1678183042561" duration="17785000" />
+      <workItem from="1678183042561" duration="18677000" />
+      <workItem from="1678292523829" duration="2000" />
+      <workItem from="1678295011721" duration="1000" />
+      <workItem from="1678301936214" duration="9702000" />
+      <workItem from="1678385192866" duration="2880000" />
+      <workItem from="1678478716137" duration="7333000" />
     </task>
     <task id="LOCAL-00001" summary="add template">
       <created>1676844106724</created>
@@ -443,7 +444,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678021716746</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="Release 1.0.2">
+      <created>1678218491877</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1678218491877</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -461,7 +469,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add same update (juste bug with synchronizer)" />
     <MESSAGE value="update template" />
     <MESSAGE value="update" />
     <MESSAGE value="update all manager" />
@@ -486,6 +493,7 @@
     <MESSAGE value="claim system (il restera un ou deux truc à régler mais dans l'essemble il est bon)&#10;&#10;Modification de la task de redem &#10;L'url des webhooks ne fait plus crash quand on le met" />
     <MESSAGE value="Release 1.0.0" />
     <MESSAGE value="Release 1.0.1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Release 1.0.1" />
+    <MESSAGE value="Release 1.0.2" />
+    <option name="LAST_COMMIT_MESSAGE" value="Release 1.0.2" />
   </component>
 </project>

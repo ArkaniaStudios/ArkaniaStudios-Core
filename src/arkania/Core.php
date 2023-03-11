@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace arkania;
 
 use arkania\commands\ranks\CraftCommand;
+use arkania\events\animations\purif\PurifAnimation;
 use arkania\inventory\CraftingTableTypeInventory;
 use arkania\jobs\JobsManager;
 use arkania\libs\muqsit\invmenu\InvMenuHandler;
@@ -102,6 +103,15 @@ class Core extends PluginBase {
     /** @var BoxManager */
     private BoxManager $boxManager;
 
+    /** @var Config */
+    public Config $koth;
+
+    /** @var Config */
+    public Config $purif;
+
+    /** @var PurifAnimation */
+    private PurifAnimation $purifManager;
+
 
     protected function onLoad(): void {
         self::setInstance($this);
@@ -120,6 +130,8 @@ class Core extends PluginBase {
             @mkdir($this->getDataFolder() . 'kits/');
         if (!file_exists($this->getDataFolder() . 'homes/'))
             @mkdir($this->getDataFolder() . 'homes/');
+        if (!file_exists($this->getDataFolder() . 'animations/'))
+            @mkdir($this->getDataFolder() . 'animations/');
 
         /* InvMenu */
         if (!InvMenuHandler::isRegistered())
@@ -145,6 +157,8 @@ class Core extends PluginBase {
         $this->spawnManager = new SpawnManager($this);
         $this->teleportManager = new TeleportManager();
         $this->boxManager = new BoxManager($this);
+
+        $this->purifManager = new PurifAnimation($this);
 
         $this->factionManager->loadAllConfig();
         $this->loadAllConfig();
@@ -198,6 +212,8 @@ class Core extends PluginBase {
      */
     protected function loadAllConfig(): void {
         $this->config = $this->getConfig();
+        $this->koth = new Config($this->getDataFolder() . 'animations/koth.yml', Config::YAML);
+        $this->purif = new Config($this->getDataFolder() . 'animations/purif.yml', Config::YAML);
     }
 
     /**
@@ -317,6 +333,13 @@ class Core extends PluginBase {
      */
     public function getBoxManager(): BoxManager {
         return $this->boxManager;
+    }
+
+    /**
+     * @return PurifAnimation
+     */
+    public function getPurifAnimation(): PurifAnimation {
+        return $this->purifManager;
     }
 
 }

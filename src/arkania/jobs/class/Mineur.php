@@ -25,7 +25,7 @@ class Mineur implements Jobs {
     use Provider;
 
     /** @var array */
-    private array $jobs = [];
+    private array $jobs;
 
     /**
      * @return void
@@ -195,7 +195,7 @@ class Mineur implements Jobs {
      * @return int
      */
     public function getPlayerXp($playerName): int {
-        return (int)$this->jobs[$playerName]['xp'];
+        return (int)$this->jobs[$playerName][0];
     }
 
     /**
@@ -203,7 +203,7 @@ class Mineur implements Jobs {
      * @return int
      */
     public function getPlayerLevel($playerName): int {
-        return (int)$this->jobs[$playerName]['level'];
+        return (int)$this->jobs[$playerName][1];
     }
 
     /**
@@ -244,10 +244,11 @@ class Mineur implements Jobs {
      * @return void
      */
     public function synchroJobsOnJoin(Player $player): void {
-        $xp = $this->getProvider()->query("SELECT xp FROM mineur WHERE name='" . $player->getName() . "'");
-        $level = $this->getProvider()->query("SELECT level FROM mineur WHERE name='" . $player->getName() . "'");
-        $this->jobs[$player->getName()]['xp'] = $xp;
-        $this->jobs[$player->getName()]['level'] = $level;
+        $xpDB = $this->getProvider()->query("SELECT xp FROM mineur WHERE name='" . $player->getName() . "'");
+        $xp = $xpDB->fetch_array()[0] ?? 0;
+        $levelDB = $this->getProvider()->query("SELECT level FROM mineur WHERE name='" . $player->getName() . "'");
+        $level = $levelDB->fetch_array()[0] ?? 0;
+        $this->jobs[$player->getName()] = array($xp, $level);
     }
 
     /**
@@ -255,9 +256,8 @@ class Mineur implements Jobs {
      * @return void
      */
     public function synchroJobsOnQuit(Player $player): void {
-        $xp = $this->getPlayerXp($player);
-        $level = $this->getPlayerLevel($player);
-
+        $xp = $this->getPlayerXp($player->getName());
+        $level = $this->getPlayerLevel($player->getName());
         Query::query("UPDATE mineur SET xp='$xp', WHERE name='" . $player->getName() . "'");
         Query::query("UPDATE mineur SET level='$level', WHERE name='" . $player->getName() . "'");
     }
