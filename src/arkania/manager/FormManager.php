@@ -749,7 +749,6 @@ final class FormManager {
         });
         $menu->send($player);
     }
-
     /**
      * @param Player $player
      * @return void

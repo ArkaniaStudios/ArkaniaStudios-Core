@@ -23,9 +23,10 @@ class Query {
 
     /**
      * @param string $text
+     * @param callable|null $completion
      * @return void
      */
-    public static function query(string $text): void {
-        Server::getInstance()->getAsyncPool()->submitTask(new QueryTask($text));
+    public static function query(string $text, callable $completion = null): void{
+        Server::getInstance()->getAsyncPool()->submitTask(new QueryTask($text, $completion));
     }
 }

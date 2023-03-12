@@ -72,7 +72,7 @@ final class SetRankCommand extends BaseCommand {
             return true;
         }
 
-        $this->sendDiscordWebhook('**SETRANK**', "'Le grade de **' . $target . '** vient d'être changé. " . PHP_EOL . PHP_EOL . "Staff: " . Utils::removeColorOnMessage($rank) . PHP_EOL . "Ancien grade" . $this->core->getRanksManager()->getPlayerRank($target) . PHP_EOL . "Nouveau grade : " . $args[1], '・Système de grade - ArkaniaStudios', 0xF89, WebhookData::SETRANK);
+        $this->sendDiscordWebhook('**SETRANK**', "Le grade de **$target** vient d'être changé. " . PHP_EOL . PHP_EOL . "Staff: " . Utils::removeColorOnMessage($rank) . PHP_EOL . "Ancien grade: " . $this->core->getRanksManager()->getPlayerRank($target) . PHP_EOL . "Nouveau grade : " . $args[1], '・Système de grade - ArkaniaStudios', 0xF89, WebhookData::SETRANK);
         $this->core->getRanksManager()->setRank($target, $args[1]);
         $vip_rank = [
             'Noble',

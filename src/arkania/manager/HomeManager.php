@@ -94,7 +94,7 @@ final class HomeManager {
      * @return Config
      */
     public function getHomeAdmin(string $player): Config {
-        return new Config(Core::getInstance()->getDataFolder() . $player . '.json', Config::JSON);
+        return new Config(Core::getInstance()->getDataFolder() . 'homes/' . $player . '.json', Config::JSON);
     }
 
     /**
