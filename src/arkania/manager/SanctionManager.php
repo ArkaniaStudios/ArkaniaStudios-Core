@@ -282,12 +282,14 @@ final class SanctionManager {
     public function addPlayerWarn($player, $value): void {
         $warns = $this->getWarns($player);
         if (!$warns) $warns = [];
-        var_dump($warns);
         $warns[] = $value;
-        var_dump($warns);
         $newWarn = serialize($warns);
-        var_dump($newWarn);
-        Query::query("UPDATE warn SET value='$newWarn' WHERE name='$player'");
+        $db = self::getDataBase()->query("SELECT * FROM warn WHERE name='" . $player . "'");
+        if ($db->num_rows > 1)
+            Query::query("UPDATE warn SET value='$newWarn' WHERE name='$player'");
+        else
+            Query::query("INSERT INTO warn (name, value) VALUES ('$player', '$newWarn')");
+        $db->close();
     }
 
     /**
@@ -296,10 +298,8 @@ final class SanctionManager {
      */
     public function getWarns($player): array {
         $db = self::getDataBase()->query("SELECT value FROM warn WHERE name='$player'");
-        $result = $db->fetch_array()[0] ?? [];
-        var_dump($result);
-        var_dump(unserialize($result));
-        if ($result !== [])
+        $result = $db->fetch_array()[0] ?? false;
+        if (is_string($result))
             return unserialize($result);
         return [];
     }

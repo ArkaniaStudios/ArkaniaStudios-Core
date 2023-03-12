@@ -59,6 +59,7 @@ use arkania\commands\player\ServerInfoCommand;
 use arkania\commands\player\ServerSelectorCommand;
 use arkania\commands\player\SetHomeCommand;
 use arkania\commands\player\SettingsCommand;
+use arkania\commands\player\ShopCommand;
 use arkania\commands\player\SiteCommand;
 use arkania\commands\player\SpawnCommand;
 use arkania\commands\player\TpacceptCommand;
@@ -197,7 +198,7 @@ final class Loader {
             new AdminKitCommand($this->core),
             new SetSpawnCommand($this->core),
             new SetBoxCommand($this->core),
-            new AdminHomeCommand($this->core),
+            new AdminHomeCommand(),
 
             /* Moderation */
             new KickCommand($this->core),
@@ -263,6 +264,7 @@ final class Loader {
             new DelHomeCommand(),
             new HomeCommand(),
             new WarnsCommand($this->core),
+            new ShopCommand($this->core),
             ];
 
         $this->core->getServer()->getCommandMap()->registerAll('Arkania-Commands', $commands);

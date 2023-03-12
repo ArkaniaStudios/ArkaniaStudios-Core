@@ -64,7 +64,7 @@ final class PlayerInteractEvent implements Listener {
                 $money = explode("§fBillet (", $itemName);
                 $money = explode("§f)", $money[1]);
                 $money = intval($money[0]);
-                $this->core->getEconomyManager()->addMoney($player, $money);
+                $this->core->getEconomyManager()->addMoney($player->getName(), $money);
                 $itemremove = ItemFactory::getInstance()->get($item->getId(), $item->getMeta(), $item->getCount() - 1);
                 $itemremove->setCustomName($itemName);
                 $player->getInventory()->setItemInHand($itemremove);

@@ -31,6 +31,7 @@ use arkania\manager\NickManager;
 use arkania\manager\RanksManager;
 use arkania\manager\SanctionManager;
 use arkania\manager\ServerStatusManager;
+use arkania\manager\ShopManager;
 use arkania\manager\SpawnManager;
 use arkania\manager\StaffManager;
 use arkania\manager\StatsManager;
@@ -112,6 +113,9 @@ class Core extends PluginBase {
     /** @var PurifAnimation */
     private PurifAnimation $purifManager;
 
+    /** @var ShopManager */
+    private ShopManager $shopManager;
+
 
     protected function onLoad(): void {
         self::setInstance($this);
@@ -157,13 +161,13 @@ class Core extends PluginBase {
         $this->spawnManager = new SpawnManager($this);
         $this->teleportManager = new TeleportManager();
         $this->boxManager = new BoxManager($this);
-
+        $this->shopManager = new ShopManager($this);
         $this->purifManager = new PurifAnimation($this);
 
-        $this->factionManager->loadAllConfig();
         $this->loadAllConfig();
         $loader = new Loader($this);
         $loader->init();
+        $this->getFactionManager()->loadAllConfig();
 
         /* Ranks */
         if (!$this->ranksManager->existRank('Joueur'))
@@ -340,6 +344,13 @@ class Core extends PluginBase {
      */
     public function getPurifAnimation(): PurifAnimation {
         return $this->purifManager;
+    }
+
+    /**
+     * @return ShopManager
+     */
+    public function getShopManager(): ShopManager {
+        return $this->shopManager;
     }
 
 }

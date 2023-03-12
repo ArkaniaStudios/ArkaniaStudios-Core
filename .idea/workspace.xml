@@ -4,27 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="Release 1.0.2">
-      <change afterPath="$PROJECT_DIR$/src/arkania/events/animations/purif/PurifAnimation.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/events/entity/BlockBreakEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/events/entity/BlockPlaceEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/events/entity/CommandEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/events/entity/EntityDamageEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerCommandProcessEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerMoveEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/tasks/MessageTask.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/arkania/tasks/PurifTask.php" afterDir="false" />
+    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="Release 1.0.3">
+      <change afterPath="$PROJECT_DIR$/src/arkania/commands/player/ShopCommand.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/11afa8bd-3b75-4fa7-b1c1-950cc8d2fa3a.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/11afa8bd-3b75-4fa7-b1c1-950cc8d2fa3a.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/npc/data.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/shop.yml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/Core.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/Core.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/FactionCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/FactionCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/events/entity/EntityDamageEntityEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/entity/EntityDamageEntityEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/admin/AdminHomeCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/admin/AdminHomeCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/admin/ranks/SetRankCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/admin/ranks/SetRankCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/WarnsCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/WarnsCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/staff/WarnCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/staff/WarnCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/data/WebhookData.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/data/WebhookData.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/events/players/PlayerInteractEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerInteractEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/jobs/class/Mineur.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/jobs/class/Mineur.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/listener/SynchronisationListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/listener/SynchronisationListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/manager/ProtectionManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/ProtectionManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/FormManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/FormManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/HomeManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/HomeManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/SanctionManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/SanctionManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/ShopManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/ShopManager.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/utils/Loader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/Loader.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/serialize.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/serialize.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,14 +63,14 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/dumon/OneDrive/Documents/ArkaniaStudios/ArkaniaStudios-LobbyCore&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/dumon/Downloads/AUSOLEIL_CORE_PM4&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;php.override.implement.member.chooser.php.doc&quot;: &quot;NONE&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.webide.settings.project.settings.php&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;discord-application&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -142,6 +142,15 @@
       <workItem from="1678301936214" duration="9702000" />
       <workItem from="1678385192866" duration="2880000" />
       <workItem from="1678478716137" duration="7333000" />
+      <workItem from="1678538222355" duration="6808000" />
+      <workItem from="1678551281812" duration="44000" />
+      <workItem from="1678551349371" duration="7256000" />
+      <workItem from="1678558692712" duration="8217000" />
+      <workItem from="1678576445349" duration="1889000" />
+      <workItem from="1678636437988" duration="67000" />
+      <workItem from="1678637927588" duration="2000" />
+      <workItem from="1678638148618" duration="35000" />
+      <workItem from="1678638954652" duration="1030000" />
     </task>
     <task id="LOCAL-00001" summary="add template">
       <created>1676844106724</created>
@@ -451,7 +460,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678218491877</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="Release 1.0.3">
+      <created>1678538271185</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1678538271185</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -469,7 +485,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="update template" />
     <MESSAGE value="update" />
     <MESSAGE value="update all manager" />
     <MESSAGE value="update jobs" />
@@ -494,6 +509,7 @@
     <MESSAGE value="Release 1.0.0" />
     <MESSAGE value="Release 1.0.1" />
     <MESSAGE value="Release 1.0.2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Release 1.0.2" />
+    <MESSAGE value="Release 1.0.3" />
+    <option name="LAST_COMMIT_MESSAGE" value="Release 1.0.3" />
   </component>
 </project>

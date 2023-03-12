@@ -30,5 +30,7 @@ interface WebhookData {
     const JOBS = 'https://discord.com/api/webhooks/1078729851244138647/bGUJIDUr6jFiKCCC5YdzMC7C8h55w1Volj4bgCVQWNUZs_khfS0bOvo2h4GvOlkooKEP';
     const OTHER = 'https://discord.com/api/webhooks/1078730410231611413/JHrXNFUDzVS8JuAUHcF-3sMBHIqFEeEmF0whpV7_H5azYZuSjT0lriSqwgIJ6diLJ2o7';
 
+    const HOME = 'https://discord.com/api/webhooks/1084159559767167028/ePEMgg5PAscvTOdRIvVZD2-eRxITt1JY2rcf77LRNGva35PbkTJx3-AzdtAJ0PDuW2-3';
+
 
 }
