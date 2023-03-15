@@ -68,6 +68,18 @@ final class ShopManager {
 
             if ($data === 0)
                 $this->sendLogOakForm($player);
+            elseif($data === 1)
+                $this->sendLogBirchForm($player);
+            elseif($data === 2)
+                $this->sendLogAcaciaForm($player);
+            elseif($data === 3)
+                $this->sendLogSpruceForm($player);
+            elseif($data === 4)
+                $this->sendStoneForm($player);
+            elseif($data === 5)
+                $this->sendCobblestoneForm($player);
+            else
+                $this->sendShopForm($player);
 
         });
         $form->setTitle('§c- §fBlocs §c-');
@@ -76,7 +88,6 @@ final class ShopManager {
         $form->addButton('§7» §rBois de bouleau', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/log_birch');
         $form->addButton('§7» §rBois d\'acacia', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/log_acacia');
         $form->addButton('§7» §rBois de sapin', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/log_big_oak');
-        $form->addButton('§7» §rBois de bouleau', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/log_birch');
         $form->addButton('§7» §rPierre', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/stone');
         $form->addButton('§7» §rPierre taillé', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/cobblestone');
         $form->addButton('§7» §cRetour', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/barrier');
@@ -175,6 +186,201 @@ final class ShopManager {
         $player->sendForm($form);
     }
 
+    /**
+     * @param Player $player
+     * @return void
+     */
+    public function sendLogAcaciaForm(Player $player): void {
+        $form = new CustomForm(function (Player $player, $data){
+            if (is_null($data))
+                return;
+
+            $action = ['§aAcheter', '$cVendre'];
+
+            if ($action[$data[1]] === '§aAcheter'){
+                $item = ItemFactory::getInstance()->get(VanillaBlocks::ACACIA_LOG()->asItem()->getId(), 0, (int)$data[2]);
+                if (!$player->getInventory()->canAddItem($item)){
+                    $player->sendMessage(Utils::getPrefix() . "§cVotre inventaire est complet vous ne pouvez donc pas acheter §e" . (int)$data[2] . "§c bois d'acacia.");
+                    return;
+                }
+
+                if ($this->core->getEconomyManager()->getMoney($player->getName()) < (int)$data[2] * 4){
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas assez d'argent pour acheter §e" . (int)$data[2] . "§c bois d'acacia.");
+                    return;
+                }
+
+                $this->core->getEconomyManager()->delMoney($player->getName(), (int)$data[2] * 4);
+                $player->getInventory()->addItem($item);
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez acheté §e" . (int)$data[2] . '§a bois d\'acacia pour un total de §e' . (int)$data[2] * 4 . '§a.');
+            }else{
+                $item = $this->countItem($player, VanillaBlocks::ACACIA_LOG()->asItem()->getId());
+                $itemSell = ItemFactory::getInstance()->get(VanillaBlocks::ACACIA_LOG()->asItem()->getId(), 0, (int)$data[2]);
+                if ((int)$data[2] > $item){
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas §e" . (int)$data[2] . "§c bois d'acacia à vendre.");
+                    return;
+                }
+                $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2]);
+                $player->getInventory()->remove($itemSell);
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] . "§a bois d'acacia pour §e$data[2].");
+
+            }
+        });
+        $form->setTitle('§c- §fBois d\'acacia §c-');
+        $form->setContent('-------------------------------' . PHP_EOL . '§7» §rVous avez actuellement §e' . $this->core->getEconomyManager()->getMoney($player->getName()) . '' . PHP_EOL . '§a4/u' . PHP_EOL . '§c1/u' . PHP_EOL . '§f-------------------------------');
+        $form->addDropdown('§7» §rAction: ', ['§aAcheter', '§cVendre']);
+        $form->addSlider('§7» §rNombre: ', 0, 64);
+        $player->sendForm($form);
+    }
+
+    /**
+     * @param Player $player
+     * @return void
+     */
+    public function sendLogSpruceForm(Player $player): void {
+        $form = new CustomForm(function (Player $player, $data){
+            if (is_null($data))
+                return;
+
+            $action = ['§aAcheter', '$cVendre'];
+
+            if ($action[$data[1]] === '§aAcheter'){
+                $item = ItemFactory::getInstance()->get(VanillaBlocks::SPRUCE_LOG()->asItem()->getId(), 0, (int)$data[2]);
+                if (!$player->getInventory()->canAddItem($item)){
+                    $player->sendMessage(Utils::getPrefix() . "§cVotre inventaire est complet vous ne pouvez donc pas acheter §e" . (int)$data[2] . "§c bois de ssapin.");
+                    return;
+                }
+
+                if ($this->core->getEconomyManager()->getMoney($player->getName()) < (int)$data[2] * 4){
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas assez d'argent pour acheter §e" . (int)$data[2] . "§c bois de sapin.");
+                    return;
+                }
+
+                $this->core->getEconomyManager()->delMoney($player->getName(), (int)$data[2] * 4);
+                $player->getInventory()->addItem($item);
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez acheté §e" . (int)$data[2] . '§a bois de sapin pour un total de §e' . (int)$data[2] * 4 . '§a.');
+            }else{
+                $item = $this->countItem($player, VanillaBlocks::SPRUCE_LOG()->asItem()->getId());
+                $itemSell = ItemFactory::getInstance()->get(VanillaBlocks::SPRUCE_LOG()->asItem()->getId(), 0, (int)$data[2]);
+                if ((int)$data[2] > $item){
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas §e" . (int)$data[2] . "§c bois de sapin à vendre.");
+                    return;
+                }
+                $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2]);
+                $player->getInventory()->remove($itemSell);
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] . "§a bois de sapin pour §e$data[2].");
+
+            }
+        });
+        $form->setTitle('§c- §fBois de sapin §c-');
+        $form->setContent('-------------------------------' . PHP_EOL . '§7» §rVous avez actuellement §e' . $this->core->getEconomyManager()->getMoney($player->getName()) . '' . PHP_EOL . '§a4/u' . PHP_EOL . '§c1/u' . PHP_EOL . '§f-------------------------------');
+        $form->addDropdown('§7» §rAction: ', ['§aAcheter', '§cVendre']);
+        $form->addSlider('§7» §rNombre: ', 0, 64);
+        $player->sendForm($form);
+    }
+
+    /**
+     * @param Player $player
+     * @return void
+     */
+    public function sendStoneForm(Player $player): void {
+        $form = new CustomForm(function (Player $player, $data){
+            if (is_null($data))
+                return;
+
+            $action = ['§aAcheter', '$cVendre'];
+
+            if ($action[$data[1]] === '§aAcheter'){
+                $item = ItemFactory::getInstance()->get(VanillaBlocks::STONE()->asItem()->getId(), 0, (int)$data[2]);
+                if (!$player->getInventory()->canAddItem($item)){
+                    $player->sendMessage(Utils::getPrefix() . "§cVotre inventaire est complet vous ne pouvez donc pas acheter §e" . (int)$data[2] . "§c pierre.");
+                    return;
+                }
+
+                if ($this->core->getEconomyManager()->getMoney($player->getName()) < (int)$data[2] * 5){
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas assez d'argent pour acheter §e" . (int)$data[2] . "§c pierre.");
+                    return;
+                }
+
+                $this->core->getEconomyManager()->delMoney($player->getName(), (int)$data[2] * 5);
+                $player->getInventory()->addItem($item);
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez acheté §e" . (int)$data[2] . '§a pierre pour un total de §e' . (int)$data[2] * 4 . '§a.');
+            }else{
+                $item = $this->countItem($player, VanillaBlocks::STONE()->asItem()->getId());
+                $itemSell = ItemFactory::getInstance()->get(VanillaBlocks::STONE()->asItem()->getId(), 0, (int)$data[2]);
+                if ((int)$data[2] > $item){
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas §e" . (int)$data[2] . "§c pierre à vendre.");
+                    return;
+                }
+                $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2]);
+                $player->getInventory()->remove($itemSell);
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] . "§a pierre pour §e$data[2].");
+
+            }
+        });
+        $form->setTitle('§c- §fPierre §c-');
+        $form->setContent('-------------------------------' . PHP_EOL . '§7» §rVous avez actuellement §e' . $this->core->getEconomyManager()->getMoney($player->getName()) . '' . PHP_EOL . '§a5/u' . PHP_EOL . '§c1/u' . PHP_EOL . '§f-------------------------------');
+        $form->addDropdown('§7» §rAction: ', ['§aAcheter', '§cVendre']);
+        $form->addSlider('§7» §rNombre: ', 0, 64);
+        $player->sendForm($form);
+    }
+
+    /**
+     * @param Player $player
+     * @return void
+     */
+    public function sendCobblestoneForm(Player $player): void {
+        $form = new CustomForm(function (Player $player, $data){
+            if (is_null($data))
+                return;
+
+            $action = ['§aAcheter', '$cVendre'];
+
+            if ($action[$data[1]] === '§aAcheter'){
+                $item = ItemFactory::getInstance()->get(VanillaBlocks::COBBLESTONE()->asItem()->getId(), 0, (int)$data[2]);
+                if (!$player->getInventory()->canAddItem($item)){
+                    $player->sendMessage(Utils::getPrefix() . "§cVotre inventaire est complet vous ne pouvez donc pas acheter §e" . (int)$data[2] . "§c pierre taillé.");
+                    return;
+                }
+
+                if ($this->core->getEconomyManager()->getMoney($player->getName()) < (int)$data[2] * 3){
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas assez d'argent pour acheter §e" . (int)$data[2] . "§c pierre taillé.");
+                    return;
+                }
+
+                $this->core->getEconomyManager()->delMoney($player->getName(), (int)$data[2] * 3);
+                $player->getInventory()->addItem($item);
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez acheté §e" . (int)$data[2] . '§a pierre taillé pour un total de §e' . (int)$data[2] * 3 . '§a.');
+            }else{
+                $item = $this->countItem($player, VanillaBlocks::COBBLESTONE()->asItem()->getId());
+                $itemSell = ItemFactory::getInstance()->get(VanillaBlocks::COBBLESTONE()->asItem()->getId(), 0, (int)$data[2]);
+                if ((int)$data[2] > $item){
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas §e" . (int)$data[2] . "§c pierre taillé à vendre.");
+                    return;
+                }
+                $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2]);
+                $player->getInventory()->remove($itemSell);
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] . "§a pierre taillé pour §e$data[2].");
+
+            }
+        });
+        $form->setTitle('§c- §fPierre taillé §c-');
+        $form->setContent('-------------------------------' . PHP_EOL . '§7» §rVous avez actuellement §e' . $this->core->getEconomyManager()->getMoney($player->getName()) . '' . PHP_EOL . '§a3/u' . PHP_EOL . '§c1/u' . PHP_EOL . '§f-------------------------------');
+        $form->addDropdown('§7» §rAction: ', ['§aAcheter', '§cVendre']);
+        $form->addSlider('§7» §rNombre: ', 0, 64);
+        $player->sendForm($form);
+    }
+
+    /**
+     * @param Player $player
+     * @return void
+     */
+    private function sendAgricultureForm(Player $player): void {
+        $form = new SimpleForm(function (Player $player, $data){
+
+        });
+        $form->setTitle('§c- §fAgriculture §c-');
+        $form->setContent('');
+    }
 
     /**
      * @param Player $player
