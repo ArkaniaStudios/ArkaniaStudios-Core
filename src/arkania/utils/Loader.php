@@ -36,7 +36,6 @@ use arkania\commands\admin\ranks\SetRankCommand;
 use arkania\commands\admin\SetBoxCommand;
 use arkania\commands\admin\SetSpawnCommand;
 use arkania\commands\player\BoutiqueCommand;
-use arkania\commands\player\BoxCommand;
 use arkania\commands\player\CashCommand;
 use arkania\commands\player\ClassementCommand;
 use arkania\commands\player\CoinsflipCommand;
@@ -55,6 +54,7 @@ use arkania\commands\player\MsgCommand;
 use arkania\commands\player\PayCommand;
 use arkania\commands\player\PingCommand;
 use arkania\commands\player\ReplyCommand;
+use arkania\commands\player\RtpCommand;
 use arkania\commands\player\ServerInfoCommand;
 use arkania\commands\player\ServerSelectorCommand;
 use arkania\commands\player\SetHomeCommand;
@@ -116,6 +116,7 @@ use arkania\factions\FactionClass;
 use arkania\jobs\class\Mineur;
 use arkania\listener\StaffModeListener;
 use arkania\listener\SynchronisationListener;
+use arkania\manager\BoxManager;
 use arkania\manager\EconomyManager;
 use arkania\manager\RanksManager;
 use arkania\manager\SanctionManager;
@@ -259,12 +260,12 @@ final class Loader {
             new CashCommand($this->core),
             new CoinsflipCommand($this->core),
             new ClassementCommand($this->core),
-            new BoxCommand($this->core),
             new SetHomeCommand(),
             new DelHomeCommand(),
             new HomeCommand(),
             new WarnsCommand($this->core),
             new ShopCommand($this->core),
+            new RtpCommand(),
             ];
 
         $this->core->getServer()->getCommandMap()->registerAll('Arkania-Commands', $commands);
@@ -305,7 +306,8 @@ final class Loader {
     /**
      * @return void
      */
-    private function initData(): void {
+    private function initData(): void
+    {
         RanksManager::init();
         SettingsManager::init();
         StatsManager::init();
@@ -315,7 +317,9 @@ final class Loader {
         EconomyManager::init();
         SanctionManager::init();
         Mineur::init();
+        BoxManager::init();
     }
+
 
     /**
      * @return void

@@ -120,6 +120,7 @@ final class FactionCommand extends BaseCommand {
 
             $player->sendMessage(Utils::getPrefix() . "§aVous venez de quitter la faction §e" . $factionManager->getFaction($player->getName()) . "§a.");
             $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->removeMember($player->getName());
+            $this->core->getRanksManager()->updateNameTag($player);
         }elseif(strtolower($args[0]) === 'invite'){
 
             if ($factionManager->getFaction($player->getName()) === '...'){

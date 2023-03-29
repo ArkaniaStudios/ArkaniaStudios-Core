@@ -7,7 +7,7 @@
 #@author: Julien
 
 name: ArkaniaStudios-Core
-version: 1.0.4
+version: 1.0.5
 main: arkania\Core
 api: 4.14.1
 authors:
@@ -160,4 +160,6 @@ permissions:
     "arkania:permission.adminhome":
         default: op
     "arkania:permission.warn":
+        default: op
+    "arkania:permission.sellhand":
         default: op

@@ -20,5 +20,8 @@ echo 'Vous n\'avez pas la permission !';
 
 $start = false;
 
-if ($start)
+if (!$start)
     echo 'ON';
+
+
+var_dump(date('H'));

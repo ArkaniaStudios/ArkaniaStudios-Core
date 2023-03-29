@@ -39,7 +39,7 @@ final class PlayerInteractEvent implements Listener {
         $player = $event->getPlayer();
         $item = $event->getItem();
         $itemName = $item->getCustomName();
-        $name = '(§e';
+        $name = '§e(';
 
         if ($item->getId() == VanillaItems::EXPERIENCE_BOTTLE()->getId()){
             $event->cancel();
@@ -61,8 +61,8 @@ final class PlayerInteractEvent implements Listener {
             $event->cancel();
 
             if (str_contains($itemName, $name)){
-                $money = explode("§fBillet (", $itemName);
-                $money = explode("§f)", $money[1]);
+                $money = explode("§fBillet §e(", $itemName);
+                $money = explode(")", $money[1]);
                 $money = intval($money[0]);
                 $this->core->getEconomyManager()->addMoney($player->getName(), $money);
                 $itemremove = ItemFactory::getInstance()->get($item->getId(), $item->getMeta(), $item->getCount() - 1);

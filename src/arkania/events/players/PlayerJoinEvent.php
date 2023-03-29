@@ -40,6 +40,8 @@ final class PlayerJoinEvent implements Listener {
     public function onPlayerJoin(\pocketmine\event\player\PlayerJoinEvent $event): void {
         $player = $event->getPlayer();
 
+        $player->resetFallDistance();
+
         /* Maintenance */
         if ($this->core->getServerStatus()->getServerStatus(Utils::getServerName()) === '§6Maintenance'){
             if (!$player->hasPermission('arkania:permission.maintenance.bypass')){

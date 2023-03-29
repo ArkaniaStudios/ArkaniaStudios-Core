@@ -520,7 +520,7 @@ final class FormManager {
      */
     public function sendKitForm(Player $player, bool $isAdmin = false): void {
         $menu = InvMenu::create(InvMenuTypeIds::TYPE_CHEST);
-        $menu->setName('            §cKits');
+        $menu->setName('                        §cKits');
         $menu->getInventory()->setItem(10, VanillaItems::RECORD_WAIT()->setCustomName('Kit §7Joueur'));
         $menu->getInventory()->setItem(11, VanillaItems::RECORD_13()->setCustomName('Kit §dBooster'));
         $menu->getInventory()->setItem(13, VanillaItems::RECORD_STAL()->setCustomName('Kit §eNoble'));

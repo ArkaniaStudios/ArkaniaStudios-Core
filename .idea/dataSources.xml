@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:mariadb://45.145.164.37:3306/ArkaniaStudios2</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="ArkaniaStudios-V2" uuid="167f165b-2384-4b53-be91-29074cc975f4">
+      <driver-ref>mariadb</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mariadb://45.145.164.37:3306/ArkaniaStudios</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

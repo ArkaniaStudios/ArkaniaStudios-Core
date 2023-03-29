@@ -37,7 +37,7 @@ final class RanksManager {
      * @return mysqli
      */
     private static function getDataBase(): MySQLi {
-        return (new RanksManager)->getProvider();
+        return self::getProvider();
     }
 
     /**
@@ -247,10 +247,11 @@ final class RanksManager {
      */
     public function getChatFormat(Player $player, string $message, string $nickName = null): string {
         $ranks = $this->getPlayerRank($player->getName());
+        //TODO: Sauvegarder en RAM.
         $db = self::getDataBase()->query("SELECT format FROM ranks WHERE name='" . self::getDataBase()->real_escape_string($ranks) . "'");
         $format = $db->fetch_array()[0] ?? false;
         $db->close();
-        $faction = new FactionManager();
+        $faction = Core::getInstance()->getFactionManager();
         if (is_null($nickName))
             $name = $player->getName();
         else
@@ -268,7 +269,7 @@ final class RanksManager {
         $db = self::getDataBase()->query("SELECT nametag FROM ranks WHERE name='" . self::getDataBase()->real_escape_string($ranks) . "'");
         $format = $db->fetch_array()[0] ?? false;
         $db->close();
-        $faction = new FactionManager();
+        $faction = Core::getInstance()->getFactionManager();
         if (is_null($nickName))
             $name = $player->getName();
         else
@@ -420,7 +421,7 @@ final class RanksManager {
      * @return string
      */
     public function getFactionRankFormat(Player $player) : string {
-        $factionManager = new FactionManager();
+        $factionManager = Core::getInstance()->getFactionManager();
         $fac_rank = $factionManager->getFactionRank($player->getName());
         if ($fac_rank === 'owner')
             return '**';
@@ -434,7 +435,7 @@ final class RanksManager {
      * @return string
      */
     public static function getRanksFormatPlayer(Player $player): string{
-        return (new RanksManager)->getRankColor($player->getName()) . ' §f- ' . (new RanksManager)->getRankColorBis($player->getName()) . $player->getName() . ' §r';
+        return Core::getInstance()->getRanksManager()->getRankColor($player->getName()) . ' §f- ' . Core::getInstance()->getRanksManager()->getRankColorBis($player->getName()) . $player->getName() . ' §r';
     }
 
     /**
@@ -484,10 +485,11 @@ final class RanksManager {
      * @return bool
      */
     public static function compareRank(string $playerName, string $targetName): bool {
-        $rankp = (new RanksManager)->getPlayerRank($playerName);
-        $rankt = (new RanksManager)->getPlayerRank($targetName);
+        $rankp = Core::getInstance()->getRanksManager()->getPlayerRank($playerName);
+        $rankt = Core::getInstance()->getRanksManager()->getPlayerRank($targetName);
         return self::$rankList[array_search($rankp, self::$rankList)] < self::$rankList[array_search($rankt, self::$rankList)];
     }
+
     public function classPlayersByRank(): array{
         $array = [];
         foreach(Server::getInstance()->getOnlinePlayers() as $player) {
