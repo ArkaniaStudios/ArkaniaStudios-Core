@@ -77,8 +77,7 @@ trait EntityTrait {
      * @return void
      */
     public function removeCommand(int $command): void {
-        unset($this->commands[$command]);
-        var_dump($this->commands[$command]);
+        unset($this->commands[array_search($command, $this->commands)]);
     }
 
     /**

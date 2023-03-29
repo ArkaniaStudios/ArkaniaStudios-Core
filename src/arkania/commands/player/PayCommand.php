@@ -66,8 +66,8 @@ final class PayCommand extends BaseCommand {
             return true;
         }
 
-        $this->core->getEconomyManager()->addMoney($target->getName(), $args[1]);
-        $this->core->getEconomyManager()->delMoney($player->getName(), $args[1]);
+        $this->core->getEconomyManager()->addMoney($target->getName(), (int)$args[1]);
+        $this->core->getEconomyManager()->delMoney($player->getName(), (int)$args[1]);
         $player->sendMessage(Utils::getPrefix() . "Vous avez envoyé §e" . $args[1] . " §rà " . RanksManager::getRanksFormatPlayer($target));
         $target->sendMessage(Utils::getPrefix() . "Vous avez reçu §e" . $args[1] . " §r");
         return true;

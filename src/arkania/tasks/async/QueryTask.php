@@ -26,31 +26,17 @@ class QueryTask extends AsyncTask {
     /** @var string */
     private string $text;
 
-    /** @var callable|null */
-    private $completion;
-
     /**
      * @param string $text
-     * @param callable|null $completion
      */
-    public function __construct(string $text, callable $completion = null) {
+    public function __construct(string $text) {
         $this->text = $text;
-        $this->completion = $completion;
     }
 
     public function onRun(): void {
         $database = new MySQLi(DataBaseConnector::HOST_NAME, DataBaseConnector::USER_NAME, DataBaseConnector::PASSWORD, DataBaseConnector::DATABASE);
         $db = $database->prepare($this->text);
         $database->query($this->text);
-        if ($database->error) throw new DataBaseException('DataBaseError: ' . $database->error);
-        $result = '';
-        if ($this->completion !== null)
-            $result = $db->get_result();
-        $this->setResult($result);
-        $database->close();
-    }
-
-    public function onCompletion(): void {
-        call_user_func($this->completion, $this->getResult());
+        if ($db->error) throw new DataBaseException('DataBaseError: ' . $db->error);
     }
 }

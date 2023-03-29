@@ -118,7 +118,7 @@ class FactionClass {
 
         Query::query("DELETE FROM factions WHERE name='" . self::getDataBase()->real_escape_string($this->factionName) . "'");
         Query::query("DELETE FROM players_faction WHERE faction='" . self::getDataBase()->real_escape_string($this->factionName) ."'");
-        Query::query("DELETE * FROM claims WHERE factionName='" . $this->factionName . "'");
+        Query::query("DELETE FROM claims WHERE factionName='" . $this->factionName . "'");
         $db->close();
     }
 

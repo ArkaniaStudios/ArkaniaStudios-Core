@@ -54,7 +54,7 @@ final class MoneyCommand extends BaseCommand {
         }else{
             $target = $args[0];
             $money = $this->core->getEconomyManager()->getMoney($target);
-            $player->sendMessage(Utils::getPrefix() . "§e" . $target . " a actuellement §e" . $money . "§f.");
+            $player->sendMessage(Utils::getPrefix() . "§e" . $target . " §fa actuellement §e" . $money . "§f.");
         }
         return true;
     }

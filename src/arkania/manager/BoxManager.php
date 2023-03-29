@@ -17,11 +17,15 @@ declare(strict_types=1);
 namespace arkania\manager;
 
 use arkania\Core;
+use arkania\data\DataBaseConnector;
+use arkania\utils\trait\Provider;
 use JsonException;
+use mysqli;
 use pocketmine\player\Player;
 use pocketmine\world\Position;
 
 final class BoxManager {
+    use Provider;
 
     /** @var Core */
     private Core $core;
@@ -66,5 +70,24 @@ final class BoxManager {
     public function existBox(): bool {
         $config = $this->core->config;
         return $config->exists('box');
+    }
+
+    /**
+     * @return void
+     */
+    public static function init(): void {
+        $database = new mysqli(DataBaseConnector::HOST_NAME, DataBaseConnector::USER_NAME, DataBaseConnector::PASSWORD, DataBaseConnector::DATABASE);
+        $database->query("CREATE TABLE IF NOT EXISTS key(name, votekey INT, premiumkey INT)");
+        $database->close();
+    }
+
+    /**
+     * @param string $playerName
+     * @param string $keyType
+     * @param int $number
+     * @return void
+     */
+    public function addKey(string $playerName, string $keyType, int $number): void {
+
     }
 }
