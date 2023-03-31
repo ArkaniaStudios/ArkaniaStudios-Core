@@ -20,10 +20,10 @@ interface DataBaseConnector {
 
     const HOST_NAME = "45.145.164.37";
 
-    const USER_NAME = "plugin2";
+    const USER_NAME = "ArkaniaStudios-Prod";
 
-    const PASSWORD = "K6ft6a9#4";
+    const PASSWORD = "!4Zb2a1x2 ";
 
-    const DATABASE = "ArkaniaStudios2";
+    const DATABASE = "ArkaniaStudios-Prod";
 
 }
