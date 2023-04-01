@@ -49,6 +49,7 @@ final class ShopManager {
         });
         $form->setTitle('§c- §fShop §c-');
         $form->setContent('§7» §rChoisissez une catégorie.');
+        $form->addButton('§7» §rGrade et clés', SimpleForm::IMAGE_TYPE_PATH, 'texture/blocks/diamond_block');
         $form->addButton('§7» §rBlocs', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/dirt');
         $form->addButton('§7» §rAgriculture', SimpleForm::IMAGE_TYPE_PATH, 'textures/items/bread');
         $form->addButton('§7» §rMinerais', SimpleForm::IMAGE_TYPE_PATH, 'textures/items/diamond');
@@ -376,9 +377,38 @@ final class ShopManager {
     private function sendAgricultureForm(Player $player): void {
         $form = new SimpleForm(function (Player $player, $data){
 
+            if (is_null($data))
+                return;
+
+            if ($data === 0)
+                $this->sendCactusForm($player);
+            elseif($data === 1)
+                $this->sendPumpkinForm($player);
+            elseif($data === 2)
+                $this->sendWaterMelonForm($player);
+            elseif($data === 3)
+                $this->sendPotetoForm($player);
+            elseif($data === 4)
+                $this->sendCarrotForm($player);
+            elseif($data === 5)
+                $this->sendWheatForm($player);
+            elseif($data === 6)
+                $this->sendSeedForm($player);
+            else
+                $this->sendShopForm($player);
+
         });
         $form->setTitle('§c- §fAgriculture §c-');
-        $form->setContent('');
+        $form->setContent('-------------------------------' . PHP_EOL . '§7» §rVous avez actuellement §e' . $this->core->getEconomyManager()->getMoney($player->getName()) . '' . PHP_EOL . '§f-------------------------------');
+        $form->addButton('§7» §rCactus', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/cactus');
+        $form->addButton('§7» §rCitrouille', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/pumpkin');
+        $form->addButton('§7» §rPastèque', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/water_melon');
+        $form->addButton('§7» §rPomme de terre', SimpleForm::IMAGE_TYPE_PATH, 'textures/items/poteto');
+        $form->addButton('§7» §rCarrotes', SimpleForm::IMAGE_TYPE_PATH, 'textures/items/carrot');
+        $form->addButton('§7» §rBlé', SimpleForm::IMAGE_TYPE_PATH, 'textures/items/wheat');
+        $form->addButton('§7» §rGraine', SimpleForm::IMAGE_TYPE_PATH, 'textures/items/seed');
+        $form->addButton('§7» §cRetour', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/barrier');
+        $player->sendForm($form);
     }
 
     /**
