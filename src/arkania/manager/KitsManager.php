@@ -46,7 +46,7 @@ final class KitsManager {
 
         if (!$inAdmin) {
             if ($time - time() <= 0 || !$time) {
-                if (count($player->getInventory()->getContents()) > 27-8){
+                if (count($player->getInventory()->getContents()) > 36-8){
                     $player->sendMessage(Utils::getPrefix() . "Vous n'avez pas assez de place pour récupérer le kit.");
                     return;
                 }
@@ -92,7 +92,7 @@ final class KitsManager {
 
         if (!$inAdmin) {
             if ($time - time() <= 0 || !$time) {
-                if (count($player->getInventory()->getContents()) > 27-9){
+                if (count($player->getInventory()->getContents()) > 36-9){
                     $player->sendMessage(Utils::getPrefix() . "Vous n'avez pas assez de place pour récupérer le kit.");
                     return;
                 }
@@ -139,7 +139,7 @@ final class KitsManager {
 
         if (!$inAdmin) {
             if ($time - time() <= 0 || !$time) {
-                if (count($player->getInventory()->getContents()) > 27-9){
+                if (count($player->getInventory()->getContents()) > 36-9){
                     $player->sendMessage(Utils::getPrefix() . "Vous n'avez pas assez de place pour récupérer le kit.");
                     return;
                 }
@@ -186,7 +186,7 @@ final class KitsManager {
 
         if (!$inAdmin) {
             if ($time - time() <= 0 || !$time) {
-                if (count($player->getInventory()->getContents()) > 27-8){
+                if (count($player->getInventory()->getContents()) > 36-8){
                     $player->sendMessage(Utils::getPrefix() . "Vous n'avez pas assez de place pour récupérer le kit.");
                     return;
                 }
@@ -232,7 +232,7 @@ final class KitsManager {
 
         if (!$inAdmin) {
             if ($time - time() <= 0 || !$time) {
-                if (count($player->getInventory()->getContents()) > 27-9){
+                if (count($player->getInventory()->getContents()) > 36-9){
                     $player->sendMessage(Utils::getPrefix() . "Vous n'avez pas assez de place pour récupérer le kit.");
                     return;
                 }

@@ -332,7 +332,10 @@ final class FormManager {
             $serverStatus = Core::getInstance()->getServerStatus();
 
             if ($transaction->getItemClicked()->getCustomName() === '§6Thêta'){
-                if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
+                if (Utils::getServerName() === 'Theta') {
+                    $player->removeCurrentWindow();
+                    $player->sendMessage(Utils::getPrefix() . "§cVous êtes déjà sur ce serveur.");
+                }elseif (isset(ServerSelectorCommand::$teleport[$player->getName()])){
                     $player->removeCurrentWindow();
                     $player->sendMessage(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
                 }else{
@@ -350,7 +353,10 @@ final class FormManager {
                     }
                 }
             }elseif($transaction->getItemClicked()->getCustomName() === '§aZeta'){
-                if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
+                if (Utils::getServerName() === 'Zeta') {
+                    $player->removeCurrentWindow();
+                    $player->sendMessage(Utils::getPrefix() . "§cVous êtes déjà sur ce serveur.");
+                }elseif (isset(ServerSelectorCommand::$teleport[$player->getName()])){
                     $player->removeCurrentWindow();
                     $player->sendMessage(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
                 }else{
@@ -369,7 +375,10 @@ final class FormManager {
 
                 }
             }elseif($transaction->getItemClicked()->getCustomName() === '§7Epsilon'){
-                if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
+                if (Utils::getServerName() === 'Epsilon') {
+                    $player->removeCurrentWindow();
+                    $player->sendMessage(Utils::getPrefix() . "§cVous êtes déjà sur ce serveur.");
+                }elseif (isset(ServerSelectorCommand::$teleport[$player->getName()])){
                     $player->removeCurrentWindow();
                     $player->sendMessage(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
                 }else{
