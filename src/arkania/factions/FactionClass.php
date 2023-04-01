@@ -347,7 +347,7 @@ class FactionClass {
     public function sendFactionMessage(string $message, string $playerName): void {
         foreach (Server::getInstance()->getOnlinePlayers() as $player){
             $factionManager = new FactionManager();
-            if ($factionManager->getFaction($playerName) === $this->factionName){
+            if ($factionManager->getFaction($player->getName()) === $this->factionName){
                 $playerRank = $factionManager->getFactionRank($playerName);
                 if ($playerRank === 'owner')
                     $ranks = '§cChef §f- §c';

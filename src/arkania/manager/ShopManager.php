@@ -128,7 +128,7 @@ final class ShopManager {
                     return;
                 }
                 $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2]);
-                $player->getInventory()->remove($itemSell);
+                $player->getInventory()->removeItem($itemSell);
                 $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] . "§a tronc de chêne pour §e$data[2].");
 
             }
@@ -174,7 +174,7 @@ final class ShopManager {
                     return;
                 }
                 $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2]);
-                $player->getInventory()->remove($itemSell);
+                $player->getInventory()->removeItem($itemSell);
                 $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] . "§a bois de bouleau pour §e$data[2].");
 
             }
@@ -220,7 +220,7 @@ final class ShopManager {
                     return;
                 }
                 $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2]);
-                $player->getInventory()->remove($itemSell);
+                $player->getInventory()->removeItem($itemSell);
                 $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] . "§a bois d'acacia pour §e$data[2].");
 
             }
@@ -266,7 +266,7 @@ final class ShopManager {
                     return;
                 }
                 $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2]);
-                $player->getInventory()->remove($itemSell);
+                $player->getInventory()->removeItem($itemSell);
                 $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] . "§a bois de sapin pour §e$data[2].");
 
             }
@@ -312,7 +312,7 @@ final class ShopManager {
                     return;
                 }
                 $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2]);
-                $player->getInventory()->remove($itemSell);
+                $player->getInventory()->removeItem($itemSell);
                 $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] . "§a pierre pour §e$data[2].");
 
             }
@@ -358,9 +358,8 @@ final class ShopManager {
                     return;
                 }
                 $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2]);
-                $player->getInventory()->remove($itemSell);
+                $player->getInventory()->removeItem($itemSell);
                 $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] . "§a pierre taillé pour §e$data[2].");
-
             }
         });
         $form->setTitle('§c- §fPierre taillé §c-');

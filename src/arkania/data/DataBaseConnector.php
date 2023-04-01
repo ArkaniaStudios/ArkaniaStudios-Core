@@ -22,7 +22,7 @@ interface DataBaseConnector {
 
     const USER_NAME = "ArkaniaStudios-Prod";
 
-    const PASSWORD = "!4Zb2a1x2 ";
+    const PASSWORD = "!4Zb2a1x2";
 
     const DATABASE = "ArkaniaStudios-Prod";
 
