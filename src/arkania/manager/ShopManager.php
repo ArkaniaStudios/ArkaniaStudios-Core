@@ -176,8 +176,8 @@ final class ShopManager {
                 $player->getInventory()->addItem($item);
                 $player->sendMessage(Utils::getPrefix() . "§aVous avez acheté §e" . (int)$data[2] . '§a bois de bouleau pour un total de §e' . (int)$data[2] * 4 . '§a.');
             }else{
-                $item = $this->countItem($player, VanillaBlocks::OAK_LOG()->asItem()->getId());
-                $itemSell = ItemFactory::getInstance()->get(VanillaBlocks::OAK_LOG()->asItem()->getId(), 0, (int)$data[2]);
+                $item = $this->countItem($player, VanillaBlocks::BIRCH_LOG()->asItem()->getId());
+                $itemSell = ItemFactory::getInstance()->get(VanillaBlocks::BIRCH_LOG()->asItem()->getId(), 0, (int)$data[2]);
                 if ((int)$data[2] > $item){
                     $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas §e" . (int)$data[2] . "§c bois de bouleau à vendre.");
                     return;

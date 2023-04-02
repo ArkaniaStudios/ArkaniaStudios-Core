@@ -49,14 +49,12 @@ final class Utils {
     public static function getServerName(): string
     {
         $port = Server::getInstance()->getPort();
-        if ($port === 10286)
+        if ($port === 1000)
             return 'Arkania-V2';
-        elseif ($port === 10297)
+        elseif ($port === 19133)
             return 'Theta';
-        elseif ($port === 10298)
+        elseif ($port === 19134)
             return 'Zeta';
-        elseif ($port === 10299)
-            return 'Epsilon';
         return 'unknown';
     }
 

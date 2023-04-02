@@ -55,6 +55,7 @@ final class TpaCommand extends BaseCommand {
             return true;
         }
 
+        $player->sendMessage(Utils::getPrefix() . "§aDemande de téléportation envoyé à §e" . $target->getName() . "§a.");
         $this->core->getTeleportManager()->sendTpaRequest($target, $player);
         return true;
     }

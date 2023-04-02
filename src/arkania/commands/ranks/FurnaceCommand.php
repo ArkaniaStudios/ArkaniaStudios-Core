@@ -68,61 +68,61 @@ final class FurnaceCommand extends BaseCommand {
                 $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(320)->setCount($number));
                 $this->extracted($number, $player);
             } else if($item->getId() == 365) {
-                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(424));
+                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(424)->setCount($number));
                 $this->extracted($number, $player);
             } else if($item->getId() == 349) {
-                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(350));
+                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(350)->setCount($number));
                 $this->extracted($number, $player);
             } else if($item->getId() == 349) {
-                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(424));
+                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(424)->setCount($number));
                 $this->extracted($number, $player);
             } else if($item->getId() == 411) {
-                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(412));
+                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(412)->setCount($number));
                 $this->extracted($number, $player);
             } else if($item->getId() == 460) {
-                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(463));
+                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(463)->setCount($number));
                 $this->extracted($number, $player);
             } else if($item->getId() == 392) {
-                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(393));
+                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(393)->setCount($number));
                 $this->extracted($number, $player);
             } else if($item->getId() == 15) {
-                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(265));
+                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(265)->setCount($number));
                 $this->extracted($number, $player);
             } else if($item->getId() == 153) {
-                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(266));
+                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(266)->setCount($number));
                 $this->extracted($number, $player);
             } else if($item->getId() == 12) {
-                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(20));
+                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(20)->setCount($number));
                 $player->getXpManager()->addXp($number);
             } else if($item->getId() == 4) {
-                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(1));
+                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(1)->setCount($number));
                 $player->getXpManager()->addXp($number);
             } else if($item->getId() == 337) {
-                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(336));
+                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(336)->setCount($number));
                 $player->getXpManager()->addXp($number);
             } else if($item->getId() == 87) {
-                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(405));
+                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(405)->setCount($number));
                 $player->getXpManager()->addXp($number);
             } else if($item->getId() == 82) {
-                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(172));
+                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(172)->setCount($number));
                 $player->getXpManager()->addXp($number);
             } else if($item->getId() == 81) {
-                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(351, 2));
+                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(351, 2)->setCount($number));
                 $player->getXpManager()->addXp($number);
             } else if($item->getId() == 17) {
-                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(263, 1));
+                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(263, 1)->setCount($number));
                 $player->getXpManager()->addXp($number);
             } else if($item->getId() == 56) {
-                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(264));
+                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(264)->setCount($number));
                 $this->extracted($number, $player);
             } else if($item->getId() == 73) {
-                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(331));
+                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(331)->setCount($number));
                 $this->extracted($number, $player);
             } else if($item->getId() == 16) {
-                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(263));
+                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(263)->setCount($number));
                 $this->extracted($number, $player);
             } else if($item->getId() == 129) {
-                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(388));
+                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get(388)->setCount($number));
                 $this->extracted($number, $player);
             } else
                 $player->sendMessage(Utils::getPrefix() . "§cL'objet §c(§e" . $item->getName() . "§c) ne peut pas être cuit !");

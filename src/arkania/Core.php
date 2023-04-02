@@ -156,7 +156,7 @@ class Core extends PluginBase {
         $this->voteManager = new VoteManager($this);
         $this->sanctionManager = new SanctionManager();
         $this->nickManager = new NickManager();
-        $this->jobsManager = new JobsManager();
+        //$this->jobsManager = new JobsManager();
         $this->factionManager = new FactionManager();
         $this->spawnManager = new SpawnManager($this);
         $this->teleportManager = new TeleportManager();
@@ -218,13 +218,6 @@ class Core extends PluginBase {
         $this->config = $this->getConfig();
         $this->koth = new Config($this->getDataFolder() . 'animations/koth.yml', Config::YAML);
         $this->purif = new Config($this->getDataFolder() . 'animations/purif.yml', Config::YAML);
-    }
-
-    /**
-     * @return JobsManager
-     */
-    public function getJobsManager(): JobsManager {
-        return $this->jobsManager;
     }
 
     /**
