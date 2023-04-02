@@ -44,14 +44,13 @@ final class ShopManager {
             if (is_null($data))
                 return;
 
-            if ($data === 0)
+            if ($data === 0){
                 $this->sendBlocsForm($player);
-            elseif($data === 1)
+            }elseif($data === 1){
                 $this->sendAgricultureForm($player);
-            else
+            }else{
                 $this->sendShopForm($player);
-
-
+            }
         });
         $form->setTitle('§c- §fShop §c-');
         $form->setContent('§7» §rChoisissez une catégorie.');
