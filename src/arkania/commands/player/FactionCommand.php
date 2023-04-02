@@ -91,6 +91,7 @@ final class FactionCommand extends BaseCommand {
 
             $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->sendFactionLogs('**FACTION - DISBAND**', "La faction vient d'être supprimé par **" . $player->getName() . "**");
             $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->disbandFaction();
+            $player->sendMessage(Utils::getPrefix() . '§aVous venez de supprimer votre faction.');
             foreach ($this->core->getServer()->getOnlinePlayers() as $onlinePlayer)
                 $this->core->getRanksManager()->updateNameTag($onlinePlayer);
         }elseif(strtolower($args[0]) === 'info'){

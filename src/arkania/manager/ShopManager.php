@@ -54,11 +54,11 @@ final class ShopManager {
         });
         $form->setTitle('§c- §fShop §c-');
         $form->setContent('§7» §rChoisissez une catégorie.');
-        $form->addButton('§7» §rGrade et clés', SimpleForm::IMAGE_TYPE_PATH, 'texture/blocks/diamond_block');
         $form->addButton('§7» §rBlocs', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/dirt');
         $form->addButton('§7» §rAgriculture', SimpleForm::IMAGE_TYPE_PATH, 'textures/items/bread');
         $form->addButton('§7» §rMinerais', SimpleForm::IMAGE_TYPE_PATH, 'textures/items/diamond');
-        $form->addButton('§7» §rAutres', SimpleForm::IMAGE_TYPE_PATH, 'textures/items/diamond_sword');
+        $form->addButton('§7» §rLoots', SimpleForm::IMAGE_TYPE_PATH, 'textures/items/bone');
+        $form->addButton('§7» §rDivers', SimpleForm::IMAGE_TYPE_PATH, 'textures/items/diamond_sword');
         $player->sendForm($form);
     }
 
@@ -84,6 +84,8 @@ final class ShopManager {
                 $this->sendStoneForm($player);
             elseif($data === 5)
                 $this->sendCobblestoneForm($player);
+            elseif($data === 6)
+                $this->sendDirtForm($player);
             else
                 $this->sendShopForm($player);
 
@@ -96,6 +98,7 @@ final class ShopManager {
         $form->addButton('§7» §rBois de sapin', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/log_big_oak');
         $form->addButton('§7» §rPierre', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/stone');
         $form->addButton('§7» §rPierre taillé', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/cobblestone');
+        $form->addButton('§7» §rTerre', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/dirt');
         $form->addButton('§7» §cRetour', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/barrier');
         $player->sendForm($form);
     }
@@ -375,6 +378,47 @@ final class ShopManager {
         $player->sendForm($form);
     }
 
+    public function sendDirtForm(Player $player): void {
+        $form = new CustomForm(function (Player $player, $data){
+            if (is_null($data))
+                return;
+
+            $action = ['§aAcheter', '$cVendre'];
+
+            if ($action[$data[1]] === '§aAcheter'){
+                $item = ItemFactory::getInstance()->get(VanillaBlocks::DIRT()->asItem()->getId(), 0, (int)$data[2]);
+                if (!$player->getInventory()->canAddItem($item)){
+                    $player->sendMessage(Utils::getPrefix() . "§cVotre inventaire est complet vous ne pouvez donc pas acheter §e" . (int)$data[2] . "§c terre.");
+                    return;
+                }
+
+                if ($this->core->getEconomyManager()->getMoney($player->getName()) < (int)$data[2] * 20){
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas assez d'argent pour acheter §e" . (int)$data[2] . "§c terre.");
+                    return;
+                }
+
+                $this->core->getEconomyManager()->delMoney($player->getName(), (int)$data[2] * 20);
+                $player->getInventory()->addItem($item);
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez acheté §e" . (int)$data[2] . '§a terre pour un total de §e' . (int)$data[2] * 20 . '§a.');
+            }else{
+                $item = $this->countItem($player, VanillaBlocks::DIRT()->asItem()->getId());
+                $itemSell = ItemFactory::getInstance()->get(VanillaBlocks::DIRT()->asItem()->getId(), 0, (int)$data[2]);
+                if ((int)$data[2] > $item){
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas §e" . (int)$data[2] . "§c terre à vendre.");
+                    return;
+                }
+                $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2]);
+                $player->getInventory()->removeItem($itemSell);
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] . "§a terre pour §e$data[2].");
+            }
+        });
+        $form->setTitle('§c- §fTerre §c-');
+        $form->setContent('-------------------------------' . PHP_EOL . '§7» §rVous avez actuellement §e' . $this->core->getEconomyManager()->getMoney($player->getName()) . '' . PHP_EOL . '§a20/u' . PHP_EOL . '§c1/u' . PHP_EOL . '§f-------------------------------');
+        $form->addDropdown('§7» §rAction: ', ['§aAcheter', '§cVendre']);
+        $form->addSlider('§7» §rNombre: ', 0, 64);
+        $player->sendForm($form);
+    }
+
     /**
      * @param Player $player
      * @return void
@@ -407,7 +451,7 @@ final class ShopManager {
         $form->setContent('-------------------------------' . PHP_EOL . '§7» §rVous avez actuellement §e' . $this->core->getEconomyManager()->getMoney($player->getName()) . '' . PHP_EOL . '§f-------------------------------');
         $form->addButton('§7» §rCactus', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/cactus_side');
         $form->addButton('§7» §rCitrouille', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/pumpkin_side');
-        $form->addButton('§7» §rPastèque', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/melon_side');
+        $form->addButton('§7» §rPastèque', SimpleForm::IMAGE_TYPE_PATH, 'textures/items/melon');
         $form->addButton('§7» §rPomme de terre', SimpleForm::IMAGE_TYPE_PATH, 'textures/items/potato');
         $form->addButton('§7» §rCarrotes', SimpleForm::IMAGE_TYPE_PATH, 'textures/items/carrot');
         $form->addButton('§7» §rBlé', SimpleForm::IMAGE_TYPE_PATH, 'textures/items/wheat');
@@ -447,7 +491,7 @@ final class ShopManager {
                 }
                 $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2] * 5);
                 $player->getInventory()->removeItem($itemSell);
-                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] * 5 . "§a cactus pour §e$data[2].");
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] * 5 . "§a cactus pour §e" . (int)$data[2] * 5 . ".");
 
             }
         });
@@ -493,7 +537,7 @@ final class ShopManager {
                 }
                 $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2] * 3);
                 $player->getInventory()->removeItem($itemSell);
-                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] * 3 . "§a citrouilles pour §e$data[2].");
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] * 3 . "§a citrouilles pour §e " . (int)$data[2] * 3 . ".");
 
             }
         });
@@ -516,7 +560,7 @@ final class ShopManager {
             $action = ['§aAcheter', '$cVendre'];
 
             if ($action[$data[1]] === '§aAcheter'){
-                $item = ItemFactory::getInstance()->get(VanillaBlocks::MELON()->asItem()->getId(), 0, (int)$data[2]);
+                $item = ItemFactory::getInstance()->get(VanillaItems::MELON()->getId(), 0, (int)$data[2]);
                 if (!$player->getInventory()->canAddItem($item)){
                     $player->sendMessage(Utils::getPrefix() . "§cVotre inventaire est complet vous ne pouvez donc pas acheter §e" . (int)$data[2] . "§c pastèque.");
                     return;
@@ -531,15 +575,15 @@ final class ShopManager {
                 $player->getInventory()->addItem($item);
                 $player->sendMessage(Utils::getPrefix() . "§aVous avez acheté §e" . (int)$data[2] . '§a pastèque pour un total de §e' . (int)$data[2] * 225 . '§a.');
             }else{
-                $item = $this->countItem($player, VanillaBlocks::MELON()->asItem()->getId());
-                $itemSell = ItemFactory::getInstance()->get(VanillaBlocks::MELON()->asItem()->getId(), 0, (int)$data[2]);
+                $item = $this->countItem($player, VanillaItems::MELON()->getId());
+                $itemSell = ItemFactory::getInstance()->get(VanillaItems::MELON()->getId(), 0, (int)$data[2]);
                 if ((int)$data[2] > $item){
                     $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas §e" . (int)$data[2] . "§c pastèque à vendre.");
                     return;
                 }
                 $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2] * 3);
                 $player->getInventory()->removeItem($itemSell);
-                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] * 3 . "§a pastèque pour §e$data[2].");
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] * 3 . "§a pastèque pour §e" . (int)$data[2] * 3 . ".");
 
             }
         });
@@ -677,7 +721,7 @@ final class ShopManager {
                 }
                 $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2] * 2);
                 $player->getInventory()->removeItem($itemSell);
-                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] * 2 . "§a blé pour §e$data[2].");
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] * 2 . "§a blé pour §e" . (int)$data[2] * 2 . ".");
             }
         });
         $form->setTitle('§c- §fBlé §c-');

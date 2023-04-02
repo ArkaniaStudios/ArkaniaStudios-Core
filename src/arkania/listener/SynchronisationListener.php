@@ -47,7 +47,6 @@ final class SynchronisationListener implements Listener {
         $this->core->getStatsManager()->synchroJoinStats($player);
 
         $this->core->getSynchronisationManager()->syncPlayer($player);
-        $this->core->getJobsManager()->getMineurJobs()->synchroJobsOnJoin($player);
     }
 
     /**
@@ -60,7 +59,6 @@ final class SynchronisationListener implements Listener {
         $this->core->getStatsManager()->synchroQuitStats($player);
         $this->core->getRanksManager()->synchroQuitRank($player);
         $this->core->getSynchronisationManager()->registerInv($player);
-        //$this->core->getJobsManager()->getMineurJobs()->synchroJobsOnQuit($player);
     }
 
     /**

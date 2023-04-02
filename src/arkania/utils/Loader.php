@@ -96,6 +96,7 @@ use arkania\commands\staff\UnMuteCommand;
 use arkania\commands\staff\WarnCommand;
 use arkania\Core;
 use arkania\entity\base\BaseEntity;
+use arkania\entity\entities\MoneyLeaderBoard;
 use arkania\entity\entities\VillagerEntity;
 use arkania\events\entity\BlockBreakEvent;
 use arkania\events\entity\BlockPlaceEvent;
@@ -332,6 +333,7 @@ final class Loader {
      */
     private function initEntity(): void {
         $this->register(VillagerEntity::class, ['arkania:npc.villager'], EntityLegacyIds::VILLAGER);
+        $this->register(MoneyLeaderBoard::class, ['arkania:npc.money'], EntityLegacyIds::CHICKEN);
     }
 
 

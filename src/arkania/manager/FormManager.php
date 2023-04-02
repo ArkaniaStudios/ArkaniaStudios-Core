@@ -550,7 +550,7 @@ final class FormManager {
                     $kits->sendKitBooster($player, $isAdmin);
                 }else{
                     $player->removeCurrentWindow();
-                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas la permission de prendre ce kit;");
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas la permission de prendre ce kit.");
                 }
             }elseif($transaction->getItemClicked()->getCustomName() === 'Kit §eNoble') {
                 if ($player->hasPermission('arkania:permission.kit.noble')){
@@ -558,7 +558,7 @@ final class FormManager {
                     $kits->sendKitNoble($player, $isAdmin);
                 }else{
                     $player->removeCurrentWindow();
-                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas la permission de prendre ce kit;");
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas la permission de prendre ce kit.");
                 }
             }elseif($transaction->getItemClicked()->getCustomName() === 'Kit §6Héro') {
                 if ($player->hasPermission('arkania:permission.kit.hero')){
@@ -566,7 +566,7 @@ final class FormManager {
                     $kits->sendKitHero($player, $isAdmin);
                 }else{
                     $player->removeCurrentWindow();
-                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas la permission de prendre ce kit;");
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas la permission de prendre ce kit.");
                 }
             }elseif($transaction->getItemClicked()->getCustomName() === 'Kit §4Seigneur') {
                 if ($player->hasPermission('arkania:permission.kit.seigneur')){
@@ -574,7 +574,7 @@ final class FormManager {
                     $kits->sendKitSeigneur($player, $isAdmin);
                 }else{
                     $player->removeCurrentWindow();
-                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas la permission de prendre ce kit;");
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas la permission de prendre ce kit.");
                 }
             }
             return $transaction->discard();
