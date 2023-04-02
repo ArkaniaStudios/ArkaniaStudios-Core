@@ -4,17 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="Release 1.0.5">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="Release 1.0.7">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/RtpCommand.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/TpaHereCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/TpaHereCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/data/DataBaseConnector.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/data/DataBaseConnector.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/manager/FormManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/FormManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/manager/KitsManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/KitsManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/ShopCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/ShopCommand.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/manager/ShopManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/ShopManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/utils/Loader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/Loader.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +32,7 @@
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
       <path value="$USER_HOME$/API/PocketMine-MP" />
-      <path value="$PROJECT_DIR$/../../../../Documents/API/PocketMine-MP" />
+      <path value="$USER_HOME$/Documents/API/PocketMine-MP" />
       <path value="$USER_HOME$/Downloads/PocketMine-MP" />
       <path value="$PROJECT_DIR$/../../API/PocketMine-MP" />
     </include_path>
@@ -510,7 +503,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680283796443</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="Release 1.0.7">
+      <created>1680396119166</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1680396119166</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -528,7 +528,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="update jobs" />
     <MESSAGE value="move trait" />
     <MESSAGE value="implement session" />
     <MESSAGE value="another update" />
@@ -553,6 +552,7 @@
     <MESSAGE value="Release 1.0.3" />
     <MESSAGE value="Release 1.0.4" />
     <MESSAGE value="Release 1.0.5" />
-    <option name="LAST_COMMIT_MESSAGE" value="Release 1.0.5" />
+    <MESSAGE value="Release 1.0.7" />
+    <option name="LAST_COMMIT_MESSAGE" value="Release 1.0.7" />
   </component>
 </project>
