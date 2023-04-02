@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="Release 1.0.7">
+    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="Release 1.0.6">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/ShopCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/ShopCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/manager/ShopManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/ShopManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/ServerInfoCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/ServerInfoCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/events/entity/EntityDamageEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/entity/EntityDamageEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/FormManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/FormManager.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +33,7 @@
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
       <path value="$USER_HOME$/API/PocketMine-MP" />
-      <path value="$USER_HOME$/Documents/API/PocketMine-MP" />
+      <path value="$PROJECT_DIR$/../../../../Documents/API/PocketMine-MP" />
       <path value="$USER_HOME$/Downloads/PocketMine-MP" />
       <path value="$PROJECT_DIR$/../../API/PocketMine-MP" />
     </include_path>
@@ -172,7 +173,10 @@
       <workItem from="1680125218175" duration="72000" />
       <workItem from="1680283763540" duration="41000" />
       <workItem from="1680291400787" duration="1295000" />
-      <workItem from="1680320100744" duration="3336000" />
+      <workItem from="1680320100744" duration="3791000" />
+      <workItem from="1680357558187" duration="163000" />
+      <workItem from="1680357745832" duration="70000" />
+      <workItem from="1680397248154" duration="6000" />
     </task>
     <task id="LOCAL-00001" summary="add template">
       <created>1676844106724</created>
@@ -503,12 +507,12 @@
       <option name="project" value="LOCAL" />
       <updated>1680283796443</updated>
     </task>
-    <task id="LOCAL-00048" summary="Release 1.0.7">
-      <created>1680396119166</created>
+    <task id="LOCAL-00048" summary="Release 1.0.6">
+      <created>1680323629820</created>
       <option name="number" value="00048" />
       <option name="presentableId" value="LOCAL-00048" />
       <option name="project" value="LOCAL" />
-      <updated>1680396119166</updated>
+      <updated>1680323629820</updated>
     </task>
     <option name="localTasksCounter" value="49" />
     <servers />
@@ -552,7 +556,7 @@
     <MESSAGE value="Release 1.0.3" />
     <MESSAGE value="Release 1.0.4" />
     <MESSAGE value="Release 1.0.5" />
-    <MESSAGE value="Release 1.0.7" />
-    <option name="LAST_COMMIT_MESSAGE" value="Release 1.0.7" />
+    <MESSAGE value="Release 1.0.6" />
+    <option name="LAST_COMMIT_MESSAGE" value="Release 1.0.6" />
   </component>
 </project>

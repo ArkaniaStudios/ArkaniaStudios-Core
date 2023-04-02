@@ -54,6 +54,7 @@ final class ShopManager {
         });
         $form->setTitle('§c- §fShop §c-');
         $form->setContent('§7» §rChoisissez une catégorie.');
+        $form->addButton('§7» §rGrade et clés', SimpleForm::IMAGE_TYPE_PATH, 'texture/blocks/diamond_block');
         $form->addButton('§7» §rBlocs', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/dirt');
         $form->addButton('§7» §rAgriculture', SimpleForm::IMAGE_TYPE_PATH, 'textures/items/bread');
         $form->addButton('§7» §rMinerais', SimpleForm::IMAGE_TYPE_PATH, 'textures/items/diamond');
