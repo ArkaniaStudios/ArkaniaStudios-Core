@@ -54,11 +54,11 @@ final class ShopManager {
         });
         $form->setTitle('§c- §fShop §c-');
         $form->setContent('§7» §rChoisissez une catégorie.');
-        $form->addButton('§7» §rGrade et clés', SimpleForm::IMAGE_TYPE_PATH, 'texture/blocks/diamond_block');
         $form->addButton('§7» §rBlocs', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/dirt');
         $form->addButton('§7» §rAgriculture', SimpleForm::IMAGE_TYPE_PATH, 'textures/items/bread');
         $form->addButton('§7» §rMinerais', SimpleForm::IMAGE_TYPE_PATH, 'textures/items/diamond');
-        $form->addButton('§7» §rAutres', SimpleForm::IMAGE_TYPE_PATH, 'textures/items/diamond_sword');
+        $form->addButton('§7» §rLoots', SimpleForm::IMAGE_TYPE_PATH, 'textures/items/bone');
+        $form->addButton('§7» §rDivers', SimpleForm::IMAGE_TYPE_PATH, 'textures/items/diamond_sword');
         $player->sendForm($form);
     }
 
@@ -176,8 +176,8 @@ final class ShopManager {
                 $player->getInventory()->addItem($item);
                 $player->sendMessage(Utils::getPrefix() . "§aVous avez acheté §e" . (int)$data[2] . '§a bois de bouleau pour un total de §e' . (int)$data[2] * 4 . '§a.');
             }else{
-                $item = $this->countItem($player, VanillaBlocks::BIRCH_LOG()->asItem()->getId());
-                $itemSell = ItemFactory::getInstance()->get(VanillaBlocks::BIRCH_LOG()->asItem()->getId(), 0, (int)$data[2]);
+                $item = $this->countItem($player, VanillaBlocks::OAK_LOG()->asItem()->getId());
+                $itemSell = ItemFactory::getInstance()->get(VanillaBlocks::OAK_LOG()->asItem()->getId(), 0, (int)$data[2]);
                 if ((int)$data[2] > $item){
                     $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas §e" . (int)$data[2] . "§c bois de bouleau à vendre.");
                     return;
@@ -583,7 +583,7 @@ final class ShopManager {
                 }
                 $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2] * 3);
                 $player->getInventory()->removeItem($itemSell);
-                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] * 3 . "§a pastèque pour §e$data[2].");
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] * 3 . "§a pastèque pour §e" . (int)$data[2] * 3 . ".");
 
             }
         });
