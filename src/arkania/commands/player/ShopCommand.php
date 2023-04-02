@@ -29,7 +29,7 @@ final class ShopCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('shop',
-        'Shop - ArkaniaStudios',
+        'Ouvrir l\'interface du shop',
         '/shop');
         $this->core = $core;
     }
