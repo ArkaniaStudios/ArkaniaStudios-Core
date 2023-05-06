@@ -69,7 +69,7 @@ class Core extends PluginBase {
     private SynchronisationManager $synchronisationManager;
 
     /** @var ServerStatusManager */
-    private ServerStatusManager $serverStatusManager;
+    public ServerStatusManager $serverStatus;
 
     /** @var MaintenanceManager */
     private MaintenanceManager $maintenanceManager;
