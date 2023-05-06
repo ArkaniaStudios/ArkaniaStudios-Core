@@ -427,11 +427,6 @@ final class FormManager {
         $menu->send($player);
     }
 
-            return $transaction->discard();
-        });
-        $menu->send($player);
-    }
-
     /**
      * @param InvMenu $menu
      * @return Item
