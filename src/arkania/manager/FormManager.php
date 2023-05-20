@@ -38,6 +38,7 @@ use pocketmine\item\Item;
 use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;
 use pocketmine\Server;
+use pocketmine\item\ItemFactory;
 
 final class FormManager {
     use Webhook;
@@ -203,30 +204,25 @@ final class FormManager {
      * @return void
      */
     public function sendServerSelectorForm(Player $player): void {
+        $theta = ItemFactory::getInstance()->get(951, 0, 1);
+        $zeta = ItemFactory::getInstance()->get(950, 0, 1);
+        $minage = ItemFactory::getInstance()->get(952, 0, 1);
         $menu = InvMenu::create(InvMenuTypeIds::TYPE_DOUBLE_CHEST);
-        $menu->setName('             §c- §fServers §c-');
-        if ($player->hasPermission('arkania:permission.selector.staff'))
-            $menu->getInventory()->setItem(8, VanillaItems::STICK()->setCustomName('§9Server Développement')->addEnchantment(new EnchantmentInstance(VanillaEnchantments::INFINITY(), 10)));
-        $menu->getInventory()->setItem(20, VanillaItems::DIAMOND_SWORD()->setCustomName('§6Thêta')->setLore(['Faction #1'])->addEnchantment(new EnchantmentInstance(VanillaEnchantments::INFINITY(), 10)));
-        $menu->getInventory()->setItem(22, VanillaItems::DIAMOND_SWORD()->setCustomName('§aZeta')->setLore(['Faction #2'])->addEnchantment(new EnchantmentInstance(VanillaEnchantments::INFINITY(), 10)));
-        $menu->getInventory()->setItem(24, VanillaItems::DIAMOND_SWORD()->setCustomName('§7Epsilon')->setLore(['Faction #3'])->addEnchantment(new EnchantmentInstance(VanillaEnchantments::INFINITY(), 10)));
-        $menu->getInventory()->setItem(28, VanillaItems::IRON_PICKAXE()->setCustomName('§8Minage #1')->addEnchantment(new EnchantmentInstance(VanillaEnchantments::INFINITY(), 10)));
-        $menu->getInventory()->setItem(30, VanillaItems::IRON_PICKAXE()->setCustomName('§8Minage #2')->addEnchantment(new EnchantmentInstance(VanillaEnchantments::INFINITY(), 10)));
-        $menu->getInventory()->setItem(32, VanillaItems::IRON_PICKAXE()->setCustomName('§8Minage #3')->addEnchantment(new EnchantmentInstance(VanillaEnchantments::INFINITY(), 10)));
-        $menu->getInventory()->setItem(34, VanillaItems::GOLDEN_PICKAXE()->setCustomName('§8Minage #4')->addEnchantment(new EnchantmentInstance(VanillaEnchantments::INFINITY(), 10)));
-        $menu->getInventory()->setItem(40, VanillaItems::COMPASS()->setCustomName('§eLobby')->addEnchantment(new EnchantmentInstance(VanillaEnchantments::INFINITY(), 10)));
+        $menu->setName('      §c- §fCarte du voyageur §c-');
+        $menu->getInventory()->setItem(21, $theta->setCustomName('§cThêta')->setLore(['§7§oClique pour te rendre sur le serveur Thêta !']));
+        $menu->getInventory()->setItem(23, $zeta->setCustomName('§cZêta')->setLore(['§7§oClique pour te rendre sur le serveur Zêta !']));
+        $menu->getInventory()->setItem(29, $minage->setCustomName('§8Minage #1'));
+        $menu->getInventory()->setItem(31, $minage->setCustomName('§8Minage #2'));
+        $menu->getInventory()->setItem(33, $minage->setCustomName('§8Minage #3'));
         $menu->setListener(function(InvMenuTransaction $transaction): InvMenuTransactionResult{
             $player = $transaction->getPlayer();
             $scheduler = Core::getInstance()->getScheduler();
-            $serverStatus = Core::getInstance()->getServerStatus();
+            $serverStatus = Core::getInstance()->serverStatus;
 
-            if ($transaction->getItemClicked()->getCustomName() === '§6Thêta'){
-                if (Utils::getServerName() === 'Theta') {
+            if ($transaction->getItemClicked()->getCustomName() === '§cThêta'){
+                if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
                     $player->removeCurrentWindow();
-                    $player->sendMessage(Utils::getPrefix() . "§cVous êtes déjà sur ce serveur.");
-                }elseif (isset(ServerSelectorCommand::$teleport[$player->getName()])){
-                    $player->removeCurrentWindow();
-                    $player->sendMessage(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
+                    $player->sendPopup(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
                 }else{
                     if ($serverStatus->getServerStatus('Theta') === '§cFermé' || $serverStatus->getServerStatus('Theta') === false){
                         $player->removeCurrentWindow();
@@ -238,16 +234,13 @@ final class FormManager {
                         ServerSelectorCommand::$teleport[$player->getName()] = $player->getName();
                         $player->removeCurrentWindow();
                         $scheduler->scheduleRepeatingTask(new TransfertTask('faction', 1, $player), 20);
-                        $player->sendMessage(Utils::getPrefix() . "§aSauvegarde de vos données...");
+                        $player->sendPopup(Utils::getPrefix() . "§aSauvegarde de vos données...");
                     }
                 }
-            }elseif($transaction->getItemClicked()->getCustomName() === '§aZeta'){
-                if (Utils::getServerName() === 'Zeta') {
+            }elseif($transaction->getItemClicked()->getCustomName() === '§cZêta'){
+                if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
                     $player->removeCurrentWindow();
-                    $player->sendMessage(Utils::getPrefix() . "§cVous êtes déjà sur ce serveur.");
-                }elseif (isset(ServerSelectorCommand::$teleport[$player->getName()])){
-                    $player->removeCurrentWindow();
-                    $player->sendMessage(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
+                    $player->sendPopup(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
                 }else{
                     if ($serverStatus->getServerStatus('Zeta') === '§cFermé' || $serverStatus->getServerStatus('Zeta') === false){
                         $player->removeCurrentWindow();
@@ -259,35 +252,14 @@ final class FormManager {
                         ServerSelectorCommand::$teleport[$player->getName()] = $player->getName();
                         $player->removeCurrentWindow();
                         $scheduler->scheduleRepeatingTask(new TransfertTask('faction', 2, $player), 20);
-                        $player->sendMessage(Utils::getPrefix() . "§aSauvegarde de vos données...");
+                        $player->sendPopup(Utils::getPrefix() . "§aSauvegarde de vos données...");
                     }
 
-                }
-            }elseif($transaction->getItemClicked()->getCustomName() === '§7Epsilon'){
-                if (Utils::getServerName() === 'Epsilon') {
-                    $player->removeCurrentWindow();
-                    $player->sendMessage(Utils::getPrefix() . "§cVous êtes déjà sur ce serveur.");
-                }elseif (isset(ServerSelectorCommand::$teleport[$player->getName()])){
-                    $player->removeCurrentWindow();
-                    $player->sendMessage(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
-                }else{
-                    if ($serverStatus->getServerStatus('Epsilon') === '§cFermé' || $serverStatus->getServerStatus('Epsilon') === false){
-                        $player->removeCurrentWindow();
-                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement fermé. Merci de contacter un membre de l'administration ou d'aller voir dans les annonces du discord.");
-                    }elseif($serverStatus->getServerStatus('Epsilon') === '§6Maintenance'){
-                        $player->removeCurrentWindow();
-                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement en maintenance. Rendez-vous sur le discord pour de plus amples explications.");
-                    }else{
-                        ServerSelectorCommand::$teleport[$player->getName()] = $player->getName();
-                        $player->removeCurrentWindow();
-                        $scheduler->scheduleRepeatingTask(new TransfertTask('faction', 3, $player), 20);
-                        $player->sendMessage(Utils::getPrefix() . "§aSauvegarde de vos données...");
-                    }
                 }
             }elseif($transaction->getItemClicked()->getCustomName() === '§8Minage #1'){
                 if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
                     $player->removeCurrentWindow();
-                    $player->sendMessage(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
+                    $player->sendPopup(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
                 }else{
                     if ($serverStatus->getServerStatus('Minage1') === '§cFermé' || $serverStatus->getServerStatus('Minage1') === false){
                         $player->removeCurrentWindow();
@@ -299,13 +271,13 @@ final class FormManager {
                         ServerSelectorCommand::$teleport[$player->getName()] = $player->getName();
                         $player->removeCurrentWindow();
                         $scheduler->scheduleRepeatingTask(new TransfertTask('minage', 1, $player), 20);
-                        $player->sendMessage(Utils::getPrefix() . "§aSauvegarde de vos données...");
+                        $player->sendPopup(Utils::getPrefix() . "§aSauvegarde de vos données...");
                     }
                 }
             }elseif($transaction->getItemClicked()->getCustomName() === '§8Minage #2'){
                 if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
                     $player->removeCurrentWindow();
-                    $player->sendMessage(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
+                    $player->sendPopup(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
                 }else{
                     if ($serverStatus->getServerStatus('Minage2') === '§cFermé' || $serverStatus->getServerStatus('Minage2') === false){
                         $player->removeCurrentWindow();
@@ -317,13 +289,13 @@ final class FormManager {
                         ServerSelectorCommand::$teleport[$player->getName()] = $player->getName();
                         $player->removeCurrentWindow();
                         $scheduler->scheduleRepeatingTask(new TransfertTask('minage', 2, $player), 20);
-                        $player->sendMessage(Utils::getPrefix() . "§aSauvegarde de vos données...");
+                        $player->sendPopup(Utils::getPrefix() . "§aSauvegarde de vos données...");
                     }
                 }
             }elseif($transaction->getItemClicked()->getCustomName() === '§8Minage #3'){
                 if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
                     $player->removeCurrentWindow();
-                    $player->sendMessage(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
+                    $player->sendPopup(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
                 }else{
                     if ($serverStatus->getServerStatus('Minage3') === '§cFermé' || $serverStatus->getServerStatus('Minage3') === false){
                         $player->removeCurrentWindow();
@@ -335,61 +307,10 @@ final class FormManager {
                         ServerSelectorCommand::$teleport[$player->getName()] = $player->getName();
                         $player->removeCurrentWindow();
                         $scheduler->scheduleRepeatingTask(new TransfertTask('minage', 3, $player), 20);
-                        $player->sendMessage(Utils::getPrefix() . "§aSauvegarde de vos données...");
-                    }
-                }
-            }elseif($transaction->getItemClicked()->getCustomName() === '§8Minage #4'){
-                if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
-                    $player->removeCurrentWindow();
-                    $player->sendMessage(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
-                }else{
-                    if ($serverStatus->getServerStatus('Minage4') === '§cFermé' || $serverStatus->getServerStatus('Minage4') === false){
-                        $player->removeCurrentWindow();
-                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement fermé. Merci de contacter un membre de l'administration ou d'aller voir dans les annonces du discord.");
-                    }elseif($serverStatus->getServerStatus('Theta') === '§6Maintenance'){
-                        $player->removeCurrentWindow();
-                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement en maintenance. Rendez-vous sur le discord pour de plus amples explications.");
-                    }else{
-                         ServerSelectorCommand::$teleport[$player->getName()] = $player->getName();
-                         $player->removeCurrentWindow();
-                         $scheduler->scheduleRepeatingTask(new TransfertTask('minage', 4, $player), 20);
-                         $player->sendMessage(Utils::getPrefix() . "§aSauvegarde de vos données...");
-                    }
-                }
-            }elseif($transaction->getItemClicked()->getCustomName() === '§eLobby'){
-                if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
-                    $player->removeCurrentWindow();
-                    $player->sendMessage(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
-                }else{
-                    $player->removeCurrentWindow();
-                    if ($serverStatus->getServerStatus('Lobby1') === '§cFermé' || $serverStatus->getServerStatus('Lobby1') === false){
-                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement fermé. Merci de contacter un membre de l'administration ou d'aller voir dans les annonces du discord.");
-                    }elseif($serverStatus->getServerStatus('Lobby1') === '§6Maintenance'){
-                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement en maintenance. Rendez-vous sur le discord pour de plus amples explications.");
-                    }else{
-                        ServerSelectorCommand::$teleport[$player->getName()] = $player->getName();
-                        $scheduler->scheduleRepeatingTask(new TransfertTask('lobby', 1, $player), 20);
-                        $player->sendMessage(Utils::getPrefix() . "§aSauvegarde de vos données...");
-                    }
-                }
-            }elseif($transaction->getItemClicked()->getCustomName() === '9Server Développement'){
-                if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
-                    $player->removeCurrentWindow();
-                    $player->sendMessage(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
-                }else{
-                    $player->removeCurrentWindow();
-                    if ($serverStatus->getServerStatus('ServerTest') === '§cFermé' || $serverStatus->getServerStatus('ServerTest') === false){
-                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement fermé. Merci de contacter un membre de l'administration ou d'aller voir dans les annonces du discord.");
-                    }elseif($serverStatus->getServerStatus('ServerTest') === '§6Maintenance'){
-                        $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement en maintenance. Rendez-vous sur le discord pour de plus amples explications.");
-                    }else{
-                        ServerSelectorCommand::$teleport[$player->getName()] = $player->getName();
-                        $scheduler->scheduleRepeatingTask(new TransfertTask('dev', 1, $player), 20);
-                        $player->sendMessage(Utils::getPrefix() . "§aSauvegarde de vos données...");
+                        $player->sendPopup(Utils::getPrefix() . "§aSauvegarde de vos données...");
                     }
                 }
             }
-
             return $transaction->discard();
         });
         $menu->send($player);
@@ -647,4 +568,3 @@ final class FormManager {
         });
         $menu->send($player);
     }
-}
