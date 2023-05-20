@@ -18,6 +18,7 @@ namespace arkania\utils;
 
 use arkania\Core;
 use pocketmine\Server;
+use pocketmine\utils\TextFormat;
 
 final class Utils {
 
@@ -51,9 +52,9 @@ final class Utils {
         $port = Server::getInstance()->getPort();
         if ($port === 1000)
             return 'Arkania-V2';
-        elseif ($port === 19133)
-            return 'Theta';
         elseif ($port === 19134)
+            return 'Theta';
+        elseif ($port === 19135)
             return 'Zeta';
         return 'unknown';
     }
@@ -63,7 +64,7 @@ final class Utils {
      * @return string
      */
     public static function removeColorOnMessage($value): string {
-        return str_replace(['§1', '§2', '§3', '§4', '§4', '§5', '§6', '§7', '§8', '§9', '§0', '§a', '§e', '§r', '§o', '§d', '§f', '§g', '§l', '§c', '§b', '§'], '', $value);
+        return str_replace([array_values(TextFormat::COLORS), '§', '§r', '§f', '§o', '§l', '§k'], '', $value);
     }
 
 }

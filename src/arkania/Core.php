@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace arkania;
 
 use arkania\commands\ranks\CraftCommand;
-use arkania\events\animations\purif\PurifAnimation;
 use arkania\inventory\CraftingTableTypeInventory;
 use arkania\jobs\JobsManager;
 use arkania\libs\muqsit\invmenu\InvMenuHandler;
@@ -104,26 +103,12 @@ class Core extends PluginBase {
     /** @var BoxManager */
     private BoxManager $boxManager;
 
-    /** @var Config */
-    public Config $koth;
-
-    /** @var Config */
-    public Config $purif;
-
-    /** @var PurifAnimation */
-    private PurifAnimation $purifManager;
-
     /** @var ShopManager */
     private ShopManager $shopManager;
 
 
     protected function onLoad(): void {
         self::setInstance($this);
-
-       /*foreach (scandir('/home/container/worlds/') as $world){
-            if (Server::getInstance()->getWorldManager()->isWorldGenerated($world))
-                $this->getServer()->getWorldManager()->loadWorld($world);
-        }*/
     }
 
     protected function onEnable(): void {
@@ -134,8 +119,6 @@ class Core extends PluginBase {
             @mkdir($this->getDataFolder() . 'kits/');
         if (!file_exists($this->getDataFolder() . 'homes/'))
             @mkdir($this->getDataFolder() . 'homes/');
-        if (!file_exists($this->getDataFolder() . 'animations/'))
-            @mkdir($this->getDataFolder() . 'animations/');
 
         /* InvMenu */
         if (!InvMenuHandler::isRegistered())
@@ -156,17 +139,13 @@ class Core extends PluginBase {
         $this->voteManager = new VoteManager($this);
         $this->sanctionManager = new SanctionManager();
         $this->nickManager = new NickManager();
-        //$this->jobsManager = new JobsManager();
         $this->factionManager = new FactionManager();
         $this->spawnManager = new SpawnManager($this);
         $this->teleportManager = new TeleportManager();
         $this->boxManager = new BoxManager($this);
         $this->shopManager = new ShopManager($this);
-        $this->purifManager = new PurifAnimation($this);
 
-        $this->loadAllConfig();
-        $loader = new Loader($this);
-        $loader->init();
+        new Loader($this);
         $this->getFactionManager()->loadAllConfig();
 
         /* Ranks */
@@ -177,6 +156,7 @@ class Core extends PluginBase {
         $serverName = Utils::getServerName();
         if ($this->serverStatusManager->getServerStatus($serverName) !== '§6Maintenance')
             $this->serverStatusManager->setServerStatus('ouvert');
+
         $this->getLogger()->info(
             "\n     _      ____    _  __     _      _   _   ___      _".
             "\n    / \    |  _ \  | |/ /    / \    | \ | | |_ _|    / \ ".
@@ -197,27 +177,15 @@ class Core extends PluginBase {
             $this->serverStatusManager->setServerStatus('ferme');
 
         foreach ($this->getServer()->getOnlinePlayers() as $player){
-
             if ($this->nickManager->isNick($player))
                 $this->nickManager->removePlayerNick($player);
-
             if ($this->staffManager->isInStaffMode($player))
                 $this->staffManager->removeStaffMode($player);
-
             $this->statsManager->removeServerConnection($player);
             $player->sendMessage(Utils::getPrefix() . "§cLe serveur vient de redémarrer. Si vous n'avez pas été merci de vous déconnecter et de vous reconnecter au serveur !");
             $this->ranksManager->synchroQuitRank($player);
             $this->synchronisationManager->registerInv($player);
         }
-    }
-
-    /**
-     * @return void
-     */
-    protected function loadAllConfig(): void {
-        $this->config = $this->getConfig();
-        $this->koth = new Config($this->getDataFolder() . 'animations/koth.yml', Config::YAML);
-        $this->purif = new Config($this->getDataFolder() . 'animations/purif.yml', Config::YAML);
     }
 
     /**
@@ -330,13 +298,6 @@ class Core extends PluginBase {
      */
     public function getBoxManager(): BoxManager {
         return $this->boxManager;
-    }
-
-    /**
-     * @return PurifAnimation
-     */
-    public function getPurifAnimation(): PurifAnimation {
-        return $this->purifManager;
     }
 
     /**

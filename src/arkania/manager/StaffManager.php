@@ -50,6 +50,9 @@ final class StaffManager {
     /** @var array */
     private array $freeze = [];
 
+    /** @var array */
+    private array $gamemode = [];
+
     public function __construct(Core $core) {
         $this->core = $core;
     }
@@ -177,6 +180,7 @@ final class StaffManager {
 
         $this->sendDiscordWebhook('**STAFFMODE**', "**" . $player->getName() . "** vient de ce mettre en staff mode." . PHP_EOL . PHP_EOL . "*Contenue de son inventaire*" . PHP_EOL . $contentInv . PHP_EOL . '*Armure*' . PHP_EOL . $contentArmor, '・StaffMode Système - ArkaniaStudios', 0xFFF, WebhookData::STAFFMODE);
 
+        $this->gamemode[$player->getName()] = $player->getGamemode()->name();
         $player->setGamemode(GameMode::ADVENTURE());
         $player->setFlying(true);
         $player->setAllowFlight(true);
@@ -202,7 +206,7 @@ final class StaffManager {
 
         $this->sendDiscordWebhook('**STAFFMODE**', "**" . $player->getName() . "** vient de retirer son staffmode." . PHP_EOL . PHP_EOL . "- Status de l'inventaire : **Récupéré**", 'StaffMode Système - ArkaniaStudios', 0xFEA, WebhookData::STAFFMODE);
 
-        $player->setGamemode(GameMode::SURVIVAL());
+        $player->setGamemode(GameMode::fromString($this->gamemode[$player->getName()]));
         $player->setFlying(false);
         $player->setAllowFlight(false);
 
@@ -211,6 +215,7 @@ final class StaffManager {
         unset($this->staffmode[$player->getName()]);
         unset($this->inventory[$player->getName()]);
         unset($this->armor[$player->getName()]);
+        unset($this->gamemode[$player->getName()]);
         $player->sendMessage(Utils::getPrefix() . "§cVous n'êtes plus en StaffMode.");
     }
 }

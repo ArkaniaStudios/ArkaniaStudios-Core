@@ -21,7 +21,6 @@ use arkania\commands\player\ServerSelectorCommand;
 use arkania\Core;
 use arkania\data\SettingsNameIds;
 use arkania\data\WebhookData;
-use arkania\entity\base\BaseEntity;
 use arkania\libs\form\CustomForm;
 use arkania\libs\form\SimpleForm;
 use arkania\libs\muqsit\invmenu\InvMenu;
@@ -53,116 +52,6 @@ final class FormManager {
 
     public function __construct() {
         $this->factionManager = new FactionManager();
-    }
-
-    /**
-     * @param Player $player
-     * @param BaseEntity $entity
-     * @return void
-     */
-    public function sendMenuForm(Player $player, BaseEntity $entity): void {
-        $form = new SimpleForm(function (Player $player, $data) use ($entity){
-            if (is_null($data))
-                return;
-
-            switch ($data){
-                case 0:
-                    $this->sendAddCommandForm($player, $entity);
-                    break;
-                case 1:
-                    //$this->sendDelCommandForm($player, $entity);
-                    $player->sendMessage(Utils::getPrefix() . "§cindisponible");
-                    break;
-                case 2:
-                    $this->sendChangeNameForm($player, $entity);
-                    break;
-                case 3:
-                    $this->sendChangeSizeForm($player, $entity);
-                    break;
-                case 4:
-                    $entity->flagForDespawn();
-                    $player->sendMessage(Utils::getPrefix() . "Vous avez bien supprimé l'entité.");
-                    break;
-            }
-        });
-        $form->setTitle('§c- §fNpcManager §c-');
-        $form->addButton('§7» §rAjouter une commande');
-        $form->addButton('§7» §rRetirer une commande');
-        $form->addButton('§7» §rChanger le nom');
-        $form->addButton('§7» §rChanger la taille');
-        $form->addButton('§7» §rRetirer le NPC');
-        $player->sendForm($form);
-    }
-
-    /**
-     * @param Player $player
-     * @param BaseEntity $entity
-     * @return void
-     */
-    private function sendAddCommandForm(Player $player, BaseEntity $entity): void {
-        $form = new CustomForm(function (Player $player, $data) use ($entity){
-            if (is_null($data))
-                return;
-
-            $entity->addCommand($data[1]);
-            $player->sendMessage(Utils::getPrefix() . "Vous avez ajouter la commande §c" . $data[1] . "§f.");
-        });
-        $form->setTitle('§c- §fAddCommand §c-');
-        $form->setContent("§7» §rVoici l'interface d'ajout d'une commande. Mettez le nom de la commande + les arguments. Les commandes seront exécutés par le joueur.");
-        $form->addInput('§7» §rNom de la commande :', 'ex: /msg Julien8436 Salut');
-        $player->sendForm($form);
-    }
-
-    /*private function sendDelCommandForm(Player $player, BaseEntity $entity): void
-    {
-        $form = new CustomForm(function (Player $player, $data) use ($entity) {
-            if (is_null($data))
-                return;
-
-            $entity->removeCommand($data[1]);
-            $player->sendMessage(Utils::getPrefix() . "Vous avez supprimé la commande §c" . $entity->getCommand()[$data[1]] . "§f.");
-        });
-
-        $form->setTitle('§c- §fDelCommand §c-');
-        $form->setContent('§7» §rSéléctionnez la commande que vous souhaitez supprimer.');
-        $form->addDropdown('§7» §rListe des commandes :', $entity->commands);
-        $player->sendForm($form);
-    }*/
-
-    /**
-     * @param Player $player
-     * @param BaseEntity $entity
-     * @return void
-     */
-    private function sendChangeNameForm(Player $player, BaseEntity $entity): void{
-        $form = new CustomForm(function (Player $player, $data) use ($entity){
-            if (is_null($data))
-                return;
-            $entity->setCustomName($data[0]);
-            $player->sendMessage(Utils::getPrefix() . "Vous avez changé le nom de l'entité en §c$data[0]§f.");
-        });
-        $form->setTitle('§c- §fChangeName §c-');
-        $form->addInput('§7» §rNouveau nom :');
-        $player->sendForm($form);
-    }
-
-    /**
-     * @param Player $player
-     * @param BaseEntity $entity
-     * @return void
-     */
-    private function sendChangeSizeForm(Player $player, BaseEntity $entity): void {
-        $form = new CustomForm(function (Player $player, $data) use ($entity){
-            if (is_null($data))
-                return;
-
-            $entity->setTaille($data[0]);
-            $player->sendMessage(Utils::getPrefix() . "Vous avez définit la taille du npc à §c" . $data[0] . "§f.");
-
-        });
-        $form->setTitle('§c- §fChangeSize §c-');
-        $form->addSlider('§7» §rTaille:', 1, 3, -1,1);
-        $player->sendForm($form);
     }
 
     /**
@@ -450,7 +339,7 @@ final class FormManager {
      */
     public function sendKitForm(Player $player, bool $isAdmin = false): void {
         $menu = InvMenu::create(InvMenuTypeIds::TYPE_CHEST);
-        $menu->setName('                        §cKits');
+        $menu->setName('               §cKits');
         $menu->getInventory()->setItem(10, VanillaItems::RECORD_WAIT()->setCustomName('Kit §7Joueur'));
         $menu->getInventory()->setItem(11, VanillaItems::RECORD_13()->setCustomName('Kit §dBooster'));
         $menu->getInventory()->setItem(13, VanillaItems::RECORD_STAL()->setCustomName('Kit §eNoble'));
@@ -679,14 +568,3 @@ final class FormManager {
         });
         $menu->send($player);
     }
-    /**
-     * @param Player $player
-     * @return void
-     */
-    public function sendJobsForm(Player $player): void {
-        $form = new SimpleForm(function (Player $player, $data){
-
-        });
-        $form->setTitle('§c- §fJobs §c-');
-    }
-}

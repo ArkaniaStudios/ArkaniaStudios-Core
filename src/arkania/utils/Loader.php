@@ -95,9 +95,6 @@ use arkania\commands\staff\UnBanCommand;
 use arkania\commands\staff\UnMuteCommand;
 use arkania\commands\staff\WarnCommand;
 use arkania\Core;
-use arkania\entity\base\BaseEntity;
-use arkania\entity\entities\MoneyLeaderBoard;
-use arkania\entity\entities\VillagerEntity;
 use arkania\events\entity\BlockBreakEvent;
 use arkania\events\entity\BlockPlaceEvent;
 use arkania\events\entity\CommandEvent;
@@ -116,7 +113,6 @@ use arkania\factions\FactionClass;
 use arkania\jobs\class\Mineur;
 use arkania\listener\StaffModeListener;
 use arkania\listener\SynchronisationListener;
-use arkania\manager\BoxManager;
 use arkania\manager\EconomyManager;
 use arkania\manager\RanksManager;
 use arkania\manager\SanctionManager;
@@ -126,13 +122,6 @@ use arkania\manager\StatsManager;
 use arkania\manager\SynchronisationManager;
 use arkania\tasks\ClearLagTask;
 use arkania\tasks\MessageTask;
-use pocketmine\data\bedrock\EntityLegacyIds;
-use pocketmine\entity\Entity;
-use pocketmine\entity\EntityDataHelper;
-use pocketmine\entity\EntityFactory;
-use pocketmine\entity\Location;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\world\World;
 
 final class Loader {
 
@@ -141,14 +130,10 @@ final class Loader {
 
     public function __construct(Core $core) {
         $this->core = $core;
-    }
-
-    public function init(): void {
         $this->initEvents();
         $this->initUnLoadCommand();
         $this->initCommands();
         $this->initData();
-        $this->initEntity();
         $this->initTask();
     }
 
@@ -316,7 +301,6 @@ final class Loader {
         EconomyManager::init();
         SanctionManager::init();
         Mineur::init();
-        BoxManager::init();
     }
 
 
@@ -327,45 +311,4 @@ final class Loader {
         $this->core->getScheduler()->scheduleRepeatingTask(new ClearLagTask($this->core, 300), 20);
         $this->core->getScheduler()->scheduleRepeatingTask(new MessageTask($this->core), 9000);
     }
-
-    /**
-     * @return void
-     */
-    private function initEntity(): void {
-        $this->register(VillagerEntity::class, ['arkania:npc.villager'], EntityLegacyIds::VILLAGER);
-        $this->register(MoneyLeaderBoard::class, ['arkania:npc.money'], EntityLegacyIds::CHICKEN);
-    }
-
-
-
-    /**
-     * @param string $classEntity
-     * @param array $names
-     * @param int|null $entityId
-     * @return void
-     */
-    public function register(string $classEntity, array $names, int $entityId = null): void {
-
-        foreach ($names as $name)
-            self::$entities[strtolower($name)] = $classEntity;
-
-        EntityFactory::getInstance()->register($classEntity, function (World $world, CompoundTag $nbt) use($classEntity, $names) : Entity {
-
-            return new $classEntity(EntityDataHelper::parseLocation($nbt, $world), $nbt);
-        }, $names, $entityId);
-    }
-
-    /**
-     * @param Location $location
-     * @param string|int $id
-     * @return BaseEntity|null
-     */
-    public function getEntityById(Location $location, string|int $id) : BaseEntity|null {
-        if(!isset(self::$entities[strtolower($id)]))
-            return null;
-
-        return new self::$entities[strtolower($id)]($location);
-
-    }
-
 }

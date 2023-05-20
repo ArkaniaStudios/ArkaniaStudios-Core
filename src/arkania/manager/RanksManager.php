@@ -109,7 +109,7 @@ final class RanksManager {
         Query::query("DELETE FROM ranks WHERE name='" . self::getDataBase()->real_escape_string($rankName) . "'");
         $db->close();
 
-        $players = self::getDataBase()->query("SELECT name FROM player_ranks WHERE ranks='" . self::getDataBase()->real_escape_string($rankName) . "'");
+        $players = self::getDataBase()->query("SELECT name FROM players_ranks WHERE ranks='" . self::getDataBase()->real_escape_string($rankName) . "'");
         $target = Server::getInstance()->getPlayerExact($players->fetch_array()[0]);
         if ($target instanceof Player){
             $this->updatePermission($target);
@@ -369,7 +369,7 @@ final class RanksManager {
         if ($db->num_rows > 0){
             $db = self::getDataBase()->query("SELECT permissions FROM players_ranks WHERE name='" . self::getDataBase()->real_escape_string($playerName) . "'");
             $permissionArray = unserialize($db->fetch_array()[0]);
-            if (!in_array($permission, $permissionArray));
+            if (!in_array($permission, $permissionArray)) return;
             unset($permissionArray[array_search($permission, $permissionArray)]);
             asort($permissionArray);
             Query::query("UPDATE players_ranks SET permissions='" . serialize($permissionArray) . "' WHERE name='" . self::getDataBase()->real_escape_string($playerName) . "'");
@@ -408,11 +408,9 @@ final class RanksManager {
         if ($ranks === 'Helper') return '§a';
         if ($ranks === 'Modérateur') return '§3';
         if ($ranks === 'Opérateur') return '§1';
-        if ($ranks === 'Développeur') return '§2';
-        if ($ranks === 'Administrateur') return '§6';
-        if ($ranks === 'Développeurplus') return '§2';
-        if ($ranks === 'Co-Fondateur') return '§c';
-        if ($ranks === 'Fondateur') return '§4';
+        if ($ranks === 'Developpeur') return '§2';
+        if ($ranks === 'Responsable') return '§c';
+        if ($ranks === 'Administrateur') return '§4';
         return '§7';
     }
 
@@ -453,20 +451,16 @@ final class RanksManager {
         if ($ranks === 'Helper') return '§aHelper';
         if ($ranks === 'Modérateur') return '§3Modérateur';
         if ($ranks === 'Opérateur') return '§1Opérateur';
-        if ($ranks === 'Développeur') return '§2Développeur';
-        if ($ranks === 'Administrateur') return '§6Administrateur';
-        if ($ranks === 'Développeurplus') return '§2Développeur';
-        if ($ranks === 'Co-Fondateur') return '§cCo§f-§cFondateur';
-        if ($ranks === 'Fondateur') return '§4Fondateur';
+        if ($ranks === 'Developpeur') return '§2Développeur';
+        if ($ranks === 'Responsable') return '§cResponsable';
+        if ($ranks === 'Administrateur') return '§4Administrateur';
         return '§7Joueur';
     }
 
     /** @var array */
     public static array $rankList = [
-        'Fondateur',
-        'Co-Fondateur',
-        'Développeurplus',
         'Administrateur',
+        'Responsable',
         'Opérateur',
         'Modérateur',
         'Développeur',
