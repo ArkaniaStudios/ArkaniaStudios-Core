@@ -80,10 +80,6 @@ final class TeleportTask extends Task {
                 unset(SpawnCommand::$teleport[$player->getName()]);
                 $this->core->getSpawnManager()->teleportSpawn($player);
                 $player->sendMessage(Utils::getPrefix() . "§aVous avez été téléporté au spawn.");
-            }elseif($this->type === 'lobby'){
-                unset(SpawnCommand::$teleport[$player->getName()]);
-                $player->sendMessage(Utils::getPrefix() . "§aVous avez été téléporté au lobby.");
-                $player->transfer('lobby1');
             }elseif($this->type === 'box') {
                 unset(SpawnCommand::$teleport[$player->getName()]);
                 $this->core->getBoxManager()->teleportBox($player);

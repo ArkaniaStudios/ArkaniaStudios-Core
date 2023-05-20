@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace arkania\manager;
 
-use arkania\Core;
 use arkania\data\DataBaseConnector;
 use arkania\utils\Query;
 use arkania\utils\Utils;
@@ -172,7 +171,6 @@ final class StatsManager {
             self::getDatabase()->query("INSERT INTO deaths (name, deathCount) VALUES ('" . self::getDatabase()->real_escape_string($name) . "', 0);");
         }
         $db->close();
-        $this->createTimeKey($player);
     }
 
     /**
@@ -231,58 +229,9 @@ final class StatsManager {
 
     /**
      * @param $player
-     * @return mixed
+     * @return string
      */
-    public function getTime($player): mixed{
-        if ($player instanceof Player)$player = $player->getName();
-        return self::$time[$player];
-    }
-
-    /**
-     * @return array
-     */
-    public function getAllTime(): array {
-        $res = self::getDatabase()->query("SELECT * FROM player_time");
-
-        $ret = [];
-        foreach($res->fetch_all() as $val){
-            $ret[$val[0]] = $val[1];
-        }
-        $res->close();
-        return $ret;
-    }
-
-    /**
-     * @param Player $player
-     * @return void
-     */
-    public function createTimeKey(Player $player): void {
-        $name = strtolower($player->getName());
-        $db = self::getDatabase()->query("SELECT * FROM player_time WHERE name='" . self::getDatabase()->real_escape_string($name) . "'");
-        $time = $db->num_rows > 0;
-        if(!$time){
-            Query::query("INSERT INTO player_time (name, time) VALUES ('" . self::getDatabase()->real_escape_string($name) . "', '0');");
-        }
-        $db->close();
-    }
-
-    /**
-     * @param Player $player
-     * @return void
-     */
-    public function synchroJoinStats(Player $player): void {
-        self::$time[$player->getName()] = time();
-    }
-
-    /**
-     * @param Player $player
-     * @return void
-     */
-    public function synchroQuitStats(Player $player): void {
-        $name = strtolower($player->getName());
-        $db = self::getDatabase()->query("SELECT time FROM player_time WHERE name='$name'");
-        $time = $db->fetch_array()[0] ?? 0;
-        $newtime = $time + (time() - self::$time[$player->getName()]);
-        Query::query("UPDATE player_time SET time = '$newtime' WHERE name='" . self::getDatabase()->real_escape_string($name) . "'");
+    public function getTime($player): string {
+        return 'Désactivé';
     }
 }

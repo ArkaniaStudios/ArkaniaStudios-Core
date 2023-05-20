@@ -56,7 +56,7 @@ final class ClearLagTask extends Task {
             $count = 0;
             foreach ($this->core->getServer()->getWorldManager()->getWorlds() as $world){
                 foreach ($world->getEntities() as $entity){
-                    if ($entity instanceof Human || $entity instanceof VillagerEntity)continue;
+                    if ($entity instanceof Human)continue;
                     if ($entity instanceof ItemEntity || $entity instanceof ExperienceOrb || $entity instanceof  Zombie){
                         $entity->flagForDespawn();
                         $count++;

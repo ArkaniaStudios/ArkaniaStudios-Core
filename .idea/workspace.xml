@@ -4,18 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="Release 1.0.6">
-      <change afterPath="$PROJECT_DIR$/src/arkania/entity/entities/MoneyLeaderBoard.php" afterDir="false" />
+    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="Release 1.0.7">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/11afa8bd-3b75-4fa7-b1c1-950cc8d2fa3a/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/167f165b-2384-4b53-be91-29074cc975f4/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/plugin.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/Core.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/Core.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/FactionCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/FactionCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/ServerInfoCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/ServerInfoCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/TpaCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/TpaCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/ranks/FurnaceCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/ranks/FurnaceCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/events/entity/EntityDamageEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/entity/EntityDamageEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/listener/SynchronisationListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/listener/SynchronisationListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/CreditCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/CreditCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/InfoCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/InfoCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/entity/EntityIds.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/entity/EntityTrait.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/entity/base/BaseEntity.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/entity/entities/MoneyLeaderBoard.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/entity/entities/VillagerEntity.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/BoxManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/BoxManager.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/manager/FormManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/FormManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/manager/ShopManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/ShopManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/RanksManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/RanksManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/StaffManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/StaffManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/StatsManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/StatsManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/session/Session.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/tasks/ClearLagTask.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/tasks/ClearLagTask.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/tasks/PurifTask.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/tasks/TeleportTask.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/tasks/TeleportTask.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/utils/Loader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/Loader.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/utils/Utils.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/Utils.php" afterDir="false" />
     </list>
@@ -39,7 +49,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="PhpDebugGeneral" listening_started="true" />
-  <component name="PhpWorkspaceProjectConfiguration">
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP">
     <include_path>
       <path value="$PROJECT_DIR$/../../../PocketMine-MP API" />
       <path value="$USER_HOME$/API/PocketMine-MP" />
@@ -59,6 +69,8 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;update&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/dumon/Downloads/AUSOLEIL_CORE_PM4&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -187,7 +199,13 @@
       <workItem from="1680357558187" duration="163000" />
       <workItem from="1680357745832" duration="70000" />
       <workItem from="1680397248154" duration="6000" />
-      <workItem from="1680438117319" duration="3562000" />
+      <workItem from="1680438117319" duration="3986000" />
+      <workItem from="1680442324766" duration="13000" />
+      <workItem from="1680447948004" duration="523000" />
+      <workItem from="1680550680964" duration="34000" />
+      <workItem from="1681801285350" duration="196000" />
+      <workItem from="1683141508563" duration="860000" />
+      <workItem from="1684591105043" duration="1177000" />
     </task>
     <task id="LOCAL-00001" summary="add template">
       <created>1676844106724</created>
@@ -525,7 +543,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680323629820</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="Release 1.0.7">
+      <created>1680441816685</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1680441816685</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -543,7 +568,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="move trait" />
     <MESSAGE value="implement session" />
     <MESSAGE value="another update" />
     <MESSAGE value="correction of synchronisation" />
@@ -568,6 +592,7 @@
     <MESSAGE value="Release 1.0.4" />
     <MESSAGE value="Release 1.0.5" />
     <MESSAGE value="Release 1.0.6" />
-    <option name="LAST_COMMIT_MESSAGE" value="Release 1.0.6" />
+    <MESSAGE value="Release 1.0.7" />
+    <option name="LAST_COMMIT_MESSAGE" value="Release 1.0.7" />
   </component>
 </project>

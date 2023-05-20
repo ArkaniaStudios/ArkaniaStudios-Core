@@ -22,17 +22,14 @@ interface ServerNameIds {
         'faction' => [
             1 => 'fac1',
             2 => 'fac2',
-            3 => 'fac3'
         ],
         'minage' => [
             1 => 'minage1',
             2 => 'minage2',
             3 => 'minage3',
-            4 => 'minage4'
         ],
         'lobby' => [
             1 => 'lobby1',
-            2 => 'lobby2'
         ],
         'dev' => 'servertest'
     ];
