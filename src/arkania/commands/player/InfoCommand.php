@@ -52,7 +52,7 @@ final class InfoCommand extends BaseCommand {
         $stats = $this->core->getStatsManager();
 
         if (count($args) === 0){
-            $player->sendMessage(Utils::getPrefix() . "Voici les informations vous concernant :" . PHP_EOL . PHP_EOL . "- Grade : " . $this->core->getRanksManager()->getRankColor($player->getName()) . PHP_EOL . "§f- Faction: §e" . $faction->getFaction($player->getName()) . PHP_EOL . "§f- Argent : §e" . $this->core->getEconomyManager()->getMoney($player->getName()) . "" . PHP_EOL . PHP_EOL . "§f- Inscription : §e" . $stats->getInscription($player->getName()) . PHP_EOL . "§f- Temps de jeu : §e" . $this->tempsFormat(abs($stats->getTime($player->getName()))) . PHP_EOL . PHP_EOL . "§f- Status : " . $stats->getServerConnection($player->getName()));
+            $player->sendMessage(Utils::getPrefix() . "Voici les informations vous concernant :" . PHP_EOL . PHP_EOL . "- Grade : " . $this->core->getRanksManager()->getRankColor($player->getName()) . PHP_EOL . "§f- Faction: §e" . $faction->getFaction($player->getName()) . PHP_EOL . "§f- Argent : §e" . $this->core->getEconomyManager()->getMoney($player->getName()) . "" . PHP_EOL . PHP_EOL . "§f- Inscription : §e" . $stats->getInscription($player->getName()) . PHP_EOL . "§f- Temps de jeu : §eDésactivé" . PHP_EOL . PHP_EOL . "§f- Status : " . $stats->getServerConnection($player->getName()));
         }else{
             $player->sendMessage(Utils::getPrefix() . '§cDésactivé temporairement.');
             return true;
