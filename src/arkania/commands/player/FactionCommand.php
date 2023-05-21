@@ -192,6 +192,10 @@ final class FactionCommand extends BaseCommand {
                 $requester = $this->faction_invite[$player->getName()];
                 unset($this->faction_invite[$player->getName()]);
 
+                if (!$factionManager->getFactionClass($factionManager->getFaction($requester->getName()), $requester)->existFaction()) {
+                    $player->sendMessage(Utils::getPrefix() . "§cCette faction n'existe plus.");
+                    return true;
+                }
                 $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->sendFactionLogs('**FACTION - JOIN**', "**" . $player->getName() . "** vient de rejoindre la faction. Il a été invité par **" . $requester ."**");
                 $player->sendMessage(Utils::getPrefix() . "§aVous venez d'accepter l'invitation de faction de la §e" . $factionManager->getFaction($requester) . "§a.");
                 $factionManager->getFactionClass($factionManager->getFaction($requester), $requester)->addMember($player);

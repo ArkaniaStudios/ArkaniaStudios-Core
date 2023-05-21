@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace arkania\events\players;
 
 use arkania\Core;
+use arkania\manager\ProtectionManager;
 use arkania\utils\Utils;
 use pocketmine\event\Listener;
 use pocketmine\item\ItemFactory;
@@ -31,6 +32,8 @@ final class PlayerInteractEvent implements Listener {
         $this->core = $core;
     }
 
+
+
     /**
      * @param \pocketmine\event\player\PlayerInteractEvent $event
      * @return void
@@ -40,6 +43,12 @@ final class PlayerInteractEvent implements Listener {
         $item = $event->getItem();
         $itemName = $item->getCustomName();
         $name = '§e(';
+
+        if (ProtectionManager::isInProtectedZone($player->getPosition(), 'warzone') && !$player->getServer()->isOp($player->getName())) {
+            if ($player->getInventory()->getItemInHand()->getId() == VanillaItems::BUCKET()->getId() or $player->getInventory()->getItemInHand()->getId() === VanillaItems::FLINT_AND_STEEL()->getId()) {
+                $event->cancel();
+            }
+        }
 
         if ($item->getId() == VanillaItems::EXPERIENCE_BOTTLE()->getId()){
             $event->cancel();
