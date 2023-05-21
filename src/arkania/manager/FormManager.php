@@ -40,7 +40,8 @@ use pocketmine\player\Player;
 use pocketmine\Server;
 use pocketmine\item\ItemFactory;
 
-final class FormManager {
+final class FormManager
+{
     use Webhook;
     use Date;
 
@@ -50,7 +51,8 @@ final class FormManager {
     /** @var array */
     public static array $faction_webhook = [];
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->factionManager = new FactionManager();
     }
 
@@ -58,7 +60,8 @@ final class FormManager {
      * @param Player $player
      * @return void
      */
-    public function sendSettingsForm(Player $player): void {
+    public function sendSettingsForm(Player $player): void
+    {
 
         $settings = new SettingsManager($player);
         if ($settings->getSettings(SettingsNameIds::CLEARLAG) === true)
@@ -88,23 +91,23 @@ final class FormManager {
         $menu->getInventory()->setItem(46, $glass);
         $menu->getInventory()->setItem(52, $glass);
         $menu->getInventory()->setItem(53, $glass);
-        $menu->setListener(function (InvMenuTransaction $transaction): InvMenuTransactionResult{
+        $menu->setListener(function (InvMenuTransaction $transaction): InvMenuTransactionResult {
             $player = $transaction->getPlayer();
             $settings = new SettingsManager($player);
 
-            if ($transaction->getItemClicked()->getId() === VanillaItems::CLOCK()->getId()){
+            if ($transaction->getItemClicked()->getId() === VanillaItems::CLOCK()->getId()) {
                 if ($settings->getSettings(SettingsNameIds::CLEARLAG) === false)
                     $settings->setSettings(SettingsNameIds::CLEARLAG, true);
                 else
                     $settings->setSettings(SettingsNameIds::CLEARLAG, false);
                 $player->removeCurrentWindow();
-            }elseif ($transaction->getItemClicked()->getId() === VanillaItems::PAPER()->getId()){
+            } elseif ($transaction->getItemClicked()->getId() === VanillaItems::PAPER()->getId()) {
                 if ($settings->getSettings(SettingsNameIds::MESSAGE) === false)
                     $settings->setSettings(SettingsNameIds::MESSAGE, true);
                 else
                     $settings->setSettings(SettingsNameIds::MESSAGE, false);
                 $player->removeCurrentWindow();
-            }elseif ($transaction->getItemClicked()->getId() === VanillaItems::SNOWBALL()->getId()){
+            } elseif ($transaction->getItemClicked()->getId() === VanillaItems::SNOWBALL()->getId()) {
                 if ($settings->getSettings(SettingsNameIds::TELEPORT) === false)
                     $settings->setSettings(SettingsNameIds::TELEPORT, true);
                 else
@@ -120,8 +123,9 @@ final class FormManager {
      * @param Player $player
      * @return void
      */
-    public function sendCreateFactionForm(Player $player): void {
-        $form = new CustomForm(function (Player $player, $data){
+    public function sendCreateFactionForm(Player $player): void
+    {
+        $form = new CustomForm(function (Player $player, $data) {
 
             $factionManager = $this->factionManager;
 
@@ -133,17 +137,17 @@ final class FormManager {
                 return;
             }
 
-            if (!Utils::isValidArgument($data[1])){
+            if (!Utils::isValidArgument($data[1])) {
                 $player->sendMessage(Utils::getPrefix() . "§cUn argument de votre faction n'est pas valide. Merci de le changer.");
                 return;
             }
 
-            if (strlen($data[1]) > 10){
+            if (strlen($data[1]) > 10) {
                 $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez pas mettre plus de 10 caractères.");
                 return;
             }
 
-            if (str_contains($data[1], '§')){
+            if (str_contains($data[1], '§')) {
                 $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez pas mettre des caractères qui à pour but de colorer le nom de votre faction.");
                 return;
             }
@@ -157,14 +161,14 @@ final class FormManager {
 
             $description = $data[2] ?? 'Aucune';
 
-            if (strlen($description) > 50){
+            if (strlen($description) > 50) {
                 $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez pas mettre plus de §e50 caractères §cdans la description de votre faction.");
                 return;
             }
 
             $url = 'unknow';
 
-            if ((bool)$data[3] === false){
+            if ((bool)$data[3] === false) {
                 self::$faction_webhook[$player->getName()] = $player->getName();
                 $player->sendMessage(Utils::getPrefix() . "§6Merci de mettre l'url du webhook dans le chat afin d'activer les logs pour votre faction.");
             }
@@ -187,8 +191,9 @@ final class FormManager {
      * @param string $faction
      * @return void
      */
-    public function sendFactionInfoForm(Player $player, string $faction): void {
-        $form = new SimpleForm(function(Player $player, $data) {
+    public function sendFactionInfoForm(Player $player, string $faction): void
+    {
+        $form = new SimpleForm(function (Player $player, $data) {
 
         });
         $factionManager = new FactionManager();
@@ -203,7 +208,8 @@ final class FormManager {
      * @param Player $player
      * @return void
      */
-    public function sendServerSelectorForm(Player $player): void {
+    public function sendServerSelectorForm(Player $player): void
+    {
         $theta = ItemFactory::getInstance()->get(951, 0, 1);
         $zeta = ItemFactory::getInstance()->get(950, 0, 1);
         $minage = ItemFactory::getInstance()->get(952, 0, 1);
@@ -214,41 +220,41 @@ final class FormManager {
         $menu->getInventory()->setItem(29, $minage->setCustomName('§8Minage #1'));
         $menu->getInventory()->setItem(31, $minage->setCustomName('§8Minage #2'));
         $menu->getInventory()->setItem(33, $minage->setCustomName('§8Minage #3'));
-        $menu->setListener(function(InvMenuTransaction $transaction): InvMenuTransactionResult{
+        $menu->setListener(function (InvMenuTransaction $transaction): InvMenuTransactionResult {
             $player = $transaction->getPlayer();
             $scheduler = Core::getInstance()->getScheduler();
             $serverStatus = Core::getInstance()->serverStatus;
 
-            if ($transaction->getItemClicked()->getCustomName() === '§cThêta'){
-                if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
+            if ($transaction->getItemClicked()->getCustomName() === '§cThêta') {
+                if (isset(ServerSelectorCommand::$teleport[$player->getName()])) {
                     $player->removeCurrentWindow();
                     $player->sendPopup(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
-                }else{
-                    if ($serverStatus->getServerStatus('Theta') === '§cFermé' || $serverStatus->getServerStatus('Theta') === false){
+                } else {
+                    if ($serverStatus->getServerStatus('Theta') === '§cFermé' || $serverStatus->getServerStatus('Theta') === false) {
                         $player->removeCurrentWindow();
                         $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement fermé. Merci de contacter un membre de l'administration ou d'aller voir dans les annonces du discord.");
-                    }elseif($serverStatus->getServerStatus('Theta') === '§6Maintenance'){
+                    } elseif ($serverStatus->getServerStatus('Theta') === '§6Maintenance') {
                         $player->removeCurrentWindow();
                         $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement en maintenance. Rendez-vous sur le discord pour de plus amples explications.");
-                    }else{
+                    } else {
                         ServerSelectorCommand::$teleport[$player->getName()] = $player->getName();
                         $player->removeCurrentWindow();
                         $scheduler->scheduleRepeatingTask(new TransfertTask('faction', 1, $player), 20);
                         $player->sendPopup(Utils::getPrefix() . "§aSauvegarde de vos données...");
                     }
                 }
-            }elseif($transaction->getItemClicked()->getCustomName() === '§cZêta'){
-                if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
+            } elseif ($transaction->getItemClicked()->getCustomName() === '§cZêta') {
+                if (isset(ServerSelectorCommand::$teleport[$player->getName()])) {
                     $player->removeCurrentWindow();
                     $player->sendPopup(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
-                }else{
-                    if ($serverStatus->getServerStatus('Zeta') === '§cFermé' || $serverStatus->getServerStatus('Zeta') === false){
+                } else {
+                    if ($serverStatus->getServerStatus('Zeta') === '§cFermé' || $serverStatus->getServerStatus('Zeta') === false) {
                         $player->removeCurrentWindow();
                         $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement fermé. Merci de contacter un membre de l'administration ou d'aller voir dans les annonces du discord.");
-                    }elseif($serverStatus->getServerStatus('Zeta') === '§6Maintenance'){
+                    } elseif ($serverStatus->getServerStatus('Zeta') === '§6Maintenance') {
                         $player->removeCurrentWindow();
                         $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement en maintenance. Rendez-vous sur le discord pour de plus amples explications.");
-                    }else {
+                    } else {
                         ServerSelectorCommand::$teleport[$player->getName()] = $player->getName();
                         $player->removeCurrentWindow();
                         $scheduler->scheduleRepeatingTask(new TransfertTask('faction', 2, $player), 20);
@@ -256,54 +262,54 @@ final class FormManager {
                     }
 
                 }
-            }elseif($transaction->getItemClicked()->getCustomName() === '§8Minage #1'){
-                if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
+            } elseif ($transaction->getItemClicked()->getCustomName() === '§8Minage #1') {
+                if (isset(ServerSelectorCommand::$teleport[$player->getName()])) {
                     $player->removeCurrentWindow();
                     $player->sendPopup(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
-                }else{
-                    if ($serverStatus->getServerStatus('Minage1') === '§cFermé' || $serverStatus->getServerStatus('Minage1') === false){
+                } else {
+                    if ($serverStatus->getServerStatus('Minage1') === '§cFermé' || $serverStatus->getServerStatus('Minage1') === false) {
                         $player->removeCurrentWindow();
                         $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement fermé. Merci de contacter un membre de l'administration ou d'aller voir dans les annonces du discord.");
-                    }elseif($serverStatus->getServerStatus('Minage1') === '§6Maintenance'){
+                    } elseif ($serverStatus->getServerStatus('Minage1') === '§6Maintenance') {
                         $player->removeCurrentWindow();
                         $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement en maintenance. Rendez-vous sur le discord pour de plus amples explications.");
-                    }else{
+                    } else {
                         ServerSelectorCommand::$teleport[$player->getName()] = $player->getName();
                         $player->removeCurrentWindow();
                         $scheduler->scheduleRepeatingTask(new TransfertTask('minage', 1, $player), 20);
                         $player->sendPopup(Utils::getPrefix() . "§aSauvegarde de vos données...");
                     }
                 }
-            }elseif($transaction->getItemClicked()->getCustomName() === '§8Minage #2'){
-                if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
+            } elseif ($transaction->getItemClicked()->getCustomName() === '§8Minage #2') {
+                if (isset(ServerSelectorCommand::$teleport[$player->getName()])) {
                     $player->removeCurrentWindow();
                     $player->sendPopup(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
-                }else{
-                    if ($serverStatus->getServerStatus('Minage2') === '§cFermé' || $serverStatus->getServerStatus('Minage2') === false){
+                } else {
+                    if ($serverStatus->getServerStatus('Minage2') === '§cFermé' || $serverStatus->getServerStatus('Minage2') === false) {
                         $player->removeCurrentWindow();
                         $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement fermé. Merci de contacter un membre de l'administration ou d'aller voir dans les annonces du discord.");
-                    }elseif($serverStatus->getServerStatus('Minage2') === '§6Maintenance'){
+                    } elseif ($serverStatus->getServerStatus('Minage2') === '§6Maintenance') {
                         $player->removeCurrentWindow();
                         $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement en maintenance. Rendez-vous sur le discord pour de plus amples explications.");
-                    }else{
+                    } else {
                         ServerSelectorCommand::$teleport[$player->getName()] = $player->getName();
                         $player->removeCurrentWindow();
                         $scheduler->scheduleRepeatingTask(new TransfertTask('minage', 2, $player), 20);
                         $player->sendPopup(Utils::getPrefix() . "§aSauvegarde de vos données...");
                     }
                 }
-            }elseif($transaction->getItemClicked()->getCustomName() === '§8Minage #3'){
-                if (isset(ServerSelectorCommand::$teleport[$player->getName()])){
+            } elseif ($transaction->getItemClicked()->getCustomName() === '§8Minage #3') {
+                if (isset(ServerSelectorCommand::$teleport[$player->getName()])) {
                     $player->removeCurrentWindow();
                     $player->sendPopup(Utils::getPrefix() . "§cVos données sont en cour de sauvegarde. Merci de patienter.");
-                }else{
-                    if ($serverStatus->getServerStatus('Minage3') === '§cFermé' || $serverStatus->getServerStatus('Minage3') === false){
+                } else {
+                    if ($serverStatus->getServerStatus('Minage3') === '§cFermé' || $serverStatus->getServerStatus('Minage3') === false) {
                         $player->removeCurrentWindow();
                         $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement fermé. Merci de contacter un membre de l'administration ou d'aller voir dans les annonces du discord.");
-                    }elseif($serverStatus->getServerStatus('Minage3') === '§6Maintenance'){
+                    } elseif ($serverStatus->getServerStatus('Minage3') === '§6Maintenance') {
                         $player->removeCurrentWindow();
                         $player->sendMessage(Utils::getPrefix() . "§cCe serveur est actuellement en maintenance. Rendez-vous sur le discord pour de plus amples explications.");
-                    }else{
+                    } else {
                         ServerSelectorCommand::$teleport[$player->getName()] = $player->getName();
                         $player->removeCurrentWindow();
                         $scheduler->scheduleRepeatingTask(new TransfertTask('minage', 3, $player), 20);
@@ -337,7 +343,8 @@ final class FormManager {
      * @param bool $isAdmin
      * @return void
      */
-    public function sendKitForm(Player $player, bool $isAdmin = false): void {
+    public function sendKitForm(Player $player, bool $isAdmin = false): void
+    {
         $menu = InvMenu::create(InvMenuTypeIds::TYPE_CHEST);
         $menu->setName('               §cKits');
         $menu->getInventory()->setItem(10, VanillaItems::RECORD_WAIT()->setCustomName('Kit §7Joueur'));
@@ -354,35 +361,35 @@ final class FormManager {
             if ($transaction->getItemClicked()->getCustomName() === 'Kit §7Joueur') {
                 $player->removeCurrentWindow();
                 $kits->sendKitPlayer($player, $isAdmin);
-            }elseif($transaction->getItemClicked()->getCustomName() === 'Kit §dBooster') {
+            } elseif ($transaction->getItemClicked()->getCustomName() === 'Kit §dBooster') {
                 if ($player->hasPermission('arkania:permission.kit.booster')) {
                     $player->removeCurrentWindow();
                     $kits->sendKitBooster($player, $isAdmin);
-                }else{
+                } else {
                     $player->removeCurrentWindow();
                     $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas la permission de prendre ce kit.");
                 }
-            }elseif($transaction->getItemClicked()->getCustomName() === 'Kit §eNoble') {
-                if ($player->hasPermission('arkania:permission.kit.noble')){
+            } elseif ($transaction->getItemClicked()->getCustomName() === 'Kit §eNoble') {
+                if ($player->hasPermission('arkania:permission.kit.noble')) {
                     $player->removeCurrentWindow();
                     $kits->sendKitNoble($player, $isAdmin);
-                }else{
+                } else {
                     $player->removeCurrentWindow();
                     $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas la permission de prendre ce kit.");
                 }
-            }elseif($transaction->getItemClicked()->getCustomName() === 'Kit §6Héro') {
-                if ($player->hasPermission('arkania:permission.kit.hero')){
+            } elseif ($transaction->getItemClicked()->getCustomName() === 'Kit §6Héro') {
+                if ($player->hasPermission('arkania:permission.kit.hero')) {
                     $player->removeCurrentWindow();
                     $kits->sendKitHero($player, $isAdmin);
-                }else{
+                } else {
                     $player->removeCurrentWindow();
                     $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas la permission de prendre ce kit.");
                 }
-            }elseif($transaction->getItemClicked()->getCustomName() === 'Kit §4Seigneur') {
-                if ($player->hasPermission('arkania:permission.kit.seigneur')){
+            } elseif ($transaction->getItemClicked()->getCustomName() === 'Kit §4Seigneur') {
+                if ($player->hasPermission('arkania:permission.kit.seigneur')) {
                     $player->removeCurrentWindow();
                     $kits->sendKitSeigneur($player, $isAdmin);
-                }else{
+                } else {
                     $player->removeCurrentWindow();
                     $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas la permission de prendre ce kit.");
                 }
@@ -397,15 +404,16 @@ final class FormManager {
      * @param bool|string $faction
      * @return void
      */
-    public function sendSettingsFactionForm(Player $player, bool|string $faction): void {
-        $form = new SimpleForm(function (Player $player, $data) use ($faction){
+    public function sendSettingsFactionForm(Player $player, bool|string $faction): void
+    {
+        $form = new SimpleForm(function (Player $player, $data) use ($faction) {
 
             if (is_null($data))
                 return;
 
             if ($data === 0)
                 $this->sendDescriptionFactionForm($player, $faction);
-            elseif($data === 1)
+            elseif ($data === 1)
                 $this->sendLogsDiscordForm($player, $faction);
         });
         $form->setTitle('§c- §fSettings §c-');
@@ -420,13 +428,14 @@ final class FormManager {
      * @param $faction
      * @return void
      */
-    public function sendDescriptionFactionForm(Player $player, $faction): void {
-        $form = new CustomForm(function (Player $player, $data) use ($faction){
+    public function sendDescriptionFactionForm(Player $player, $faction): void
+    {
+        $form = new CustomForm(function (Player $player, $data) use ($faction) {
 
             if (is_null($data))
                 return;
 
-            if (strlen($data[1]) > 50){
+            if (strlen($data[1]) > 50) {
                 $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez mettre plus de §e50 caractères§c dans la description de votre faction.");
                 return;
             }
@@ -446,15 +455,16 @@ final class FormManager {
      * @param $faction
      * @return void
      */
-    public function sendLogsDiscordForm(Player $player, $faction): void {
-        $form = new CustomForm(function (Player $player, $data) use ($faction){
+    public function sendLogsDiscordForm(Player $player, $faction): void
+    {
+        $form = new CustomForm(function (Player $player, $data) use ($faction) {
             if (is_null($data))
                 return;
 
-            if ((bool)$data[0] === false){
+            if ((bool)$data[0] === false) {
                 self::$faction_webhook[$player->getName()] = $player->getName();
                 $player->sendMessage(Utils::getPrefix() . "§6Merci de mettre l'url du webhook dans le chat afin d'activer les logs pour votre faction.");
-            }else{
+            } else {
                 $factionManager = new FactionManager();
                 $factionManager->getFactionClass($faction, $player->getName())->setUrl('');
                 $player->sendMessage(Utils::getPrefix() . "§cVous venez de désactiver les logs de faction.");
@@ -470,23 +480,24 @@ final class FormManager {
      * @param Player $target
      * @return void
      */
-    public function sendBanUiForm(Player $player, Player $target): void {
-        $form = new CustomForm(function (Player $player, $data) use ($target){
+    public function sendBanUiForm(Player $player, Player $target): void
+    {
+        $form = new CustomForm(function (Player $player, $data) use ($target) {
             if (is_null($data))
                 return;
 
             $temps = 0;
             $format = '0 seconde';
-            if ($data[1] !== 0){
-                $temps = time() + ((int)$data[1]* 86400);
+            if ($data[1] !== 0) {
+                $temps = time() + ((int)$data[1] * 86400);
                 $format = (int)$data[1] . ' jour(s) ';
-            }elseif($data[2] !== 0){
-                $temps = time() + ((int)$data[2]* 3600);
+            } elseif ($data[2] !== 0) {
+                $temps = time() + ((int)$data[2] * 3600);
                 $format = (int)$data[2] . ' heure(s) ';
-            }elseif($data[3] !== 0){
-                $temps = time() + ((int)$data[3]* 60);
+            } elseif ($data[3] !== 0) {
+                $temps = time() + ((int)$data[3] * 60);
                 $format = (int)$data[3] . ' minute(s) ';
-            }elseif($data[4] !== 0) {
+            } elseif ($data[4] !== 0) {
                 $temps = time() + ((int)$data[4]);
                 $format = (int)$data[4] . ' seconde(s) ';
             }
@@ -497,7 +508,7 @@ final class FormManager {
                     return;
                 }
                 $raison = 'Aucun';
-            }else
+            } else
                 $raison = $data[5];
 
             $rank = RanksManager::getRanksFormatPlayer($player);
@@ -524,23 +535,25 @@ final class FormManager {
      * @param Player $target
      * @return void
      */
-    public function sendEnderInvseeForm(Player $player, Player $target): void {
+    public function sendEnderInvseeForm(Player $player, Player $target): void
+    {
         $menu = InvMenu::create(InvMenuTypeIds::TYPE_CHEST);
         $menu->setName('§c- §fEnderChest de §e' . $target->getName() . ' §c-');
         $menu->getInventory()->setContents($target->getEnderInventory()->getContents());
-        $menu->setListener(function (InvMenuTransaction $transaction)use ($target): InvMenuTransactionResult{
+        $menu->setListener(function (InvMenuTransaction $transaction) use ($target): InvMenuTransactionResult {
             $target->getEnderInventory()->setItem($transaction->getAction()->getSlot(), $transaction->getIn());
             return $transaction->continue();
         });
         $menu->send($player);
     }
 
-    public function sendInvseeForm(Player $player, Player $target): void {
+    public function sendInvseeForm(Player $player, Player $target): void
+    {
         $menu = InvMenu::create(InvMenuTypeIds::TYPE_DOUBLE_CHEST);
         $menu->setName('§c- §fInventaire de §e' . $target->getName() . ' §c-');
         foreach ($target->getInventory()->getContents() as $slot => $item)
             $menu->getInventory()->setItem($slot, $item);
-        for ($i = 36;$i <= 44;$i++)
+        for ($i = 36; $i <= 44; $i++)
             $menu->getInventory()->setItem($i, VanillaBlocks::STAINED_GLASS_PANE()->asItem()->setCustomName('§cBloqué'));
         $menu->getInventory()->setItem(45, VanillaBlocks::STAINED_GLASS_PANE()->asItem()->setCustomName('§cBloqué'));
         $menu->getInventory()->setItem(46, $target->getArmorInventory()->getHelmet());
@@ -551,7 +564,7 @@ final class FormManager {
         $menu->getInventory()->setItem(51, VanillaBlocks::STAINED_GLASS_PANE()->asItem()->setCustomName('§cBloqué'));
         $menu->getInventory()->setItem(52, $target->getArmorInventory()->getBoots());
         $menu->getInventory()->setItem(53, VanillaBlocks::STAINED_GLASS_PANE()->asItem()->setCustomName('§cBloqué'));
-        $menu->setListener(function (InvMenuTransaction $transaction) use ($target, $menu): InvMenuTransactionResult{
+        $menu->setListener(function (InvMenuTransaction $transaction) use ($target, $menu): InvMenuTransactionResult {
             if ($transaction->getAction()->getSlot() >= 36 && $transaction->getAction()->getSlot() <= 44 || $transaction->getAction()->getSlot() == 45 || $transaction->getAction()->getSlot() == 47 || $transaction->getAction()->getSlot() == 49 || $transaction->getAction()->getSlot() == 51 || $transaction->getAction()->getSlot() == 53)
                 return $transaction->discard();
             if ($transaction->getAction()->getSlot() <= 35)
@@ -568,3 +581,4 @@ final class FormManager {
         });
         $menu->send($player);
     }
+}

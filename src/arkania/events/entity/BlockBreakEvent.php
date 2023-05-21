@@ -28,6 +28,10 @@ final class BlockBreakEvent implements Listener {
     public function onBlockBreak(\pocketmine\event\block\BlockBreakEvent $event): void {
         $player = $event->getPlayer();
 
-        if (ProtectionManager::isInProtectedZone($event->getBlock()->getPosition(), 'warzone')) $event->cancel();
+        if (ProtectionManager::isInProtectedZone($event->getBlock()->getPosition(), 'warzone')) {
+            if (!$player->getServer()->isOp($player->getName())){
+                $event->cancel();
+            }
+        }
     }
 }

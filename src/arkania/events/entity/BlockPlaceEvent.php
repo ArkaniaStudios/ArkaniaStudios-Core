@@ -28,6 +28,10 @@ final class BlockPlaceEvent implements Listener {
     public function onBlockPlace(\pocketmine\event\block\BlockPlaceEvent $event): void {
         $player = $event->getPlayer();
 
-        if (ProtectionManager::isInProtectedZone($event->getBlock()->getPosition(), 'warzone')) $event->cancel();
+        if (ProtectionManager::isInProtectedZone($event->getBlock()->getPosition(), 'warzone')) {
+            if (!$player->getServer()->isOp($player->getName())){
+                $event->cancel();
+            }
+        }
     }
 }

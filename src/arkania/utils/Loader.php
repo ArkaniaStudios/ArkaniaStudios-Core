@@ -96,6 +96,7 @@ use arkania\commands\staff\UnMuteCommand;
 use arkania\commands\staff\WarnCommand;
 use arkania\Core;
 use arkania\events\entity\BlockBreakEvent;
+use arkania\events\entity\BlockBurnEvent;
 use arkania\events\entity\BlockPlaceEvent;
 use arkania\events\entity\CommandEvent;
 use arkania\events\entity\EntityDamageEntityEvent;
@@ -106,11 +107,9 @@ use arkania\events\players\PlayerDeathEvent;
 use arkania\events\players\PlayerInteractEvent;
 use arkania\events\players\PlayerJoinEvent;
 use arkania\events\players\PlayerLoginEvent;
-use arkania\events\players\PlayerMoveEvent;
 use arkania\events\players\PlayerQuitEvent;
 use arkania\factions\events\FactionListener;
 use arkania\factions\FactionClass;
-use arkania\jobs\class\Mineur;
 use arkania\listener\StaffModeListener;
 use arkania\listener\SynchronisationListener;
 use arkania\manager\EconomyManager;
@@ -268,12 +267,12 @@ final class Loader {
             new PlayerInteractEvent($this->core),
             new PlayerDeathEvent(),
             new PlayerCommandProcessEvent(),
-            new PlayerMoveEvent($this-> core),
 
             new EntityDamageEntityEvent($this->core),
             new BlockPlaceEvent(),
             new BlockBreakEvent(),
             new EntityDamageEvent(),
+            new BlockBurnEvent(),
             new CommandEvent($this->core),
 
             new SynchronisationListener($this->core),
@@ -300,7 +299,6 @@ final class Loader {
         ServerStatusManager::init();
         EconomyManager::init();
         SanctionManager::init();
-        Mineur::init();
     }
 
 

@@ -27,15 +27,15 @@ final class ProtectionManager {
      */
     public static function isInProtectedZone(Vector3 $pos, string $type): bool {
         if($type === 'spawn') {
-            $minXSpawn = 269;
-            $maxXSpawn = 327;
-            $minZSpawn = 215;
-            $maxZSpawn = 273;
+            $minXSpawn = -103 ;
+            $maxXSpawn = 100 ;
+            $minZSpawn = -104;
+            $maxZSpawn = 102;
         } else {
-            $minXSpawn = 176;
-            $maxXSpawn = 415;
-            $minZSpawn = 128;
-            $maxZSpawn = 351;
+            $minXSpawn = -511;
+            $maxXSpawn = 511;
+            $minZSpawn = -511;
+            $maxZSpawn = 511;
         }
         return ($pos->getX() <= $maxXSpawn && $pos->getX() >= $minXSpawn) && ($pos->getZ() <= $maxZSpawn && $pos->getZ() >= $minZSpawn);
     }

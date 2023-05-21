@@ -25,14 +25,10 @@ use pocketmine\player\Player;
 
 final class LobbyCommand extends BaseCommand {
 
-    /** @var Core */
-    private Core $core;
-
     public function __construct(Core $core) {
         parent::__construct('lobby',
         'Lobby - ArkaniaStudios',
         '/lobby');
-        $this->core = $core;
     }
 
     /**
@@ -47,8 +43,7 @@ final class LobbyCommand extends BaseCommand {
 
         if (count($args) !== 0)
             return throw new InvalidCommandSyntaxException();
-
-        $this->core->getScheduler()->scheduleRepeatingTask(new TeleportTask($this->core, $player, 'lobby', $player->getPosition()->getX(), $player->getPosition()->getY(), $player->getPosition()->getZ()), 20);
+        $player->transfer("lobby1");
         return true;
     }
 
