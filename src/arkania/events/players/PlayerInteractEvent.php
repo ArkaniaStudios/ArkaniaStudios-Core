@@ -43,8 +43,9 @@ final class PlayerInteractEvent implements Listener {
         $item = $event->getItem();
         $itemName = $item->getCustomName();
         $name = '§e(';
+        $block = $event->getBlock();
 
-        if (ProtectionManager::isInProtectedZone($player->getPosition(), 'warzone') && !$player->getServer()->isOp($player->getName())) {
+        if (ProtectionManager::isInProtectedZone($block->getPosition(), 'warzone') && !$player->getServer()->isOp($player->getName())) {
             if ($player->getInventory()->getItemInHand()->getId() == VanillaItems::BUCKET()->getId() or $player->getInventory()->getItemInHand()->getId() === VanillaItems::FLINT_AND_STEEL()->getId()) {
                 $event->cancel();
             }

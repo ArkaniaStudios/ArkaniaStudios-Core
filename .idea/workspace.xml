@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/FactionCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/FactionCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/manager/FormManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/FormManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/manager/SpawnManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/SpawnManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/InfoCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/InfoCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/events/players/PlayerInteractEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerInteractEvent.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,14 +207,7 @@
       <workItem from="1684592590764" duration="310000" />
       <workItem from="1684593380424" duration="507000" />
       <workItem from="1684593900508" duration="365000" />
-      <workItem from="1684679357150" duration="2908000" />
-    </task>
-    <task id="LOCAL-00003" summary="update faction debug">
-      <created>1676877495464</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1676877495464</updated>
+      <workItem from="1684679357150" duration="3624000" />
     </task>
     <task id="LOCAL-00004" summary="add server selector and same change in faction system">
       <created>1676929571132</created>
@@ -553,7 +545,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684681678411</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="Release 1.0.10">
+      <created>1684682300339</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1684682300339</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -571,7 +570,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="correction of synchronisation" />
     <MESSAGE value="implement ban system, update webhook system and date system" />
     <MESSAGE value="clean code" />
     <MESSAGE value="Implement StaffMode and update log system" />
@@ -596,6 +594,7 @@
     <MESSAGE value="Release 1.0.7" />
     <MESSAGE value="Release 1.0.8" />
     <MESSAGE value="Release 1.0.9" />
-    <option name="LAST_COMMIT_MESSAGE" value="Release 1.0.9" />
+    <MESSAGE value="Release 1.0.10" />
+    <option name="LAST_COMMIT_MESSAGE" value="Release 1.0.10" />
   </component>
 </project>
