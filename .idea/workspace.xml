@@ -4,19 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="Release 1.0.8">
-      <change afterPath="$PROJECT_DIR$/src/arkania/events/entity/BlockBurnEvent.php" afterDir="false" />
+    <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/CreditCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/CreditCommand.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/FactionCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/FactionCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/LobbyCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/LobbyCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/events/entity/BlockBreakEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/entity/BlockBreakEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/events/entity/BlockPlaceEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/entity/BlockPlaceEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/events/players/PlayerInteractEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerInteractEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/events/players/PlayerMoveEvent.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/manager/ProtectionManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/ProtectionManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/utils/Loader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/Loader.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/utils/Utils.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/Utils.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/FormManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/FormManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/SpawnManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/SpawnManager.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,12 +19,30 @@
     <execution />
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Dumont-Julien &lt;dumontj357@gmail.com&gt;" />
+      </list>
+    </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="database" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="bc767839-bb72-47ac-b4f6-903b212f657f" />
+        <option name="url" value="https://github.com/ArkaniaStudios/ArkaniaStudios-Core.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -198,14 +208,7 @@
       <workItem from="1684592590764" duration="310000" />
       <workItem from="1684593380424" duration="507000" />
       <workItem from="1684593900508" duration="365000" />
-      <workItem from="1684679357150" duration="2069000" />
-    </task>
-    <task id="LOCAL-00002" summary="add template">
-      <created>1676844775291</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1676844775291</updated>
+      <workItem from="1684679357150" duration="2908000" />
     </task>
     <task id="LOCAL-00003" summary="update faction debug">
       <created>1676877495464</created>
@@ -543,7 +546,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684592492994</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="Release 1.0.9">
+      <created>1684681678411</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1684681678411</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -561,7 +571,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="another update" />
     <MESSAGE value="correction of synchronisation" />
     <MESSAGE value="implement ban system, update webhook system and date system" />
     <MESSAGE value="clean code" />
@@ -586,6 +595,7 @@
     <MESSAGE value="Release 1.0.6" />
     <MESSAGE value="Release 1.0.7" />
     <MESSAGE value="Release 1.0.8" />
-    <option name="LAST_COMMIT_MESSAGE" value="Release 1.0.8" />
+    <MESSAGE value="Release 1.0.9" />
+    <option name="LAST_COMMIT_MESSAGE" value="Release 1.0.9" />
   </component>
 </project>

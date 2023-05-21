@@ -192,7 +192,7 @@ final class FactionCommand extends BaseCommand {
                 $requester = $this->faction_invite[$player->getName()];
                 unset($this->faction_invite[$player->getName()]);
 
-                if (!$factionManager->getFactionClass($factionManager->getFaction($requester->getName()), $requester)->existFaction()) {
+                if (!$factionManager->getFactionClass($factionManager->getFaction($requester), $requester)->existFaction()) {
                     $player->sendMessage(Utils::getPrefix() . "§cCette faction n'existe plus.");
                     return true;
                 }

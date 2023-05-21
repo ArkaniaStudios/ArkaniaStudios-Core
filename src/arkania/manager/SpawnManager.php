@@ -37,7 +37,7 @@ final class SpawnManager {
      * @throws JsonException
      */
     public function setServerSpawn(Position $position): void {
-        $config = $this->core->config;
+        $config = $this->core->getConfig();
         $config->setNested('spawn.x', $position->getX());
         $config->setNested('spawn.y', $position->getY());
         $config->setNested('spawn.z', $position->getZ());
@@ -50,7 +50,7 @@ final class SpawnManager {
      * @return void
      */
     public function teleportSpawn(Player $player): void {
-        $config = $this->core->config;
+        $config = $this->core->getConfig();
         $x = $config->getNested('spawn.x');
         $y = $config->getNested('spawn.y');
         $z = $config->getNested('spawn.z');
@@ -63,7 +63,7 @@ final class SpawnManager {
      * @return bool
      */
     public function existSpawn(): bool {
-        $config = $this->core->config;
+        $config = $this->core->getConfig();
         return $config->exists('spawn');
     }
 }
