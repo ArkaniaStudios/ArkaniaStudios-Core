@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace arkania;
 
+use arkania\blocks\ui\EnchantTableForm;
 use arkania\commands\ranks\CraftCommand;
 use arkania\inventory\CraftingTableTypeInventory;
 use arkania\jobs\JobsManager;
@@ -106,6 +107,8 @@ class Core extends PluginBase {
     /** @var ShopManager */
     private ShopManager $shopManager;
 
+    /** @var EnchantTableForm  */
+    public EnchantTableForm $enchantTableForm;
 
     protected function onLoad(): void {
         self::setInstance($this);
@@ -144,6 +147,7 @@ class Core extends PluginBase {
         $this->teleportManager = new TeleportManager();
         $this->boxManager = new BoxManager($this);
         $this->shopManager = new ShopManager($this);
+        $this->enchantTableForm = new EnchantTableForm();
 
         new Loader($this);
         $this->getFactionManager()->loadAllConfig();
