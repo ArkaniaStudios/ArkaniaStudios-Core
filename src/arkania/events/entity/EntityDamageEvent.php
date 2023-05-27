@@ -38,6 +38,5 @@ final class EntityDamageEvent implements Listener {
         if ($event->getCause() === EntityDamageEventAlias::CAUSE_VOID){
             Core::getInstance()->getSpawnManager()->teleportSpawn($player);
         }
-
     }
 }
