@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/InfoCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/InfoCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/events/players/PlayerInteractEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerInteractEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/Core.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/Core.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,11 +29,11 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -69,7 +68,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;update&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/dumon/Downloads/AUSOLEIL_CORE_PM4&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/dumon/OneDrive/Bureau/Server-ArkaniaStudios-Lobby-V2/plugins/ArkaniaStudios-Lobby-V2&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -207,14 +206,9 @@
       <workItem from="1684592590764" duration="310000" />
       <workItem from="1684593380424" duration="507000" />
       <workItem from="1684593900508" duration="365000" />
-      <workItem from="1684679357150" duration="3624000" />
-    </task>
-    <task id="LOCAL-00004" summary="add server selector and same change in faction system">
-      <created>1676929571132</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1676929571132</updated>
+      <workItem from="1684679357150" duration="3726000" />
+      <workItem from="1684691622724" duration="141000" />
+      <workItem from="1685192406328" duration="1376000" />
     </task>
     <task id="LOCAL-00005" summary="test">
       <created>1676929759749</created>
@@ -552,7 +546,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684682300339</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="Release 1.0.11">
+      <created>1684683070434</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1684683070434</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -570,7 +571,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="implement ban system, update webhook system and date system" />
     <MESSAGE value="clean code" />
     <MESSAGE value="Implement StaffMode and update log system" />
     <MESSAGE value="staffmode system end" />
@@ -595,6 +595,7 @@
     <MESSAGE value="Release 1.0.8" />
     <MESSAGE value="Release 1.0.9" />
     <MESSAGE value="Release 1.0.10" />
-    <option name="LAST_COMMIT_MESSAGE" value="Release 1.0.10" />
+    <MESSAGE value="Release 1.0.11" />
+    <option name="LAST_COMMIT_MESSAGE" value="Release 1.0.11" />
   </component>
 </project>

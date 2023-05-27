@@ -19,7 +19,6 @@ namespace arkania;
 use arkania\blocks\ui\EnchantTableForm;
 use arkania\commands\ranks\CraftCommand;
 use arkania\inventory\CraftingTableTypeInventory;
-use arkania\jobs\JobsManager;
 use arkania\libs\muqsit\invmenu\InvMenuHandler;
 use arkania\manager\BoxManager;
 use arkania\manager\EconomyManager;
@@ -89,9 +88,6 @@ class Core extends PluginBase {
     /** @var NickManager */
     private NickManager $nickManager;
 
-    /** @var JobsManager */
-    private JobsManager $jobsManager;
-
     /** @var FactionManager */
     private FactionManager $factionManager;
 
@@ -106,6 +102,7 @@ class Core extends PluginBase {
 
     /** @var ShopManager */
     private ShopManager $shopManager;
+    private ServerStatusManager $serverStatusManager;
 
     /** @var EnchantTableForm  */
     public EnchantTableForm $enchantTableForm;

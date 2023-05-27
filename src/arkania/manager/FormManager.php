@@ -223,7 +223,7 @@ final class FormManager
         $menu->setListener(function (InvMenuTransaction $transaction): InvMenuTransactionResult {
             $player = $transaction->getPlayer();
             $scheduler = Core::getInstance()->getScheduler();
-            $serverStatus = Core::getInstance()->serverStatus;
+            $serverStatus = ServerStatusManager::getInstance();
 
             if ($transaction->getItemClicked()->getCustomName() === '§cThêta') {
                 if (isset(ServerSelectorCommand::$teleport[$player->getName()])) {
