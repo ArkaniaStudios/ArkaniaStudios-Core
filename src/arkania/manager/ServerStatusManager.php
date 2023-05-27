@@ -20,9 +20,11 @@ use arkania\utils\Query;
 use arkania\utils\trait\Provider;
 use arkania\utils\Utils;
 use mysqli;
+use pocketmine\utils\SingletonTrait;
 
 final class ServerStatusManager {
     use Provider;
+    use SingletonTrait;
 
     /**
      * @return mysqli
