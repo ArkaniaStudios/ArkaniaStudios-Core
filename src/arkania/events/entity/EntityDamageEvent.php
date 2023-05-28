@@ -34,11 +34,5 @@ final class EntityDamageEvent implements Listener {
         if($player instanceof Player){
             if (ProtectionManager::isInProtectedZone($player->getLocation(), 'spawn')) $event->cancel();
         }
-
-        if ($event->getCause() === EntityDamageEventAlias::CAUSE_VOID){
-            if ($player instanceof Player) {
-                Core::getInstance()->getSpawnManager()->teleportSpawn($player);
-            }
-        }
     }
 }

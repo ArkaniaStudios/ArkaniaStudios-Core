@@ -140,12 +140,9 @@ final class StaffModeListener implements Listener {
      * @param EntityDamageByEntityEvent $event
      * @return void
      */
-    public function onEntityDamageByEntity(EntityDamageEvent $event): void {
+    public function onEntityDamageByEntity(EntityDamageByEntityEvent $event): void {
         $player = $event->getDamager();
         $target = $event->getEntity();
-
-        if ($event->getCause() === EntityDamageEvent::CAUSE_ENTITY_ATTACK) {
-
             if ($player instanceof Player && $target instanceof Player) {
                 if ($this->core->getStaffManager()->isInStaffMode($player)) {
                     $event->cancel();
@@ -172,6 +169,5 @@ final class StaffModeListener implements Listener {
                     }
                 }
             }
-        }
     }
 }

@@ -38,13 +38,17 @@ use arkania\manager\SynchronisationManager;
 use arkania\manager\TeleportManager;
 use arkania\manager\VoteManager;
 use arkania\utils\Loader;
+use arkania\utils\trait\Webhook;
 use arkania\utils\Utils;
 use pocketmine\plugin\PluginBase;
+use pocketmine\timings\TimingsHandler;
+use pocketmine\timings\TimingsRecord;
 use pocketmine\utils\Config;
 use pocketmine\utils\SingletonTrait;
 
 class Core extends PluginBase {
     use SingletonTrait;
+    use Webhook;
 
     /** @var Config */
     public Config $config;
@@ -170,6 +174,7 @@ class Core extends PluginBase {
      * @return void
      */
     protected function onDisable(): void {
+
         $serverName = Utils::getServerName();
         if ($this->serverStatusManager->getServerStatus($serverName) !== '§6Maintenance')
             $this->serverStatusManager->setServerStatus('ferme');
