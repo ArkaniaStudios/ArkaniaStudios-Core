@@ -27,7 +27,7 @@ final class FeedCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('feed',
-        'Feed - ArkaniaStudios',
+        'Permet de vous nourrir ou de nourrir un joueur.',
         '/feed <player:optional>',
         ['eat']);
         $this->setPermission('arkania:permission.feed');

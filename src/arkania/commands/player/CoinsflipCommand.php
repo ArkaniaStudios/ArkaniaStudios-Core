@@ -30,7 +30,7 @@ final class CoinsflipCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('coinsflip',
-        'Coinsflip - ArkaniaStudios',
+        'Permet de parier un nombre d\'argent et de perdre ou gagner le double.',
         '/coinsflip <amount>');
         $this->core = $core;
     }

@@ -67,9 +67,6 @@ class Core extends PluginBase {
     /** @var SynchronisationManager */
     private SynchronisationManager $synchronisationManager;
 
-    /** @var ServerStatusManager */
-    public ServerStatusManager $serverStatus;
-
     /** @var MaintenanceManager */
     private MaintenanceManager $maintenanceManager;
 
@@ -186,6 +183,7 @@ class Core extends PluginBase {
             $player->sendMessage(Utils::getPrefix() . "§cLe serveur vient de redémarrer. Si vous n'avez pas été merci de vous déconnecter et de vous reconnecter au serveur !");
             $this->ranksManager->synchroQuitRank($player);
             $this->synchronisationManager->registerInv($player);
+            $player->transfer('lobby1');
         }
     }
 

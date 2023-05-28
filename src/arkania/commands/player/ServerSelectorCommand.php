@@ -32,7 +32,7 @@ final class ServerSelectorCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('selector',
-        'Selector - ArkaniaStudios',
+        'Permet de se téléporter à un serveur.',
         '/selector <serverName> <serverNumber>');
         $this->core = $core;
     }

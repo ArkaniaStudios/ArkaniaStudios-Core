@@ -64,7 +64,7 @@ final class Utils {
      * @return string
      */
     public static function removeColorOnMessage($value): string {
-        return str_replace(['§1', '§2', '§3', '§4', '§5', '§6', '§7', '§8', '§9', '§0', '§a', '§e', '§b', '§c', '§g', '§', '§r', '§f', '§o', '§l', '§k'], '', $value);
+        return str_replace(['§1', '§2', '§3', '§4', '§5', '§6', '§7', '§8', '§9', '§0', '§a', '§e', '§b', '§c', '§g', '§', '§r', '§f', '§o', '§l', '§k', '§ff'], '', $value);
     }
 
 }

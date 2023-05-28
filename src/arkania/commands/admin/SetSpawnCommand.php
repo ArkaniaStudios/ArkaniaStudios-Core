@@ -32,7 +32,7 @@ final class SetSpawnCommand extends BaseCommand {
 
     public function __construct(Core $core){
         parent::__construct('setspawn',
-        'Setspawn - ArkaniaStudios',
+        'Définis le spawn du serveur',
         '/setspawn');
         $this->setPermission('arkania:permission.setspawn');
         $this->core = $core;

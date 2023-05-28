@@ -32,7 +32,7 @@ final class CraftCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('craft',
-        'Craft - ArkaniaStudios',
+        'Ouvre une table de craft',
         '/craft');
         $this->setPermission('arkania:permission.craft');
     }

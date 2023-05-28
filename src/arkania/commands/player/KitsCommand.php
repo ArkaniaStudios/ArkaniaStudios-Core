@@ -29,7 +29,7 @@ final class KitsCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('kit',
-        'Kit - ArkaniaStudios',
+        'Permet d\'accéder aux kits d\'arkania',
         '/kit',
         ['kits']);
         $this->core = $core;

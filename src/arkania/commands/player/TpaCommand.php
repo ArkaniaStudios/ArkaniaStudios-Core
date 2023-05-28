@@ -30,7 +30,7 @@ final class TpaCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('tpa',
-        'Tpa - ArkaniaStudios',
+        'Envoie une demande de téléportation à un joueur',
         '/tpa <player>');
         $this->core = $core;
     }

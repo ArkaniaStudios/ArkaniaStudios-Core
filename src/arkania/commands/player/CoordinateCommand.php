@@ -28,7 +28,7 @@ final class CoordinateCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('coordinates',
-        'Coordinates - ArkaniaStudios',
+        'Affiche ou non les coordonnées du joueur',
         '/coordinates <on/off>',
         ['xyz', 'coord', 'co', 'coordinate', 'coordonne']);
     }

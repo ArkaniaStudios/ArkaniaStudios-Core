@@ -34,7 +34,7 @@ final class SpawnCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('spawn',
-        'Aller au spawn du serveur',
+        'Téléporte au spawn du serveur',
         '/spawn',
         ['hub']);
         $this->core = $core;

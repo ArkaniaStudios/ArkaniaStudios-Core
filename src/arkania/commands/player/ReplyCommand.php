@@ -31,7 +31,7 @@ final class ReplyCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('reply',
-        'Reply - ArkaniaStudios',
+        'Permet de répondre au dernier message que vous avez reçu.',
         '/reply <message>',
         ['r']);
         $this->core = $core;

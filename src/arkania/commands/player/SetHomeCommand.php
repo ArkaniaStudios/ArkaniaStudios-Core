@@ -30,7 +30,7 @@ final class SetHomeCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('sethome',
-        'Sethome - ArkaniaStudios',
+        'Permet de définir un home.',
         '/sethome <homeName>');
     }
 

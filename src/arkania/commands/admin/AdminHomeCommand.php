@@ -31,7 +31,7 @@ final class AdminHomeCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('adminhome',
-        'Adminhome - ArkaniaStudios',
+        'Permet de se téléporter à une home d\'un joueur',
         '/adminhome <player> <home>');
         $this->setPermission('arkania:permission.adminhome');
     }

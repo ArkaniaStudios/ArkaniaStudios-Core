@@ -22,7 +22,7 @@ final class SiteCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('site',
-        'Site - ArkaniaStudios',
+        'Donne le lien du site web d\'arkania',
         '/site',
         ['web']);
     }

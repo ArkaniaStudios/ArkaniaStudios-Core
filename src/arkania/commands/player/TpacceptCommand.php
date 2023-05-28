@@ -29,7 +29,7 @@ final class TpacceptCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('tpaccept',
-        'Tpaccept - ArkaniaStudios',
+        'Accepte une demande de téléportation',
         '/tpaccept');
         $this->core = $core;
     }

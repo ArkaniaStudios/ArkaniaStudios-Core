@@ -393,6 +393,14 @@ final class FormManager
                     $player->removeCurrentWindow();
                     $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas la permission de prendre ce kit.");
                 }
+            }elseif ($transaction->getItemClicked()->getCustomName() === 'Kit §cVidéaste') {
+                if ($player->hasPermission('arkania:permission.kit.videaste')) {
+                    $player->removeCurrentWindow();
+                    $kits->sendKitSeigneur($player, $isAdmin);
+                } else {
+                    $player->removeCurrentWindow();
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas la permission de prendre ce kit.");
+                }
             }
             return $transaction->discard();
         });

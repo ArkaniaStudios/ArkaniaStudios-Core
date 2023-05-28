@@ -21,6 +21,7 @@ use arkania\manager\ProtectionManager;
 use arkania\utils\Utils;
 use pocketmine\block\BlockLegacyIds;
 use pocketmine\event\Listener;
+use pocketmine\event\player\PlayerItemUseEvent;
 use pocketmine\item\ItemFactory;
 use pocketmine\item\VanillaItems;
 
@@ -42,8 +43,6 @@ final class PlayerInteractEvent implements Listener {
     public function onPlayerInteract(\pocketmine\event\player\PlayerInteractEvent $event): void {
         $player = $event->getPlayer();
         $item = $event->getItem();
-        $itemName = $item->getCustomName();
-        $name = '§e(';
         $block = $event->getBlock();
 
         if (ProtectionManager::isInProtectedZone($block->getPosition(), 'warzone') && !$player->getServer()->isOp($player->getName())) {
@@ -51,39 +50,50 @@ final class PlayerInteractEvent implements Listener {
                 $event->cancel();
             }
         }
-
+      
         if($block->getId() === BlockLegacyIds::ENCHANTMENT_TABLE){
             $this->core->enchantTableForm->sendEnchantTable($player);
         }
-
+      
         if ($item->getId() == VanillaItems::EXPERIENCE_BOTTLE()->getId()){
-            $event->cancel();
-            if (str_contains($itemName, $name)){
-                $xpLevel = explode("§fBouteille d'xp (", $itemName);
-                $xpLevel = explode('§f)', $xpLevel[1]);
-                $xpLevel = intval($xpLevel[0]);
-                $player->getXpManager()->addXpLevels($xpLevel);
-                $itemremove = ItemFactory::getInstance()->get($item->getId(), $item->getMeta(), $item->getCount() - 1);
-                $itemremove->setCustomName($itemName);
-                $player->getInventory()->setItemInHand($itemremove);
-                $player->sendMessage(Utils::getPrefix() . "Vous avez reçu §e$xpLevel expérience(s) §fgrace à votre bouteille.");
-            }else{
-                $player->getXpManager()->addXp(mt_rand(3, 11));
-                $player->getInventory()->setItemInHand(ItemFactory::getInstance()->get($item->getID(), $item->getMeta(), $item->getCount() - 1));
+            if ($item->getNamedTag()->getTag('experience') !== null){
+                $event->cancel();
+                $player->sendMessage(Utils::getPrefix() . '§aVous venez de recevoir §e' . $item->getNamedTag()->getTag('experience')->getValue() . ' §aniveaux d\'expérience via votre bouteille !');
+                $player->getXpManager()->addXpLevels($item->getNamedTag()->getTag('experience')->getValue());
+                $player->getInventory()->removeItem($player->getInventory()->getItemInHand());
             }
         }
         if ($item->getId() == VanillaItems::PAPER()->getId()){
-            $event->cancel();
+            if ($item->getNamedTag()->getTag('money') !== null){
+                $event->cancel();
+                $player->sendMessage(Utils::getPrefix() . '§aVous venez de recevoir §e' . $item->getNamedTag()->getTag('money')->getValue() . ' §a via votre billet !');
+                $this->core->getEconomyManager()->addMoney($player->getName(), $item->getNamedTag()->getTag('money')->getValue());
+                $player->getInventory()->removeItem($player->getInventory()->getItemInHand());
+            }
+        }
+    }
 
-            if (str_contains($itemName, $name)){
-                $money = explode("§fBillet §e(", $itemName);
-                $money = explode(")", $money[1]);
-                $money = intval($money[0]);
-                $this->core->getEconomyManager()->addMoney($player->getName(), $money);
-                $itemremove = ItemFactory::getInstance()->get($item->getId(), $item->getMeta(), $item->getCount() - 1);
-                $itemremove->setCustomName($itemName);
-                $player->getInventory()->setItemInHand($itemremove);
-                $player->sendMessage(Utils::getPrefix() . "Vous avez reçu §e$money  §fgrace à votre billet.");
+    /**
+     * @param PlayerItemUseEvent $event
+     * @return void
+     */
+    public function onPlayerItemUse(PlayerItemUseEvent $event): void {
+        $player = $event->getPlayer();
+        $item = $event->getItem();
+        if ($item->getId() == VanillaItems::EXPERIENCE_BOTTLE()->getId()){
+            if ($item->getNamedTag()->getTag('experience') !== null){
+                $event->cancel();
+                $player->sendMessage(Utils::getPrefix() . '§aVous venez de recevoir §e' . $item->getNamedTag()->getTag('experience')->getValue() . ' §aniveaux d\'expérience via votre bouteille !');
+                $player->getXpManager()->addXpLevels($item->getNamedTag()->getTag('experience')->getValue());
+                $player->getInventory()->removeItem($player->getInventory()->getItemInHand());
+            }
+        }
+        if ($item->getId() == VanillaItems::PAPER()->getId()){
+            if ($item->getNamedTag()->getTag('money') !== null){
+                $event->cancel();
+                $player->sendMessage(Utils::getPrefix() . '§aVous venez de recevoir §e' . $item->getNamedTag()->getTag('money')->getValue() . ' §a via votre billet !');
+                $this->core->getEconomyManager()->addMoney($player->getName(), (int)$item->getNamedTag()->getTag('money')->getValue());
+                $player->getInventory()->removeItem($player->getInventory()->getItemInHand());
             }
         }
     }

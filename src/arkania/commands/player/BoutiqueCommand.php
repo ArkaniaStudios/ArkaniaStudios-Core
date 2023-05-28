@@ -24,7 +24,7 @@ final class BoutiqueCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('boutique',
-        'Boutique - ArkaniaStudios',
+        'Donne le liens de la boutique d\'arkania',
         '/boutique');
     }
 

@@ -27,7 +27,7 @@ final class ClearLagTimeCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('clearlagtime',
-        'Clearlagtime - ArkaniaStudios',
+        'Permet de voir le temps avant le prochain clearlag.',
         '/clearlagtime');
         $this->setPermission('arkania:permission.clearlagtime');
     }

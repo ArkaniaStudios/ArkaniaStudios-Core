@@ -32,7 +32,7 @@ final class VoteCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('vote',
-        'Vote - ArkaniaStudios',
+        'Permet de voter pour le serveur.',
         '/vote');
         $this->core = $core;
     }

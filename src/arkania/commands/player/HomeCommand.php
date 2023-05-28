@@ -27,7 +27,7 @@ final class HomeCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('home',
-        'Home - ArkaniaStudios',
+        'Permet de vous téléporter à vos homes',
         '/home <home>',
             ['h']);
     }
