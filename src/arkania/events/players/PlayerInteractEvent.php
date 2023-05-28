@@ -51,7 +51,7 @@ final class PlayerInteractEvent implements Listener {
             }
         }
       
-        if($block->getId() === BlockLegacyIds::ENCHANTMENT_TABLE){
+        if($block->getId() === BlockLegacyIds::ENCHANTMENT_TABLE && $event->getAction() === \pocketmine\event\player\PlayerInteractEvent::LEFT_CLICK_BLOCK){
             $event->cancel();
             $this->core->enchantTableForm->sendEnchantTable($player);
         }
