@@ -72,12 +72,13 @@ class EnchantTableForm
                         $player->sendMessage(Utils::getPrefix() . "§cVotre item n'est pas une armure !");
                         break;
                     }
-                    if($player->getXpManager()->getXpLevel() < 1){
+                    if($player->getXpManager()->getXpLevel() < 10){
                         $player->sendMessage(self::NoXpMessage);
                         break;
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::PROTECTION(), 1));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 10);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec protection 1");
                     break;
                 case 1:
@@ -85,12 +86,13 @@ class EnchantTableForm
                         $player->sendMessage(Utils::getPrefix() . "§cVotre item n'est pas une armure !");
                         break;
                     }
-                    if($player->getXpManager()->getXpLevel() < 1){
+                    if($player->getXpManager()->getXpLevel() < 20){
                         $player->sendMessage(self::NoXpMessage);
                         break;
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::PROTECTION(), 2));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 20);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec protection 2");
                     break;
                 case 2:
@@ -98,12 +100,13 @@ class EnchantTableForm
                         $player->sendMessage(Utils::getPrefix() . "§cVotre item n'est pas une armure !");
                         break;
                     }
-                    if($player->getXpManager()->getXpLevel() < 1){
+                    if($player->getXpManager()->getXpLevel() < 30){
                         $player->sendMessage(self::NoXpMessage);
                         break;
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::PROTECTION(), 3));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 30);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec protection 3");
                     break;
                 case 3:
@@ -111,12 +114,13 @@ class EnchantTableForm
                         $player->sendMessage(Utils::getPrefix() . "§cVotre item n'est pas une armure !");
                         break;
                     }
-                    if($player->getXpManager()->getXpLevel() < 1){
+                    if($player->getXpManager()->getXpLevel() < 40){
                         $player->sendMessage(self::NoXpMessage);
                         break;
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::PROTECTION(), 4));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 40);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec protection 4");
                     break;
                 case 4:
@@ -143,12 +147,13 @@ class EnchantTableForm
                         $player->sendMessage(Utils::getPrefix() . "§cVotre item n'est pas une armure !");
                         break;
                     }
-                    if($player->getXpManager()->getXpLevel() < 1){
+                    if($player->getXpManager()->getXpLevel() < 10){
                         $player->sendMessage(self::NoXpMessage);
                         break;
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::UNBREAKING(), 1));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 10);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec solidité 1");
                     break;
                 case 1:
@@ -156,12 +161,13 @@ class EnchantTableForm
                         $player->sendMessage(Utils::getPrefix() . "§cVotre item n'est pas une armure !");
                         break;
                     }
-                    if($player->getXpManager()->getXpLevel() < 1){
+                    if($player->getXpManager()->getXpLevel() < 20){
                         $player->sendMessage(self::NoXpMessage);
                         break;
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::UNBREAKING(), 2));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 20);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec solidité 2");
                     break;
                 case 2:
@@ -169,12 +175,13 @@ class EnchantTableForm
                         $player->sendMessage(Utils::getPrefix() . "§cVotre item n'est pas une armure !");
                         break;
                     }
-                    if($player->getXpManager()->getXpLevel() < 1){
+                    if($player->getXpManager()->getXpLevel() < 30){
                         $player->sendMessage(self::NoXpMessage);
                         break;
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::UNBREAKING(), 3));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 30);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec solidité 3");
                     break;
                 case 3:
@@ -242,6 +249,7 @@ class EnchantTableForm
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::SHARPNESS(), 1));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 10);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec tranchant 1");
                     break;
                 case 1:
@@ -255,6 +263,7 @@ class EnchantTableForm
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::SHARPNESS(), 2));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 20);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec tranchant 2");
                     break;
                 case 2:
@@ -268,6 +277,7 @@ class EnchantTableForm
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::SHARPNESS(), 3));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 30);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec tranchant 3");
                     break;
                 case 3:
@@ -281,6 +291,7 @@ class EnchantTableForm
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::SHARPNESS(), 4));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 40);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec tranchant 4");
                     break;
                 case 4:
@@ -294,6 +305,7 @@ class EnchantTableForm
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::SHARPNESS(), 5));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 50);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec tranchant 5");
                     break;
                 case 5:
@@ -322,12 +334,13 @@ class EnchantTableForm
                         $player->sendMessage(Utils::getPrefix() . "§cVotre item n'est pas une épée !");
                         break;
                     }
-                    if($player->getXpManager()->getXpLevel() < 1){
+                    if($player->getXpManager()->getXpLevel() < 10){
                         $player->sendMessage(self::NoXpMessage);
                         break;
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::UNBREAKING(), 1));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 10);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec solidité 1");
                     break;
                 case 1:
@@ -335,12 +348,13 @@ class EnchantTableForm
                         $player->sendMessage(Utils::getPrefix() . "§cVotre item n'est pas une épée !");
                         break;
                     }
-                    if($player->getXpManager()->getXpLevel() < 1){
+                    if($player->getXpManager()->getXpLevel() < 20){
                         $player->sendMessage(self::NoXpMessage);
                         break;
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::UNBREAKING(), 2));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 20);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec solidité 2");
                     break;
                 case 2:
@@ -348,12 +362,13 @@ class EnchantTableForm
                         $player->sendMessage(Utils::getPrefix() . "§cVotre item n'est pas une épée !");
                         break;
                     }
-                    if($player->getXpManager()->getXpLevel() < 1){
+                    if($player->getXpManager()->getXpLevel() < 30){
                         $player->sendMessage(self::NoXpMessage);
                         break;
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::UNBREAKING(), 3));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 30);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec solidité 3");
                     break;
                 case 3:
@@ -385,6 +400,7 @@ class EnchantTableForm
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FIRE_ASPECT(), 1));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 20);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec solidité 1");
                     break;
                 case 1:
@@ -398,6 +414,7 @@ class EnchantTableForm
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FIRE_ASPECT(), 2));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 30);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec solidité 2");
                     break;
                 case 2:
@@ -448,6 +465,7 @@ class EnchantTableForm
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::EFFICIENCY(), 1));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 10);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec efficacité 1");
                     break;
                 case 1:
@@ -461,6 +479,7 @@ class EnchantTableForm
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::EFFICIENCY(), 2));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 20);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec efficacité 2");
                     break;
                 case 2:
@@ -474,6 +493,7 @@ class EnchantTableForm
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::EFFICIENCY(), 3));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 30);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec efficacité 3");
                     break;
                 case 3:
@@ -487,6 +507,7 @@ class EnchantTableForm
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::EFFICIENCY(), 4));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 40);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec efficacité 4");
                     break;
                 case 4:
@@ -500,6 +521,7 @@ class EnchantTableForm
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::EFFICIENCY(), 5));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 50);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec efficacité 5");
                     break;
                 case 5:
@@ -528,12 +550,13 @@ class EnchantTableForm
                         $player->sendMessage(Utils::getPrefix() . "§cVotre item n'est pas un outil !");
                         break;
                     }
-                    if($player->getXpManager()->getXpLevel() < 1){
+                    if($player->getXpManager()->getXpLevel() < 10){
                         $player->sendMessage(self::NoXpMessage);
                         break;
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::UNBREAKING(), 1));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 10);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec solidité 1");
                     break;
                 case 1:
@@ -541,12 +564,13 @@ class EnchantTableForm
                         $player->sendMessage(Utils::getPrefix() . "§cVotre item n'est pas un outil !");
                         break;
                     }
-                    if($player->getXpManager()->getXpLevel() < 1){
+                    if($player->getXpManager()->getXpLevel() < 20){
                         $player->sendMessage(self::NoXpMessage);
                         break;
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::UNBREAKING(), 2));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 20);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec solidité 2");
                     break;
                 case 2:
@@ -554,12 +578,13 @@ class EnchantTableForm
                         $player->sendMessage(Utils::getPrefix() . "§cVotre item n'est pas un outil !");
                         break;
                     }
-                    if($player->getXpManager()->getXpLevel() < 1){
+                    if($player->getXpManager()->getXpLevel() < 30){
                         $player->sendMessage(self::NoXpMessage);
                         break;
                     }
                     $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::UNBREAKING(), 3));
                     $player->getInventory()->setItemInHand($item);
+                    $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 30);
                     $player->sendMessage(Utils::getPrefix() . "Votre item a bien été enchanté avec solidité 3");
                     break;
                 case 3:
