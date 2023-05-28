@@ -20,6 +20,7 @@ use arkania\commands\BaseCommand;
 use arkania\Core;
 use arkania\manager\FactionManager;
 use arkania\manager\ProtectionManager;
+use arkania\tasks\SeeChunkTask;
 use arkania\utils\trait\Webhook;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
@@ -56,6 +57,9 @@ final class FactionCommand extends BaseCommand {
         $this->core = $core;
         $this->factionManager = $this->core->getFactionManager();
     }
+
+    /** @var array */
+    public static array $chunk;
 
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
 
@@ -725,6 +729,13 @@ final class FactionCommand extends BaseCommand {
             }
             $factionManager->getFactionClass($factionManager->getFaction($player->getName()), $player->getName())->removeClaim($player);
             $player->sendMessage(Utils::getPrefix() . "Vous venez de supprimer ce claim.");
+        }elseif(strtolower($args[0]) === 'chunk'){
+            if (isset(self::$chunk[$player->getName()])){
+                unset(self::$chunk[$player->getName()]);
+            }else{
+                self::$chunk[$player->getName()] = true;
+                Core::getInstance()->getScheduler()->scheduleRepeatingTask(new SeeChunkTask(), 20);
+            }
         }
         return true;
     }
