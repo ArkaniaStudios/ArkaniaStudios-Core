@@ -39,7 +39,7 @@ trait Date {
      * @return string
      */
     final public function tempsFormat($temps): string {
-        $timeRestant = $temps - time();
+        $timeRestant = (int)$temps - time();
         $jours = floor(abs($timeRestant / 86400));
         $timeRestant = $timeRestant - ($jours * 86400);
         $heures = floor(abs($timeRestant / 3600));

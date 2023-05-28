@@ -95,6 +95,14 @@ use arkania\commands\staff\UnBanCommand;
 use arkania\commands\staff\UnMuteCommand;
 use arkania\commands\staff\WarnCommand;
 use arkania\Core;
+use arkania\entities\base\CustomEntity;
+use arkania\entities\base\SimpleEntity;
+use arkania\entities\type\DeathLeaderBoardEntity;
+use arkania\entities\type\FloatingText;
+use arkania\entities\type\HumanEntity;
+use arkania\entities\type\KillLeaderBoardEntity;
+use arkania\entities\type\MoneyLeaderBoardEntity;
+use arkania\entities\type\VillagerEntity;
 use arkania\events\entity\BlockBreakEvent;
 use arkania\events\entity\BlockBurnEvent;
 use arkania\events\entity\BlockPlaceEvent;
@@ -121,11 +129,20 @@ use arkania\manager\StatsManager;
 use arkania\manager\SynchronisationManager;
 use arkania\tasks\ClearLagTask;
 use arkania\tasks\MessageTask;
+use pocketmine\data\bedrock\EntityLegacyIds;
+use pocketmine\entity\Entity;
+use pocketmine\entity\EntityDataHelper;
+use pocketmine\entity\EntityFactory;
+use pocketmine\entity\Location;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\world\World;
 
 final class Loader {
 
     private Core $core;
     public static array $entities = [];
+    private static array $currentName = [];
+    private static array $customNamespaces = [];
 
     public function __construct(Core $core) {
         $this->core = $core;
@@ -134,6 +151,7 @@ final class Loader {
         $this->initCommands();
         $this->initData();
         $this->initTask();
+        $this->initEntity();
     }
 
     /**
@@ -308,5 +326,50 @@ final class Loader {
     private function initTask(): void {
         $this->core->getScheduler()->scheduleRepeatingTask(new ClearLagTask($this->core, 300), 20);
         $this->core->getScheduler()->scheduleRepeatingTask(new MessageTask($this->core), 9000);
+    }
+
+    /**
+     * @param string $classEntity
+     * @param array $names
+     * @param string $currentName
+     * @param int|null $entityId
+     * @param string|null $customNameSpace
+     * @return void
+     */
+    private function register(string $classEntity, array $names, string $currentName, int $entityId = null, string $customNameSpace = null): void {
+        self::$currentName[$currentName] = $currentName;
+        foreach ($names as $name){
+            self::$entities[strtolower($name)] = $classEntity;
+        }
+        EntityFactory::getInstance()->register($classEntity, function (World $world, CompoundTag $nbt) use ($classEntity, $names): Entity {
+            if($classEntity === HumanEntity::class) {
+                return new $classEntity(EntityDataHelper::parseLocation($nbt, $world), HumanEntity::parseSkinNBT($nbt), $nbt);
+            }
+            return new $classEntity(EntityDataHelper::parseLocation($nbt, $world), $nbt);
+        }, $names, $entityId);
+        if(!is_null($customNameSpace)){
+            self::$customNamespaces[] = $customNameSpace;
+        }
+    }
+
+    public function initEntity(): void {
+        $this->register(HumanEntity::class, ['arkania:human', 'human', 'humain'], 'Humain');
+        $this->register(FloatingText::class, ['arkania:floatingtext', 'floatingtext', 'floating text'], 'Floating Text', EntityLegacyIds::FALLING_BLOCK);
+        $this->register(VillagerEntity::class, ['arkania:villager', 'villager', 'villageois'], 'Villageois', EntityLegacyIds::VILLAGER);
+        $this->register(MoneyLeaderBoardEntity::class, ['arkania:moneyleaderboard', 'leaderboardmoney', 'LeaderBoardMoney'], 'LeaderBoardMoney', EntityLegacyIds::FALLING_BLOCK);
+        $this->register(DeathLeaderBoardEntity::class, ['arkania:deathleaderboard', 'leaderboarddeath', 'LeaderBoardDeath'], 'LeaderBoardDeath', EntityLegacyIds::FALLING_BLOCK);
+        $this->register(KillLeaderBoardEntity::class, ['arkania:killleaderboard', 'leaderboardkill', 'LeaderBoardKill'], 'LeaderBoardKill', EntityLegacyIds::FALLING_BLOCK);
+    }
+
+    /**
+     * @param Location $location
+     * @param string|int $id
+     * @return SimpleEntity|CustomEntity|null
+     */
+    public static function getEntityById(Location $location, string|int $id): SimpleEntity|CustomEntity|null {
+        if(!isset(self::$entities[strtolower($id)])){
+            return null;
+        }
+        return new self::$entities[strtolower($id)]($location);
     }
 }

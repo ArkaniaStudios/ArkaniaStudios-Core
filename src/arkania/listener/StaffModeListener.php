@@ -143,7 +143,7 @@ final class StaffModeListener implements Listener {
     public function onEntityDamageByEntity(EntityDamageByEntityEvent $event): void {
         $player = $event->getDamager();
         $target = $event->getEntity();
-            if ($player instanceof Player && $target instanceof Player) {
+if ($player instanceof Player && $target instanceof Player) {
                 if ($this->core->getStaffManager()->isInStaffMode($player)) {
                     $event->cancel();
                     $item = $player->getInventory()->getItemInHand()->getId();
@@ -167,6 +167,12 @@ final class StaffModeListener implements Listener {
                     } elseif ($item === VanillaItems::STONE_AXE()->getId()) {
                         $this->core->getFormManager()->sendBanUiForm($player, $target);
                     }
+                }elseif($item === VanillaItems::BOOK()->getId()){
+                    $stats = $this->core->getStatsManager();
+                    $faction = $this->core->getFactionManager();
+                    $player->sendMessage(Utils::getPrefix() . "Voici les informations concernant " . RanksManager::getRanksFormatPlayer($target) . "§f:" . PHP_EOL . PHP_EOL . "- Grade : " . $this->core->getRanksManager()->getRankColor($target->getName()) . PHP_EOL . "§f- Faction: §e" . $faction->getFaction($target->getName()) . PHP_EOL . "§f- Argent : §e" . $this->core->getEconomyManager()->getMoney($target->getName()) . "" . PHP_EOL . PHP_EOL . "§f- Inscription : §e" . $stats->getInscription($target->getName()) . PHP_EOL . "§f- Temps de jeu : §e" . $this->tempsFormat($stats->getTime($target->getName())) . PHP_EOL . PHP_EOL . "§f- Status : " . $this->core->getStatsManager()->getServerConnection($target->getName()));
+                }elseif($item === VanillaItems::STONE_AXE()->getId()){
+                    $this->core->getFormManager()->sendBanUiForm($player, $target);
                 }
             }
     }
