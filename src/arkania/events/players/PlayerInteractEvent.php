@@ -53,6 +53,7 @@ final class PlayerInteractEvent implements Listener {
         }
 
         if($block->getId() === BlockLegacyIds::ENCHANTMENT_TABLE){
+            $event->cancel();
             $this->core->enchantTableForm->sendEnchantTable($player);
         }
 

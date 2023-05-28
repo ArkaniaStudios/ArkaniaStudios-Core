@@ -4,6 +4,7 @@ namespace arkania\blocks\ui;
 
 use arkania\libs\form\SimpleForm;
 use arkania\utils\Utils;
+use pocketmine\block\Air;
 use pocketmine\item\Armor;
 use pocketmine\item\enchantment\EnchantmentInstance;
 use pocketmine\item\enchantment\VanillaEnchantments;
@@ -27,6 +28,10 @@ class EnchantTableForm
                 break;
             case $item instanceof Armor:
                 $this->sendArmorForm($player);
+                break;
+            case $item->getId() === 0 && $item->getMeta() === 0:
+                $player->sendMessage(Utils::getPrefix() . "§cVous ne pouvez pas enchanter votre main !");
+                break;
         }
     }
 
