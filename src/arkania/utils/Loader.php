@@ -151,6 +151,7 @@ final class Loader {
         $this->initCommands();
         $this->initData();
         $this->initTask();
+        $this->initEntity();
     }
 
     /**

@@ -42,7 +42,7 @@ class CustomEntity extends Human {
             $entity = $source->getEntity();
             if($player instanceof Player) {
                 if($entity instanceof CustomEntity){
-                    if($player->getInventory()->getItemInHand()->getId() === 541) {
+                    if($player->getInventory()->getItemInHand()->getId() === 507) {
                         Core::getInstance()->getEntityFormManager()->sendEntityItemForm($player, $source->getEntity());
                     }else{
                         $this->executeCommand($player);
