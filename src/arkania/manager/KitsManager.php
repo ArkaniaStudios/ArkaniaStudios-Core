@@ -74,7 +74,7 @@ final class KitsManager {
         $player->getInventory()->addItem(VanillaItems::IRON_BOOTS());
         $player->getInventory()->addItem(VanillaItems::IRON_SWORD());
         $player->getInventory()->addItem(VanillaItems::IRON_PICKAXE());
-        $player->getInventory()->addItem(VanillaItems::BREAD()->setCount(16));
+        $player->getInventory()->addItem(VanillaBlocks::TORCH()->asItem()->setCount(64));
         $player->getInventory()->addItem(VanillaBlocks::OAK_WOOD()->asItem()->setCount(10));
 
         $player->sendMessage(Utils::getPrefix() . "Vous avez recu le kit §7Joueur§f.");

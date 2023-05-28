@@ -31,7 +31,7 @@ final class PayCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('pay',
-        'Pay - ArkaniaStudios',
+        'Permet d\'envoyer de l\'argent à un joueur.',
         '/pay <player> <amount>');
         $this->core = $core;
     }

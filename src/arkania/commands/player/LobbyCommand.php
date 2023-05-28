@@ -27,7 +27,7 @@ final class LobbyCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('lobby',
-        'Lobby - ArkaniaStudios',
+        'Permet de vous téléporter au lobby.',
         '/lobby');
     }
 

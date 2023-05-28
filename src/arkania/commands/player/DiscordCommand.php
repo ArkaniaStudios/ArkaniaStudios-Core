@@ -24,7 +24,7 @@ final class DiscordCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('discord',
-        'Discord - ArkaniaStudios',
+        'Donne le lien du discord d\'arkania',
         '/discord');
     }
 

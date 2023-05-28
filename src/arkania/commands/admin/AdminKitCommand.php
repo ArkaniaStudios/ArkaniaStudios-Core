@@ -31,7 +31,7 @@ final class AdminKitCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('adminkit',
-        'Adminkit - ArkaniaStudios',
+        'Permet d\'obtenir un kit.',
         '/adminkit <reset:optional>');
         $this->setPermission('arkania:permission.adminkit');
         $this->core = $core;

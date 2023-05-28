@@ -36,7 +36,7 @@ final class EnderChestCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('enderchest',
-        'EnderChest - ArkaniaStudios',
+        'Ouvre un enderchest',
         '/enderchest',
         ['ec']);
         $this->setPermission('arkania:permission.enderchest');

@@ -31,7 +31,7 @@ final class ClassementCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('classement',
-        'Classement - ArkaniaStudios',
+        'Affiche les listes des classements disponibles',
         '/classement <type> <page:optional>');
         $this->core = $core;
     }

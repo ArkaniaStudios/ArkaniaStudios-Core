@@ -50,7 +50,7 @@ final class FactionCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('faction',
-        'Faction - ArkaniaStudios',
+        'Commandes du système de faction',
         '/faction <argument>',
         ['f']);
         $this->core = $core;

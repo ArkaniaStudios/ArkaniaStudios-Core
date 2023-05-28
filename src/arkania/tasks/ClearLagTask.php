@@ -18,9 +18,7 @@ namespace arkania\tasks;
 
 use arkania\Core;
 use arkania\data\SettingsNameIds;
-use arkania\entity\entities\VillagerEntity;
 use arkania\manager\SettingsManager;
-use arkania\utils\Utils;
 use pocketmine\entity\Human;
 use pocketmine\entity\object\ExperienceOrb;
 use pocketmine\entity\object\ItemEntity;

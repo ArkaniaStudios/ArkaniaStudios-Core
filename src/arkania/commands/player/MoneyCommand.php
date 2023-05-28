@@ -30,7 +30,7 @@ final class MoneyCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('money',
-        'Money - ArkaniaStudios',
+        'Permet de voir son argent/argent d\'un joueur.',
         '/money <player:optional>');
         $this->core = $core;
     }

@@ -26,7 +26,7 @@ final class NearCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('near',
-        'Near - ArkaniaStudios',
+        'Permet de voir les joueurs à proximité.',
         '/near');
         $this->setPermission('arkania:permission.near');
     }

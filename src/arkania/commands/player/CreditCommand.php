@@ -24,7 +24,7 @@ final class CreditCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('credit',
-        'Credit - ArkaniaStudios',
+        'Affiche la liste des personnes ayant travaillé(e)s sur arkania.',
         '/credit');
     }
 

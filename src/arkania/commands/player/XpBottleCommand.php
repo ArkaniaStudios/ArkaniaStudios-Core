@@ -32,7 +32,7 @@ final class XpBottleCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('xpbottle',
-        'XpBottle - ArkaniaStudios',
+        'Met votre xp en bouteille',
         '/xpbottle');
     }
 
@@ -70,9 +70,11 @@ final class XpBottleCommand extends BaseCommand {
                 return true;
             }
             $xpLevel = $player->getXpManager()->getXpLevel();
-            $item->setCustomName("§fBouteille d'xp (§e' . $xpLevel . '§f)");
+            $item->setCustomName("§fBouteille d'xp (§e" . $xpLevel . "§f)");
+            $item->getNamedTag()->setInt('experience', $xpLevel);
             $player->getInventory()->addItem($item);
-            $player->sendMessage(Utils::getPrefix() . "§aVous avez mis §e" . $xpLevel . "§f en bouteille.");
+            $player->sendMessage(Utils::getPrefix() . "§aVous avez mis §e" . $xpLevel . " niveau(x)§a en bouteille.");
+            $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - $xpLevel);
             $this->cooldown[$player->getName()] = $time + time();
         }else {
             $time = $this->tempsFormat($this->cooldown[$player->getName()]);

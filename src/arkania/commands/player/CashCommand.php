@@ -31,7 +31,7 @@ final class CashCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('cash',
-        'Cash - ArkaniaStudios',
+        'Met votre argent en billet',
         '/cash <amount>');
         $this->core = $core;
     }
@@ -80,8 +80,8 @@ final class CashCommand extends BaseCommand {
             $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas assez de place dans votre inventaire.");
             return true;
         }
-        $item->setCustomName("§fBillet §e($args[0])");
-        $player->sendMessage(Utils::getPrefix() . "Vous avez convertis §e$args[0] §fen billet.");
+        $item->getNamedTag()->setString("money", $args[0]);
+        $player->sendMessage(Utils::getPrefix() . "Vous avez convertis §e$args[0]§f en billet.");
         $player->getInventory()->addItem($item);
         $this->core->getEconomyManager()->delMoney($player->getName(), (int)$args[0]);
         return true;

@@ -30,7 +30,7 @@ final class FurnaceCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('furnace',
-        'Furnace - ArkaniaStudios',
+        'Permet de faire cuire des ressources',
         '/furnace <all/hand>');
         $this->setPermission('arkania:permission.furnace');
     }

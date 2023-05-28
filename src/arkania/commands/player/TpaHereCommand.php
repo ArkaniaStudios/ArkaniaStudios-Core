@@ -30,7 +30,7 @@ final class TpaHereCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('tpahere',
-        'Tpahere - ArkaniaStudios',
+        'Demande à un joueur de se téléporter à vous',
         '/tpahere <player>');
         $this->core = $core;
     }

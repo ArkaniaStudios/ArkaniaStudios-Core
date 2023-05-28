@@ -30,7 +30,7 @@ final class PingCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('ping',
-        'Ping - ArkaniaStudios',
+        'Permet de voir votre ping ou celui d\'un autre joueur.',
         '/ping <player:optional>');
         $this->core = $core;
     }

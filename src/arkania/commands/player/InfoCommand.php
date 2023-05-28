@@ -32,7 +32,7 @@ final class InfoCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('info',
-        'Info - ArkaniaStudios',
+        'Permet de voir les informations d\'un joueur/vos informations.',
         '/info <player:optional>',
         ['playerinfo', 'infos']);
         $this->core = $core;
@@ -54,16 +54,12 @@ final class InfoCommand extends BaseCommand {
         if (count($args) === 0){
             $player->sendMessage(Utils::getPrefix() . "Voici les informations vous concernant :" . PHP_EOL . PHP_EOL . "- Grade : " . $this->core->getRanksManager()->getRankColor($player->getName()) . PHP_EOL . "§f- Faction: §e" . $faction->getFaction($player->getName()) . PHP_EOL . "§f- Argent : §e" . $this->core->getEconomyManager()->getMoney($player->getName()) . "" . PHP_EOL . PHP_EOL . "§f- Inscription : §e" . $stats->getInscription($player->getName()) . PHP_EOL . "§f- Temps de jeu : §eDésactivé" . PHP_EOL . PHP_EOL . "§f- Status : " . $stats->getServerConnection($player->getName()));
         }else{
-            $player->sendMessage(Utils::getPrefix() . '§cDésactivé temporairement.');
-            return true;
-            /*$target = $args[0];
+            $target = $args[0];
             if (!$this->core->getRanksManager()->existPlayer($target)){
                 $player->sendMessage(Utils::getPrefix() . "§cCe joueur ne s'est jamais connecté au serveur.");
                 return true;
             }
-
-            $player->sendMessage(Utils::getPrefix() . "Voici les informations concernant §e" . $target . "§f:" . PHP_EOL . PHP_EOL . "- Grade : " . $this->core->getRanksManager()->getRankColor($target) . PHP_EOL . "§f- Faction: §e" . $faction->getFaction($target) . PHP_EOL . "§f- Argent : §e" . $this->core->getEconomyManager()->getMoney($target) . "" . PHP_EOL . PHP_EOL . "§f- Inscription : §e" . $stats->getInscription($target) . PHP_EOL . "§f- Temps de jeu : §e" . $this->tempsFormat(abs($stats->getTime($target))) . PHP_EOL . PHP_EOL . "§f- Status : " . $stats->getServerConnection($target));*/
-
+            $player->sendMessage(Utils::getPrefix() . "Voici les informations concernant §e" . $target . "§f:" . PHP_EOL . PHP_EOL . "- Grade : " . $this->core->getRanksManager()->getRankColor($target) . PHP_EOL . "§f- Faction: §e" . $faction->getFaction($target) . PHP_EOL . "§f- Argent : §e" . $this->core->getEconomyManager()->getMoney($target) . "" . PHP_EOL . PHP_EOL . "§f- Inscription : §e" . $stats->getInscription($target) . PHP_EOL . "§f- Temps de jeu : §eDésactivé". PHP_EOL . PHP_EOL . "§f- Status : " . $stats->getServerConnection($target));
         }
         return true;
     }

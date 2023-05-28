@@ -28,7 +28,7 @@ final class DelHomeCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('delhome',
-        'Delhome - ArkaniaStudios',
+        'Supprime un home de votre liste de home',
         '/delhome <homeName>');
     }
 

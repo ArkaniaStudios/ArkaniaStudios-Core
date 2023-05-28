@@ -33,7 +33,7 @@ final class RepairCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('repair',
-        'Repair - ArkaniaStudios',
+        'Permet de réparer un objet.',
         '/repair <all/hand>');
         $this->setPermission('arkania:permission.repair');
     }
