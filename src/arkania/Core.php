@@ -22,6 +22,7 @@ use arkania\inventory\CraftingTableTypeInventory;
 use arkania\libs\muqsit\invmenu\InvMenuHandler;
 use arkania\manager\BoxManager;
 use arkania\manager\EconomyManager;
+use arkania\manager\EntityFormManager;
 use arkania\manager\FactionManager;
 use arkania\manager\FormManager;
 use arkania\manager\KitsManager;
@@ -102,7 +103,9 @@ class Core extends PluginBase {
     private ServerStatusManager $serverStatusManager;
 
     /** @var EnchantTableForm  */
-    public EnchantTableForm $enchantTableForm;
+    private EnchantTableForm $enchantTableForm;
+
+    private EntityFormManager $entityFormManager;
 
     protected function onLoad(): void {
         self::setInstance($this);
@@ -142,6 +145,7 @@ class Core extends PluginBase {
         $this->boxManager = new BoxManager($this);
         $this->shopManager = new ShopManager($this);
         $this->enchantTableForm = new EnchantTableForm();
+        $this->entityFormManager = new EntityFormManager($this);
 
         new Loader($this);
         $this->getFactionManager()->loadAllConfig();
@@ -306,4 +310,13 @@ class Core extends PluginBase {
         return $this->shopManager;
     }
 
+    public function getEnchantTableForm(): EnchantTableForm
+    {
+        return $this->enchantTableForm;
+    }
+
+    public function getEntityFormManager(): EntityFormManager
+    {
+        return $this->entityFormManager;
+    }
 }

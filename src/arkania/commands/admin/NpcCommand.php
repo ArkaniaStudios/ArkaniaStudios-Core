@@ -1,47 +1,35 @@
 <?php
 
-declare(strict_types=1);
-
-/**
- *     _      ____    _  __     _      _   _   ___      _
- *    / \    |  _ \  | |/ /    / \    | \ | | |_ _|    / \
- *   / _ \   | |_) | | ' /    / _ \   |  \| |  | |    / _ \
- *  / ___ \  |  _ <  | . \   / ___ \  | |\  |  | |   / ___ \
- * /_/   \_\ |_| \_\ |_|\_\ /_/   \_\ |_| \_| |___| /_/   \_\
- *
- * @author: Julien
- * @link: https://github.com/ArkaniaStudios
- *
- */
-
 namespace arkania\commands\admin;
 
-use arkania\commands\BaseCommand;
 use arkania\Core;
-use arkania\utils\Utils;
+use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
+use pocketmine\player\Player;
 
-final class NpcCommand extends BaseCommand {
-
+class NpcCommand extends Command
+{
     private Core $core;
 
     public function __construct(Core $core) {
         parent::__construct('npc',
-        'PNJ Command',
-        '/npc <spawn> <npcId> <entityName>');
+            'Npc - ArkaniaStudios',
+            '/npc');
         $this->setPermission('arkania:permission.npc');
         $this->core = $core;
     }
 
-    /**
-     * @param CommandSender $player
-     * @param string $commandLabel
-     * @param array $args
-     * @return bool
-     */
-    public function execute(CommandSender $player, string $commandLabel, array $args): bool {
+    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    {
+        if(!$sender instanceof Player){
+            return;
+        }
 
-        $player->sendMessage(Utils::getPrefix() . '§cDésactivé');
-        return true;
+        if(!$this->testPermission($sender)){
+            $sender->sendMessage("§cVous n'avez pas la permission d'effectuer cela !");
+            return;
+        }
+
+        $this->core->getEntityFormManager()->sendEntityForm($sender);
     }
 }
