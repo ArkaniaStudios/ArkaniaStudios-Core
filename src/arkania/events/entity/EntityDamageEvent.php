@@ -20,6 +20,7 @@ use arkania\Core;
 use arkania\manager\ProtectionManager;
 use pocketmine\event\entity\EntityDamageEvent as EntityDamageEventAlias;
 use pocketmine\event\Listener;
+use pocketmine\player\Player;
 
 final class EntityDamageEvent implements Listener {
 
@@ -33,7 +34,9 @@ final class EntityDamageEvent implements Listener {
         if (ProtectionManager::isInProtectedZone($player->getLocation(), 'spawn')) $event->cancel();
 
         if ($event->getCause() === EntityDamageEventAlias::CAUSE_VOID){
-            Core::getInstance()->getSpawnManager()->teleportSpawn($player);
+            if ($player instanceof Player) {
+                Core::getInstance()->getSpawnManager()->teleportSpawn($player);
+            }
         }
 
     }

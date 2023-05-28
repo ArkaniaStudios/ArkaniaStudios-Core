@@ -29,7 +29,7 @@ final class WarnsCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('warns',
-        'Warns - ArkaniaStudios',
+        'Permet de voir la liste de vos avertissements',
         '/warns <player:optional>');
         $this->core = $core;
     }

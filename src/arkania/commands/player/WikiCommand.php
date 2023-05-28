@@ -24,7 +24,7 @@ final class WikiCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('wiki',
-        'Wiki - ArkaniaStudios',
+        'Permet d\'accéder au wiki du serveur',
         '/wiki');
     }
 

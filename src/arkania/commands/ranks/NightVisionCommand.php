@@ -28,7 +28,7 @@ final class NightVisionCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('nightvision',
-        'Nightvision - ArkaniaStudios',
+        'Permet d\'activer un effet de vision nocturne.',
         '/nightvision');
         $this->setPermission('arkania:permission.nightvision');
     }

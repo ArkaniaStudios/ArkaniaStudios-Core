@@ -7,6 +7,66 @@
     <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arkania/Core.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/Core.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/admin/AdminHomeCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/admin/AdminHomeCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/admin/AdminKitCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/admin/AdminKitCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/admin/MaintenanceCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/admin/MaintenanceCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/admin/NpcCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/admin/NpcCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/admin/SetBoxCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/admin/SetBoxCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/admin/SetSpawnCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/admin/SetSpawnCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/BoutiqueCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/BoutiqueCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/CashCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/CashCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/ClassementCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/ClassementCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/CoinsflipCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/CoinsflipCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/CoordinateCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/CoordinateCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/CreditCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/CreditCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/DelHomeCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/DelHomeCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/DiscordCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/DiscordCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/FactionCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/FactionCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/HomeCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/HomeCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/InfoCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/InfoCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/JobsCommand.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/KitsCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/KitsCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/ListCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/ListCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/LobbyCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/LobbyCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/MoneyCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/MoneyCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/MsgCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/MsgCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/PayCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/PayCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/PingCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/PingCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/ReplyCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/ReplyCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/ServerInfoCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/ServerInfoCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/ServerSelectorCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/ServerSelectorCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/SetHomeCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/SetHomeCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/SettingsCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/SettingsCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/SiteCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/SiteCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/SpawnCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/SpawnCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/TpDenyCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/TpDenyCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/TpaCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/TpaCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/TpaHereCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/TpaHereCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/TpacceptCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/TpacceptCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/VoteCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/VoteCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/WarnsCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/WarnsCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/WikiCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/WikiCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/XpBottleCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/XpBottleCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/ranks/BackCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/ranks/BackCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/ranks/ClearLagTimeCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/ranks/ClearLagTimeCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/ranks/CraftCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/ranks/CraftCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/ranks/EnderChestCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/ranks/EnderChestCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/ranks/FeedCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/ranks/FeedCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/ranks/FurnaceCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/ranks/FurnaceCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/ranks/NearCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/ranks/NearCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/ranks/NickCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/ranks/NickCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/ranks/NightVisionCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/ranks/NightVisionCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/ranks/RepairCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/ranks/RepairCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/ranks/SellAllCommand.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/events/entity/EntityDamageEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/entity/EntityDamageEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/events/players/PlayerInteractEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/events/players/PlayerInteractEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/listener/StaffModeListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/listener/StaffModeListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/FormManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/FormManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/KitsManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/KitsManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/MaintenanceManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/MaintenanceManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/manager/RanksManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/manager/RanksManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/tasks/ClearLagTask.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/tasks/ClearLagTask.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/utils/Utils.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/Utils.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,21 +268,9 @@
       <workItem from="1684593900508" duration="365000" />
       <workItem from="1684679357150" duration="3726000" />
       <workItem from="1684691622724" duration="141000" />
-      <workItem from="1685192406328" duration="1376000" />
-    </task>
-    <task id="LOCAL-00005" summary="test">
-      <created>1676929759749</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1676929759749</updated>
-    </task>
-    <task id="LOCAL-00006" summary="implement debug">
-      <created>1676929918218</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1676929918218</updated>
+      <workItem from="1685192406328" duration="2069000" />
+      <workItem from="1685228378258" duration="318000" />
+      <workItem from="1685228705646" duration="3334000" />
     </task>
     <task id="LOCAL-00007" summary="update ranks system">
       <created>1676933746042</created>
@@ -553,7 +601,21 @@
       <option name="project" value="LOCAL" />
       <updated>1684683070434</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="Release 1.0.12">
+      <created>1685193915320</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1685193915320</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Release 1.0.13">
+      <created>1685194575943</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1685194575943</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -571,8 +633,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="clean code" />
-    <MESSAGE value="Implement StaffMode and update log system" />
     <MESSAGE value="staffmode system end" />
     <MESSAGE value="update time system" />
     <MESSAGE value="change time system" />
@@ -596,6 +656,8 @@
     <MESSAGE value="Release 1.0.9" />
     <MESSAGE value="Release 1.0.10" />
     <MESSAGE value="Release 1.0.11" />
-    <option name="LAST_COMMIT_MESSAGE" value="Release 1.0.11" />
+    <MESSAGE value="Release 1.0.12" />
+    <MESSAGE value="Release 1.0.13" />
+    <option name="LAST_COMMIT_MESSAGE" value="Release 1.0.13" />
   </component>
 </project>

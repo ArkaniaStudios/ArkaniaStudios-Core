@@ -30,7 +30,7 @@ final class NickCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('nick',
-        'Nick - ArkaniaStudios',
+        'Permet de se renommer',
         '/nick <name>');
         $this->setPermission('arkania:permission.nick');
         $this->core = $core;

@@ -30,7 +30,7 @@ final class SettingsCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('settings',
-        'Settings - ArkaniaStudios',
+        'Permet de modifier ses paramètres.',
         '/settings <reset:optional>');
         $this->core = $core;
     }

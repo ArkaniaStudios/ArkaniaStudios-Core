@@ -35,7 +35,7 @@ final class MaintenanceCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('maintenance',
-            'Maintenance - ArkaniaStudios',
+            'Permet d\'activer ou non la maintenance sur le serveur',
         '/maintenance <on/off>');
         $this->setPermission('arkania:permission.maintenance');
         $this->core = $core;

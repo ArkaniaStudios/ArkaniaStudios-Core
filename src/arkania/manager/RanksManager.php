@@ -459,6 +459,7 @@ final class RanksManager {
 
     /** @var array */
     public static array $rankList = [
+        'administration',
         'Administrateur',
         'Responsable',
         'Opérateur',

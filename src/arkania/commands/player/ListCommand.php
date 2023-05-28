@@ -30,7 +30,7 @@ final class ListCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('list',
-        'List - ArkaniaStudios',
+        'Permet d\'avoir la liste des joueurs connectés sur le serveur.',
         '/list');
         $this->core = $core;
     }
@@ -61,5 +61,4 @@ final class ListCommand extends BaseCommand {
         $player->sendMessage(Utils::getPrefix() . "Voici la liste des personnes actuellement connecté sur le serveur (§e" . $onlineCount . '§f/§e' . $player->getServer()->getMaxPlayers() . "§f) :" . PHP_EOL . PHP_EOL . substr($online, 0, -2));
         return true;
     }
-
 }

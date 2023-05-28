@@ -35,7 +35,7 @@ final class ServerInfoCommand extends BaseCommand
     public function __construct(Core $core)
     {
         parent::__construct('serverinfo',
-            'Serverinfo - ArkaniaStudios',
+            'Permet d\'avoir les informations global du serveur.',
             '/serverinfo');
         $this->core = $core;
     }

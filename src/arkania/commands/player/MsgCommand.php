@@ -33,7 +33,7 @@ final class MsgCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('msg',
-            'Msg - ArkaniaStudios',
+            'Envoie un message privé à un joueur.',
             '/msg <player> <message>',
             ['tell', 'w', 'm', 'wish']
         );

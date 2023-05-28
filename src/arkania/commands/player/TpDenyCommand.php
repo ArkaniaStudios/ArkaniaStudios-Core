@@ -30,7 +30,7 @@ final class TpDenyCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('tpdeny',
-        'Tpdeny - ArkaniaStudios',
+        'Refuser une demande de téléportation',
         '/tpdeny');
         $this->core = $core;
     }

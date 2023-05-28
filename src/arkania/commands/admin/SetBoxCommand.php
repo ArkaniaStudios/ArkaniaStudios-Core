@@ -31,7 +31,7 @@ final class SetBoxCommand extends BaseCommand {
 
     public function __construct(Core $core) {
         parent::__construct('setbox',
-        'Setbox - ArkaniaStudios',
+        'Définir la zone des boxs',
         '/setbox');
         $this->setPermission('arkania:permission.setbox');
         $this->core = $core;

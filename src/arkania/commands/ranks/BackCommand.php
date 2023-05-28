@@ -27,7 +27,7 @@ final class BackCommand extends BaseCommand {
 
     public function __construct() {
         parent::__construct('back',
-        'Back - ArkaniaStudios',
+        'Permet de se téléporter à son dernier lieu de mort.',
         '/back');
         $this->setPermission('arkania:permission.back');
     }
