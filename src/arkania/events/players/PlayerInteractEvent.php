@@ -19,6 +19,7 @@ namespace arkania\events\players;
 use arkania\Core;
 use arkania\manager\ProtectionManager;
 use arkania\utils\Utils;
+use pocketmine\block\BlockLegacyIds;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerItemUseEvent;
 use pocketmine\item\ItemFactory;
@@ -49,6 +50,11 @@ final class PlayerInteractEvent implements Listener {
                 $event->cancel();
             }
         }
+      
+        if($block->getId() === BlockLegacyIds::ENCHANTMENT_TABLE){
+            $this->core->enchantTableForm->sendEnchantTable($player);
+        }
+      
         if ($item->getId() == VanillaItems::EXPERIENCE_BOTTLE()->getId()){
             if ($item->getNamedTag()->getTag('experience') !== null){
                 $event->cancel();
