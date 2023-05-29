@@ -27,15 +27,11 @@ class KillLeaderBoardEntity extends SimpleEntity
     public function onUpdate(int $currentTick) : bool
     {
         if(!isset($this->cooldown[$this->getName()]) or $this->cooldown[$this->getName()] - time() <= 0) {
-            $res = Core::getInstance()->stats->getAllKill();
-            $ret = [];
-            foreach ($res as $val) {
-                $ret[$val[0]] = $val[1];
-            }
-            arsort($ret);
+            $res = Core::getInstance()->getStatsManager()->getAllKill();
+            arsort($res);
             $top = 1;
             $nametag = "§c- §fListe des joueurs avec le plus de kills §c-\n";
-            foreach ($ret as $name => $kills) {
+            foreach ($res as $name => $kills) {
                 if($top === 11)
                     break;
                 $nametag .= "§4#" . $top . " §l§7» §r§c" . $name . " §favec §c" . $kills . "\n";
