@@ -52,10 +52,18 @@ final class Utils {
         $port = Server::getInstance()->getPort();
         if ($port === 1000)
             return 'Arkania-V2';
+        elseif($port === 19133)
+            return 'Lobby1';
         elseif ($port === 19134)
             return 'Theta';
         elseif ($port === 19135)
             return 'Zeta';
+        elseif($port === 19136)
+            return 'Minage1';
+        elseif($port === 19137)
+            return 'Minage2';
+        elseif($port === 19138)
+            return 'Minage3';
         return 'unknown';
     }
 

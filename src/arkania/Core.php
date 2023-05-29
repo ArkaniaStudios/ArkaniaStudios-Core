@@ -46,6 +46,7 @@ use pocketmine\timings\TimingsHandler;
 use pocketmine\timings\TimingsRecord;
 use pocketmine\utils\Config;
 use pocketmine\utils\SingletonTrait;
+use pocketmine\utils\Timezone;
 
 class Core extends PluginBase {
     use SingletonTrait;
@@ -172,6 +173,7 @@ class Core extends PluginBase {
             "\n ".
             "\n* All data charged."
         );
+        Timezone::init();
     }
 
     /**
