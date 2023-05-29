@@ -736,6 +736,24 @@ final class FactionCommand extends BaseCommand {
                 self::$chunk[$player->getName()] = true;
                 Core::getInstance()->getScheduler()->scheduleRepeatingTask(new SeeChunkTask(), 20);
             }
+        }elseif(strtolower($args[0]) === 'help'){
+            $player->sendMessage(Utils::getPrefix() . "§e/f create §7- Créer une faction.");
+            $player->sendMessage(Utils::getPrefix() . "§e/f invite §7- Inviter un joueur dans votre faction.");
+            $player->sendMessage(Utils::getPrefix() . "§e/f kick §7- Kick un joueur de votre faction.");
+            $player->sendMessage(Utils::getPrefix() . "§e/f leave §7- Quitter votre faction.");
+            $player->sendMessage(Utils::getPrefix() . "§e/f delete §7- Supprimer votre faction.");
+            $player->sendMessage(Utils::getPrefix() . "§e/f promote §7- Promouvoir un joueur de votre faction.");
+            $player->sendMessage(Utils::getPrefix() . "§e/f demote §7- Rétrograder un joueur de votre faction.");
+            $player->sendMessage(Utils::getPrefix() . "§e/f allies §7- Gérer les alliances de votre faction.");
+            $player->sendMessage(Utils::getPrefix() . "§e/f settings §7- Gérer les paramètres de votre faction.");
+            $player->sendMessage(Utils::getPrefix() . "§e/f home §7- Téléporter votre faction à son home.");
+            $player->sendMessage(Utils::getPrefix() . "§e/f sethome §7- Définir le home de votre faction.");
+            $player->sendMessage(Utils::getPrefix() . "§e/f claim §7- Claim un chunk.");
+            $player->sendMessage(Utils::getPrefix() . "§e/f unclaim §7- Unclaim un chunk.");
+            $player->sendMessage(Utils::getPrefix() . "§e/f chunk §7- Voir les chunks claim.");
+            $player->sendMessage(Utils::getPrefix() . "§e/f help §7- Voir l'aide.");
+        }else{
+            $player->sendMessage(Utils::getPrefix() . "§cErreur. Faites §e/f help §cpour voir l'aide.");
         }
         return true;
     }
