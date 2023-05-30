@@ -22,7 +22,6 @@ use arkania\utils\Utils;
 use pocketmine\block\BlockLegacyIds;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerItemUseEvent;
-use pocketmine\item\ItemFactory;
 use pocketmine\item\VanillaItems;
 
 final class PlayerInteractEvent implements Listener {
@@ -54,6 +53,11 @@ final class PlayerInteractEvent implements Listener {
         if($block->getId() === BlockLegacyIds::ENCHANTMENT_TABLE && $event->getAction() === \pocketmine\event\player\PlayerInteractEvent::RIGHT_CLICK_BLOCK){
             $event->cancel();
             $this->core->getEnchantTableForm()->sendEnchantTable($player);
+        }
+
+        if($block->getId() === BlockLegacyIds::ANVIL && $event->getAction() === \pocketmine\event\player\PlayerInteractEvent::RIGHT_CLICK_BLOCK){
+            $event->cancel();
+            Core::getInstance()->getAnvilForm()->sendAnvilForm($player);
         }
       
         if ($item->getId() == VanillaItems::EXPERIENCE_BOTTLE()->getId()){

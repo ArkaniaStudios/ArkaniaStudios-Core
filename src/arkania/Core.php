@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace arkania;
 
+use arkania\blocks\ui\AnvilForm;
 use arkania\blocks\ui\EnchantTableForm;
 use arkania\commands\ranks\CraftCommand;
 use arkania\inventory\CraftingTableTypeInventory;
@@ -112,6 +113,9 @@ class Core extends PluginBase {
 
     private EntityFormManager $entityFormManager;
 
+    /** @var AnvilForm  */
+    private AnvilForm $anvilForm;
+
     protected function onLoad(): void {
         self::setInstance($this);
     }
@@ -151,6 +155,7 @@ class Core extends PluginBase {
         $this->shopManager = new ShopManager($this);
         $this->enchantTableForm = new EnchantTableForm();
         $this->entityFormManager = new EntityFormManager($this);
+        $this->anvilForm = new AnvilForm();
 
         new Loader($this);
         $this->getFactionManager()->loadAllConfig();
@@ -325,5 +330,10 @@ class Core extends PluginBase {
     public function getEntityFormManager(): EntityFormManager
     {
         return $this->entityFormManager;
+    }
+
+    public function getAnvilForm(): AnvilForm
+    {
+        return $this->anvilForm;
     }
 }
