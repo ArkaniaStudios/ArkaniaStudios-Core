@@ -41,10 +41,8 @@ final class PlayerJoinEvent implements Listener {
         $player = $event->getPlayer();
 
         /*Proxy*/
-        if($player->getName() !== "julien gammer" or $player->getName() !== "geotre223" or $player->getName() !== "Julien8436" or $player->getName() !== "TEZULS"){
-            if($player->getNetworkSession()->getIp() !== "172.18.0.1"){
-                $player->kick("§cVous avez été kick du serveur car vous n'êtes pas passé par le lobby !\n§fSi vous pensez que ceci est une erreur merci de contacter l'équipe du staff d'arkania : https://discord.gg/ZU7CJ3PtZj");
-            }
+        if($player->getNetworkSession()->getIp() !== "172.18.0.1" && $player->getNetworkSession()->getIp() !== "127.0.0.1"){
+            $player->kick("§cVous avez été kick du serveur car vous n'êtes pas passé par le lobby !\n§fSi vous pensez que ceci est une erreur merci de contacter l'équipe du staff d'arkania : https://discord.gg/ZU7CJ3PtZj");
         }
 
         $player->resetFallDistance();
