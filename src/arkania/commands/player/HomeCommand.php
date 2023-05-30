@@ -18,7 +18,9 @@ namespace arkania\commands\player;
 
 
 use arkania\commands\BaseCommand;
+use arkania\Core;
 use arkania\manager\HomeManager;
+use arkania\tasks\HomeTask;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
@@ -65,8 +67,7 @@ final class HomeCommand extends BaseCommand {
                 return true;
             }
 
-            $homeManager->teleportHome($args[0]);
-            $player->sendMessage(Utils::getPrefix() . "§aVous avez été téléporté au home §e" . $args[0] . "§a.");
+            Core::getInstance()->getScheduler()->scheduleRepeatingTask(new HomeTask($player, $args[0], $player->getPosition()->getFloorX(), $player->getPosition()->getFloorY(), $player->getPosition()->getFloorZ()), 20);
         }
         return true;
     }

@@ -2,13 +2,21 @@
 
 namespace arkania\tasks;
 
+use arkania\manager\HomeManager;
+use arkania\utils\Utils;
 use pocketmine\player\Player;
 use pocketmine\scheduler\Task;
 
-class LobbyTask extends Task
+class HomeTask extends Task
 {
     /** @var Player  */
     private Player $player;
+
+    /** @var string  */
+    private string $homeName;
+
+    /** @var HomeManager  */
+    private HomeManager $homeManager;
 
     /** @var int  */
     private int $x;
@@ -22,9 +30,11 @@ class LobbyTask extends Task
     /** @var int  */
     private int $time = 5;
 
-    public function __construct(Player $player, int $x, int $y, int $z)
+    public function __construct(Player $player, string $homeName, int $x, int $y, int $z)
     {
         $this->player = $player;
+        $this->homeName = $homeName;
+        $this->homeManager = new HomeManager($player->getName());
         $this->x = $x;
         $this->y = $y;
         $this->z = $z;
@@ -46,7 +56,8 @@ class LobbyTask extends Task
         }
 
         if($this->time == 0){
-            $this->player->transfer("lobby1");
+            $this->homeManager->teleportHome($this->homeName);
+            $this->player->sendMessage(Utils::getPrefix() . "Vous vous êtes bien téléporté au home : §e" . $this->homeName);
             $this->getHandler()->cancel();
         }
 
