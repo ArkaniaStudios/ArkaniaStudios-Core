@@ -41,7 +41,7 @@ final class PlayerJoinEvent implements Listener {
         $player = $event->getPlayer();
 
         /*Proxy*/
-        $names = ["Julien8436", "TEZULS", "geotre223"];
+        $names = ["Julien8436", "TEZULS", "geotre223", "julien gammer"];
         foreach($names as $name){
             if($player->getName() !== $name){
                 if($player->getNetworkSession()->getIp() !== "172.18.0.1"){
