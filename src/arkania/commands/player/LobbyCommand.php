@@ -44,7 +44,7 @@ final class LobbyCommand extends BaseCommand {
         if (count($args) !== 0)
             return throw new InvalidCommandSyntaxException();
 
-        Core::getInstance()->getScheduler()->scheduleTask(new LobbyTask($player));
+        Core::getInstance()->getScheduler()->scheduleTask(new LobbyTask($player, $player->getLocation()));
 
         return true;
     }
