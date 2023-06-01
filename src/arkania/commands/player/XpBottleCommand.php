@@ -62,7 +62,7 @@ final class XpBottleCommand extends BaseCommand {
             elseif($player->hasPermission('arkania:permission.noble'))
                 $time = 3600*12;
             else
-                $time = 86400;
+                $time = 21600;
 
             $item = VanillaItems::EXPERIENCE_BOTTLE();
             if (!$player->getInventory()->canAddItem($item)){
@@ -82,5 +82,4 @@ final class XpBottleCommand extends BaseCommand {
         }
         return true;
     }
-
 }

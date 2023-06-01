@@ -80,7 +80,8 @@ final class CashCommand extends BaseCommand {
             $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas assez de place dans votre inventaire.");
             return true;
         }
-        $item->getNamedTag()->setString("money", $args[0]);
+        $item->getNamedTag()->setInt("money", (int)$args[0]);
+        $item->setCustomName("Billet de §e" . (int)$args[0] . "§a$");
         $player->sendMessage(Utils::getPrefix() . "Vous avez convertis §e$args[0]§f en billet.");
         $player->getInventory()->addItem($item);
         $this->core->getEconomyManager()->delMoney($player->getName(), (int)$args[0]);
