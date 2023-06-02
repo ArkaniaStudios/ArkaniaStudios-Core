@@ -45,6 +45,10 @@ class AnvilForm
                         $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas assez d'xp pour réparer votre item !");
                         return;
                     }
+                    if($item->getMeta() === $item->getMaxDurability()){
+                        $player->sendMessage(Utils::getPrefix() . "§cVotre item n'a pas besoin d'être réparé !");
+                        return;
+                    }
                     $item->setDamage(0);
                     $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 20);
                     $player->getInventory()->setItemInHand($item);
@@ -66,6 +70,7 @@ class AnvilForm
 
             if($player->getXpManager()->getXpLevel() < 15){
                 $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas assez d'xp pour renommer votre item !");
+                return;
             }
 
             $item->setCustomName($data[1]);
