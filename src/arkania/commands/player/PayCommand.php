@@ -12,37 +12,34 @@ declare(strict_types=1);
  * @author: Julien
  * @link: https://github.com/ArkaniaStudios
  *
+ * Tous ce qui est développé par nos équipes, ou qui concerne le serveur, restent confidentiels et est interdit à l’utilisation tiers.
  */
 
 namespace arkania\commands\player;
 
+use arkania\commands\BaseCommand;
 use arkania\Core;
 use arkania\manager\RanksManager;
 use arkania\utils\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
-use arkania\commands\BaseCommand;
+use pocketmine\Server;
 
-final class PayCommand extends BaseCommand {
+class PayCommand extends BaseCommand {
 
     /** @var Core */
     private Core $core;
 
     public function __construct(Core $core) {
         parent::__construct('pay',
-        'Permet d\'envoyer de l\'argent à un joueur.',
-        '/pay <player> <amount>');
+            'Pay - ArkaniaStudios',
+            '/pay <player> <amount>');
         $this->core = $core;
     }
 
-    /**
-     * @param CommandSender $player
-     * @param string $commandLabel
-     * @param array $args
-     * @return bool
-     */
     public function execute(CommandSender $player, string $commandLabel, array $args): bool {
+
         if (!$player instanceof Player)
             return true;
 
@@ -61,7 +58,7 @@ final class PayCommand extends BaseCommand {
             return true;
         }
 
-        if (!$this->core->getEconomyManager()->getMoney($player->getName()) - $args[1] >= 0){
+        if ($this->core->getEconomyManager()->getMoney($player->getName()) - (int)$args[1] <= 0){
             $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas les fonds requis pour effectuer cette transaction.");
             return true;
         }
@@ -72,5 +69,4 @@ final class PayCommand extends BaseCommand {
         $target->sendMessage(Utils::getPrefix() . "Vous avez reçu §e" . $args[1] . " §r");
         return true;
     }
-
 }
