@@ -25,7 +25,6 @@ use pocketmine\item\Item;
 use pocketmine\item\ItemFactory;
 use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;
-use pocketmine\world\biome\RiverBiome;
 
 final class ShopManager {
 
@@ -53,6 +52,9 @@ final class ShopManager {
                     break;
                 case 2:
                     $this->sendOreForm($player);
+                    break;
+                case 3:
+                    $this->sendLootForm($player);
                     break;
                 default:
                     $this->sendShopForm($player);
@@ -498,7 +500,7 @@ final class ShopManager {
                 }
                 $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2] * 5);
                 $player->getInventory()->removeItem($itemSell);
-                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] * 5 . "§a cactus pour §e" . (int)$data[2] * 5 . ".");
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] . "§a cactus pour §e" . (int)$data[2] * 5 . ".");
 
             }
         });
@@ -544,7 +546,7 @@ final class ShopManager {
                 }
                 $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2] * 3);
                 $player->getInventory()->removeItem($itemSell);
-                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] * 3 . "§a citrouilles pour §e " . (int)$data[2] * 3 . ".");
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] . "§a citrouilles pour §e " . (int)$data[2] * 3 . ".");
 
             }
         });
@@ -590,7 +592,7 @@ final class ShopManager {
                 }
                 $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2] * 3);
                 $player->getInventory()->removeItem($itemSell);
-                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] * 3 . "§a pastèque pour §e" . (int)$data[2] * 3 . ".");
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] . "§a pastèque pour §e" . (int)$data[2] * 3 . ".");
 
             }
         });
@@ -728,7 +730,7 @@ final class ShopManager {
                 }
                 $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2] * 2);
                 $player->getInventory()->removeItem($itemSell);
-                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] * 2 . "§a blé pour §e" . (int)$data[2] * 2 . ".");
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] . "§a blé pour §e" . (int)$data[2] * 2 . ".");
             }
         });
         $form->setTitle('§c- §fBlé §c-');
@@ -804,6 +806,9 @@ final class ShopManager {
                 case 6:
                     $this->sendEmeraldForm($player);
                     break;
+                default:
+                    $this->sendShopForm($player);
+                    break;
             }
         });
         $form->setTitle("§c- §fMinerais §c-");
@@ -814,6 +819,8 @@ final class ShopManager {
         $form->addButton("§7» §rRedstone", SimpleForm::IMAGE_TYPE_PATH, "textures/items/redstone_dust");
         $form->addButton("§7» §rDiamant", SimpleForm::IMAGE_TYPE_PATH, "textures/items/diamond");
         $form->addButton("§7» §rÉmeraude", SimpleForm::IMAGE_TYPE_PATH, "textures/items/emerald");
+        $form->addButton("§7» §rÉmeraude", SimpleForm::IMAGE_TYPE_PATH, "textures/items/emerald");
+        $form->addButton('§7» §cRetour', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/barrier');
         $player->sendForm($form);
     }
 
@@ -1106,6 +1113,250 @@ final class ShopManager {
         });
         $form->setTitle('§c- §fÉmeraude §c-');
         $form->setContent('-------------------------------' . PHP_EOL . '§7» §rVous avez actuellement §e' . $this->core->getEconomyManager()->getMoney($player->getName()) . '' . PHP_EOL . '§a1000/u' . PHP_EOL . '§c40/u' . PHP_EOL . '§f-------------------------------');
+        $form->addDropdown('§7» §rAction: ', ['§aAcheter', '§cVendre']);
+        $form->addSlider('§7» §rNombre: ', 0, 64);
+        $player->sendForm($form);
+    }
+
+    private function sendLootForm(Player $player): void
+    {
+        $form = new SimpleForm(function (Player $player, $data){
+            switch($data){
+                case 0:
+                    $this->sendBoneForm($player);
+                    break;
+                case 1:
+                    $this->sendRawBeefForm($player);
+                    break;
+                case 2:
+                    $this->sendBeefForm($player);
+                    break;
+                case 3:
+                    $this->sendRawSeepMeatForm($player);
+                    break;
+                case 4:
+                    $this->sendSheepMeatForm($player);
+                    break;
+                default:
+                    $this->sendShopForm($player);
+                    break;
+            }
+        });
+        $form->setTitle("§c- §fMinerais §c-");
+        $form->addButton("§7» §rOs", SimpleForm::IMAGE_TYPE_PATH, "textures/items/bone");
+        $form->addButton("§7» §rBoeuf cru", SimpleForm::IMAGE_TYPE_PATH, "textures/items/hoglin_meat_raw");
+        $form->addButton("§7» §rBoeuf cuit", SimpleForm::IMAGE_TYPE_PATH, "textures/items/hoglin_meat_cooked");
+        $form->addButton("§7» §rMouton cru", SimpleForm::IMAGE_TYPE_PATH, "textures/items/mutton_raw");
+        $form->addButton("§7» §rmMouton cuit", SimpleForm::IMAGE_TYPE_PATH, "textures/items/mutton_cooked");
+        $form->addButton('§7» §cRetour', SimpleForm::IMAGE_TYPE_PATH, 'textures/blocks/barrier');
+        $player->sendForm($form);
+    }
+
+    private function sendBoneForm(Player $player): void
+    {
+        $form = new CustomForm(function (Player $player, $data){
+            if (is_null($data))
+                return;
+
+            $action = ['§aAcheter', '$cVendre'];
+
+            if ($action[$data[1]] === '§aAcheter'){
+                $item = ItemFactory::getInstance()->get(VanillaItems::BONE()->getId(), 0, (int)$data[2]);
+                if (!$player->getInventory()->canAddItem($item)){
+                    $player->sendMessage(Utils::getPrefix() . "§cVotre inventaire est complet vous ne pouvez donc pas acheter §e" . (int)$data[2] . "§c d'os.");
+                    return;
+                }
+
+                if ($this->core->getEconomyManager()->getMoney($player->getName()) < (int)$data[2] * 300){
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas assez d'argent pour acheter §e" . (int)$data[2] . "§c d'os.");
+                    return;
+                }
+
+                $this->core->getEconomyManager()->delMoney($player->getName(), (int)$data[2] * 300);
+                $player->getInventory()->addItem($item);
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez acheté §e" . (int)$data[2] . '§a d\'os pour un total de §e' . (int)$data[2] * 300 . '§a.');
+            }else{
+                $item = $this->countItem($player, VanillaItems::BONE()->getId());
+                $itemSell = ItemFactory::getInstance()->get(VanillaItems::BONE()->getId(), 0, (int)$data[2]);
+                if ((int)$data[2] > $item){
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas §e" . (int)$data[2] . "§c d'os à vendre.");
+                    return;
+                }
+                $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2] * 30);
+                $player->getInventory()->removeItem($itemSell);
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] . "§a d'os pour §e" . $data[2] * 30 . " .");
+            }
+        });
+        $form->setTitle('§c- §fOs §c-');
+        $form->setContent('-------------------------------' . PHP_EOL . '§7» §rVous avez actuellement §e' . $this->core->getEconomyManager()->getMoney($player->getName()) . '' . PHP_EOL . '§a300/u' . PHP_EOL . '§c30/u' . PHP_EOL . '§f-------------------------------');
+        $form->addDropdown('§7» §rAction: ', ['§aAcheter', '§cVendre']);
+        $form->addSlider('§7» §rNombre: ', 0, 64);
+        $player->sendForm($form);
+    }
+
+    private function sendRawBeefForm(Player $player): void
+    {
+        $form = new CustomForm(function (Player $player, $data){
+            if (is_null($data))
+                return;
+
+            $action = ['§aAcheter', '$cVendre'];
+
+            if ($action[$data[1]] === '§aAcheter'){
+                $item = ItemFactory::getInstance()->get(VanillaItems::RAW_BEEF()->getId(), 0, (int)$data[2]);
+                if (!$player->getInventory()->canAddItem($item)){
+                    $player->sendMessage(Utils::getPrefix() . "§cVotre inventaire est complet vous ne pouvez donc pas acheter §e" . (int)$data[2] . "§c boeuf(s) cru.");
+                    return;
+                }
+
+                if ($this->core->getEconomyManager()->getMoney($player->getName()) < (int)$data[2] * 40){
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas assez d'argent pour acheter §e" . (int)$data[2] . "§c boeuf(s) cru.");
+                    return;
+                }
+
+                $this->core->getEconomyManager()->delMoney($player->getName(), (int)$data[2] * 40);
+                $player->getInventory()->addItem($item);
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez acheté §e" . (int)$data[2] . '§a boeuf(s) cru pour un total de §e' . (int)$data[2] * 40 . '§a.');
+            }else{
+                $item = $this->countItem($player, VanillaItems::RAW_BEEF()->getId());
+                $itemSell = ItemFactory::getInstance()->get(VanillaItems::RAW_BEEF()->getId(), 0, (int)$data[2]);
+                if ((int)$data[2] > $item){
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas §e" . (int)$data[2] . "§c boeuf(s) cru à vendre.");
+                    return;
+                }
+                $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2]);
+                $player->getInventory()->removeItem($itemSell);
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] . "§a boeuf(s) cru pour §e" . $data[2] . " .");
+            }
+        });
+        $form->setTitle('§c- §fBoeuf Cru §c-');
+        $form->setContent('-------------------------------' . PHP_EOL . '§7» §rVous avez actuellement §e' . $this->core->getEconomyManager()->getMoney($player->getName()) . '' . PHP_EOL . '§a40/u' . PHP_EOL . '§c1/u' . PHP_EOL . '§f-------------------------------');
+        $form->addDropdown('§7» §rAction: ', ['§aAcheter', '§cVendre']);
+        $form->addSlider('§7» §rNombre: ', 0, 64);
+        $player->sendForm($form);
+    }
+
+    private function sendBeefForm(Player $player): void
+    {
+        $form = new CustomForm(function (Player $player, $data){
+            if (is_null($data))
+                return;
+
+            $action = ['§aAcheter', '$cVendre'];
+
+            if ($action[$data[1]] === '§aAcheter'){
+                $item = ItemFactory::getInstance()->get(VanillaItems::STEAK()->getId(), 0, (int)$data[2]);
+                if (!$player->getInventory()->canAddItem($item)){
+                    $player->sendMessage(Utils::getPrefix() . "§cVotre inventaire est complet vous ne pouvez donc pas acheter §e" . (int)$data[2] . "§c boeuf(s) cuit(s).");
+                    return;
+                }
+
+                if ($this->core->getEconomyManager()->getMoney($player->getName()) < (int)$data[2] * 50){
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas assez d'argent pour acheter §e" . (int)$data[2] . "§c boeuf(s) cuit(s).");
+                    return;
+                }
+
+                $this->core->getEconomyManager()->delMoney($player->getName(), (int)$data[2] * 50);
+                $player->getInventory()->addItem($item);
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez acheté §e" . (int)$data[2] . '§a boeuf(s) cuit(s) pour un total de §e' . (int)$data[2] * 50 . '§a.');
+            }else{
+                $item = $this->countItem($player, VanillaItems::STEAK()->getId());
+                $itemSell = ItemFactory::getInstance()->get(VanillaItems::STEAK()->getId(), 0, (int)$data[2]);
+                if ((int)$data[2] > $item){
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas §e" . (int)$data[2] . "§c boeuf(s) cuit(s) à vendre.");
+                    return;
+                }
+                $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2]);
+                $player->getInventory()->removeItem($itemSell);
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] . "§a boeuf(s) cuit(s) pour §e" . $data[2] . " .");
+            }
+        });
+        $form->setTitle('§c- §fBoeuf Cuit §c-');
+        $form->setContent('-------------------------------' . PHP_EOL . '§7» §rVous avez actuellement §e' . $this->core->getEconomyManager()->getMoney($player->getName()) . '' . PHP_EOL . '§a50/u' . PHP_EOL . '§c1/u' . PHP_EOL . '§f-------------------------------');
+        $form->addDropdown('§7» §rAction: ', ['§aAcheter', '§cVendre']);
+        $form->addSlider('§7» §rNombre: ', 0, 64);
+        $player->sendForm($form);
+    }
+
+    private function sendRawSeepMeatForm(Player $player): void
+    {
+        $form = new CustomForm(function (Player $player, $data){
+            if (is_null($data))
+                return;
+
+            $action = ['§aAcheter', '$cVendre'];
+
+            if ($action[$data[1]] === '§aAcheter'){
+                $item = ItemFactory::getInstance()->get(VanillaItems::RAW_MUTTON()->getId(), 0, (int)$data[2]);
+                if (!$player->getInventory()->canAddItem($item)){
+                    $player->sendMessage(Utils::getPrefix() . "§cVotre inventaire est complet vous ne pouvez donc pas acheter §e" . (int)$data[2] . "§c mouton(s) cru.");
+                    return;
+                }
+
+                if ($this->core->getEconomyManager()->getMoney($player->getName()) < (int)$data[2] * 40){
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas assez d'argent pour acheter §e" . (int)$data[2] . "§c mouton(s) cru.");
+                    return;
+                }
+
+                $this->core->getEconomyManager()->delMoney($player->getName(), (int)$data[2] * 40);
+                $player->getInventory()->addItem($item);
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez acheté §e" . (int)$data[2] . '§a mouton(s) cru pour un total de §e' . (int)$data[2] * 40 . '§a.');
+            }else{
+                $item = $this->countItem($player, VanillaItems::RAW_MUTTON()->getId());
+                $itemSell = ItemFactory::getInstance()->get(VanillaItems::RAW_MUTTON()->getId(), 0, (int)$data[2]);
+                if ((int)$data[2] > $item){
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas §e" . (int)$data[2] . "§c mouton(s) cru à vendre.");
+                    return;
+                }
+                $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2]);
+                $player->getInventory()->removeItem($itemSell);
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] . "§a mouton(s) cru pour §e" . $data[2] . " .");
+            }
+        });
+        $form->setTitle('§c- §fMouton cru §c-');
+        $form->setContent('-------------------------------' . PHP_EOL . '§7» §rVous avez actuellement §e' . $this->core->getEconomyManager()->getMoney($player->getName()) . '' . PHP_EOL . '§a40/u' . PHP_EOL . '§c1/u' . PHP_EOL . '§f-------------------------------');
+        $form->addDropdown('§7» §rAction: ', ['§aAcheter', '§cVendre']);
+        $form->addSlider('§7» §rNombre: ', 0, 64);
+        $player->sendForm($form);
+    }
+
+    private function sendSheepMeatForm(Player $player): void
+    {
+        $form = new CustomForm(function (Player $player, $data){
+            if (is_null($data))
+                return;
+
+            $action = ['§aAcheter', '$cVendre'];
+
+            if ($action[$data[1]] === '§aAcheter'){
+                $item = ItemFactory::getInstance()->get(VanillaItems::COOKED_MUTTON()->getId(), 0, (int)$data[2]);
+                if (!$player->getInventory()->canAddItem($item)){
+                    $player->sendMessage(Utils::getPrefix() . "§cVotre inventaire est complet vous ne pouvez donc pas acheter §e" . (int)$data[2] . "§c mouton(s) cuit(s).");
+                    return;
+                }
+
+                if ($this->core->getEconomyManager()->getMoney($player->getName()) < (int)$data[2] * 50){
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas assez d'argent pour acheter §e" . (int)$data[2] . "§c mouton(s) cuit(s).");
+                    return;
+                }
+
+                $this->core->getEconomyManager()->delMoney($player->getName(), (int)$data[2] * 50);
+                $player->getInventory()->addItem($item);
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez acheté §e" . (int)$data[2] . '§a mouton(s) cuit(s) pour un total de §e' . (int)$data[2] * 50 . '§a.');
+            }else{
+                $item = $this->countItem($player, VanillaItems::COOKED_MUTTON()->getId());
+                $itemSell = ItemFactory::getInstance()->get(VanillaItems::COOKED_MUTTON()->getId(), 0, (int)$data[2]);
+                if ((int)$data[2] > $item){
+                    $player->sendMessage(Utils::getPrefix() . "§cVous n'avez pas §e" . (int)$data[2] . "§c mouton(s) cuit(s) à vendre.");
+                    return;
+                }
+                $this->core->getEconomyManager()->addMoney($player->getName(), (int)$data[2]);
+                $player->getInventory()->removeItem($itemSell);
+                $player->sendMessage(Utils::getPrefix() . "§aVous avez vendu §e" . (int)$data[2] . "§a mouton(s) cuit(s) pour §e" . $data[2] . " .");
+            }
+        });
+        $form->setTitle('§c- §fMouton cuit §c-');
+        $form->setContent('-------------------------------' . PHP_EOL . '§7» §rVous avez actuellement §e' . $this->core->getEconomyManager()->getMoney($player->getName()) . '' . PHP_EOL . '§a50/u' . PHP_EOL . '§c1/u' . PHP_EOL . '§f-------------------------------');
         $form->addDropdown('§7» §rAction: ', ['§aAcheter', '§cVendre']);
         $form->addSlider('§7» §rNombre: ', 0, 64);
         $player->sendForm($form);
