@@ -19,6 +19,7 @@ namespace arkania\events\players;
 use arkania\Core;
 use arkania\manager\RanksManager;
 use arkania\tasks\BanTask;
+use arkania\tasks\ScoreBoardTask;
 use arkania\utils\trait\Date;
 use arkania\utils\Utils;
 use pocketmine\event\Listener;
@@ -77,6 +78,10 @@ final class PlayerJoinEvent implements Listener {
                 if (!$player->hasPermission('arkania:permission.vanish'))
                     $player->hidePlayer($onlinePlayer);
         }
+
+        /*ScoreBoard*/
+        ScoreBoardTask::$enabled[$player->getName()] = $player->getName();
+        Core::getInstance()->getScheduler()->scheduleRepeatingTask(new ScoreBoardTask($player), 20);
 
         /* PlayerBefore */
         if (!$player->hasPlayedBefore()){

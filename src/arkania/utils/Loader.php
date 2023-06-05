@@ -54,6 +54,7 @@ use arkania\commands\player\MsgCommand;
 use arkania\commands\player\PayCommand;
 use arkania\commands\player\PingCommand;
 use arkania\commands\player\ReplyCommand;
+use arkania\commands\player\ScoreBoardCommand;
 use arkania\commands\player\ServerInfoCommand;
 use arkania\commands\player\ServerSelectorCommand;
 use arkania\commands\player\SetHomeCommand;
@@ -267,6 +268,7 @@ final class Loader {
             new HomeCommand(),
             new WarnsCommand($this->core),
             new ShopCommand($this->core),
+            new ScoreBoardCommand(),
             ];
 
         $this->core->getServer()->getCommandMap()->registerAll('Arkania-Commands', $commands);

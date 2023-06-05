@@ -12,6 +12,7 @@ main: arkania\Core
 api: 4.14.1
 authors:
   - Julien
+  - geotre223
 website: https://github.com/ArkaniaStudios
 permissions:
     "arkania:permission.npc":
@@ -161,4 +162,6 @@ permissions:
     "arkania:permission.warn":
         default: op
     "arkania:permission.sellhand":
+        default: op
+    "arkania:permission.scoreboard":
         default: op
