@@ -128,10 +128,10 @@ class EnchantTableForm
             }
         });
         $form->setTitle("§c- §fProtection §c-");
-        $form->addButton("Protection 1");
-        $form->addButton("Protection 2");
-        $form->addButton("Protection 3");
-        $form->addButton("Protection 4");
+        $form->addButton("Protection 1 (10xp)");
+        $form->addButton("Protection 2 (20xp)");
+        $form->addButton("Protection 3 (30xp)");
+        $form->addButton("Protection 4 (40xp)");
         $form->addButton("§cretour");
         $player->sendForm($form);
     }
@@ -189,9 +189,9 @@ class EnchantTableForm
             }
         });
         $form->setTitle("§c- §fSolidité §c-");
-        $form->addButton("Solidité 1");
-        $form->addButton("Solidité 2");
-        $form->addButton("Solidité 3");
+        $form->addButton("Solidité 1 (10xp)");
+        $form->addButton("Solidité 2 (20xp)");
+        $form->addButton("Solidité 3 (30xp)");
         $form->addButton("§cretour");
         $player->sendForm($form);
     }
@@ -314,11 +314,11 @@ class EnchantTableForm
             }
         });
         $form->setTitle("§c- §fTranchant §c-");
-        $form->addButton("Tranchant 1");
-        $form->addButton("Tranchant 2");
-        $form->addButton("Tranchant 3");
-        $form->addButton("Tranchant 4");
-        $form->addButton("Tranchant 5");
+        $form->addButton("Tranchant 1 (10xp)");
+        $form->addButton("Tranchant 2 (20xp)");
+        $form->addButton("Tranchant 3 (30xp)");
+        $form->addButton("Tranchant 4 (40xp)");
+        $form->addButton("Tranchant 5 (50xp)");
         $form->addButton("§cretour");
         $player->sendForm($form);
     }
@@ -376,9 +376,9 @@ class EnchantTableForm
             }
         });
         $form->setTitle("§c- §fSolidité §c-");
-        $form->addButton("Solidité 1");
-        $form->addButton("Solidité 2");
-        $form->addButton("Solidité 3");
+        $form->addButton("Solidité 1 (10xp)");
+        $form->addButton("Solidité 2 (20xp)");
+        $form->addButton("Solidité 3 (30xp)");
         $form->addButton("§cretour");
         $player->sendForm($form);
     }
@@ -423,8 +423,8 @@ class EnchantTableForm
             }
         });
         $form->setTitle("§c- §fAura de feu §c-");
-        $form->addButton("Aura de feu 1");
-        $form->addButton("Aura de feu 2");
+        $form->addButton("Aura de feu 1 (20xp)");
+        $form->addButton("Aura de feu 2 (30xp)");
         $form->addButton("§cretour");
         $player->sendForm($form);
     }
@@ -530,11 +530,11 @@ class EnchantTableForm
             }
         });
         $form->setTitle("§c- Efficacité §c-");
-        $form->addButton("Efficacité 1");
-        $form->addButton("Efficacité 2");
-        $form->addButton("Efficacité 3");
-        $form->addButton("Efficacité 4");
-        $form->addButton("Efficacité 5");
+        $form->addButton("Efficacité 1 (10xp)");
+        $form->addButton("Efficacité 2 (20xp)");
+        $form->addButton("Efficacité 3 (30xp)");
+        $form->addButton("Efficacité 4 (40xp)");
+        $form->addButton("Efficacité 5 (50xp)");
         $form->addButton("§cretour");
         $player->sendForm($form);
     }
@@ -592,9 +592,9 @@ class EnchantTableForm
             }
         });
         $form->setTitle("§c- §fSolidité §c-");
-        $form->addButton("Solidité 1");
-        $form->addButton("Solidité 2");
-        $form->addButton("Solidité 3");
+        $form->addButton("Solidité 1 (10xp)");
+        $form->addButton("Solidité 2 (20xp)");
+        $form->addButton("Solidité 3 (30xp)");
         $form->addButton("§cretour");
         $player->sendForm($form);
     }

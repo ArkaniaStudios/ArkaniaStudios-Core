@@ -26,6 +26,7 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityItemPickupEvent;
 use pocketmine\event\inventory\InventoryTransactionEvent;
 use pocketmine\event\Listener;
+use pocketmine\event\player\PlayerBlockPickEvent;
 use pocketmine\event\player\PlayerDropItemEvent;
 use pocketmine\event\player\PlayerExhaustEvent;
 use pocketmine\event\player\PlayerItemUseEvent;
@@ -68,7 +69,7 @@ final class StaffModeListener implements Listener {
      * @return void
      */
     public function onEntityItemPickup(EntityItemPickupEvent $event): void {
-        $player = $event->getOrigin();
+        $player = $event->getEntity();
 
         if ($player instanceof Player)
             if ($this->core->getStaffManager()->isInStaffMode($player))
@@ -143,37 +144,31 @@ final class StaffModeListener implements Listener {
     public function onEntityDamageByEntity(EntityDamageByEntityEvent $event): void {
         $player = $event->getDamager();
         $target = $event->getEntity();
-if ($player instanceof Player && $target instanceof Player) {
-                if ($this->core->getStaffManager()->isInStaffMode($player)) {
-                    $event->cancel();
-                    $item = $player->getInventory()->getItemInHand()->getId();
-                    if ($item === VanillaBlocks::ICE()->asItem()->getId()) {
-                        if ($this->core->getStaffManager()->isFreeze($target)) {
-                            $this->core->getStaffManager()->setFreeze($target, false);
-                            $target->sendMessage(Utils::getPrefix() . "§aVous n'êtes plus gelé !");
-                            $this->core->getRanksManager()->updateNameTag($target);
-                            $player->sendMessage(Utils::getPrefix() . "§aVous avez dégelé " . RanksManager::getRanksFormatPlayer($target) . "§a.");
-                        } else {
-                            $this->core->getStaffManager()->setFreeze($target);
-                            $target->setNameTag("[§bFREEZE§f] " . $target->getName());
-                            $target->sendMessage(Utils::getPrefix() . "§cVous avez été gelé par " . RanksManager::getRanksFormatPlayer($player) . "§c. Merci de suivre les indications qui vont vous êtes données.");
-                            $target->sendTitle("§c§lFREEZE", "§r§cMerci de regarder votre chat !", 100, 100, 100);
-                            $player->sendMessage(Utils::getPrefix() . "§aVous avez bien gelé " . RanksManager::getRanksFormatPlayer($target) . "§a.");
-                        }
-                    } elseif ($item === VanillaItems::BOOK()->getId()) {
-                        $stats = $this->core->getStatsManager();
-                        $faction = $this->core->getFactionManager();
-                        $player->sendMessage(Utils::getPrefix() . "Voici les informations concernant " . RanksManager::getRanksFormatPlayer($target) . "§f:" . PHP_EOL . PHP_EOL . "- Grade : " . $this->core->getRanksManager()->getRankColor($target->getName()) . PHP_EOL . "§f- Faction: §e" . $faction->getFaction($target->getName()) . PHP_EOL . "§f- Argent : §e" . $this->core->getEconomyManager()->getMoney($target->getName()) . "" . PHP_EOL . PHP_EOL . "§f- Inscription : §e" . $stats->getInscription($target->getName()) . PHP_EOL . "§f- Temps de jeu : §e" . $this->tempsFormat($stats->getTime($target->getName())) . PHP_EOL . PHP_EOL . "§f- Status : " . $this->core->getStatsManager()->getServerConnection($target->getName()));
-                    } elseif ($item === VanillaItems::STONE_AXE()->getId()) {
-                        $this->core->getFormManager()->sendBanUiForm($player, $target);
+        if ($player instanceof Player && $target instanceof Player) {
+            if ($this->core->getStaffManager()->isInStaffMode($player)) {
+                $event->cancel();
+                $item = $player->getInventory()->getItemInHand()->getId();
+                if ($item === VanillaBlocks::ICE()->asItem()->getId()) {
+                    if ($this->core->getStaffManager()->isFreeze($target)) {
+                        $this->core->getStaffManager()->setFreeze($target, false);
+                        $target->sendMessage(Utils::getPrefix() . "§aVous n'êtes plus gelé !");
+                        $this->core->getRanksManager()->updateNameTag($target);
+                        $player->sendMessage(Utils::getPrefix() . "§aVous avez dégelé " . RanksManager::getRanksFormatPlayer($target) . "§a.");
+                    } else {
+                        $this->core->getStaffManager()->setFreeze($target);
+                        $target->setNameTag("[§bFREEZE§f] " . $target->getName());
+                        $target->sendMessage(Utils::getPrefix() . "§cVous avez été gelé par " . RanksManager::getRanksFormatPlayer($player) . "§c. Merci de suivre les indications qui vont vous êtes données.");
+                        $target->sendTitle("§c§lFREEZE", "§r§cMerci de regarder votre chat !", 100, 100, 100);
+                        $player->sendMessage(Utils::getPrefix() . "§aVous avez bien gelé " . RanksManager::getRanksFormatPlayer($target) . "§a.");
                     }
-                }elseif($item === VanillaItems::BOOK()->getId()){
+                } elseif ($item === VanillaItems::BOOK()->getId()) {
                     $stats = $this->core->getStatsManager();
                     $faction = $this->core->getFactionManager();
                     $player->sendMessage(Utils::getPrefix() . "Voici les informations concernant " . RanksManager::getRanksFormatPlayer($target) . "§f:" . PHP_EOL . PHP_EOL . "- Grade : " . $this->core->getRanksManager()->getRankColor($target->getName()) . PHP_EOL . "§f- Faction: §e" . $faction->getFaction($target->getName()) . PHP_EOL . "§f- Argent : §e" . $this->core->getEconomyManager()->getMoney($target->getName()) . "" . PHP_EOL . PHP_EOL . "§f- Inscription : §e" . $stats->getInscription($target->getName()) . PHP_EOL . "§f- Temps de jeu : §e" . $this->tempsFormat($stats->getTime($target->getName())) . PHP_EOL . PHP_EOL . "§f- Status : " . $this->core->getStatsManager()->getServerConnection($target->getName()));
-                }elseif($item === VanillaItems::STONE_AXE()->getId()){
+        } elseif ($item === VanillaItems::STONE_AXE()->getId()) {
                     $this->core->getFormManager()->sendBanUiForm($player, $target);
                 }
             }
+        }
     }
 }

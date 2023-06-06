@@ -22,7 +22,8 @@ use arkania\utils\Utils;
 use pocketmine\block\BlockLegacyIds;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerItemUseEvent;
-use pocketmine\item\ItemFactory;
+use pocketmine\item\Hoe;
+use pocketmine\item\Shovel;
 use pocketmine\item\VanillaItems;
 
 final class PlayerInteractEvent implements Listener {
@@ -49,18 +50,26 @@ final class PlayerInteractEvent implements Listener {
             if ($player->getInventory()->getItemInHand()->getId() == VanillaItems::BUCKET()->getId() or $player->getInventory()->getItemInHand()->getId() === VanillaItems::FLINT_AND_STEEL()->getId()) {
                 $event->cancel();
             }
+            if (($event->getBlock()->getId() === 2 or $event->getBlock()->getId() === 3) && ($event->getPlayer()->getInventory()->getItemInHand() instanceof Shovel or $event->getPlayer()->getInventory()->getItemInHand() instanceof Hoe)) {
+                $event->cancel();
+            }
         }
       
         if($block->getId() === BlockLegacyIds::ENCHANTMENT_TABLE && $event->getAction() === \pocketmine\event\player\PlayerInteractEvent::RIGHT_CLICK_BLOCK){
             $event->cancel();
             $this->core->getEnchantTableForm()->sendEnchantTable($player);
         }
+
+        if($block->getId() === BlockLegacyIds::ANVIL && $event->getAction() === \pocketmine\event\player\PlayerInteractEvent::RIGHT_CLICK_BLOCK){
+            $event->cancel();
+            Core::getInstance()->getAnvilForm()->sendAnvilForm($player);
+        }
       
         if ($item->getId() == VanillaItems::EXPERIENCE_BOTTLE()->getId()){
             if ($item->getNamedTag()->getTag('experience') !== null){
                 $event->cancel();
                 $player->sendMessage(Utils::getPrefix() . '§aVous venez de recevoir §e' . $item->getNamedTag()->getTag('experience')->getValue() . ' §aniveaux d\'expérience via votre bouteille !');
-                $player->getXpManager()->addXpLevels($item->getNamedTag()->getTag('experience')->getValue());
+                $player->getXpManager()->addXpLevels((int)$item->getNamedTag()->getTag('experience')->getValue());
                 $player->getInventory()->removeItem($player->getInventory()->getItemInHand());
             }
         }
@@ -68,7 +77,7 @@ final class PlayerInteractEvent implements Listener {
             if ($item->getNamedTag()->getTag('money') !== null){
                 $event->cancel();
                 $player->sendMessage(Utils::getPrefix() . '§aVous venez de recevoir §e' . $item->getNamedTag()->getTag('money')->getValue() . ' §a via votre billet !');
-                $this->core->getEconomyManager()->addMoney($player->getName(), $item->getNamedTag()->getTag('money')->getValue());
+                $this->core->getEconomyManager()->addMoney($player->getName(), (int)$item->getNamedTag()->getTag('money')->getValue());
                 $player->getInventory()->removeItem($player->getInventory()->getItemInHand());
             }
         }

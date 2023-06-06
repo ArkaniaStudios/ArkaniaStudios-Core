@@ -29,7 +29,7 @@ trait Webhook {
      * @param string $url
      * @return void
      */
-    public function sendDiscordWebhook(string $title, array $description, string $footer, int $color, string $url): void {
+    public function sendDiscordWebhook(string $title, string $description, string $footer, int $color, string $url): void {
         $message = new Message();
         $webhook = new \arkania\libs\discord\Webhook($url);
         $embed = new Embed();

@@ -18,7 +18,8 @@ namespace arkania\commands\player;
 
 use arkania\commands\BaseCommand;
 use arkania\Core;
-use arkania\tasks\TeleportTask;
+use arkania\tasks\HomeTask;
+use arkania\tasks\LobbyTask;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\player\Player;
@@ -43,8 +44,9 @@ final class LobbyCommand extends BaseCommand {
 
         if (count($args) !== 0)
             return throw new InvalidCommandSyntaxException();
-        $player->transfer("lobby1");
+
+        Core::getInstance()->getScheduler()->scheduleRepeatingTask(new LobbyTask($player, $player->getPosition()->getFloorX(), $player->getPosition()->getFloorY(), $player->getPosition()->getFloorZ()), 20);
+
         return true;
     }
-
 }
