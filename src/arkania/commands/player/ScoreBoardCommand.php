@@ -23,13 +23,13 @@ class ScoreBoardCommand extends Command
 
         if(!isset(ScoreBoardTask::$enabled[$sender->getName()])){
             ScoreBoardTask::$enabled[$sender->getName()] = $sender->getName();
-            $sender->sendMessage(Utils::getPrefix() . "§aVous venez d'activer le ScoreBoard.");
+            $sender->sendMessage(Utils::getPrefix() . "§aVous venez d'activer le scoreBoard.");
         }else{
             unset(ScoreBoardTask::$enabled[$sender->getName()]);
             $pk = new RemoveObjectivePacket();
             $pk->objectiveName = $sender->getName();
             $sender->getNetworkSession()->sendDataPacket($pk);
-            $sender->sendMessage(Utils::getPrefix() . "§cVous venez de désactiver le ScoreBoard.");
+            $sender->sendMessage(Utils::getPrefix() . "§cVous venez de désactiver le scoreBoard.");
         }
     }
 }

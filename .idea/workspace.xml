@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="149a5c92-6a74-46ff-82af-83e1063406bc" name="Changes" comment="Release 1.1.2">
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/Core.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/Core.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/FactionCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/FactionCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/utils/Utils.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/Utils.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arkania/utils/trait/Date.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/utils/trait/Date.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arkania/commands/player/ScoreBoardCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/arkania/commands/player/ScoreBoardCommand.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,13 +47,9 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="PhpDebugGeneral" listening_started="true" />
-  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP">
+  <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
-      <path value="$PROJECT_DIR$/../../../PocketMine-MP API" />
-      <path value="$USER_HOME$/API/PocketMine-MP" />
-      <path value="$PROJECT_DIR$/../../../../Documents/API/PocketMine-MP" />
-      <path value="$USER_HOME$/Downloads/PocketMine-MP" />
-      <path value="$PROJECT_DIR$/../../API/PocketMine-MP" />
+      <path value="$PROJECT_DIR$/../../../Bureau/API PM4" />
     </include_path>
   </component>
   <component name="ProjectId" id="2LyVV9NppQZpsdws5uCbqTzOuO7" />
@@ -63,31 +57,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;update&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/dumon/OneDrive/Bureau/ArkaniaStudios-LobbyCore&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;php.override.implement.member.chooser.php.doc&quot;: &quot;NONE&quot;,
-    &quot;service.view.auto.scroll.to.source&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;discord-application&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenDatabaseViewOnStart": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "stable",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/pinto/OneDrive/Bureau/API PM4",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "php.override.implement.member.chooser.php.doc": "NONE",
+    "service.view.auto.scroll.to.source": "true",
+    "settings.editor.selected.configurable": "discord-application",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mariadb&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mariadb"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="Start" type="ShConfigurationType">
       <option name="SCRIPT_TEXT" value="./start.cmd" />
@@ -219,6 +213,7 @@
       <workItem from="1685297274115" duration="512000" />
       <workItem from="1685298054030" duration="3316000" />
       <workItem from="1685342230596" duration="643000" />
+      <workItem from="1686502432793" duration="102000" />
     </task>
     <task id="LOCAL-00009" summary="correction of economy system and add maintenance system">
       <created>1676993572306</created>
