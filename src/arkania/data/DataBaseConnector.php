@@ -18,12 +18,12 @@ namespace arkania\data;
 
 interface DataBaseConnector {
 
-    const HOST_NAME = "45.145.164.37";
+    const HOST_NAME = "ip";
 
-    const USER_NAME = "ArkaniaStudios-Prod";
+    const USER_NAME = "user";
 
-    const PASSWORD = "!4Zb2a1x2";
+    const PASSWORD = "mdp";
 
-    const DATABASE = "ArkaniaStudios-Prod";
+    const DATABASE = "name";
 
 }
