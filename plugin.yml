@@ -13,6 +13,7 @@ api: 4.14.1
 authors:
   - Julien
   - geotre223
+  - TEZULS
 website: https://github.com/ArkaniaStudios
 permissions:
     "arkania:permission.npc":
