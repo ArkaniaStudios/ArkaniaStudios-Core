@@ -1,6 +1,6 @@
 # ArkaniaStudios - FactionCore
 
-Ceci est un core utilisé pour les 3 serveurs factions de ArkaniaStudios
+Ceci est un core qui a été utilisé pour les 3 serveurs factions d'ArkaniaStudios V1, il est désormais open source, nous avions bien sure modifiée deux trois trucs pour éviter certains problèmes !
 
 - play.arkaniastudios.com
 
