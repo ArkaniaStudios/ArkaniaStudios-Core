@@ -130,8 +130,6 @@ class Core extends PluginBase {
             @mkdir($this->getDataFolder() . 'homes/');
 
         /* InvMenu */
-        if (!InvMenuHandler::isRegistered())
-            InvMenuHandler::register($this);
         InvMenuHandler::getTypeRegistry()->register(CraftCommand::INV_MENU_TYPE_WORKBENCH, new CraftingTableTypeInventory());
 
         /* Loader */
